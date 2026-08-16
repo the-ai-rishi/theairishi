@@ -14,36 +14,51 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL("https://theairishi.com"),
+
   title: {
     default: `${siteConfig.name} — ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
+
   description: siteConfig.description,
+
   keywords: [
     "AI",
     "Artificial Intelligence",
     "Machine Learning",
     "LLMs",
+    "Generative AI",
+    "AI Agents",
+    "Agentic AI",
     "DevOps",
+    "Azure",
     "Cloud Computing",
     "Software Engineering",
     "The AI Rishi",
   ],
-  authors: [{ name: siteConfig.author.name }],
+
+  authors: [
+    {
+      name: siteConfig.author.name,
+    },
+  ],
+
   creator: siteConfig.author.name,
   publisher: siteConfig.name,
+
   icons: {
     icon: "/brand/favicon.png",
     apple: "/brand/apple-touch-icon.png",
   },
+
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    url: siteConfig.url,
+    url: "https://theairishi.com",
     images: [
       {
         url: "/brand/og-image.png",
@@ -53,23 +68,32 @@ export const metadata: Metadata = {
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
     images: ["/brand/og-image.png"],
   },
+
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html
       lang="en"
