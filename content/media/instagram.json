@@ -1,0 +1,24 @@
+[
+  {
+    "id": "ig-01",
+    "title": "Rule-Based AI vs Machine Learning vs Deep Learning",
+    "caption": "A simple 5-slide visual carousel comparing how traditional software rules, machine learning algorithms, and deep neural networks process data.",
+    "publishedAt": "2026-08-14",
+    "type": "Carousel",
+    "instagramUrl": "https://instagram.com",
+    "thumbnail": "/file.svg",
+    "likes": 420,
+    "featured": true
+  },
+  {
+    "id": "ig-02",
+    "title": "What is Subword Tokenization?",
+    "caption": "Visual breakdown of Byte-Pair Encoding (BPE) and why tokens are not the same as words.",
+    "publishedAt": "2026-08-12",
+    "type": "Reel",
+    "instagramUrl": "https://instagram.com",
+    "thumbnail": "/file.svg",
+    "likes": 280,
+    "featured": false
+  }
+]
