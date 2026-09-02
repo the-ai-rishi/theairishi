@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 3
+topic: "ai"
+status: "published"
 description: "Discover vector embeddings, semantic vector spaces, contextual representations, and positional encoding that allow models to process language meaning."
 ---
 

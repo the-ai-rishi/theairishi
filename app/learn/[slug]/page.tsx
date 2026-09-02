@@ -5,6 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import SearchModal from "@/components/search/SearchModal";
+import Footer from "@/components/layout/Footer";
+import { getBrandConfig, getFooterNavigation, getPlatformCopy } from "@/lib/config";
 
 import LessonHeader from "@/components/learning/LessonHeader";
 import LessonNavigation from "@/components/learning/LessonNavigation";
@@ -33,15 +35,16 @@ export async function generateMetadata({
 }: LessonPageProps): Promise<Metadata> {
   const { slug } = await params;
   const lesson = await getLesson(slug);
+  const brand = getBrandConfig();
 
   if (!lesson) {
     return {
-      title: "Lesson Not Found | The AI Rishi",
+      title: `Lesson Not Found | ${brand.name}`,
     };
   }
 
   const courseTitle = lesson.metadata.courseTitle || "Course";
-  const title = `${lesson.metadata.title} · ${lesson.metadata.stage} | ${courseTitle} | The AI Rishi`;
+  const title = `${lesson.metadata.title} · ${lesson.metadata.stage} | ${courseTitle} | ${brand.name}`;
   const description = lesson.metadata.description;
 
   return {
@@ -52,7 +55,7 @@ export async function generateMetadata({
       courseTitle,
       lesson.metadata.stage,
       lesson.metadata.title,
-      "The AI Rishi",
+      brand.name,
       "Tutorial",
       ...(lesson.metadata.tags || []),
     ],
@@ -60,7 +63,7 @@ export async function generateMetadata({
       title,
       description,
       type: "article",
-      siteName: "The AI Rishi",
+      siteName: brand.name,
       locale: "en_US",
     },
     twitter: {
@@ -83,17 +86,23 @@ export default async function LessonPage({ params }: LessonPageProps) {
     notFound();
   }
 
+  const brand = getBrandConfig();
+  const copy = getPlatformCopy();
+  const footerNav = getFooterNavigation();
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
+    "@type": "Article",
     headline: lesson.metadata.title,
     description: lesson.metadata.description,
-    articleSection: lesson.metadata.stage,
-    inLanguage: "en-US",
+    author: {
+      "@type": "Person",
+      name: brand.name,
+    },
     publisher: {
       "@type": "Organization",
-      name: "The AI Rishi",
-      description: "Ancient Wisdom · Modern Intelligence",
+      name: brand.name,
+      description: brand.tagline,
     },
   };
 
@@ -115,8 +124,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-3">
             <Image
-              src="/brand/logo-horizontal.png"
-              alt="The AI Rishi"
+              src={brand.logo}
+              alt={brand.logoAlt}
               width={200}
               height={50}
               className="h-9 sm:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
@@ -191,27 +200,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       />
 
       {/* Footer */}
-      <footer className="border-t border-white/[0.08] mt-16">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div>
-            <div className="text-sm font-semibold tracking-[0.18em]">
-              THE AI RISHI
-            </div>
-            <p className="mt-1 text-xs text-white/30">
-              Ancient Wisdom · Modern Intelligence
-            </p>
-          </div>
-
-          <div className="flex items-center gap-6 text-xs text-white/40">
-            <Link href="/" className="hover:text-white transition">
-              Home
-            </Link>
-            <Link href="/learn" className="hover:text-white transition">
-              Learning Hub
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <Footer navItems={footerNav} brand={brand} copy={copy} />
     </main>
   );
 }

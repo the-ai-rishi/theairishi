@@ -247,3 +247,43 @@ details.practice-card .practice-body {
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.75);
 }
+
+/* Hero Visual Animations */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes floatEmblem {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 30s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spinReverse 40s linear infinite;
+}
+
+.animate-float {
+  animation: floatEmblem 6s ease-in-out infinite;
+}

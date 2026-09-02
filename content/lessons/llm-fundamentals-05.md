@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 5
+topic: "ai"
+status: "published"
 description: "Master the self-attention mechanism, Query-Key-Value retrieval intuition, multi-head attention, and causal masking in autoregressive models."
 ---
 

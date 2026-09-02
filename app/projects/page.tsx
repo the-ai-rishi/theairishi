@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, FolderCode, Sparkles } from "lucide-react";
+import { ArrowRight, FolderCode } from "lucide-react";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { getAllProjectSummaries } from "@/lib/projects";
+import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy } from "@/lib/config";
 
-export const metadata: Metadata = {
-  title: "Projects & Labs | The AI Rishi",
-  description:
-    "Real-world open source projects, AI agent labs, and cloud infrastructure implementations built in public.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const brand = getBrandConfig();
+  return {
+    title: `Projects & Labs | ${brand.name}`,
+    description:
+      "Real-world open source projects, AI agent labs, and cloud infrastructure implementations built in public.",
+  };
+}
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -30,6 +35,10 @@ function GithubIcon({ className }: { className?: string }) {
 
 export default function ProjectsPage() {
   const projects = getAllProjectSummaries();
+  const mainNav = getMainNavigation();
+  const footerNav = getFooterNavigation();
+  const brand = getBrandConfig();
+  const copy = getPlatformCopy();
 
   return (
     <main className="min-h-screen bg-[#050505] text-white selection:bg-violet-500/30 selection:text-white pb-24">
@@ -37,40 +46,8 @@ export default function ProjectsPage() {
         <div className="absolute left-1/2 top-[-300px] h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-violet-700/10 blur-[140px]" />
       </div>
 
-      {/* Navigation Header */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-[#050505]/80 backdrop-blur-md">
-        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="group flex items-center gap-3">
-            <Image
-              src="/brand/logo-horizontal.png"
-              alt="The AI Rishi"
-              width={200}
-              height={50}
-              className="h-9 sm:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
-              priority
-            />
-          </Link>
-
-          <div className="hidden items-center gap-8 md:flex">
-            <Link href="/learn" className="text-sm text-white/50 transition hover:text-white">
-              Learning Hub
-            </Link>
-            <Link href="/guides" className="text-sm text-white/50 transition hover:text-white">
-              Guides
-            </Link>
-            <Link href="/projects" className="text-sm text-white transition font-medium">
-              Projects
-            </Link>
-          </div>
-
-          <Link
-            href="/"
-            className="rounded-full border border-white/15 bg-white/[0.03] px-5 py-2 text-xs sm:text-sm text-white/80 transition hover:border-white/30 hover:bg-white/[0.07] hover:text-white"
-          >
-            Home
-          </Link>
-        </nav>
-      </header>
+      {/* Dynamic Header */}
+      <Header navItems={mainNav} brand={brand} copy={copy} />
 
       {/* Hero */}
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24 lg:px-8">
@@ -157,6 +134,10 @@ export default function ProjectsPage() {
           </div>
         )}
       </section>
+
+      {/* Dynamic Footer */}
+      <Footer navItems={footerNav} brand={brand} copy={copy} />
     </main>
   );
 }
+

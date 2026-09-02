@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
+import { getBrandConfig } from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const brand = getBrandConfig();
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://theairishi.com"),
+  metadataBase: new URL(siteConfig.url),
 
   title: {
     default: `${siteConfig.name} — ${siteConfig.tagline}`,
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
     "Azure",
     "Cloud Computing",
     "Software Engineering",
-    "The AI Rishi",
+    siteConfig.name,
   ],
 
   authors: [
@@ -48,8 +51,8 @@ export const metadata: Metadata = {
   publisher: siteConfig.name,
 
   icons: {
-    icon: "/brand/favicon.png",
-    apple: "/brand/apple-touch-icon.png",
+    icon: brand.faviconUrl || "/icon.png",
+    apple: brand.appleTouchIcon || "/apple-icon.png",
   },
 
   openGraph: {
@@ -58,10 +61,10 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    url: "https://theairishi.com",
+    url: siteConfig.url,
     images: [
       {
-        url: "/brand/og-image.png",
+        url: brand.ogImage || "/brand/logo.png",
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} — ${siteConfig.tagline}`,
@@ -73,7 +76,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: ["/brand/og-image.png"],
+    images: [brand.ogImage || "/brand/logo.png"],
   },
 
   robots: {

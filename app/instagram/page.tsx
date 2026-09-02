@@ -1,18 +1,31 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { getInstagramPosts } from "@/lib/media";
+import {
+  getMainNavigation,
+  getFooterNavigation,
+  getBrandConfig,
+  getPlatformCopy,
+} from "@/lib/config";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Instagram Visual Notes | The AI Rishi",
-  description:
-    "Bite-sized visual guides, architectural carousels, and quick concept reels.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const brand = getBrandConfig();
+  return {
+    title: `Instagram Visual Notes | ${brand.name}`,
+    description:
+      "Bite-sized visual guides, architectural carousels, and quick concept reels.",
+  };
+}
 
 export default function InstagramPage() {
   const posts = getInstagramPosts();
+  const mainNav = getMainNavigation();
+  const footerNav = getFooterNavigation();
+  const brand = getBrandConfig();
+  const copy = getPlatformCopy();
 
   return (
     <main className="min-h-screen bg-[#050505] text-white selection:bg-violet-500/30 selection:text-white pb-24">
@@ -20,28 +33,8 @@ export default function InstagramPage() {
         <div className="absolute left-1/2 top-[-300px] h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-pink-600/10 blur-[150px]" />
       </div>
 
-      {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-[#050505]/80 backdrop-blur-md">
-        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="group flex items-center gap-3">
-            <Image
-              src="/brand/logo-horizontal.png"
-              alt="The AI Rishi"
-              width={200}
-              height={50}
-              className="h-9 sm:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
-              priority
-            />
-          </Link>
-
-          <Link
-            href="/"
-            className="rounded-full border border-white/15 bg-white/[0.03] px-5 py-2 text-xs sm:text-sm text-white/80 transition hover:border-white/30 hover:bg-white/[0.07] hover:text-white"
-          >
-            Home
-          </Link>
-        </nav>
-      </header>
+      {/* Dynamic Header */}
+      <Header navItems={mainNav} brand={brand} copy={copy} />
 
       {/* Hero */}
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24 lg:px-8">
@@ -116,6 +109,9 @@ export default function InstagramPage() {
           ))}
         </div>
       </section>
+
+      {/* Dynamic Footer */}
+      <Footer navItems={footerNav} brand={brand} copy={copy} />
     </main>
   );
 }

@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 1
+topic: "ai"
+status: "published"
 description: "Understand what artificial intelligence actually means, how it differs from traditional software, and why modern systems are built around narrow AI."
 ---
 

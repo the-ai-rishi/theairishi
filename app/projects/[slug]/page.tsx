@@ -5,6 +5,7 @@ import { ArrowLeft, Globe } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getAllProjectSlugs, getProject } from "@/lib/projects";
 import LessonContent from "@/components/learning/LessonContent";
+import { getBrandConfig } from "@/lib/config";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -37,13 +38,14 @@ export async function generateMetadata({
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
+  const brand = getBrandConfig();
 
   if (!project) {
-    return { title: "Project Not Found | The AI Rishi" };
+    return { title: `Project Not Found | ${brand.name}` };
   }
 
   return {
-    title: `${project.metadata.title} | Projects | The AI Rishi`,
+    title: `${project.metadata.title} | Projects | ${brand.name}`,
     description: project.metadata.description,
   };
 }
@@ -51,6 +53,7 @@ export async function generateMetadata({
 export default async function ProjectSinglePage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = await getProject(slug);
+  const brand = getBrandConfig();
 
   if (!project) {
     notFound();
@@ -63,8 +66,8 @@ export default async function ProjectSinglePage({ params }: ProjectPageProps) {
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-3">
             <Image
-              src="/brand/logo-horizontal.png"
-              alt="The AI Rishi"
+              src={brand.logo}
+              alt={brand.logoAlt}
               width={200}
               height={50}
               className="h-9 sm:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"

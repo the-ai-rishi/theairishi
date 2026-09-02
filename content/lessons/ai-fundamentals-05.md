@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 5
+topic: "ai"
+status: "published"
 description: "Understand the core architecture of artificial neural networks: artificial neurons, weights, biases, activation functions, and multi-layer computation."
 ---
 

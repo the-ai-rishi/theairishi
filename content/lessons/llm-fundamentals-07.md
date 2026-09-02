@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 7
+topic: "ai"
+status: "published"
 description: "Trace what happens under the hood during model inference: prompt processing, autoregressive generation loop, sampling algorithms, and streaming."
 ---
 

@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getBrandConfig } from "@/lib/config";
 
 export default function NotFound() {
+  const brand = getBrandConfig();
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#050505] px-6 text-white selection:bg-violet-500/30 selection:text-white">
       <div className="flex flex-col items-center text-center">
         <Image
-          src="/brand/logo-mark.png"
-          alt="The AI Rishi logo mark"
-          width={90}
-          height={90}
-          className="h-20 w-20 object-contain"
+          src={brand.logo}
+          alt={brand.logoAlt}
+          width={160}
+          height={40}
+          className="h-8 w-auto object-contain opacity-70"
         />
 
         <p className="mt-4 text-xs uppercase tracking-[0.2em] text-violet-300/60 font-mono">

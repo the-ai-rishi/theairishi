@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 3
+topic: "ai"
+status: "published"
 description: "Understand the complete lifecycle of machine learning: datasets, features, training loops, loss functions, generalization, and inference."
 ---
 

@@ -5,6 +5,7 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getAllGuideSlugs, getGuide } from "@/lib/guides";
 import LessonContent from "@/components/learning/LessonContent";
+import { getBrandConfig } from "@/lib/config";
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -19,13 +20,14 @@ export async function generateMetadata({
 }: GuidePageProps): Promise<Metadata> {
   const { slug } = await params;
   const guide = await getGuide(slug);
+  const brand = getBrandConfig();
 
   if (!guide) {
-    return { title: "Guide Not Found | The AI Rishi" };
+    return { title: `Guide Not Found | ${brand.name}` };
   }
 
   return {
-    title: `${guide.metadata.title} | The AI Rishi`,
+    title: `${guide.metadata.title} | ${brand.name}`,
     description: guide.metadata.description,
   };
 }
@@ -33,6 +35,7 @@ export async function generateMetadata({
 export default async function GuideSinglePage({ params }: GuidePageProps) {
   const { slug } = await params;
   const guide = await getGuide(slug);
+  const brand = getBrandConfig();
 
   if (!guide) {
     notFound();
@@ -45,8 +48,8 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-3">
             <Image
-              src="/brand/logo-horizontal.png"
-              alt="The AI Rishi"
+              src={brand.logo}
+              alt={brand.logoAlt}
               width={200}
               height={50}
               className="h-9 sm:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"

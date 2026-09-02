@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { renderMarkdownToHtml } from "./markdown";
 
 const projectsDirectory = path.join(process.cwd(), "content", "projects");
 
@@ -148,7 +147,7 @@ export async function getProject(slug: string): Promise<Project | null> {
 
   const fileContents = fs.readFileSync(/*turbopackIgnore: true*/ targetFile, "utf8");
   const parsed = matter(fileContents);
-  const processed = await remark().use(html).process(parsed.content);
+  const enhancedContent = await renderMarkdownToHtml(parsed.content);
 
   const summaries = getAllProjectSummaries();
   const summary = summaries.find((s) => s.slug === slug);
@@ -158,6 +157,6 @@ export async function getProject(slug: string): Promise<Project | null> {
   return {
     slug: summary.slug,
     metadata: summary.metadata,
-    content: processed.toString(),
+    content: enhancedContent,
   };
 }

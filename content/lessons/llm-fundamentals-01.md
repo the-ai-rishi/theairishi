@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 1
+topic: "ai"
+status: "published"
 description: "Understand what large language models actually are, how they differ from traditional NLP and search engines, and why they represent a fundamental shift in computing."
 ---
 
