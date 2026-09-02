@@ -10,12 +10,12 @@ interface TechnologyUpdatesProps {
   topicSlug?: string;
 }
 
-export default function TechnologyUpdates({ updates, section, topicSlug = "updates" }: TechnologyUpdatesProps) {
+export default function TechnologyUpdates({ updates, section, topicSlug }: TechnologyUpdatesProps) {
   // All display text from config; fallback to sensible defaults
   const title = section?.title ?? "Technology Radar & Updates";
   const subtitle = section?.subtitle ?? "Tech Radar";
   const ctaLabel = section?.ctaLabel ?? "View All Radar Updates";
-  const ctaHref = section?.ctaHref ?? `/topics/${topicSlug}`;
+  const ctaHref = section?.ctaHref ?? (topicSlug ? `/topics/${topicSlug}` : "/learn");
 
   return (
     <section className="py-12 sm:py-16">

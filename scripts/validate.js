@@ -229,6 +229,71 @@ for (const filePath of allMdFiles) {
 
 console.log(`✓ Markdown content validated: ${validMdCount} files inspected.`);
 
+
+// ── 5. Lifecycle simulation (in-memory, does not mutate files) ───────────────
+function isTopicPublicSim(topic) {
+  return Boolean(topic) && topic.enabled !== false && topic.status !== "disabled";
+}
+function findTopicSim(platform, key) {
+  const needle = String(key).toLowerCase();
+  return (platform.topics || []).find((t) =>
+    [t.id, t.slug, t.shortName].some((v) => String(v || "").toLowerCase() === needle)
+  );
+}
+function publicSections(platform) {
+  return (platform.homepage.sections || []).filter((s) => {
+    if (s.enabled === false) return false;
+    if (!s.topicId) return true;
+    return isTopicPublicSim(findTopicSim(platform, s.topicId));
+  });
+}
+function publicNav(platform) {
+  return (platform.navigation.main || []).filter((item) => {
+    if (item.enabled === false || item.status === "disabled") return false;
+    const match = String(item.href || "").match(/^\/topics\/([^/?#]+)/);
+    if (match && !isTopicPublicSim(findTopicSim(platform, match[1]))) return false;
+    return true;
+  });
+}
+
+if (fs.existsSync(platformPath)) {
+  try {
+    const live = JSON.parse(fs.readFileSync(platformPath, "utf8"));
+    const withoutUpdates = JSON.parse(JSON.stringify(live));
+    withoutUpdates.topics = withoutUpdates.topics.filter((t) => t.id !== "updates");
+    check(
+      !publicNav(withoutUpdates).some((item) => String(item.href).includes("/topics/updates")),
+      "Removing the updates topic must drop /topics/updates from navigation"
+    );
+    check(
+      !publicSections(withoutUpdates).some((s) => s.id === "technology-updates"),
+      "Removing the updates topic must hide the technology-updates homepage section"
+    );
+
+    const renamed = JSON.parse(JSON.stringify(live));
+    const devops = renamed.topics.find((t) => t.id === "devops");
+    if (devops) {
+      devops.slug = "full-stack-engineering";
+      devops.name = "Full Stack Engineering";
+      check(
+        findTopicSim(renamed, "devops") && findTopicSim(renamed, "devops").slug === "full-stack-engineering",
+        "Renaming DevOps must keep id lookup and publish the new slug"
+      );
+    }
+
+    const disabledHero = JSON.parse(JSON.stringify(live));
+    const hero = disabledHero.homepage.sections.find((s) => s.id === "hero");
+    if (hero) hero.enabled = false;
+    check(
+      !publicSections(disabledHero).some((s) => s.id === "hero"),
+      "Disabling the hero section must hide it"
+    );
+    console.log("Lifecycle simulations validated (remove topic, rename topic, disable section).");
+  } catch (err) {
+    errors.push("Lifecycle simulation failed: " + err.message);
+  }
+}
+
 // ── Summary ──────────────────────────────────────────────────────────────────
 console.log("\n" + "=".repeat(60));
 if (errors.length > 0) {

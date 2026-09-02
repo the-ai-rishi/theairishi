@@ -67,6 +67,8 @@ export default function Header({ navItems, brand, copy }: HeaderProps) {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/70 transition hover:bg-white/10 hover:text-white lg:hidden"
             aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -75,7 +77,7 @@ export default function Header({ navItems, brand, copy }: HeaderProps) {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-white/10 bg-[#07070a] px-4 py-6 lg:hidden">
+        <div id="mobile-navigation" className="border-b border-white/10 bg-[#07070a] px-4 py-6 lg:hidden">
           <div className="flex flex-col space-y-4">
             {navItems.map((item) => (
               <Link

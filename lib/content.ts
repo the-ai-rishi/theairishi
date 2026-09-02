@@ -9,6 +9,7 @@ import { getYoutubeVideos, getInstagramPosts } from "./media";
 import {
   getTopicSlugForCourse,
   getTopicBySlug,
+  getAllTopics,
   getSocialPlatform,
   getDefaultTopicSlug,
   getDefaultAuthorName,
@@ -25,7 +26,7 @@ export type ContentType =
   | "youtube"
   | "instagram";
 
-export type ContentStatus = "published" | "draft" | "coming-soon" | "archived";
+export type ContentStatus = "published" | "draft" | "coming-soon" | "archived" | "active" | "disabled";
 
 export interface UniversalContentItem {
   id: string;
@@ -62,25 +63,28 @@ function resolveTopicSlug(opts: {
   course?: string;
   tags?: string[];
 }): string {
-  // 1. Explicit topicSlug field wins
-  if (opts.topicSlug) return opts.topicSlug;
-  // 2. Explicit topic field
-  if (opts.topic) return opts.topic;
-  // 3. Derive from course ID via config
-  if (opts.course) return getTopicSlugForCourse(opts.course);
-  // 4. Check tags for known topic slugs
-  if (opts.tags) {
-    for (const tag of opts.tags) {
-      if (getTopicBySlug(tag.toLowerCase())) return tag.toLowerCase();
-    }
+  const candidates = [opts.topicSlug, opts.topic, opts.course, ...(opts.tags ?? [])];
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    const topic = getTopicBySlug(candidate);
+    if (topic) return topic.slug;
   }
+  if (opts.course) return getTopicSlugForCourse(opts.course);
   return getDefaultTopicSlug();
 }
 
 function isPublished(data: Record<string, unknown>): boolean {
   if (data.enabled === false) return false;
   const status = data.status as string | undefined;
-  if (status && status !== "published" && status !== "active") return false;
+  if (!status) return true;
+  return status === "published" || status === "active";
+}
+
+function isPublicUniversalItem(item: UniversalContentItem): boolean {
+  if (item.enabled === false) return false;
+  const status = item.status ?? "published";
+  if (status !== "published" && status !== "active") return false;
+  if (item.topicSlug && !getTopicBySlug(item.topicSlug)) return false;
   return true;
 }
 
@@ -183,7 +187,7 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       readTime: g.metadata.readTime || 6,
       url: `/guides/${g.slug}`,
       tags: g.metadata.tags || [],
-      status: "published",
+      status: ((g.metadata as { status?: string }).status as ContentStatus) || "published",
       enabled: true,
     });
   }
@@ -210,17 +214,21 @@ export function getAllUniversalContent(): UniversalContentItem[] {
     });
   }
 
-  // 4. Articles
+  // 4. Articles (untyped/general publishing)
   items.push(...loadMarkdownItemsFromDir("articles", "article"));
 
-  // 5. Updates
-  items.push(...loadMarkdownItemsFromDir("updates", "update"));
-
-  // 6. Interviews
-  items.push(...loadMarkdownItemsFromDir("interviews", "interview"));
-
-  // 7. Career
-  items.push(...loadMarkdownItemsFromDir("career", "career"));
+  // 5. Topic-named markdown folders: content/<topic-slug>/*.md
+  // Adding a topic plus a matching folder is enough; no code change required.
+  const loadedDirs = new Set(["articles", "lessons", "courses", "guides", "projects", "media"]);
+  for (const topic of getAllTopics()) {
+    const dirs = [topic.slug, topic.id, `${topic.slug}s`];
+    for (const dir of dirs) {
+      if (loadedDirs.has(dir)) continue;
+      loadedDirs.add(dir);
+      const type = (topic.id === "updates" || dir === "updates" ? "update" : topic.id) as ContentType;
+      items.push(...loadMarkdownItemsFromDir(dir, type));
+    }
+  }
 
   // 8. YouTube — only if platform status is active
   const ytPlatform = getSocialPlatform("youtube");
@@ -274,18 +282,23 @@ export function getAllUniversalContent(): UniversalContentItem[] {
 }
 
 export function getPublishedContent(): UniversalContentItem[] {
-  return getAllUniversalContent().filter(
-    (i) => i.enabled !== false && i.status === "published"
-  );
+  return getAllUniversalContent().filter(isPublicUniversalItem);
 }
 
 export function getContentByTopic(topicSlug: string): UniversalContentItem[] {
+  const topic = getTopicBySlug(topicSlug);
+  if (!topic) return [];
   return getPublishedContent().filter(
     (item) =>
-      item.topicSlug === topicSlug ||
-      item.category.toLowerCase().includes(topicSlug.toLowerCase()) ||
-      item.tags?.some((t) => t.toLowerCase() === topicSlug.toLowerCase())
+      item.topicSlug === topic.slug ||
+      item.tags?.some((t) => t.toLowerCase() === topic.slug || t.toLowerCase() === topic.id)
   );
+}
+
+/** Feed for a homepage section bound to a topic id/slug. Empty if that topic is gone. */
+export function getContentForTopic(topicId?: string): UniversalContentItem[] {
+  if (!topicId) return [];
+  return getContentByTopic(topicId);
 }
 
 export function getFeaturedContent(): UniversalContentItem[] {
@@ -293,19 +306,17 @@ export function getFeaturedContent(): UniversalContentItem[] {
 }
 
 export function getRecentContent(limit: number = 8): UniversalContentItem[] {
-  return getPublishedContent().slice(0, limit);
+  return [...getPublishedContent()]
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+    .slice(0, limit);
 }
 
 export function getTechnologyUpdates(): UniversalContentItem[] {
-  return getPublishedContent().filter(
-    (i) => i.type === "update" || i.category.toLowerCase().includes("update")
-  );
+  return getContentForTopic("updates");
 }
 
 export function getInterviewContent(): UniversalContentItem[] {
-  return getPublishedContent().filter(
-    (i) => i.type === "interview" || i.category.toLowerCase().includes("interview")
-  );
+  return getContentForTopic("interview");
 }
 
 export async function getSingleContentBySlug(

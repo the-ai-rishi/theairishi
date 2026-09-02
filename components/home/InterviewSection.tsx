@@ -13,13 +13,13 @@ interface InterviewSectionProps {
 export default function InterviewSection({
   interviews,
   section,
-  topicSlug = "interview",
+  topicSlug,
 }: InterviewSectionProps) {
   // All display text from config; fallback to sensible defaults
   const title = section?.title ?? "Interview & Career Prep";
   const subtitle = section?.subtitle ?? "Career Track";
   const ctaLabel = section?.ctaLabel ?? "View All Prep Content";
-  const ctaHref = section?.ctaHref ?? `/topics/${topicSlug}`;
+  const ctaHref = section?.ctaHref ?? (topicSlug ? `/topics/${topicSlug}` : "/learn");
 
   return (
     <section className="py-12 sm:py-16">

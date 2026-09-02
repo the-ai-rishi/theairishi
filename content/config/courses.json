@@ -63,12 +63,17 @@
     "topic": "cloud",
     "category": "Cloud Computing",
     "order": 10,
-    "enabled": true,
+    "enabled": false,
     "status": "coming-soon",
     "featured": false,
     "showOnHomepage": true,
     "badge": "Upcoming Course",
-    "upcomingTopics": ["AWS", "Azure", "GCP", "Distributed Systems"]
+    "upcomingTopics": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Distributed Systems"
+    ]
   },
   {
     "id": "software-engineering-upcoming",
@@ -83,7 +88,12 @@
     "featured": false,
     "showOnHomepage": true,
     "badge": "Upcoming Course",
-    "upcomingTopics": ["Python", "TypeScript", "SQL", "System Design"]
+    "upcomingTopics": [
+      "Python",
+      "TypeScript",
+      "SQL",
+      "System Design"
+    ]
   },
   {
     "id": "data-engineering",
@@ -98,7 +108,12 @@
     "featured": false,
     "showOnHomepage": true,
     "badge": "Upcoming Course",
-    "upcomingTopics": ["Kafka", "Spark", "PostgreSQL", "dbt"]
+    "upcomingTopics": [
+      "Kafka",
+      "Spark",
+      "PostgreSQL",
+      "dbt"
+    ]
   },
   {
     "id": "ai-agents",
@@ -113,6 +128,11 @@
     "featured": false,
     "showOnHomepage": true,
     "badge": "Upcoming Course",
-    "upcomingTopics": ["Tool Calling", "ReAct Loops", "Multi-Agent", "MCP"]
+    "upcomingTopics": [
+      "Tool Calling",
+      "ReAct Loops",
+      "Multi-Agent",
+      "MCP"
+    ]
   }
 ]

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore, useMemo, useCallback } from "react";
+import { useSyncExternalStore, useMemo, useCallback } from "react";
 import {
   EMPTY_COMPLETED_LESSONS,
   getCompletedLessons,
@@ -16,11 +16,11 @@ function getServerSnapshot(): readonly string[] {
 }
 
 export function useLessonProgress() {
-  const [hasHydrated, setHasHydrated] = useState(false);
-
-  useEffect(() => {
-    setHasHydrated(true);
-  }, []);
+  const hasHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   const completedSlugs = useSyncExternalStore(
     subscribeToProgress,

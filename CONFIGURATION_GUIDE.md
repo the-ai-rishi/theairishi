@@ -68,6 +68,7 @@ This document is the technical schema reference for all configuration files in `
 | `subtitle` | string | No | Section pill / eyebrow tag |
 | `ctaLabel` | string | No | Header action link label |
 | `ctaHref` | string | No | Header action link destination |
+| `topicId` | string | No | Bind this section to a topic id/slug. Hidden automatically if that topic is removed or disabled. |
 
 ---
 

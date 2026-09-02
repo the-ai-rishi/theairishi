@@ -38,14 +38,8 @@ function buildSiteConfig() {
     },
     social: {
       ...socialMap,
-      // Provide reasonable fallbacks for external consumers that expect these keys
-      github: socialMap.github ?? "https://github.com",
-      youtube: socialMap.youtube ?? "https://youtube.com",
-      instagram: socialMap.instagram ?? "https://instagram.com",
-      linkedin: socialMap.linkedin ?? "https://linkedin.com",
-      twitter: socialMap.twitter ?? "https://x.com",
       email: brand.email,
-    },
+    } as Record<string, string | undefined>,
     get navigation() {
       return {
         main: getMainNavigation().map((item) => ({ name: item.label, href: item.href })),

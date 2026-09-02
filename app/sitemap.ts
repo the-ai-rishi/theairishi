@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllLessonSlugs } from "@/lib/lessons";
 import { getAllGuideSlugs } from "@/lib/guides";
 import { getAllProjectSlugs } from "@/lib/projects";
-import { getAllTopics, getMainNavigation, getSocialPlatforms } from "@/lib/config";
+import { getAllTopics, getSocialPlatforms } from "@/lib/config";
 import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {

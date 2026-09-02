@@ -72,6 +72,9 @@ export function getAllGuideSummaries(): GuideSummary[] {
       const author =
         typeof data.author === "string" ? data.author : getDefaultAuthorName();
       const featured = Boolean(data.featured);
+      if (data.enabled === false) continue;
+      const visibility = typeof data.status === "string" ? data.status : "published";
+      if (["draft", "archived", "disabled"].includes(visibility)) continue;
 
       guides.push({
         slug,

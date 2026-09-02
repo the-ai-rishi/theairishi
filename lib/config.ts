@@ -5,7 +5,7 @@ const configDir = path.join(process.cwd(), "content", "config");
 
 // ─── Status Types ─────────────────────────────────────────────────────────────
 
-export type ContentStatus = "published" | "draft" | "coming-soon" | "archived" | "active";
+export type ContentStatus = "published" | "draft" | "coming-soon" | "archived" | "active" | "disabled";
 export type PlatformStatus = "active" | "coming-soon" | "disabled";
 
 // ─── Brand & Copy Interfaces ──────────────────────────────────────────────────
@@ -84,6 +84,8 @@ export interface HomepageSection {
   subtitle?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Bind this section to a topic id/slug. Hidden automatically if that topic is removed or disabled. */
+  topicId?: string;
   maxItems?: number;
 }
 
@@ -323,6 +325,13 @@ function loadCoursesConfig(): CourseConfig[] {
   }
 }
 
+/** Clear in-memory config (used by lifecycle tests). */
+export function resetConfigCache(): void {
+  _platformConfig = null;
+  _coursesConfig = null;
+  _seriesConfig = null;
+}
+
 function loadSeriesConfig(): SeriesConfig[] {
   if (_seriesConfig) return _seriesConfig;
   const filePath = path.join(configDir, "series.json");
@@ -339,6 +348,76 @@ function loadSeriesConfig(): SeriesConfig[] {
     _seriesConfig = [];
     return _seriesConfig;
   }
+}
+
+// ─── Visibility helpers ───────────────────────────────────────────────────────
+
+function normalizeKey(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+/** A topic is public unless it is enabled:false or status:"disabled". coming-soon remains visible. */
+export function isTopicPublic(topic: TopicConfig | null | undefined): boolean {
+  if (!topic) return false;
+  if (topic.enabled === false) return false;
+  if (topic.status === "disabled") return false;
+  return true;
+}
+
+function findTopicRecord(key: string): TopicConfig | undefined {
+  const needle = normalizeKey(key);
+  return loadPlatformConfig().topics.find((t) => {
+    return (
+      normalizeKey(t.id) === needle ||
+      normalizeKey(t.slug) === needle ||
+      normalizeKey(t.shortName) === needle
+    );
+  });
+}
+
+function topicSlugFromHref(href: string): string | null {
+  const match = href.match(/^\/topics\/([^/?#]+)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function socialIdFromHref(href: string): string | null {
+  const match = href.match(/^\/(youtube|instagram)\/?$/);
+  return match ? match[1] : null;
+}
+
+function isNavItemPublic(item: NavItem): boolean {
+  if (item.enabled === false || item.status === "disabled") return false;
+  const topicSlug = topicSlugFromHref(item.href);
+  if (topicSlug && !isTopicPublic(findTopicRecord(topicSlug))) return false;
+  const socialId = socialIdFromHref(item.href);
+  if (socialId) {
+    const platform = loadPlatformConfig().social.find((s) => s.id === socialId);
+    if (!platform || platform.enabled === false || platform.status === "disabled") {
+      return false;
+    }
+  }
+  return true;
+}
+
+function mergeTopicNavigation(items: NavItem[]): NavItem[] {
+  const existing = items.filter(isNavItemPublic);
+  const hrefs = new Set(existing.map((item) => item.href));
+  const maxOrder = existing.reduce((max, item) => Math.max(max, item.order ?? 0), 0);
+  let extraOrder = maxOrder;
+  for (const topic of getNavigationTopics()) {
+    const href = `/topics/${topic.slug}`;
+    if (hrefs.has(href)) continue;
+    extraOrder += 1;
+    existing.push({
+      id: `topic-${topic.id}`,
+      label: topic.shortName || topic.name,
+      href,
+      enabled: true,
+      order: extraOrder,
+      status: topic.status,
+    });
+  }
+  return existing.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 // ─── Public API — Brand & Copy ────────────────────────────────────────────────
@@ -363,7 +442,10 @@ export function getDefaultsConfig(): DefaultsConfig {
 
 /** Get the default topic slug (used when a content item has no explicit topic). */
 export function getDefaultTopicSlug(): string {
-  return getDefaultsConfig().topicSlug;
+  const configured = getDefaultsConfig().topicSlug;
+  if (isTopicPublic(findTopicRecord(configured))) return findTopicRecord(configured)!.slug;
+  const first = getAllTopics()[0];
+  return first?.slug ?? configured;
 }
 
 /** Get the default author name (used when a content item has no explicit author). */
@@ -373,129 +455,141 @@ export function getDefaultAuthorName(): string {
 
 // ─── Public API — Topics ──────────────────────────────────────────────────────
 
-/** All enabled topics, sorted by order. */
+/** All public topics, sorted by order. Disabled / enabled:false topics are omitted. */
 export function getAllTopics(): TopicConfig[] {
   return loadPlatformConfig()
-    .topics.filter((t) => t.enabled !== false)
+    .topics.filter((t) => isTopicPublic(t))
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
-/** Topics shown on the homepage (enabled + showOnHomepage). */
+/** Topics shown on the homepage (public + showOnHomepage). */
 export function getHomepageTopics(): TopicConfig[] {
   return getAllTopics().filter((t) => t.showOnHomepage !== false);
 }
 
-/** Topics shown in the main navigation (enabled + showInNavigation). */
+/** Topics shown in the main navigation (public + showInNavigation). */
 export function getNavigationTopics(): TopicConfig[] {
   return getAllTopics().filter((t) => t.showInNavigation === true);
 }
 
-/** Look up a topic by id or slug. Returns null if not found or disabled. */
+/** Look up a public topic by id, slug, or shortName. Returns null if missing or disabled. */
 export function getTopicBySlug(slug: string): TopicConfig | null {
-  const found = loadPlatformConfig().topics.find(
-    (t) => t.slug === slug || t.id === slug
-  );
-  if (!found || found.enabled === false) return null;
-  return found;
+  const found = findTopicRecord(slug);
+  return isTopicPublic(found) ? found! : null;
 }
 
 // ─── Public API — Content Types ───────────────────────────────────────────────
 
 /**
  * All enabled content types configured to show on homepage, sorted by order.
- * URLs are resolved: if `url` is set directly, use it; else derive from topicSlug.
+ * Types bound to a missing/disabled topic are omitted. URLs follow the live topic slug.
  */
 export function getAllContentTypes(): ContentTypeConfig[] {
   const cfg = loadPlatformConfig();
   const contentTypes = cfg.contentTypes ?? [];
-  const allTopics = cfg.topics ?? [];
 
   return contentTypes
-    .filter((ct) => ct.enabled !== false && ct.showOnHomepage !== false)
+    .filter((ct) => ct.enabled !== false && ct.status !== "disabled" && ct.showOnHomepage !== false)
     .map((ct) => {
-      // Resolve URL: direct url > /topics/<topicSlug> from config > /topics/<id>
-      if (!ct.url && ct.topicSlug) {
-        // Find the enabled topic to get its current slug
-        const topic = allTopics.find((t) => t.id === ct.topicSlug || t.slug === ct.topicSlug);
-        return { ...ct, url: topic ? `/topics/${topic.slug}` : `/topics/${ct.topicSlug}` };
+      if (ct.topicSlug) {
+        const topic = getTopicBySlug(ct.topicSlug);
+        if (!topic) return null;
+        return { ...ct, url: ct.url || `/topics/${topic.slug}` };
       }
       return ct;
     })
+    .filter((ct): ct is ContentTypeConfig => ct !== null)
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 // ─── Public API — Navigation ──────────────────────────────────────────────────
 
-/** Main navigation items, enabled and sorted. */
+/** Main navigation: configured items minus dead topic/social links, plus showInNavigation topics. */
 export function getMainNavigation(): NavItem[] {
-  return loadPlatformConfig()
-    .navigation.main.filter((n) => n.enabled !== false)
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return mergeTopicNavigation(loadPlatformConfig().navigation.main);
 }
 
-/** Footer navigation items, enabled and sorted. */
+/** Footer navigation items, with dead topic/social links removed. */
 export function getFooterNavigation(): NavItem[] {
   return loadPlatformConfig()
-    .navigation.footer.filter((n) => n.enabled !== false)
+    .navigation.footer.filter(isNavItemPublic)
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 // ─── Public API — Homepage ────────────────────────────────────────────────────
 
-/** Homepage sections, enabled and sorted. */
+/** Homepage sections that are enabled and whose bound topic (if any) is still public. */
 export function getHomepageSections(): HomepageSection[] {
   return loadPlatformConfig()
     .homepage.sections.filter((s) => s.enabled !== false)
+    .filter((s) => !s.topicId || Boolean(getTopicBySlug(s.topicId)))
+    .map((s) => {
+      if (!s.topicId) return s;
+      const topic = getTopicBySlug(s.topicId);
+      if (!topic) return s;
+      return {
+        ...s,
+        ctaHref: `/topics/${topic.slug}`,
+      };
+    })
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 // ─── Public API — Social Platforms ───────────────────────────────────────────
 
-/** All enabled social platforms, sorted by order. */
+/** Enabled social platforms (including coming-soon). Disabled platforms are omitted. */
 export function getSocialPlatforms(): SocialPlatform[] {
   return loadPlatformConfig()
-    .social.filter((s) => s.enabled !== false)
+    .social.filter((s) => s.enabled !== false && s.status !== "disabled")
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 /** A specific social platform by id. Returns null if not found or disabled. */
 export function getSocialPlatform(id: string): SocialPlatform | null {
-  return (
-    loadPlatformConfig().social.find((s) => s.id === id && s.enabled !== false) ?? null
-  );
+  const found = loadPlatformConfig().social.find((s) => s.id === id);
+  if (!found || found.enabled === false || found.status === "disabled") return null;
+  return found;
 }
 
 // ─── Public API — Courses ─────────────────────────────────────────────────────
 
+function isCoursePublic(course: CourseConfig): boolean {
+  if (course.enabled === false) return false;
+  if (course.status === "disabled" || course.status === "archived" || course.status === "draft") {
+    return false;
+  }
+  if (course.topic && !getTopicBySlug(course.topic)) return false;
+  return true;
+}
+
 /** All enabled courses, sorted by order (excludes coming-soon by default). */
 export function getAllCourseConfigs(): CourseConfig[] {
   return loadCoursesConfig()
-    .filter((c) => c.enabled !== false && c.status !== "coming-soon")
+    .filter((c) => isCoursePublic(c) && c.status !== "coming-soon")
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 /** All coming-soon courses (for roadmap display). */
 export function getComingSoonCourses(): CourseConfig[] {
   return loadCoursesConfig()
-    .filter((c) => c.enabled !== false && c.status === "coming-soon")
+    .filter((c) => isCoursePublic(c) && c.status === "coming-soon")
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
-/** Look up course config by id. Returns a generic fallback if not found. */
+/** Look up course config by id. Unknown ids return a non-public placeholder so UI can still render. */
 export function getCourseConfig(id: string): CourseConfig {
   const found = loadCoursesConfig().find((c) => c.id === id || c.slug === id);
   if (found) return found;
-  // Generic fallback — never crash for unknown courses
   return {
     id,
     slug: id,
     title: id.charAt(0).toUpperCase() + id.slice(1),
-    description: `Comprehensive learning curriculum for ${id}.`,
+    description: `Learning curriculum for ${id}.`,
     topic: id,
     category: "Technology",
     order: 99,
-    enabled: true,
-    status: "active",
+    enabled: false,
+    status: "coming-soon",
     featured: false,
     showOnHomepage: false,
   };
@@ -504,7 +598,11 @@ export function getCourseConfig(id: string): CourseConfig {
 /** Resolve a topic slug from course ID. */
 export function getTopicSlugForCourse(courseId: string): string {
   const course = loadCoursesConfig().find((c) => c.id === courseId || c.slug === courseId);
-  return course?.topic ?? courseId;
+  if (course?.topic) {
+    const topic = getTopicBySlug(course.topic);
+    return topic?.slug ?? course.topic;
+  }
+  return courseId;
 }
 
 // ─── Public API — Series ──────────────────────────────────────────────────────
@@ -513,14 +611,14 @@ export function getTopicSlugForCourse(courseId: string): string {
 export function getAllSeriesConfigs(): SeriesConfig[] {
   return loadSeriesConfig()
     .filter((s) => s.enabled !== false)
+    .filter((s) => !s.topic || Boolean(getTopicBySlug(s.topic)))
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
 /** Get a series by id or slug. */
 export function getSeriesConfigBySlug(slug: string): SeriesConfig | null {
-  return (
-    loadSeriesConfig().find(
-      (s) => (s.slug === slug || s.id === slug) && s.enabled !== false
-    ) ?? null
-  );
+  const found = loadSeriesConfig().find((s) => s.slug === slug || s.id === slug);
+  if (!found || found.enabled === false) return null;
+  if (found.topic && !getTopicBySlug(found.topic)) return null;
+  return found;
 }

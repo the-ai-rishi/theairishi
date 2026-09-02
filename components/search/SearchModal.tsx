@@ -38,12 +38,9 @@ export default function SearchModal() {
   useEffect(() => {
     const trimmed = query.trim();
     if (!trimmed) {
-      setResults([]);
-      setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
     const controller = new AbortController();
 
     fetch(`/api/search?q=${encodeURIComponent(trimmed)}`, {
@@ -93,7 +90,12 @@ export default function SearchModal() {
           />
 
           {/* Modal Container */}
-          <div className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/15 bg-[#0d0d12] text-white shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search"
+            className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/15 bg-[#0d0d12] text-white shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+          >
             {/* Search Input Bar */}
             <div className="flex items-center border-b border-white/10 px-4 py-3.5">
               <Search className="h-5 w-5 text-violet-300 shrink-0" />
