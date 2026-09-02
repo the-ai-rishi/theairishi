@@ -25,7 +25,7 @@ export default function Header({
   const headerCtaHref = copy?.headerCtaHref || "/learn";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-ink/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-gold/20 bg-ink/85 backdrop-blur-md">
       <nav className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-4 sm:h-[4.5rem] sm:px-6 lg:px-8">
         <Logo brand={brand} variant="horizontal" priority />
 

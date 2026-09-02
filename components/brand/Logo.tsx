@@ -15,14 +15,19 @@ export default function Logo({
   className = "",
   priority = false,
 }: LogoProps) {
-  const alt = brand?.logoAlt || brand?.name || "Home";
+  const label = brand?.logoAlt || brand?.name || "Home";
+  const markSrc = brand?.logoMark || "/brand/logo-mark.png";
 
   if (variant === "mark") {
     return (
-      <Link href="/" className={`inline-flex items-center bg-ink ${className}`}>
+      <Link
+        href="/"
+        aria-label={label}
+        className={`inline-flex items-center ${className}`}
+      >
         <Image
-          src={brand?.logoMark || "/brand/logo-mark.png"}
-          alt={alt}
+          src={markSrc}
+          alt=""
           width={512}
           height={512}
           className="h-8 w-8 object-contain"
@@ -33,15 +38,24 @@ export default function Logo({
   }
 
   return (
-    <Link href="/" className={`inline-flex items-center bg-ink ${className}`}>
+    <Link
+      href="/"
+      aria-label={label}
+      className={`inline-flex items-center gap-2.5 sm:gap-3 ${className}`}
+    >
       <Image
-        src={brand?.logo || "/brand/logo-horizontal.png"}
-        alt={alt}
-        width={1200}
-        height={630}
-        className="h-11 w-auto object-contain sm:h-12"
+        src={markSrc}
+        alt=""
+        width={512}
+        height={512}
+        className="h-9 w-9 object-contain sm:h-10 sm:w-10"
         priority={priority}
       />
+      {brand?.name ? (
+        <span className="font-serif text-lg tracking-[0.01em] text-cream sm:text-xl">
+          {brand.name}
+        </span>
+      ) : null}
     </Link>
   );
 }

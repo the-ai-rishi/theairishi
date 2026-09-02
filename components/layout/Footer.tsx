@@ -31,7 +31,7 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
             <Link
               key={item.id}
               href={item.href}
-              className="link-editorial font-mono text-[12px] tracking-[0.14em] text-cream/40 hover:text-cream"
+              className="link-editorial font-mono text-[12px] tracking-[0.14em] text-cream/55 hover:text-cream"
             >
               {item.label}
             </Link>

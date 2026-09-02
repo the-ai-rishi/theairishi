@@ -52,7 +52,7 @@ export default function LearnPage() {
           Learning paths
         </h1>
         <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-cream/55 sm:text-lg">
-          Structured paths for the courses that are live today. Upcoming tracks stay listed as coming soon until they have lessons.
+          Structured paths for the courses that are live today.
         </p>
       </section>
 
@@ -91,20 +91,9 @@ export default function LearnPage() {
           ) : null}
 
           {comingSoonCourses.length > 0 ? (
-            <div className="mt-16 border-t border-hairline pt-10">
-              <p className="kicker text-cream/35">Forthcoming</p>
-              <ol className="mt-6 divide-y divide-hairline">
-                {comingSoonCourses.map((upcoming, index) => (
-                  <li key={upcoming.id} className="flex items-baseline gap-4 py-4 text-cream/40">
-                    <span className="w-8 font-mono text-[13px]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="flex-1 font-serif text-xl sm:text-2xl">{upcoming.title}</span>
-                    <span className="font-mono text-[12px] tracking-[0.12em] uppercase">Soon</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <p className="mt-16 border-t border-hairline pt-10 text-sm leading-relaxed text-cream/40">
+              More paths will appear here when they have published lessons.
+            </p>
           ) : null}
         </div>
       </section>

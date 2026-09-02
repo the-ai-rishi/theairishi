@@ -46,7 +46,7 @@ export default function HeroSection({
           : null;
 
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28">
+    <section className="relative overflow-hidden pt-8 pb-8 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12">
           <div className="flex flex-col space-y-7 text-left lg:col-span-7">

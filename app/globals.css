@@ -25,6 +25,7 @@
   body {
     background-color: #08080b;
     color: rgba(243, 238, 228, 0.92);
+    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
     font-size: 18px;
     line-height: 1.65;

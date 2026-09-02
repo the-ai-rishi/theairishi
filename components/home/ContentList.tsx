@@ -110,7 +110,7 @@ function JournalRow({ item }: { item: UniversalContentItem }) {
         className="group grid grid-cols-1 items-baseline gap-2 py-4 sm:grid-cols-[7.5rem_5.5rem_1fr] sm:gap-6"
       >
         <span className="font-mono text-[13px] text-cream/40">
-          {formatDate(item.publishedAt) || "—"}
+          {formatDate(item.publishedAt) || "\u00a0"}
         </span>
         <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold/70">
           {item.type}
