@@ -1,7 +1,6 @@
 import Link from "next/link";
-import TechnologyOrbit from "./TechnologyOrbit";
+import Image from "next/image";
 import { getBrandConfig, getPlatformCopy, type TopicConfig } from "@/lib/config";
-import { getBrandShortName } from "@/lib/brand";
 
 export interface HeroMode {
   id: string;
@@ -17,7 +16,6 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
-  topics,
   focusTopic = null,
   tone = "discovery",
   modes = [],
@@ -25,8 +23,6 @@ export default function HeroSection({
   const copy = getPlatformCopy();
   const brand = getBrandConfig();
   const focused = tone === "focus" && focusTopic;
-  const shortName = getBrandShortName(brand);
-
   const description = focused
     ? `Learn ${focusTopic.name} from first principles — ${focusTopic.description}`
     : copy.heroDescription;
@@ -104,7 +100,14 @@ export default function HeroSection({
           </div>
 
           <div className="flex justify-center lg:col-span-5">
-            <TechnologyOrbit topics={topics} brandName={shortName} />
+            <Image
+              src={brand.logoMark || brand.logo || "/brand/logo-horizontal.png"}
+              alt={brand.logoAlt || brand.name}
+              width={1672}
+              height={941}
+              className="h-auto w-full max-w-xl object-contain"
+              priority
+            />
           </div>
         </div>
       </div>

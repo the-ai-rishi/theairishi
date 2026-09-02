@@ -15,8 +15,9 @@ export default function Logo({
   className = "",
   priority = false,
 }: LogoProps) {
-  const label = brand?.logoAlt || brand?.name || "Home";
-  const markSrc = brand?.logoMark || "/brand/logo-mark.png";
+  const name = brand?.name || "The AI Rishi";
+  const label = brand?.logoAlt || name;
+  const lockup = brand?.logo || "/brand/logo-horizontal.png";
 
   if (variant === "mark") {
     return (
@@ -26,11 +27,11 @@ export default function Logo({
         className={`inline-flex items-center ${className}`}
       >
         <Image
-          src={markSrc}
+          src={lockup}
           alt=""
-          width={512}
-          height={512}
-          className="h-8 w-8 object-contain"
+          width={1200}
+          height={630}
+          className="h-8 w-auto object-contain"
           priority={priority}
         />
       </Link>
@@ -41,21 +42,11 @@ export default function Logo({
     <Link
       href="/"
       aria-label={label}
-      className={`inline-flex items-center gap-2.5 sm:gap-3 ${className}`}
+      className={`inline-flex items-center ${className}`}
     >
-      <Image
-        src={markSrc}
-        alt=""
-        width={512}
-        height={512}
-        className="h-9 w-9 object-contain sm:h-10 sm:w-10"
-        priority={priority}
-      />
-      {brand?.name ? (
-        <span className="font-serif text-lg tracking-[0.01em] text-cream sm:text-xl">
-          {brand.name}
-        </span>
-      ) : null}
+      <span className="font-serif text-lg tracking-[0.02em] text-cream sm:text-xl">
+        {name}
+      </span>
     </Link>
   );
 }
