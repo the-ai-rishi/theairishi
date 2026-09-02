@@ -16,6 +16,10 @@ export interface GuideMetadata {
   readTime?: number;
   author?: string;
   featured?: boolean;
+  topic?: string;
+  topicSlug?: string;
+  status?: string;
+  enabled?: boolean;
 }
 
 export interface GuideSummary {
@@ -88,6 +92,10 @@ export function getAllGuideSummaries(): GuideSummary[] {
           readTime,
           author,
           featured,
+          topic: typeof data.topic === "string" ? data.topic : undefined,
+          topicSlug: typeof data.topicSlug === "string" ? data.topicSlug : undefined,
+          status: visibility,
+          enabled: data.enabled !== false,
         },
       });
     } catch (err) {

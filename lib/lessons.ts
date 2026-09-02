@@ -123,16 +123,20 @@ function getLessonMetadata(
     return null;
   }
 
-  // Resolve course ID from frontmatter only (no filename-prefix inference)
-  const courseId = getString(data.course)?.toLowerCase() ?? "ai";
+  const courseId = getString(data.course)?.toLowerCase();
+  if (!courseId) {
+    console.warn(`[lessons] Skipping "${slug}": course is required.`);
+    return null;
+  }
 
-  // Get course metadata from config (config-driven, not hardcoded)
   const courseConfig = getCourseConfig(courseId);
-  const courseTitle = getString(data.courseTitle) || courseConfig.title;
-  const courseOrder = getPositiveNumber(data.courseOrder) || courseConfig.order || 99;
+  const courseTitle =
+    getString(data.courseTitle) || courseConfig?.title || courseId;
+  const courseOrder =
+    getPositiveNumber(data.courseOrder) || courseConfig?.order || 99;
 
-  // Resolve topic: frontmatter topic > course config topic > courseId
-  const topic = getString(data.topic) || getTopicSlugForCourse(courseId);
+  const topic =
+    getString(data.topic) || getTopicSlugForCourse(courseId) || undefined;
 
   const stageOrder = getPositiveNumber(data.stageOrder) || 1;
 
@@ -365,8 +369,8 @@ export function getLessonStages(courseId?: string): LessonStage[] {
 
   const grouped = Array.from(stagesMap.values()).sort((a, b) => {
     if (a.courseId !== b.courseId) {
-      const orderA = getCourseConfig(a.courseId).order ?? 99;
-      const orderB = getCourseConfig(b.courseId).order ?? 99;
+      const orderA = getCourseConfig(a.courseId)?.order ?? 99;
+      const orderB = getCourseConfig(b.courseId)?.order ?? 99;
       if (orderA !== orderB) return orderA - orderB;
       return a.courseId.localeCompare(b.courseId);
     }
@@ -394,13 +398,13 @@ export function getAllCourses(): Course[] {
     const stages = getLessonStages(id);
     const totalLessons = stages.reduce((acc, s) => acc + s.lessons.length, 0);
     courses.push({
-      id: config.id,
-      slug: config.slug,
-      title: config.title,
-      description: config.description,
-      category: config.category,
-      order: config.order,
-      badge: config.badge,
+      id: config?.id || id,
+      slug: config?.slug || id,
+      title: config?.title || id,
+      description: config?.description || "",
+      category: config?.category || "Learning",
+      order: config?.order ?? 99,
+      badge: config?.badge,
       stages,
       totalLessons,
     });

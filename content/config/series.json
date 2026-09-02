@@ -7,9 +7,10 @@
     "topic": "ai",
     "category": "Advanced AI",
     "order": 1,
-    "enabled": true,
-    "featured": true,
-    "badge": "Series"
+    "enabled": false,
+    "featured": false,
+    "badge": "Series",
+    "status": "planned"
   },
   {
     "id": "system-design-friday",
@@ -19,9 +20,10 @@
     "topic": "software-engineering",
     "category": "Architecture",
     "order": 2,
-    "enabled": true,
-    "featured": true,
-    "badge": "Teardowns"
+    "enabled": false,
+    "featured": false,
+    "badge": "Teardowns",
+    "status": "planned"
   },
   {
     "id": "devops-blueprints",
@@ -31,8 +33,9 @@
     "topic": "devops",
     "category": "Infrastructure",
     "order": 3,
-    "enabled": true,
-    "featured": true,
-    "badge": "Blueprints"
+    "enabled": false,
+    "featured": false,
+    "badge": "Blueprints",
+    "status": "planned"
   }
 ]

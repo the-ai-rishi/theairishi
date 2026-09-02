@@ -5,28 +5,29 @@ import { renderMarkdownToHtml } from "./markdown";
 import { getAllLessonSummaries } from "./lessons";
 import { getAllGuideSummaries } from "./guides";
 import { getAllProjectSummaries } from "./projects";
-import { getYoutubeVideos, getInstagramPosts } from "./media";
+import { getChannelItems } from "./media";
 import {
   getTopicSlugForCourse,
-  getTopicBySlug,
-  getAllTopics,
-  getSocialPlatform,
+  getTopicRecord,
+  getConfiguredTopics,
+  getPlatformConfig,
   getDefaultTopicSlug,
   getDefaultAuthorName,
+  getTopicBySlug,
 } from "./config";
+import * as vis from "./visibility-core";
 
-export type ContentType =
-  | "lesson"
-  | "guide"
-  | "project"
-  | "article"
-  | "update"
-  | "interview"
-  | "career"
-  | "youtube"
-  | "instagram";
+export type ContentType = string;
 
-export type ContentStatus = "published" | "draft" | "coming-soon" | "archived" | "active" | "disabled";
+export type ContentStatus =
+  | "published"
+  | "draft"
+  | "coming-soon"
+  | "archived"
+  | "active"
+  | "disabled"
+  | "planned"
+  | "paused";
 
 export interface UniversalContentItem {
   id: string;
@@ -53,10 +54,6 @@ export interface UniversalContentItem {
 
 const contentRootDir = path.join(process.cwd(), "content");
 
-/**
- * Resolve the topic slug for a content item.
- * Priority: explicit topicSlug frontmatter > explicit topic frontmatter > course config lookup > fallback
- */
 function resolveTopicSlug(opts: {
   topicSlug?: string;
   topic?: string;
@@ -66,25 +63,35 @@ function resolveTopicSlug(opts: {
   const candidates = [opts.topicSlug, opts.topic, opts.course, ...(opts.tags ?? [])];
   for (const candidate of candidates) {
     if (!candidate) continue;
-    const topic = getTopicBySlug(candidate);
+    const topic = getTopicRecord(candidate);
     if (topic) return topic.slug;
   }
-  if (opts.course) return getTopicSlugForCourse(opts.course);
-  return getDefaultTopicSlug();
+  if (opts.course) {
+    const fromCourse = getTopicSlugForCourse(opts.course);
+    if (fromCourse && getTopicRecord(fromCourse)) return fromCourse;
+  }
+  const authoringDefault = getDefaultTopicSlug();
+  return authoringDefault || "";
 }
 
 function isPublished(data: Record<string, unknown>): boolean {
   if (data.enabled === false) return false;
-  const status = data.status as string | undefined;
-  if (!status) return true;
-  return status === "published" || status === "active";
+  const status = vis.normalizeStatus((data.status as string) || "published");
+  return status === "active";
 }
 
 function isPublicUniversalItem(item: UniversalContentItem): boolean {
   if (item.enabled === false) return false;
-  const status = item.status ?? "published";
-  if (status !== "published" && status !== "active") return false;
-  if (item.topicSlug && !getTopicBySlug(item.topicSlug)) return false;
+  const status = vis.normalizeStatus(item.status || "published");
+  if (status !== "active") return false;
+  if (item.topicSlug) {
+    const topic = getTopicRecord(item.topicSlug);
+    if (topic) {
+      const ts = vis.normalizeStatus(topic.status);
+      if (topic.enabled === false) return false;
+      if (["planned", "paused", "disabled", "archived"].includes(ts)) return false;
+    }
+  }
   return true;
 }
 
@@ -104,7 +111,6 @@ function loadMarkdownItemsFromDir(
       const raw = fs.readFileSync(filePath, "utf8");
       const { data, content } = matter(raw);
 
-      // Respect enabled/status
       if (!isPublished(data)) continue;
 
       const slug = (data.slug as string) || file.replace(/\.md$/, "");
@@ -124,7 +130,7 @@ function loadMarkdownItemsFromDir(
         description: (data.description as string) || "",
         category,
         topicSlug,
-        publishedAt: (data.publishedAt as string) || (data.date as string) || "2026-08-16",
+        publishedAt: (data.publishedAt as string) || (data.date as string) || "",
         author: (data.author as string) || getDefaultAuthorName(),
         featured: Boolean(data.featured),
         readTime:
@@ -148,9 +154,13 @@ function loadMarkdownItemsFromDir(
 export function getAllUniversalContent(): UniversalContentItem[] {
   const items: UniversalContentItem[] = [];
 
-  // 1. Lessons
   const lessons = getAllLessonSummaries();
   for (const l of lessons) {
+    const topicSlug =
+      l.metadata.topic ||
+      getTopicSlugForCourse(l.metadata.course) ||
+      getDefaultTopicSlug() ||
+      "";
     items.push({
       id: `lesson-${l.slug}`,
       slug: l.slug,
@@ -158,8 +168,8 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       title: l.metadata.title,
       description: l.metadata.description,
       category: l.metadata.courseTitle || l.metadata.stage || "Learning",
-      topicSlug: l.metadata.topic || getTopicSlugForCourse(l.metadata.course),
-      publishedAt: "2026-08-16",
+      topicSlug,
+      publishedAt: "",
       author: getDefaultAuthorName(),
       featured: l.metadata.lesson === 1,
       readTime: 8,
@@ -170,9 +180,9 @@ export function getAllUniversalContent(): UniversalContentItem[] {
     });
   }
 
-  // 2. Guides
   const guides = getAllGuideSummaries();
   for (const g of guides) {
+    const meta = g.metadata as GuideMeta;
     items.push({
       id: `guide-${g.slug}`,
       slug: g.slug,
@@ -180,21 +190,25 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       title: g.metadata.title,
       description: g.metadata.description,
       category: g.metadata.category || "Guides",
-      topicSlug: resolveTopicSlug({ topic: g.metadata.category }),
-      publishedAt: g.metadata.date || "2026-08-16",
+      topicSlug: resolveTopicSlug({
+        topic: meta.topic,
+        topicSlug: meta.topicSlug,
+        tags: g.metadata.tags,
+      }),
+      publishedAt: g.metadata.date || "",
       author: g.metadata.author || getDefaultAuthorName(),
       featured: Boolean(g.metadata.featured),
       readTime: g.metadata.readTime || 6,
       url: `/guides/${g.slug}`,
       tags: g.metadata.tags || [],
-      status: ((g.metadata as { status?: string }).status as ContentStatus) || "published",
-      enabled: true,
+      status: (meta.status as ContentStatus) || "published",
+      enabled: meta.enabled !== false,
     });
   }
 
-  // 3. Projects
   const projects = getAllProjectSummaries();
   for (const p of projects) {
+    const meta = p.metadata as ProjectMeta;
     items.push({
       id: `project-${p.slug}`,
       slug: p.slug,
@@ -202,76 +216,59 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       title: p.metadata.title,
       description: p.metadata.description,
       category: p.metadata.category || "Projects",
-      topicSlug: resolveTopicSlug({ topic: p.metadata.category }),
-      publishedAt: p.metadata.date || "2026-08-16",
+      topicSlug: resolveTopicSlug({
+        topic: meta.topic,
+        topicSlug: meta.topicSlug,
+        tags: p.metadata.technologies,
+      }),
+      publishedAt: p.metadata.date || "",
       author: getDefaultAuthorName(),
       featured: Boolean(p.metadata.featured),
       readTime: 10,
       url: `/projects/${p.slug}`,
       tags: p.metadata.technologies || [],
-      status: "published",
-      enabled: true,
+      status: (meta.visibilityStatus as ContentStatus) || "published",
+      enabled: meta.enabled !== false,
     });
   }
 
-  // 4. Articles (untyped/general publishing)
   items.push(...loadMarkdownItemsFromDir("articles", "article"));
 
-  // 5. Topic-named markdown folders: content/<topic-slug>/*.md
-  // Adding a topic plus a matching folder is enough; no code change required.
-  const loadedDirs = new Set(["articles", "lessons", "courses", "guides", "projects", "media"]);
-  for (const topic of getAllTopics()) {
-    const dirs = [topic.slug, topic.id, `${topic.slug}s`];
+  const loadedDirs = new Set([
+    "articles",
+    "lessons",
+    "courses",
+    "guides",
+    "projects",
+    "media",
+    "config",
+  ]);
+  for (const topic of getConfiguredTopics()) {
+    const dirs = [topic.slug, topic.id];
     for (const dir of dirs) {
       if (loadedDirs.has(dir)) continue;
       loadedDirs.add(dir);
-      const type = (topic.id === "updates" || dir === "updates" ? "update" : topic.id) as ContentType;
-      items.push(...loadMarkdownItemsFromDir(dir, type));
+      items.push(...loadMarkdownItemsFromDir(dir, topic.slug));
     }
   }
 
-  // 8. YouTube — only if platform status is active
-  const ytPlatform = getSocialPlatform("youtube");
-  if (ytPlatform?.status === "active") {
-    const yt = getYoutubeVideos();
-    for (const v of yt) {
+  for (const platform of getPlatformConfig().social || []) {
+    if (vis.normalizeStatus(platform.status) !== "active") continue;
+    const channelItems = getChannelItems(platform.id);
+    for (const entry of channelItems) {
       items.push({
-        id: `youtube-${v.id}`,
-        slug: v.id,
-        type: "youtube",
-        title: v.title,
-        description: v.description,
-        category: "YouTube Video",
-        topicSlug: getDefaultTopicSlug(),
-        publishedAt: v.publishedAt,
+        id: `${platform.id}-${entry.id}`,
+        slug: entry.id,
+        type: platform.id,
+        title: entry.title,
+        description: entry.description || entry.caption || "",
+        category: platform.label,
+        topicSlug: getDefaultTopicSlug() || "",
+        publishedAt: entry.publishedAt,
         author: getDefaultAuthorName(),
-        featured: Boolean(v.featured),
-        url: "/youtube",
-        tags: v.tags || [],
-        status: "published",
-        enabled: true,
-      });
-    }
-  }
-
-  // 9. Instagram — only if platform status is active
-  const igPlatform = getSocialPlatform("instagram");
-  if (igPlatform?.status === "active") {
-    const ig = getInstagramPosts();
-    for (const i of ig) {
-      items.push({
-        id: `instagram-${i.id}`,
-        slug: i.id,
-        type: "instagram",
-        title: i.title,
-        description: i.caption,
-        category: "Visual Guide",
-        topicSlug: resolveTopicSlug({ tags: ["instagram"] }),
-        publishedAt: i.publishedAt,
-        author: getDefaultAuthorName(),
-        featured: Boolean(i.featured),
-        url: "/instagram",
-        tags: ["Instagram", i.type],
+        featured: Boolean(entry.featured),
+        url: platform.href || `/${platform.id}`,
+        tags: entry.tags || [platform.id],
         status: "published",
         enabled: true,
       });
@@ -281,21 +278,38 @@ export function getAllUniversalContent(): UniversalContentItem[] {
   return items;
 }
 
+type GuideMeta = {
+  topic?: string;
+  topicSlug?: string;
+  status?: string;
+  enabled?: boolean;
+};
+
+type ProjectMeta = {
+  topic?: string;
+  topicSlug?: string;
+  visibilityStatus?: string;
+  enabled?: boolean;
+};
+
 export function getPublishedContent(): UniversalContentItem[] {
   return getAllUniversalContent().filter(isPublicUniversalItem);
 }
 
 export function getContentByTopic(topicSlug: string): UniversalContentItem[] {
-  const topic = getTopicBySlug(topicSlug);
+  const topic = getTopicRecord(topicSlug);
   if (!topic) return [];
+  if (!getTopicBySlug(topicSlug)) return [];
   return getPublishedContent().filter(
     (item) =>
       item.topicSlug === topic.slug ||
-      item.tags?.some((t) => t.toLowerCase() === topic.slug || t.toLowerCase() === topic.id)
+      item.topicSlug === topic.id ||
+      item.tags?.some(
+        (t) => t.toLowerCase() === topic.slug || t.toLowerCase() === topic.id
+      )
   );
 }
 
-/** Feed for a homepage section bound to a topic id/slug. Empty if that topic is gone. */
 export function getContentForTopic(topicId?: string): UniversalContentItem[] {
   if (!topicId) return [];
   return getContentByTopic(topicId);
@@ -307,16 +321,8 @@ export function getFeaturedContent(): UniversalContentItem[] {
 
 export function getRecentContent(limit: number = 8): UniversalContentItem[] {
   return [...getPublishedContent()]
-    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+    .sort((a, b) => Date.parse(b.publishedAt || "0") - Date.parse(a.publishedAt || "0"))
     .slice(0, limit);
-}
-
-export function getTechnologyUpdates(): UniversalContentItem[] {
-  return getContentForTopic("updates");
-}
-
-export function getInterviewContent(): UniversalContentItem[] {
-  return getContentForTopic("interview");
 }
 
 export async function getSingleContentBySlug(
@@ -329,6 +335,7 @@ export async function getSingleContentBySlug(
   try {
     const raw = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(raw);
+    if (!isPublished(data)) return null;
     const contentHtml = await renderMarkdownToHtml(content);
     const category = (data.category as string) || "Technology";
 
@@ -344,7 +351,7 @@ export async function getSingleContentBySlug(
         topic: data.topic as string,
         course: data.course as string,
       }),
-      publishedAt: (data.publishedAt as string) || (data.date as string) || "2026-08-16",
+      publishedAt: (data.publishedAt as string) || (data.date as string) || "",
       author: (data.author as string) || getDefaultAuthorName(),
       featured: Boolean(data.featured),
       readTime:
@@ -373,25 +380,14 @@ export function getRelatedContent(
   return published
     .map((item) => {
       let score = 0;
-
-      // Match explicit series
-      if (targetItem.series && item.series === targetItem.series) {
-        score += 10;
-      }
-
-      // Match topic
-      if (item.topicSlug === targetItem.topicSlug) {
-        score += 5;
-      }
-
-      // Match tags
+      if (targetItem.series && item.series === targetItem.series) score += 10;
+      if (item.topicSlug && item.topicSlug === targetItem.topicSlug) score += 5;
       if (targetItem.tags && item.tags) {
         const sharedTags = item.tags.filter((t) =>
           targetItem.tags?.some((targetTag) => targetTag.toLowerCase() === t.toLowerCase())
         );
         score += sharedTags.length * 2;
       }
-
       return { item, score };
     })
     .filter((entry) => entry.score > 0)
@@ -399,4 +395,3 @@ export function getRelatedContent(
     .map((entry) => entry.item)
     .slice(0, limit);
 }
-

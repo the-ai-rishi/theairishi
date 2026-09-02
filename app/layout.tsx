@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
-import { getBrandConfig, getAllTopics } from "@/lib/config";
+import { getBrandConfig, getSearchTopics } from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 const brand = getBrandConfig();
-const topicKeywords = getAllTopics().flatMap((topic) =>
+const topicKeywords = getSearchTopics().flatMap((topic) =>
   [topic.name, topic.shortName, topic.badge].filter(Boolean)
 );
 const keywords = Array.from(new Set([brand.name, brand.tagline, ...topicKeywords]));

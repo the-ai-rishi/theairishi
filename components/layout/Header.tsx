@@ -17,8 +17,8 @@ export default function Header({ navItems, brand, copy }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const logo = brand?.logo || "/brand/logo-horizontal.png";
-  const logoAlt = brand?.logoAlt || "The AI Rishi";
-  const headerCta = copy?.headerCta || "Start Learning";
+  const logoAlt = brand?.logoAlt || "Home";
+  const headerCta = copy?.headerCta || "Start";
   const headerCtaHref = copy?.headerCtaHref || "/learn";
 
   return (

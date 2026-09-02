@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "validate": "node scripts/validate.js"
+    "validate": "node scripts/validate.js",
+    "test:platform": "node scripts/scenario-test.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

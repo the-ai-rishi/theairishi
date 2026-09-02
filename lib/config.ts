@@ -1,14 +1,21 @@
 import fs from "fs";
 import path from "path";
+import * as vis from "./visibility-core";
+import type { LifecycleStatus, PlatformCatalog, Surface } from "./visibility-core";
 
 const configDir = path.join(process.cwd(), "content", "config");
 
-// ─── Status Types ─────────────────────────────────────────────────────────────
+export type ContentStatus =
+  | "published"
+  | "draft"
+  | "coming-soon"
+  | "archived"
+  | "active"
+  | "disabled"
+  | "planned"
+  | "paused";
 
-export type ContentStatus = "published" | "draft" | "coming-soon" | "archived" | "active" | "disabled";
-export type PlatformStatus = "active" | "coming-soon" | "disabled";
-
-// ─── Brand & Copy Interfaces ──────────────────────────────────────────────────
+export type PlatformStatus = LifecycleStatus;
 
 export interface BrandConfig {
   name: string;
@@ -44,8 +51,6 @@ export interface DefaultsConfig {
   contentDate: string;
 }
 
-// ─── Topic Interface ──────────────────────────────────────────────────────────
-
 export interface TopicConfig {
   id: string;
   slug: string;
@@ -63,7 +68,10 @@ export interface TopicConfig {
   status: PlatformStatus;
 }
 
-// ─── Navigation Interface ─────────────────────────────────────────────────────
+export type NavSource =
+  | { kind: "topic"; topicId: string; id?: string }
+  | { kind: "contentType"; id: string }
+  | { kind: "channel"; channelId?: string; id?: string };
 
 export interface NavItem {
   id: string;
@@ -72,24 +80,40 @@ export interface NavItem {
   enabled: boolean;
   order: number;
   status?: PlatformStatus;
+  source?: NavSource;
+  showInNavigation?: boolean;
 }
 
-// ─── Homepage Section Interface ───────────────────────────────────────────────
+export type HomepageSectionType =
+  | "hero"
+  | "topic-grid"
+  | "course-list"
+  | "content-list"
+  | "channel-grid"
+  | "continue-learning"
+  | "cta";
+
+export type ContentSource =
+  | { kind: "recent" }
+  | { kind: "topic"; topicId: string }
+  | { kind: "format"; format: string }
+  | { kind: "channel"; channelId?: string; id?: string };
 
 export interface HomepageSection {
   id: string;
+  type: HomepageSectionType | string;
   enabled: boolean;
   order: number;
   title?: string;
   subtitle?: string;
   ctaLabel?: string;
   ctaHref?: string;
-  /** Bind this section to a topic id/slug. Hidden automatically if that topic is removed or disabled. */
-  topicId?: string;
+  source?: ContentSource;
   maxItems?: number;
+  showWhenEmpty?: boolean;
+  /** @deprecated Use source.kind = topic. Kept so old JSON does not explode the parser. */
+  topicId?: string;
 }
-
-// ─── Social Platform Interface ────────────────────────────────────────────────
 
 export interface SocialPlatform {
   id: string;
@@ -102,31 +126,28 @@ export interface SocialPlatform {
   displayName?: string;
   description?: string;
   badge?: string;
+  showOnHomepage?: boolean;
+  showInNavigation?: boolean;
 }
 
-// ─── Content Type Interface ───────────────────────────────────────────────────
-
-export type ContentTypeCategory = "Learning" | "Reference" | "Updates" | "Media" | "Career";
-export type ContentTypeStatus = "active" | "coming-soon" | "disabled";
+export type ContentTypeCategory = string;
+export type ContentTypeStatus = PlatformStatus;
 
 export interface ContentTypeConfig {
   id: string;
   title: string;
   description: string;
   badge: string;
-  /** Direct URL override — if set, link goes here */
   url?: string;
-  /** If set (and url not set), link goes to /topics/<topicSlug> */
   topicSlug?: string;
   iconName: string;
   category: ContentTypeCategory;
   enabled: boolean;
   status: ContentTypeStatus;
   showOnHomepage: boolean;
+  showInNavigation?: boolean;
   order: number;
 }
-
-// ─── Course Interface ─────────────────────────────────────────────────────────
 
 export interface CourseConfig {
   id: string;
@@ -141,11 +162,9 @@ export interface CourseConfig {
   featured: boolean;
   showOnHomepage: boolean;
   badge?: string;
-  /** Topics list for coming-soon courses */
   upcomingTopics?: string[];
+  lessonCount?: number;
 }
-
-// ─── Series Interface ─────────────────────────────────────────────────────────
 
 export interface SeriesConfig {
   id: string;
@@ -158,9 +177,8 @@ export interface SeriesConfig {
   enabled: boolean;
   featured: boolean;
   badge?: string;
+  status?: PlatformStatus;
 }
-
-// ─── Root Platform Config ─────────────────────────────────────────────────────
 
 export interface PlatformConfig {
   brand: BrandConfig;
@@ -178,15 +196,12 @@ export interface PlatformConfig {
   social: SocialPlatform[];
 }
 
-// ─── Config Validation ────────────────────────────────────────────────────────
-
 function validatePlatformConfig(raw: unknown, filePath: string): PlatformConfig {
   if (!raw || typeof raw !== "object") {
     throw new Error(`[config] ${filePath}: must be a JSON object`);
   }
   const cfg = raw as Record<string, unknown>;
 
-  // Validate brand
   if (!cfg.brand || typeof cfg.brand !== "object") {
     throw new Error(`[config] ${filePath}: "brand" section is required`);
   }
@@ -195,7 +210,6 @@ function validatePlatformConfig(raw: unknown, filePath: string): PlatformConfig 
     throw new Error(`[config] ${filePath}: brand requires name, logo, and tagline`);
   }
 
-  // Validate topics
   if (!Array.isArray(cfg.topics)) {
     throw new Error(`[config] ${filePath}: "topics" must be an array`);
   }
@@ -216,18 +230,16 @@ function validatePlatformConfig(raw: unknown, filePath: string): PlatformConfig 
     }
     topicIds.add(t.id);
     topicSlugs.add(t.slug);
-    if (t.status && !["active", "coming-soon", "disabled"].includes(t.status)) {
+    if (t.status && !vis.isValidLifecycle(t.status)) {
       throw new Error(`[config] Topic "${t.id}" has invalid status: "${t.status}"`);
     }
   }
 
-  // Validate navigation
   const nav = cfg.navigation as PlatformConfig["navigation"];
   if (!nav?.main || !Array.isArray(nav.main)) {
     throw new Error(`[config] ${filePath}: "navigation.main" must be an array`);
   }
 
-  // Validate homepage sections
   const homepage = cfg.homepage as PlatformConfig["homepage"];
   if (!homepage?.sections || !Array.isArray(homepage.sections)) {
     throw new Error(`[config] ${filePath}: "homepage.sections" must be an array`);
@@ -235,8 +247,9 @@ function validatePlatformConfig(raw: unknown, filePath: string): PlatformConfig 
   const sectionIds = new Set<string>();
   for (const s of homepage.sections as HomepageSection[]) {
     if (!s.id) throw new Error(`[config] Homepage section missing id`);
-    if (sectionIds.has(s.id))
+    if (sectionIds.has(s.id)) {
       throw new Error(`[config] Duplicate homepage section id: "${s.id}"`);
+    }
     sectionIds.add(s.id);
   }
 
@@ -281,13 +294,11 @@ function validateSeriesConfig(raw: unknown): SeriesConfig[] {
   return raw as SeriesConfig[];
 }
 
-// ─── Loaders (cached at module level for build-time performance) ──────────────
-
 let _platformConfig: PlatformConfig | null = null;
 let _coursesConfig: CourseConfig[] | null = null;
 let _seriesConfig: SeriesConfig[] | null = null;
 
-function loadPlatformConfig(): PlatformConfig {
+export function loadPlatformConfig(): PlatformConfig {
   if (_platformConfig) return _platformConfig;
   const filePath = path.join(configDir, "platform.json");
   if (!fs.existsSync(filePath)) {
@@ -325,13 +336,6 @@ function loadCoursesConfig(): CourseConfig[] {
   }
 }
 
-/** Clear in-memory config (used by lifecycle tests). */
-export function resetConfigCache(): void {
-  _platformConfig = null;
-  _coursesConfig = null;
-  _seriesConfig = null;
-}
-
 function loadSeriesConfig(): SeriesConfig[] {
   if (_seriesConfig) return _seriesConfig;
   const filePath = path.join(configDir, "series.json");
@@ -350,275 +354,211 @@ function loadSeriesConfig(): SeriesConfig[] {
   }
 }
 
-// ─── Visibility helpers ───────────────────────────────────────────────────────
-
-function normalizeKey(value: string): string {
-  return value.trim().toLowerCase();
+export function resetConfigCache(): void {
+  _platformConfig = null;
+  _coursesConfig = null;
+  _seriesConfig = null;
+  try {
+    // Lazy require avoids a config <-> catalog import cycle at module load.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const catalog = require("./catalog") as { resetCatalogCache: () => void };
+    catalog.resetCatalogCache();
+  } catch {
+    // catalog may not be loaded yet
+  }
 }
 
-/** A topic is public unless it is enabled:false or status:"disabled". coming-soon remains visible. */
-export function isTopicPublic(topic: TopicConfig | null | undefined): boolean {
+function liveCatalog(): PlatformCatalog {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const catalog = require("./catalog") as { getLiveCatalog: () => PlatformCatalog };
+    return catalog.getLiveCatalog();
+  } catch {
+    return vis.emptyCatalog();
+  }
+}
+
+export function getPlatformConfig(): PlatformConfig {
+  return loadPlatformConfig();
+}
+
+export function getBrandConfig(): BrandConfig {
+  return loadPlatformConfig().brand;
+}
+
+export function getPlatformCopy(): CopyConfig {
+  return loadPlatformConfig().copy;
+}
+
+export function getDefaultsConfig(): DefaultsConfig {
+  const cfg = loadPlatformConfig();
+  const brand = cfg.brand;
+  return (
+    cfg.defaults ?? {
+      topicSlug: "",
+      authorName: brand?.name || "",
+      contentDate: "",
+    }
+  );
+}
+
+/**
+ * Authoring default only. Never use this as a silent UI fallback that
+ * resurrects a missing topic. Returns null if the configured default is
+ * not itself a public (route-visible) topic.
+ */
+export function getDefaultTopicSlug(): string | null {
+  const configured = getDefaultsConfig().topicSlug;
+  if (!configured) return null;
+  const topic = getTopicRecord(configured);
+  if (!topic) return null;
+  const state = vis.topicRouteState(loadPlatformConfig(), configured, liveCatalog());
+  if (state.state === "not-found") return null;
+  if (vis.normalizeStatus(topic.status) !== "active") return null;
+  return topic.slug;
+}
+
+export function getDefaultAuthorName(): string {
+  return getDefaultsConfig().authorName || getBrandConfig().name;
+}
+
+export function getConfiguredTopics(): TopicConfig[] {
+  return loadPlatformConfig().topics.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+}
+
+export function getTopicRecord(key: string): TopicConfig | null {
+  return vis.findTopic(loadPlatformConfig(), key) as unknown as TopicConfig | null;
+}
+
+export function isTopicPublicOn(topic: TopicConfig | null | undefined, surface: Surface): boolean {
   if (!topic) return false;
-  if (topic.enabled === false) return false;
-  if (topic.status === "disabled") return false;
-  return true;
+  return vis.isTopicVisible(loadPlatformConfig(), topic, surface, liveCatalog());
 }
 
-function findTopicRecord(key: string): TopicConfig | undefined {
-  const needle = normalizeKey(key);
-  return loadPlatformConfig().topics.find((t) => {
-    return (
-      normalizeKey(t.id) === needle ||
-      normalizeKey(t.slug) === needle ||
-      normalizeKey(t.shortName) === needle
-    );
+/** Route-visible topics (active + coming-soon). */
+export function getAllTopics(): TopicConfig[] {
+  return vis.getRouteTopics(loadPlatformConfig(), liveCatalog()) as unknown as TopicConfig[];
+}
+
+export function getHomepageTopics(): TopicConfig[] {
+  return vis.publicTopics(loadPlatformConfig(), liveCatalog(), "homepage") as unknown as TopicConfig[];
+}
+
+export function getNavigationTopics(): TopicConfig[] {
+  return vis.publicTopics(loadPlatformConfig(), liveCatalog(), "navigation") as unknown as TopicConfig[];
+}
+
+export function getSearchTopics(): TopicConfig[] {
+  return vis.publicTopics(loadPlatformConfig(), liveCatalog(), "search") as unknown as TopicConfig[];
+}
+
+export function getSitemapTopics(): TopicConfig[] {
+  return vis.publicTopics(loadPlatformConfig(), liveCatalog(), "sitemap") as unknown as TopicConfig[];
+}
+
+/**
+ * Look up a topic by id/slug. Returns the record if it has a public route
+ * (active or coming-soon). Disabled/planned topics return null.
+ */
+export function getTopicBySlug(slug: string): TopicConfig | null {
+  const state = vis.topicRouteState(loadPlatformConfig(), slug, liveCatalog());
+  if (state.state === "not-found") return null;
+  return state.topic as unknown as TopicConfig;
+}
+
+export function getContentTypeRecord(id: string): ContentTypeConfig | null {
+  return vis.findContentType(loadPlatformConfig(), id) as unknown as ContentTypeConfig | null;
+}
+
+export function getAllContentTypes(): ContentTypeConfig[] {
+  const platform = loadPlatformConfig();
+  return vis.publicContentTypes(platform, liveCatalog(), "homepage").map((ct) => {
+    const typed = ct as unknown as ContentTypeConfig;
+    const href = vis.deriveContentTypeHref(platform, ct);
+    return href ? { ...typed, url: typed.url || href } : typed;
   });
 }
 
-function topicSlugFromHref(href: string): string | null {
-  const match = href.match(/^\/topics\/([^/?#]+)/);
-  return match ? decodeURIComponent(match[1]) : null;
-}
-
-function socialIdFromHref(href: string): string | null {
-  const match = href.match(/^\/(youtube|instagram)\/?$/);
-  return match ? match[1] : null;
-}
-
-function isNavItemPublic(item: NavItem): boolean {
-  if (item.enabled === false || item.status === "disabled") return false;
-  const topicSlug = topicSlugFromHref(item.href);
-  if (topicSlug && !isTopicPublic(findTopicRecord(topicSlug))) return false;
-  const socialId = socialIdFromHref(item.href);
-  if (socialId) {
-    const platform = loadPlatformConfig().social.find((s) => s.id === socialId);
-    if (!platform || platform.enabled === false || platform.status === "disabled") {
-      return false;
-    }
-  }
-  return true;
-}
-
-function mergeTopicNavigation(items: NavItem[]): NavItem[] {
-  const existing = items.filter(isNavItemPublic);
-  const hrefs = new Set(existing.map((item) => item.href));
-  const maxOrder = existing.reduce((max, item) => Math.max(max, item.order ?? 0), 0);
-  let extraOrder = maxOrder;
-  for (const topic of getNavigationTopics()) {
-    const href = `/topics/${topic.slug}`;
-    if (hrefs.has(href)) continue;
-    extraOrder += 1;
-    existing.push({
-      id: `topic-${topic.id}`,
-      label: topic.shortName || topic.name,
-      href,
-      enabled: true,
-      order: extraOrder,
-      status: topic.status,
-    });
-  }
-  return existing.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
-}
-
-// ─── Public API — Brand & Copy ────────────────────────────────────────────────
-
-/** Brand configuration (logo, name, tagline, OG image, etc.). */
-export function getBrandConfig(): BrandConfig {
-  const cfg = loadPlatformConfig();
-  return cfg.brand;
-}
-
-/** UI copy configuration (CTA text, hero text, footer text, etc.). */
-export function getPlatformCopy(): CopyConfig {
-  const cfg = loadPlatformConfig();
-  return cfg.copy;
-}
-
-/** Platform defaults (default topic, author name, etc.). */
-export function getDefaultsConfig(): DefaultsConfig {
-  const cfg = loadPlatformConfig();
-  return cfg.defaults ?? { topicSlug: "ai", authorName: "The AI Rishi", contentDate: "2026-08-20" };
-}
-
-/** Get the default topic slug (used when a content item has no explicit topic). */
-export function getDefaultTopicSlug(): string {
-  const configured = getDefaultsConfig().topicSlug;
-  if (isTopicPublic(findTopicRecord(configured))) return findTopicRecord(configured)!.slug;
-  const first = getAllTopics()[0];
-  return first?.slug ?? configured;
-}
-
-/** Get the default author name (used when a content item has no explicit author). */
-export function getDefaultAuthorName(): string {
-  return getDefaultsConfig().authorName;
-}
-
-// ─── Public API — Topics ──────────────────────────────────────────────────────
-
-/** All public topics, sorted by order. Disabled / enabled:false topics are omitted. */
-export function getAllTopics(): TopicConfig[] {
-  return loadPlatformConfig()
-    .topics.filter((t) => isTopicPublic(t))
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
-}
-
-/** Topics shown on the homepage (public + showOnHomepage). */
-export function getHomepageTopics(): TopicConfig[] {
-  return getAllTopics().filter((t) => t.showOnHomepage !== false);
-}
-
-/** Topics shown in the main navigation (public + showInNavigation). */
-export function getNavigationTopics(): TopicConfig[] {
-  return getAllTopics().filter((t) => t.showInNavigation === true);
-}
-
-/** Look up a public topic by id, slug, or shortName. Returns null if missing or disabled. */
-export function getTopicBySlug(slug: string): TopicConfig | null {
-  const found = findTopicRecord(slug);
-  return isTopicPublic(found) ? found! : null;
-}
-
-// ─── Public API — Content Types ───────────────────────────────────────────────
-
-/**
- * All enabled content types configured to show on homepage, sorted by order.
- * Types bound to a missing/disabled topic are omitted. URLs follow the live topic slug.
- */
-export function getAllContentTypes(): ContentTypeConfig[] {
-  const cfg = loadPlatformConfig();
-  const contentTypes = cfg.contentTypes ?? [];
-
-  return contentTypes
-    .filter((ct) => ct.enabled !== false && ct.status !== "disabled" && ct.showOnHomepage !== false)
-    .map((ct) => {
-      if (ct.topicSlug) {
-        const topic = getTopicBySlug(ct.topicSlug);
-        if (!topic) return null;
-        return { ...ct, url: ct.url || `/topics/${topic.slug}` };
-      }
-      return ct;
-    })
-    .filter((ct): ct is ContentTypeConfig => ct !== null)
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
-}
-
-// ─── Public API — Navigation ──────────────────────────────────────────────────
-
-/** Main navigation: configured items minus dead topic/social links, plus showInNavigation topics. */
 export function getMainNavigation(): NavItem[] {
-  return mergeTopicNavigation(loadPlatformConfig().navigation.main);
+  return vis.resolveNavItems(loadPlatformConfig(), liveCatalog(), "main") as unknown as NavItem[];
 }
 
-/** Footer navigation items, with dead topic/social links removed. */
 export function getFooterNavigation(): NavItem[] {
-  return loadPlatformConfig()
-    .navigation.footer.filter(isNavItemPublic)
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return vis.resolveNavItems(loadPlatformConfig(), liveCatalog(), "footer") as unknown as NavItem[];
 }
 
-// ─── Public API — Homepage ────────────────────────────────────────────────────
-
-/** Homepage sections that are enabled and whose bound topic (if any) is still public. */
 export function getHomepageSections(): HomepageSection[] {
-  return loadPlatformConfig()
-    .homepage.sections.filter((s) => s.enabled !== false)
-    .filter((s) => !s.topicId || Boolean(getTopicBySlug(s.topicId)))
-    .map((s) => {
-      if (!s.topicId) return s;
-      const topic = getTopicBySlug(s.topicId);
-      if (!topic) return s;
-      return {
-        ...s,
-        ctaHref: `/topics/${topic.slug}`,
-      };
-    })
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return vis
+    .resolveHomepageSections(loadPlatformConfig(), liveCatalog())
+    .sections.map((s) => ({
+      id: s.id,
+      type: s.type,
+      enabled: s.enabled,
+      order: s.order ?? 99,
+      title: s.title,
+      subtitle: s.subtitle,
+      ctaLabel: s.ctaLabel,
+      ctaHref: s.ctaHref,
+      source: s.source as ContentSource | undefined,
+      maxItems: s.maxItems,
+      showWhenEmpty: s.showWhenEmpty,
+    }));
 }
 
-// ─── Public API — Social Platforms ───────────────────────────────────────────
-
-/** Enabled social platforms (including coming-soon). Disabled platforms are omitted. */
 export function getSocialPlatforms(): SocialPlatform[] {
-  return loadPlatformConfig()
-    .social.filter((s) => s.enabled !== false && s.status !== "disabled")
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return vis.publicChannels(loadPlatformConfig(), liveCatalog(), "route") as unknown as SocialPlatform[];
 }
 
-/** A specific social platform by id. Returns null if not found or disabled. */
 export function getSocialPlatform(id: string): SocialPlatform | null {
-  const found = loadPlatformConfig().social.find((s) => s.id === id);
-  if (!found || found.enabled === false || found.status === "disabled") return null;
-  return found;
+  const state = vis.channelRouteState(loadPlatformConfig(), id, liveCatalog());
+  if (state.state === "not-found") return null;
+  return state.channel as unknown as SocialPlatform;
 }
 
-// ─── Public API — Courses ─────────────────────────────────────────────────────
-
-function isCoursePublic(course: CourseConfig): boolean {
-  if (course.enabled === false) return false;
-  if (course.status === "disabled" || course.status === "archived" || course.status === "draft") {
-    return false;
-  }
-  if (course.topic && !getTopicBySlug(course.topic)) return false;
-  return true;
+export function getRawCourseConfigs(): CourseConfig[] {
+  return loadCoursesConfig();
 }
 
-/** All enabled courses, sorted by order (excludes coming-soon by default). */
 export function getAllCourseConfigs(): CourseConfig[] {
-  return loadCoursesConfig()
-    .filter((c) => isCoursePublic(c) && c.status !== "coming-soon")
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  const catalog = liveCatalog();
+  const allowed = new Set(
+    vis.publicCourses(loadPlatformConfig(), catalog, true).map((c) => String(c.id || ""))
+  );
+  return loadCoursesConfig().filter((c) => allowed.has(c.id));
 }
 
-/** All coming-soon courses (for roadmap display). */
 export function getComingSoonCourses(): CourseConfig[] {
-  return loadCoursesConfig()
-    .filter((c) => isCoursePublic(c) && c.status === "coming-soon")
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return vis.comingSoonCourses(loadPlatformConfig(), liveCatalog()) as unknown as CourseConfig[];
 }
 
-/** Look up course config by id. Unknown ids return a non-public placeholder so UI can still render. */
-export function getCourseConfig(id: string): CourseConfig {
+export function getCourseConfig(id: string): CourseConfig | null {
   const found = loadCoursesConfig().find((c) => c.id === id || c.slug === id);
-  if (found) return found;
-  return {
-    id,
-    slug: id,
-    title: id.charAt(0).toUpperCase() + id.slice(1),
-    description: `Learning curriculum for ${id}.`,
-    topic: id,
-    category: "Technology",
-    order: 99,
-    enabled: false,
-    status: "coming-soon",
-    featured: false,
-    showOnHomepage: false,
-  };
+  return found ?? null;
 }
 
-/** Resolve a topic slug from course ID. */
-export function getTopicSlugForCourse(courseId: string): string {
+export function getTopicSlugForCourse(courseId: string): string | null {
   const course = loadCoursesConfig().find((c) => c.id === courseId || c.slug === courseId);
   if (course?.topic) {
-    const topic = getTopicBySlug(course.topic);
+    const topic = getTopicRecord(course.topic);
     return topic?.slug ?? course.topic;
   }
-  return courseId;
+  return null;
 }
 
-// ─── Public API — Series ──────────────────────────────────────────────────────
-
-/** All enabled content series, sorted by order. */
 export function getAllSeriesConfigs(): SeriesConfig[] {
   return loadSeriesConfig()
     .filter((s) => s.enabled !== false)
+    .filter((s) => vis.normalizeStatus(s.status || "active") === "active")
     .filter((s) => !s.topic || Boolean(getTopicBySlug(s.topic)))
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
-/** Get a series by id or slug. */
 export function getSeriesConfigBySlug(slug: string): SeriesConfig | null {
   const found = loadSeriesConfig().find((s) => s.slug === slug || s.id === slug);
   if (!found || found.enabled === false) return null;
+  if (vis.normalizeStatus(found.status || "active") !== "active") return null;
   if (found.topic && !getTopicBySlug(found.topic)) return null;
   return found;
 }
+
+export { vis };

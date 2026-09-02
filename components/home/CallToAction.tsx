@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { getBrandConfig, getPlatformCopy } from "@/lib/config";
+import type { ResolvedHomepageSection } from "@/lib/homepage";
 
-export default function CallToAction() {
+export default function CallToAction({ section }: { section?: ResolvedHomepageSection }) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
 
@@ -15,11 +16,11 @@ export default function CallToAction() {
           <div className="relative z-10 mx-auto max-w-2xl space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300">
               <Sparkles className="h-3.5 w-3.5" />
-              <span>{brand.name} Ecosystem</span>
+              <span>{section?.subtitle || brand.name}</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl font-semibold tracking-[-0.03em] text-white">
-              {brand.tagline}
+              {section?.title || brand.tagline}
             </h2>
 
             <p className="text-sm sm:text-base text-white/60 leading-relaxed">

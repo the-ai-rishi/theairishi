@@ -1,32 +1,26 @@
-import { getBrandConfig, getMainNavigation, getFooterNavigation, getSocialPlatforms } from "./config";
+import { getBrandConfig, getMainNavigation, getFooterNavigation, getSocialPlatforms, getSearchTopics } from "./config";
 
-/**
- * siteConfig
- *
- * All values derived from content/config/platform.json via getBrandConfig().
- * Do NOT hardcode site name, tagline, URLs, or social URLs here.
- * Change them in platform.json → "brand" and "social" sections.
- */
 function buildSiteConfig() {
   const brand = getBrandConfig();
   const socialPlatforms = getSocialPlatforms();
 
-  // Build a keyed social map for easy access by id (e.g. siteConfig.social.youtube)
   const socialMap: Record<string, string> = {};
   for (const platform of socialPlatforms) {
-    if (platform.externalUrl) {
+    if (platform.externalUrl && platform.status === "active") {
       socialMap[platform.id] = platform.externalUrl;
     }
   }
+
+  const publicTopics = getSearchTopics();
 
   return {
     name: brand.name,
     tagline: brand.tagline,
     description: brand.description,
-    url: process.env.NEXT_PUBLIC_SITE_URL || brand.url || "https://theairishi.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL || brand.url,
     author: {
       name: brand.name,
-      role: "AI & Platform Engineer",
+      role: brand.tagline,
       bio: brand.description,
       email: brand.email,
     },
@@ -36,6 +30,13 @@ function buildSiteConfig() {
       logoMark: brand.logoMark,
       ogImage: brand.ogImage,
     },
+    keywords: Array.from(
+      new Set(
+        [brand.name, brand.tagline, ...publicTopics.flatMap((t) => [t.name, t.shortName, t.badge])].filter(
+          Boolean
+        )
+      )
+    ),
     social: {
       ...socialMap,
       email: brand.email,

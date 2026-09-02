@@ -10,8 +10,8 @@ interface FooterProps {
 
 export default function Footer({ navItems, brand, copy }: FooterProps) {
   const logo = brand?.logo || "/brand/logo-horizontal.png";
-  const logoAlt = brand?.logoAlt || "The AI Rishi";
-  const copyright = copy?.footerCopyright || brand?.name || "The AI Rishi";
+  const logoAlt = brand?.logoAlt || "Home";
+  const copyright = copy?.footerCopyright || brand?.name || "";
 
   return (
     <footer className="border-t border-white/[0.08] bg-black/60">

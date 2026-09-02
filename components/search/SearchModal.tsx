@@ -8,7 +8,7 @@ export interface SearchResultItem {
   id: string;
   title: string;
   description: string;
-  type: "Course" | "Lesson" | "Guide" | "Project" | "YouTube" | "Instagram";
+  type: string;
   url: string;
   category?: string;
   badge?: string;

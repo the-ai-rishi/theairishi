@@ -22,7 +22,7 @@ export default function TechnologyOrbit({ topics, brandName }: { topics: TopicCo
   return (
     <div
       role="region"
-      aria-label="Interactive Technology Orbit Ecosystem"
+      aria-label="Topics currently available"
       className="relative flex items-center justify-center w-full max-w-[550px] lg:max-w-[620px] aspect-square mx-auto select-none pointer-events-auto"
     >
       {/* 1. Atmospheric Multi-Layer Radial Glow */}
@@ -100,7 +100,7 @@ export default function TechnologyOrbit({ topics, brandName }: { topics: TopicCo
           Platform
         </span>
         <span className="text-xs sm:text-sm font-semibold tracking-wide text-white text-center leading-tight px-2">
-          {brandName || "The AI Rishi"}
+          {brandName || ""}
         </span>
         <span className="h-1 w-8 rounded-full bg-gradient-to-r from-violet-400 to-amber-300 mt-1.5" />
       </div>

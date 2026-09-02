@@ -8,6 +8,8 @@ import { Course } from "@/lib/lessons";
 export default function ContinueLearning({ courses }: { courses: Course[] }) {
   const { completedSlugs } = useLessonProgress();
 
+  if (!courses.length) return null;
+
   const hasProgress = completedSlugs.length > 0;
 
   const lessonSlugsFor = (course: Course) =>
@@ -49,13 +51,13 @@ export default function ContinueLearning({ courses }: { courses: Course[] }) {
               </div>
 
               <h3 className="text-xl sm:text-2xl font-semibold text-white">
-                {activeCourse?.title || "First-Principles Technology Curriculum"}
+                {activeCourse?.title || "Start learning"}
               </h3>
 
               <p className="text-xs sm:text-sm text-white/50 max-w-xl leading-relaxed">
                 {hasProgress
                   ? `You have completed ${totalCompletedInCourse} of ${totalLessonsInCourse} lessons in this course.`
-                  : "Begin your structured path across Artificial Intelligence, Large Language Models, Cloud Architecture, and DevOps Engineering."}
+                  : `Begin with ${activeCourse?.title || "the first course"}.`}
               </p>
             </div>
 

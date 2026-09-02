@@ -1,233 +1,253 @@
+"use strict";
+
 const fs = require("fs");
 const path = require("path");
+const vis = require("../lib/visibility-core");
+const { runScenarioTests } = require("./scenario-test");
 
 const rootDir = process.cwd();
 const configDir = path.join(rootDir, "content", "config");
 const contentDir = path.join(rootDir, "content");
 const publicDir = path.join(rootDir, "public");
 
-let errors = [];
-let warnings = [];
+const errors = [];
+const warnings = [];
 
 function check(condition, message) {
-  if (!condition) {
-    errors.push(message);
-  }
+  if (!condition) errors.push(message);
 }
 
 function warn(condition, message) {
-  if (!condition) {
-    warnings.push(message);
-  }
+  if (!condition) warnings.push(message);
 }
 
-console.log("🔍 Running Comprehensive Platform Validation for The AI Rishi...\n");
+function scanFiles(dir, predicate) {
+  if (!fs.existsSync(dir)) return [];
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...scanFiles(full, predicate));
+    else if (predicate(entry.name, full)) out.push(full);
+  }
+  return out;
+}
 
-const definedTopicIds = new Set();
-const definedTopicSlugs = new Set();
-const definedCourseIds = new Set();
-const definedSlugs = new Set();
+console.log("Running platform validation...\n");
 
-// ── 1. Validate platform.json ────────────────────────────────────────────────
 const platformPath = path.join(configDir, "platform.json");
 check(fs.existsSync(platformPath), "Missing content/config/platform.json");
 
+let platform = null;
+const definedTopicIds = new Set();
+const definedTopicSlugs = new Set();
+const definedCourseIds = new Set();
+
 if (fs.existsSync(platformPath)) {
   try {
-    const platform = JSON.parse(fs.readFileSync(platformPath, "utf8"));
-
-    // Brand validation
-    check(platform.brand, "platform.json missing 'brand' section");
-    if (platform.brand) {
-      check(platform.brand.name, "brand missing 'name'");
-      check(platform.brand.logo, "brand missing 'logo'");
-      check(platform.brand.tagline, "brand missing 'tagline'");
-      check(platform.brand.description, "brand missing 'description'");
-      check(platform.brand.url, "brand missing 'url'");
-
-      // Validate brand assets on disk
-      if (platform.brand.logo) {
-        const logoPath = path.join(publicDir, platform.brand.logo);
-        check(fs.existsSync(logoPath), `Brand logo file does not exist: ${platform.brand.logo}`);
-      }
-      if (platform.brand.ogImage) {
-        const ogPath = path.join(publicDir, platform.brand.ogImage);
-        check(fs.existsSync(ogPath), `Brand OG image does not exist: ${platform.brand.ogImage}`);
-      }
-    }
-
-    // Copy validation
-    check(platform.copy, "platform.json missing 'copy' section");
-    if (platform.copy) {
-      check(platform.copy.heroTitle, "copy missing 'heroTitle'");
-      check(platform.copy.heroPrimaryCta, "copy missing 'heroPrimaryCta'");
-      check(platform.copy.heroPrimaryCtaHref, "copy missing 'heroPrimaryCtaHref'");
-      check(platform.copy.headerCta, "copy missing 'headerCta'");
-      check(platform.copy.headerCtaHref, "copy missing 'headerCtaHref'");
-    }
-
-    // Topics validation
-    check(Array.isArray(platform.topics), "platform.json 'topics' must be an array");
-    if (Array.isArray(platform.topics)) {
-      for (const t of platform.topics) {
-        check(t.id, `Topic missing 'id': ${JSON.stringify(t)}`);
-        check(t.slug, `Topic missing 'slug': ${JSON.stringify(t)}`);
-        check(t.name, `Topic missing 'name': ${JSON.stringify(t)}`);
-        check(!definedTopicIds.has(t.id), `Duplicate topic ID: '${t.id}'`);
-        check(!definedTopicSlugs.has(t.slug), `Duplicate topic slug: '${t.slug}'`);
-        definedTopicIds.add(t.id);
-        definedTopicSlugs.add(t.slug);
-      }
-      console.log(`✓ Topics validated: ${platform.topics.length} topics defined.`);
-    }
-
-    // Content Types validation
-    if (Array.isArray(platform.contentTypes)) {
-      const ctIds = new Set();
-      for (const ct of platform.contentTypes) {
-        check(ct.id, `ContentType missing 'id': ${JSON.stringify(ct)}`);
-        check(ct.title, `ContentType missing 'title': ${JSON.stringify(ct)}`);
-        check(!ctIds.has(ct.id), `Duplicate contentType ID: '${ct.id}'`);
-        ctIds.add(ct.id);
-
-        if (ct.topicSlug) {
-          check(
-            definedTopicIds.has(ct.topicSlug) || definedTopicSlugs.has(ct.topicSlug),
-            `ContentType '${ct.id}' references unknown topicSlug '${ct.topicSlug}'`
-          );
-        }
-      }
-      console.log(`✓ Content types validated: ${platform.contentTypes.length} types defined.`);
-    }
-
-    // Navigation validation
-    check(platform.navigation && Array.isArray(platform.navigation.main), "platform.json missing 'navigation.main'");
-    check(platform.navigation && Array.isArray(platform.navigation.footer), "platform.json missing 'navigation.footer'");
-
-    // Homepage sections validation
-    check(platform.homepage && Array.isArray(platform.homepage.sections), "platform.json missing 'homepage.sections'");
-    if (platform.homepage && Array.isArray(platform.homepage.sections)) {
-      const sectionIds = new Set();
-      for (const s of platform.homepage.sections) {
-        check(s.id, `Homepage section missing 'id'`);
-        check(!sectionIds.has(s.id), `Duplicate homepage section ID: '${s.id}'`);
-        sectionIds.add(s.id);
-      }
-      console.log(`✓ Homepage sections validated: ${platform.homepage.sections.length} sections defined.`);
-    }
-
-    // Social validation
-    check(Array.isArray(platform.social), "platform.json 'social' must be an array");
-    if (Array.isArray(platform.social)) {
-      for (const s of platform.social) {
-        check(s.id && s.label, `Social platform missing required fields`);
-      }
-      console.log(`✓ Social platforms validated: ${platform.social.length} platforms defined.`);
-    }
+    platform = JSON.parse(fs.readFileSync(platformPath, "utf8"));
   } catch (err) {
-    errors.push(`Error parsing platform.json: ${err.message}`);
+    errors.push("Error parsing platform.json: " + err.message);
   }
 }
 
-// ── 2. Validate courses.json ─────────────────────────────────────────────────
-const coursesPath = path.join(configDir, "courses.json");
-if (fs.existsSync(coursesPath)) {
-  try {
-    const courses = JSON.parse(fs.readFileSync(coursesPath, "utf8"));
-    check(Array.isArray(courses), "courses.json must be an array");
-    for (const c of courses) {
-      check(c.id && c.slug && c.title, `Course missing required fields: ${JSON.stringify(c)}`);
-      check(!definedCourseIds.has(c.id), `Duplicate course ID: '${c.id}'`);
-      definedCourseIds.add(c.id);
+if (platform) {
+  check(platform.brand, "platform.json missing brand");
+  if (platform.brand) {
+    check(platform.brand.name, "brand missing name");
+    check(platform.brand.logo, "brand missing logo");
+    check(platform.brand.tagline, "brand missing tagline");
+    check(platform.brand.logoMark, "brand missing logoMark");
+    check(platform.brand.ogImage, "brand missing ogImage");
+    for (const field of ["logo", "logoMark", "ogImage"]) {
+      const rel = platform.brand[field];
+      if (!rel) continue;
+      const disk = path.join(publicDir, rel.replace(/^\//, ""));
+      check(fs.existsSync(disk), "Brand asset missing on disk: " + rel);
+    }
+    const favicon = platform.brand.faviconUrl;
+    if (favicon) {
+      const inPublic = path.join(publicDir, favicon.replace(/^\//, ""));
+      const inApp = path.join(rootDir, "app", favicon.replace(/^\//, ""));
+      check(
+        fs.existsSync(inPublic) || fs.existsSync(inApp),
+        "Favicon missing on disk: " + favicon
+      );
+    }
+  }
 
-      if (c.topic) {
+  check(platform.copy, "platform.json missing copy");
+  check(Array.isArray(platform.topics), "topics must be an array");
+
+  for (const t of platform.topics || []) {
+    check(t.id && t.slug && t.name, "Topic missing id/slug/name");
+    check(!definedTopicIds.has(t.id), "Duplicate topic id: " + t.id);
+    check(!definedTopicSlugs.has(t.slug), "Duplicate topic slug: " + t.slug);
+    definedTopicIds.add(t.id);
+    definedTopicSlugs.add(t.slug);
+    check(
+      vis.isValidLifecycle(t.status || "active"),
+      "Topic " + t.id + " has invalid status: " + t.status
+    );
+  }
+
+  const sectionIds = new Set();
+  check(platform.homepage && Array.isArray(platform.homepage.sections), "homepage.sections required");
+  for (const s of (platform.homepage && platform.homepage.sections) || []) {
+    check(s.id, "Homepage section missing id");
+    check(!sectionIds.has(s.id), "Duplicate homepage section id: " + s.id);
+    sectionIds.add(s.id);
+    if (s.enabled === false) continue;
+    check(
+      s.type && vis.SECTION_TYPES.includes(s.type),
+      "Homepage section '" + s.id + "' has unknown type: " + s.type
+    );
+    if (s.source && s.source.kind === "topic") {
+      check(
+        definedTopicIds.has(s.source.topicId) || definedTopicSlugs.has(s.source.topicId),
+        "Section '" + s.id + "' source topic missing: " + s.source.topicId
+      );
+    }
+    if (s.source && s.source.kind === "channel") {
+      const chId = s.source.channelId || s.source.id;
+      const found = (platform.social || []).some((ch) => ch.id === chId);
+      check(found, "Section '" + s.id + "' source channel missing: " + chId);
+    }
+    if (s.source && s.source.kind === "format") {
+      const typeId = vis.FORMAT_TO_CONTENT_TYPE[s.source.format] || s.source.format;
+      const found = (platform.contentTypes || []).some((ct) => ct.id === typeId || ct.id === s.source.format);
+      warn(found, "Section '" + s.id + "' format '" + s.source.format + "' has no matching contentType");
+    }
+  }
+
+  for (const listName of ["main", "footer"]) {
+    const list = (platform.navigation && platform.navigation[listName]) || [];
+    for (const item of list) {
+      if (item.enabled === false) continue;
+      if (item.source && item.source.kind === "topic") {
+        const key = item.source.topicId || item.source.id;
         check(
-          definedTopicIds.has(c.topic) || definedTopicSlugs.has(c.topic),
-          `Course '${c.id}' references unknown topic '${c.topic}'`
+          definedTopicIds.has(key) || definedTopicSlugs.has(key),
+          "Nav " + listName + " item '" + item.id + "' points at missing topic " + key
+        );
+      }
+      if (item.source && item.source.kind === "contentType") {
+        const found = (platform.contentTypes || []).some((ct) => ct.id === item.source.id);
+        check(found, "Nav " + listName + " item '" + item.id + "' points at missing contentType " + item.source.id);
+      }
+      if (item.source && item.source.kind === "channel") {
+        const key = item.source.channelId || item.source.id;
+        const found = (platform.social || []).some((ch) => ch.id === key);
+        check(found, "Nav " + listName + " item '" + item.id + "' points at missing channel " + key);
+      }
+      const topicHref = String(item.href || "").match(/^\/topics\/([^/?#]+)/);
+      if (topicHref && !item.source) {
+        const slug = topicHref[1];
+        check(
+          definedTopicIds.has(slug) || definedTopicSlugs.has(slug),
+          "Nav " + listName + " item '" + item.id + "' href points at missing topic " + slug
         );
       }
     }
-    console.log(`✓ Courses validated: ${courses.length} courses defined.`);
-  } catch (err) {
-    errors.push(`Error parsing courses.json: ${err.message}`);
+  }
+
+  for (const ct of platform.contentTypes || []) {
+    check(ct.id && ct.title, "contentType missing id/title");
+    check(vis.isValidLifecycle(ct.status || "active"), "contentType " + ct.id + " invalid status");
+    if (ct.topicSlug) {
+      check(
+        definedTopicIds.has(ct.topicSlug) || definedTopicSlugs.has(ct.topicSlug),
+        "contentType " + ct.id + " unknown topicSlug " + ct.topicSlug
+      );
+    }
+  }
+
+  for (const ch of platform.social || []) {
+    check(ch.id && ch.label, "social platform missing id/label");
+    check(vis.isValidLifecycle(ch.status || "active"), "social " + ch.id + " invalid status");
   }
 }
 
-// ── 3. Validate series.json ──────────────────────────────────────────────────
-const seriesPath = path.join(configDir, "series.json");
-if (fs.existsSync(seriesPath)) {
+const coursesPath = path.join(configDir, "courses.json");
+let courses = [];
+if (fs.existsSync(coursesPath)) {
   try {
-    const seriesList = JSON.parse(fs.readFileSync(seriesPath, "utf8"));
-    if (Array.isArray(seriesList)) {
-      const seriesIds = new Set();
-      for (const s of seriesList) {
-        check(s.id && s.slug && s.title, `Series missing required fields: ${JSON.stringify(s)}`);
-        check(!seriesIds.has(s.id), `Duplicate series ID: '${s.id}'`);
-        seriesIds.add(s.id);
-        if (s.topic) {
-          check(
-            definedTopicIds.has(s.topic) || definedTopicSlugs.has(s.topic),
-            `Series '${s.id}' references unknown topic '${s.topic}'`
-          );
-        }
+    courses = JSON.parse(fs.readFileSync(coursesPath, "utf8"));
+    check(Array.isArray(courses), "courses.json must be an array");
+    for (const c of courses) {
+      check(c.id && c.slug && c.title, "Course missing required fields");
+      check(!definedCourseIds.has(c.id), "Duplicate course id: " + c.id);
+      definedCourseIds.add(c.id);
+      if (c.topic) {
+        check(
+          definedTopicIds.has(c.topic) || definedTopicSlugs.has(c.topic),
+          "Course " + c.id + " unknown topic " + c.topic
+        );
       }
-      console.log(`✓ Series validated: ${seriesList.length} tracks defined.`);
+      if (c.status) {
+        check(vis.isValidLifecycle(c.status), "Course " + c.id + " invalid status " + c.status);
+      }
     }
   } catch (err) {
-    errors.push(`Error parsing series.json: ${err.message}`);
+    errors.push("Error parsing courses.json: " + err.message);
   }
 }
 
-// ── 4. Validate Content Files & Frontmatter ───────────────────────────────────
-function scanMarkdownFiles(dir) {
-  if (!fs.existsSync(dir)) return [];
-  const results = [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      results.push(...scanMarkdownFiles(fullPath));
-    } else if (entry.name.endsWith(".md")) {
-      results.push(fullPath);
-    }
-  }
-  return results;
+function scanMarkdown(dir) {
+  return scanFiles(dir, (name) => name.endsWith(".md"));
 }
 
-const allMdFiles = [
-  ...scanMarkdownFiles(path.join(contentDir, "lessons")),
-  ...scanMarkdownFiles(path.join(contentDir, "courses")),
-  ...scanMarkdownFiles(path.join(contentDir, "guides")),
-  ...scanMarkdownFiles(path.join(contentDir, "projects")),
+const lessonFiles = [
+  ...scanMarkdown(path.join(contentDir, "lessons")),
+  ...scanMarkdown(path.join(contentDir, "courses")),
 ];
+const lessonCounts = {};
+for (const filePath of lessonFiles) {
+  const content = fs.readFileSync(filePath, "utf8");
+  const m = content.match(/^course:\s*"?([a-z0-9-]+)"?/m);
+  if (m) lessonCounts[m[1]] = (lessonCounts[m[1]] || 0) + 1;
+}
 
-let validMdCount = 0;
+const topicCounts = {};
+for (const filePath of lessonFiles) {
+  const content = fs.readFileSync(filePath, "utf8");
+  const m = content.match(/^topic:\s*"?([a-z0-9-]+)"?/m);
+  if (m) topicCounts[m[1]] = (topicCounts[m[1]] || 0) + 1;
+}
+for (const filePath of scanMarkdown(path.join(contentDir, "guides"))) {
+  const content = fs.readFileSync(filePath, "utf8");
+  const m = content.match(/^topic:\s*"?([a-z0-9-]+)"?/m);
+  if (m) topicCounts[m[1]] = (topicCounts[m[1]] || 0) + 1;
+}
 
-for (const filePath of allMdFiles) {
-  try {
-    const content = fs.readFileSync(filePath, "utf8");
-    const relPath = path.relative(rootDir, filePath);
-    
-    // Check Markdown image references
-    const imgRegex = /!\[.*?\]\((.*?)\)/g;
-    let match;
-    while ((match = imgRegex.exec(content)) !== null) {
-      const imgUrl = match[1].split(" ")[0]; // Strip optional title
-      if (imgUrl.startsWith("/")) {
-        const localImgPath = path.join(publicDir, imgUrl);
-        if (!fs.existsSync(localImgPath)) {
-          warn(false, `[${relPath}] Image reference does not exist on disk: ${imgUrl}`);
-        }
-      }
+if (platform) {
+  for (const t of platform.topics || []) {
+    if (t.enabled === false) continue;
+    const status = vis.normalizeStatus(t.status);
+    if (status !== "active") continue;
+    const count = topicCounts[t.id] || topicCounts[t.slug] || 0;
+    if (t.showOnHomepage !== false && count <= 0) {
+      errors.push(
+        "Active topic '" +
+          t.id +
+          "' is showOnHomepage but has zero published lessons/guides. Mark it planned/coming-soon or add content."
+      );
+    } else if (count <= 0) {
+      warnings.push("Active topic '" + t.id + "' has zero content");
     }
-
-    validMdCount++;
-  } catch (err) {
-    errors.push(`Failed reading Markdown file ${filePath}: ${err.message}`);
   }
 }
 
-console.log(`✓ Markdown content validated: ${validMdCount} files inspected.`);
+for (const c of courses) {
+  if (c.enabled === false) continue;
+  const status = vis.normalizeStatus(c.status);
+  if (status !== "active") continue;
+  const count = lessonCounts[c.id] || lessonCounts[c.slug] || 0;
+  if (count <= 0) {
+    errors.push(
+      "Active course '" + c.id + "' has zero lessons. Mark it coming-soon or add lessons."
+    );
+  }
+}
 
 function isSiteRootUrl(url) {
   if (!url || typeof url !== "string") return false;
@@ -236,8 +256,6 @@ function isSiteRootUrl(url) {
     "https://github.com",
     "http://github.com",
     "https://www.github.com",
-    "https://theairishi.com",
-    "http://theairishi.com",
     "https://instagram.com",
     "https://www.instagram.com",
     "https://youtube.com",
@@ -245,8 +263,7 @@ function isSiteRootUrl(url) {
   ].includes(trimmed);
 }
 
-const projectFiles = scanMarkdownFiles(path.join(contentDir, "projects"));
-for (const filePath of projectFiles) {
+for (const filePath of scanMarkdown(path.join(contentDir, "projects"))) {
   const content = fs.readFileSync(filePath, "utf8");
   const relPath = path.relative(rootDir, filePath);
   const gh = content.match(/^githubUrl:\s*"?([^"\n]+)"?/m);
@@ -259,108 +276,58 @@ for (const filePath of projectFiles) {
   }
 }
 
-if (fs.existsSync(coursesPath)) {
-  try {
-    const courses = JSON.parse(fs.readFileSync(coursesPath, "utf8"));
-    const lessonFiles = [
-      ...scanMarkdownFiles(path.join(contentDir, "lessons")),
-      ...scanMarkdownFiles(path.join(contentDir, "courses")),
-    ];
-    const lessonCounts = {};
-    for (const filePath of lessonFiles) {
-      const content = fs.readFileSync(filePath, "utf8");
-      const m = content.match(/^course:\s*"?([a-z0-9-]+)"?/m);
-      if (m) lessonCounts[m[1]] = (lessonCounts[m[1]] || 0) + 1;
+const codeRoots = [
+  path.join(rootDir, "app"),
+  path.join(rootDir, "components"),
+  path.join(rootDir, "lib"),
+];
+const skipNames = new Set(["visibility-core.js", "visibility-core.d.ts", "scenario-test.js"]);
+const frozenPatterns = [
+  /getTopicBySlug\(\s*["']updates["']\s*\)/,
+  /getTopicBySlug\(\s*["']interview["']\s*\)/,
+  /getTopicBySlug\(\s*["']devops["']\s*\)/,
+  /getContentForTopic\(\s*["']updates["']\s*\)/,
+  /getContentForTopic\(\s*["']interview["']\s*\)/,
+  /function getTechnologyUpdates/,
+  /function getInterviewContent/,
+  /case\s+["']technology-updates["']/,
+  /case\s+["']interviews["']/,
+  /href:\s*["']\/topics\/updates["']/,
+];
+
+for (const root of codeRoots) {
+  const files = scanFiles(root, (name) => /\.(ts|tsx|js|jsx)$/.test(name));
+  for (const file of files) {
+    if (skipNames.has(path.basename(file))) continue;
+    const src = fs.readFileSync(file, "utf8");
+    const rel = path.relative(rootDir, file);
+    for (const pattern of frozenPatterns) {
+      if (pattern.test(src)) {
+        errors.push("Hardcoded frozen id in " + rel + ": " + pattern);
+      }
     }
-    for (const c of courses) {
-      if (c.enabled === false) continue;
-      if (c.status !== "active" && c.status !== "published") continue;
-      const count = lessonCounts[c.id] || lessonCounts[c.slug] || 0;
-      warn(count > 0, "Active course " + c.id + " has zero lessons — mark it coming-soon or add lessons");
+    if (/https?:\/\/github\.com\/?\s*["']/.test(src) && !rel.includes("visibility-core")) {
+      warnings.push("Possible placeholder GitHub URL in " + rel);
     }
-  } catch (err) {
-    errors.push("Failed checking course lesson counts: " + err.message);
+    if (src.includes("/file.svg")) {
+      errors.push("Placeholder /file.svg in " + rel);
+    }
   }
 }
 
+console.log("Running scenario tests...");
+const scenariosOk = runScenarioTests();
+check(scenariosOk, "Scenario tests failed");
 
-
-
-// ── 5. Lifecycle simulation (in-memory, does not mutate files) ───────────────
-function isTopicPublicSim(topic) {
-  return Boolean(topic) && topic.enabled !== false && topic.status !== "disabled";
-}
-function findTopicSim(platform, key) {
-  const needle = String(key).toLowerCase();
-  return (platform.topics || []).find((t) =>
-    [t.id, t.slug, t.shortName].some((v) => String(v || "").toLowerCase() === needle)
-  );
-}
-function publicSections(platform) {
-  return (platform.homepage.sections || []).filter((s) => {
-    if (s.enabled === false) return false;
-    if (!s.topicId) return true;
-    return isTopicPublicSim(findTopicSim(platform, s.topicId));
-  });
-}
-function publicNav(platform) {
-  return (platform.navigation.main || []).filter((item) => {
-    if (item.enabled === false || item.status === "disabled") return false;
-    const match = String(item.href || "").match(/^\/topics\/([^/?#]+)/);
-    if (match && !isTopicPublicSim(findTopicSim(platform, match[1]))) return false;
-    return true;
-  });
-}
-
-if (fs.existsSync(platformPath)) {
-  try {
-    const live = JSON.parse(fs.readFileSync(platformPath, "utf8"));
-    const withoutUpdates = JSON.parse(JSON.stringify(live));
-    withoutUpdates.topics = withoutUpdates.topics.filter((t) => t.id !== "updates");
-    check(
-      !publicNav(withoutUpdates).some((item) => String(item.href).includes("/topics/updates")),
-      "Removing the updates topic must drop /topics/updates from navigation"
-    );
-    check(
-      !publicSections(withoutUpdates).some((s) => s.id === "technology-updates"),
-      "Removing the updates topic must hide the technology-updates homepage section"
-    );
-
-    const renamed = JSON.parse(JSON.stringify(live));
-    const devops = renamed.topics.find((t) => t.id === "devops");
-    if (devops) {
-      devops.slug = "full-stack-engineering";
-      devops.name = "Full Stack Engineering";
-      check(
-        findTopicSim(renamed, "devops") && findTopicSim(renamed, "devops").slug === "full-stack-engineering",
-        "Renaming DevOps must keep id lookup and publish the new slug"
-      );
-    }
-
-    const disabledHero = JSON.parse(JSON.stringify(live));
-    const hero = disabledHero.homepage.sections.find((s) => s.id === "hero");
-    if (hero) hero.enabled = false;
-    check(
-      !publicSections(disabledHero).some((s) => s.id === "hero"),
-      "Disabling the hero section must hide it"
-    );
-    console.log("Lifecycle simulations validated (remove topic, rename topic, disable section).");
-  } catch (err) {
-    errors.push("Lifecycle simulation failed: " + err.message);
-  }
-}
-
-// ── Summary ──────────────────────────────────────────────────────────────────
 console.log("\n" + "=".repeat(60));
 if (errors.length > 0) {
-  console.error(`❌ Validation failed with ${errors.length} error(s):`);
-  errors.forEach((e) => console.error(`  - ${e}`));
+  console.error("Validation failed with " + errors.length + " error(s):");
+  errors.forEach((e) => console.error("  - " + e));
   process.exit(1);
-} else {
-  console.log(`✅ ALL CHECKS PASSED: Platform configuration and content are valid.`);
-  if (warnings.length > 0) {
-    console.log(`\n⚠️  ${warnings.length} warning(s):`);
-    warnings.forEach((w) => console.log(`  - ${w}`));
-  }
-  process.exit(0);
 }
+console.log("ALL CHECKS PASSED");
+if (warnings.length > 0) {
+  console.log("\n" + warnings.length + " warning(s):");
+  warnings.forEach((w) => console.log("  - " + w));
+}
+process.exit(0);

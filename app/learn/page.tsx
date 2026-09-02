@@ -19,18 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();
   return {
     title: `Learning Hub & Technology Courses | ${brand.name}`,
-    description: `Explore comprehensive, first-principles technology courses across Artificial Intelligence, LLMs, DevOps, Cloud Architecture, and Software Engineering.`,
-    keywords: [
-      "Learning Platform",
-      "AI Curriculum",
-      "DevOps Course",
-      "LLM Engineering",
-      "Cloud Architecture",
-      brand.name,
-    ],
+    description: `First-principles courses that are actually published on this site.`,
+    keywords: [brand.name, brand.tagline, "courses"],
     openGraph: {
       title: `Learning Hub & Technology Courses | ${brand.name}`,
-      description: `Explore comprehensive, first-principles technology courses across Artificial Intelligence, LLMs, DevOps, Cloud Architecture, and Software Engineering.`,
+      description: `First-principles courses that are actually published on this site.`,
       type: "website",
       siteName: brand.name,
       locale: "en_US",
@@ -38,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: `Learning Hub & Technology Courses | ${brand.name}`,
-      description: `Explore comprehensive, first-principles technology courses across Artificial Intelligence, LLMs, DevOps, Cloud Architecture, and Software Engineering.`,
+      description: `First-principles courses that are actually published on this site.`,
     },
   };
 }
@@ -88,7 +81,7 @@ export default function LearnPage() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-sm sm:text-base leading-relaxed text-white/50 sm:text-lg">
-          Structured, first-principles educational paths across modern artificial intelligence, large language models, cloud platforms, and DevOps infrastructure.
+          Structured paths for the courses that are live today. Upcoming tracks stay listed as coming soon until they have lessons.
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3">

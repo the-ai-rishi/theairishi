@@ -3,48 +3,48 @@ import path from "path";
 
 const mediaDir = path.join(process.cwd(), "content", "media");
 
-export interface YoutubeItem {
+export interface ChannelItem {
   id: string;
   title: string;
-  description: string;
+  description?: string;
+  caption?: string;
   publishedAt: string;
-  duration: string;
-  youtubeUrl: string;
+  duration?: string;
+  url?: string;
+  youtubeUrl?: string;
+  instagramUrl?: string;
   thumbnail?: string;
   tags?: string[];
   featured?: boolean;
+  type?: string;
+  likes?: number;
 }
 
-export interface InstagramItem {
-  id: string;
-  title: string;
+export type YoutubeItem = ChannelItem & { youtubeUrl: string; duration: string };
+export type InstagramItem = ChannelItem & {
   caption: string;
-  publishedAt: string;
   type: "Carousel" | "Reel" | "Single";
   instagramUrl: string;
-  thumbnail?: string;
-  likes?: number;
-  featured?: boolean;
+};
+
+export function getChannelItems(channelId: string): ChannelItem[] {
+  const safe = String(channelId || "").replace(/[^a-z0-9-]/gi, "");
+  if (!safe) return [];
+  const filePath = path.join(mediaDir, `${safe}.json`);
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    const raw = fs.readFileSync(filePath, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 export function getYoutubeVideos(): YoutubeItem[] {
-  const filePath = path.join(mediaDir, "youtube.json");
-  if (!fs.existsSync(filePath)) return [];
-  try {
-    const raw = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
+  return getChannelItems("youtube") as YoutubeItem[];
 }
 
 export function getInstagramPosts(): InstagramItem[] {
-  const filePath = path.join(mediaDir, "instagram.json");
-  if (!fs.existsSync(filePath)) return [];
-  try {
-    const raw = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
+  return getChannelItems("instagram") as InstagramItem[];
 }

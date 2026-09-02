@@ -4,7 +4,9 @@ import { ArrowRight, FolderCode } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { getAllProjectSummaries } from "@/lib/projects";
-import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy } from "@/lib/config";
+import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, getContentTypeRecord } from "@/lib/config";
+import { notFound } from "next/navigation";
+import * as vis from "@/lib/visibility-core";
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();
@@ -34,6 +36,10 @@ function GithubIcon({ className }: { className?: string }) {
 }
 
 export default function ProjectsPage() {
+  const contentType = getContentTypeRecord("projects");
+  if (!contentType || contentType.enabled === false) notFound();
+  const status = vis.normalizeStatus(contentType.status);
+  if (["planned", "paused", "disabled", "archived"].includes(status)) notFound();
   const projects = getAllProjectSummaries();
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();

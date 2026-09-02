@@ -1,21 +1,23 @@
 import Link from "next/link";
 import { ArrowRight, Compass } from "lucide-react";
-import { getHomepageTopics } from "@/lib/config";
-import type { HomepageSection } from "@/lib/config";
+import type { TopicConfig } from "@/lib/config";
+import type { ResolvedHomepageSection } from "@/lib/homepage";
 
-interface QuickDiscoveryProps {
-  section?: HomepageSection;
-}
-
-export default function QuickDiscovery({ section }: QuickDiscoveryProps) {
-  const topics = getHomepageTopics();
-  const title = section?.title ?? "Explore Topics";
-  const subtitle = section?.subtitle ?? "Platform Domains";
-  const ctaLabel = section?.ctaLabel ?? "View All Courses";
-  const ctaHref = section?.ctaHref ?? "/learn";
+export default function TopicGrid({
+  section,
+  topics,
+}: {
+  section: ResolvedHomepageSection;
+  topics: TopicConfig[];
+}) {
+  if (!topics.length) return null;
+  const title = section.title ?? "Topics";
+  const subtitle = section.subtitle ?? "Currently available";
+  const ctaLabel = section.ctaLabel;
+  const ctaHref = section.ctaHref;
 
   return (
-    <section id="explore-topics" className="py-12 sm:py-16 scroll-mt-24">
+    <section id="topics" className="py-12 sm:py-16 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/[0.08] pb-6">
           <div>
@@ -27,17 +29,18 @@ export default function QuickDiscovery({ section }: QuickDiscoveryProps) {
               {title}
             </h2>
           </div>
-          <Link
-            href={ctaHref}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-violet-300 hover:text-white transition"
-          >
-            <span>{ctaLabel}</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+          {ctaLabel && ctaHref ? (
+            <Link
+              href={ctaHref}
+              className="inline-flex items-center gap-2 text-xs font-semibold text-violet-300 hover:text-white transition"
+            >
+              <span>{ctaLabel}</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          ) : null}
         </div>
 
-        {/* Topics Grid — fully dynamic from config */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className={`mt-8 grid gap-4 ${topics.length === 1 ? "sm:grid-cols-1 max-w-xl" : "sm:grid-cols-2"}`}>
           {topics.map((topic) => (
             <Link
               key={topic.id}
@@ -51,19 +54,18 @@ export default function QuickDiscovery({ section }: QuickDiscoveryProps) {
                   </span>
                   <ArrowRight className="h-4 w-4 text-white/30 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-violet-300" />
                 </div>
-
                 <h3 className="mt-4 text-xl font-semibold text-white group-hover:text-amber-200 transition">
                   {topic.name}
                 </h3>
-
                 <p className="mt-2 text-xs text-white/50 leading-relaxed line-clamp-3">
                   {topic.description}
                 </p>
               </div>
-
               <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs">
-                <span className="text-white/35 font-mono">Domain</span>
-                <span className="text-violet-300 font-medium group-hover:text-white transition">Explore →</span>
+                <span className="text-white/35 font-mono">{topic.category}</span>
+                <span className="text-violet-300 font-medium group-hover:text-white transition">
+                  Open →
+                </span>
               </div>
             </Link>
           ))}

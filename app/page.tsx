@@ -1,24 +1,11 @@
 import type { Metadata } from "next";
-import HeroSection from "@/components/home/HeroSection";
-import QuickDiscovery from "@/components/home/QuickDiscovery";
-import ContentTypeDiscovery from "@/components/home/ContentTypeDiscovery";
-import ContinueLearning from "@/components/home/ContinueLearning";
-import LatestFeed from "@/components/home/LatestFeed";
-import TechnologyUpdates from "@/components/home/TechnologyUpdates";
-import InterviewSection from "@/components/home/InterviewSection";
-import FeaturedGuides from "@/components/home/FeaturedGuides";
-import ProjectShowcase from "@/components/home/ProjectShowcase";
-import SeriesShowcase from "@/components/home/SeriesShowcase";
-import SocialShowcase from "@/components/home/SocialShowcase";
-import CallToAction from "@/components/home/CallToAction";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { getAllCourses } from "@/lib/lessons";
-import { getContentForTopic, getRecentContent } from "@/lib/content";
+import SectionRenderer from "@/components/home/SectionRenderer";
+import { getResolvedHomepage } from "@/lib/homepage";
 import {
   getMainNavigation,
   getFooterNavigation,
-  getHomepageSections,
   getBrandConfig,
   getPlatformCopy,
 } from "@/lib/config";
@@ -30,11 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const courses = getAllCourses();
-  const recentContent = getRecentContent(5);
+  const sections = getResolvedHomepage();
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();
-  const sections = getHomepageSections();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
 
@@ -47,68 +32,9 @@ export default function Home() {
 
       <Header navItems={mainNav} brand={brand} copy={copy} />
 
-      {sections.map((section) => {
-        switch (section.id) {
-          case "hero":
-            return <HeroSection key="hero" />;
-
-          case "topics":
-            return <QuickDiscovery key="topics" section={section} />;
-
-          case "content-types":
-            return <ContentTypeDiscovery key="content-types" section={section} />;
-
-          case "continue-learning":
-            return <ContinueLearning key="continue-learning" courses={courses} />;
-
-          case "latest-content":
-            return <LatestFeed key="latest-content" items={recentContent} section={section} />;
-
-          case "technology-updates": {
-            const topicSlug = section.topicId;
-            const items = getContentForTopic(topicSlug);
-            return (
-              <TechnologyUpdates
-                key="technology-updates"
-                updates={items}
-                section={section}
-                topicSlug={topicSlug}
-              />
-            );
-          }
-
-          case "interviews": {
-            const topicSlug = section.topicId;
-            const items = getContentForTopic(topicSlug);
-            return (
-              <InterviewSection
-                key="interviews"
-                interviews={items}
-                section={section}
-                topicSlug={topicSlug}
-              />
-            );
-          }
-
-          case "guides":
-            return <FeaturedGuides key="guides" section={section} />;
-
-          case "projects":
-            return <ProjectShowcase key="projects" section={section} />;
-
-          case "series":
-            return <SeriesShowcase key="series" section={section} />;
-
-          case "social":
-            return <SocialShowcase key="social" />;
-
-          case "cta":
-            return <CallToAction key="cta" />;
-
-          default:
-            return null;
-        }
-      })}
+      {sections.map((section) => (
+        <SectionRenderer key={section.id} section={section} />
+      ))}
 
       <Footer navItems={footerNav} brand={brand} copy={copy} />
     </main>

@@ -17,6 +17,10 @@ export interface ProjectMetadata {
   demoUrl?: string;
   status: "Completed" | "In Progress" | "Planned";
   featured?: boolean;
+  topic?: string;
+  topicSlug?: string;
+  enabled?: boolean;
+  visibilityStatus?: string;
 }
 
 export interface ProjectSummary {
@@ -122,6 +126,10 @@ export function getAllProjectSummaries(): ProjectSummary[] {
           demoUrl,
           status,
           featured,
+          topic: typeof data.topic === "string" ? data.topic : undefined,
+          topicSlug: typeof data.topicSlug === "string" ? data.topicSlug : undefined,
+          enabled: data.enabled !== false,
+          visibilityStatus: visibility || undefined,
         },
       });
     } catch (err) {

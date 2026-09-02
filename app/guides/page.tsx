@@ -4,7 +4,9 @@ import { ArrowRight, FileText } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { getAllGuideSummaries } from "@/lib/guides";
-import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy } from "@/lib/config";
+import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, getContentTypeRecord } from "@/lib/config";
+import { notFound } from "next/navigation";
+import * as vis from "@/lib/visibility-core";
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();
@@ -16,6 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function GuidesPage() {
+  const contentType = getContentTypeRecord("guides");
+  if (!contentType || contentType.enabled === false) notFound();
+  const status = vis.normalizeStatus(contentType.status);
+  if (["planned", "paused", "disabled", "archived"].includes(status)) notFound();
   const guides = getAllGuideSummaries();
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();
