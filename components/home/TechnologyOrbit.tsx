@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import type { TopicConfig } from "@/lib/topics";
 
-export default function TechnologyOrbit({ topics }: { topics: TopicConfig[] }) {
+export default function TechnologyOrbit({ topics, brandName }: { topics: TopicConfig[]; brandName?: string }) {
 
   // Position nodes radially around the central orbital system
   const nodePositions = [
@@ -93,14 +93,14 @@ export default function TechnologyOrbit({ topics }: { topics: TopicConfig[] }) {
         </defs>
       </svg>
 
-      {/* 3. Central Futuristic Emblem Node ("AI RISHI") */}
+      {/* 3. Central brand emblem */}
       <div className="relative z-20 flex flex-col items-center justify-center h-32 w-32 sm:h-40 sm:w-40 rounded-full border border-white/20 bg-gradient-to-b from-white/10 via-black/85 to-black/95 shadow-[0_0_50px_rgba(124,58,237,0.35)] backdrop-blur-xl animate-float motion-reduce:animate-none">
         <Sparkles className="h-6 w-6 text-amber-300 animate-pulse mb-1" />
         <span className="text-xs font-mono uppercase tracking-[0.25em] text-white/40">
           Platform
         </span>
-        <span className="text-base sm:text-lg font-semibold tracking-wider text-white">
-          AI RISHI
+        <span className="text-xs sm:text-sm font-semibold tracking-wide text-white text-center leading-tight px-2">
+          {brandName || "The AI Rishi"}
         </span>
         <span className="h-1 w-8 rounded-full bg-gradient-to-r from-violet-400 to-amber-300 mt-1.5" />
       </div>

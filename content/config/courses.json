@@ -36,10 +36,16 @@
     "category": "Cloud Computing",
     "order": 3,
     "enabled": true,
-    "status": "active",
-    "featured": true,
+    "status": "coming-soon",
+    "featured": false,
     "showOnHomepage": true,
-    "badge": "Architecture"
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Distributed Systems"
+    ]
   },
   {
     "id": "programming",
@@ -50,10 +56,16 @@
     "category": "Software Development",
     "order": 4,
     "enabled": true,
-    "status": "active",
-    "featured": true,
+    "status": "coming-soon",
+    "featured": false,
     "showOnHomepage": true,
-    "badge": "Development"
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "Python",
+      "TypeScript",
+      "SQL",
+      "System Design"
+    ]
   },
   {
     "id": "cloud-upcoming",
@@ -83,7 +95,7 @@
     "topic": "software-engineering",
     "category": "Software Development",
     "order": 11,
-    "enabled": true,
+    "enabled": false,
     "status": "coming-soon",
     "featured": false,
     "showOnHomepage": true,

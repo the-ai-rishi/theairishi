@@ -21,6 +21,21 @@ export default function InterviewSection({
   const ctaLabel = section?.ctaLabel ?? "View All Prep Content";
   const ctaHref = section?.ctaHref ?? (topicSlug ? `/topics/${topicSlug}` : "/learn");
 
+  if (interviews.length === 0) {
+    return (
+      <section className="py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p className="text-xs sm:text-sm text-white/45">
+            {title} is coming soon.{" "}
+            <Link href={ctaHref} className="text-pink-300 hover:text-white transition">
+              {ctaLabel}
+            </Link>
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -43,25 +58,7 @@ export default function InterviewSection({
           </Link>
         </div>
 
-        {interviews.length === 0 ? (
-          <div className="mt-8 rounded-3xl border border-white/[0.08] bg-black/40 p-8 text-center sm:p-12">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-pink-500/20 bg-pink-500/10 text-pink-300 mb-4">
-              <HelpCircle className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-semibold text-white">Interview & System Design Hub</h3>
-            <p className="mt-2 text-xs sm:text-sm text-white/50 max-w-md mx-auto leading-relaxed">
-              Technical interview Q&As, system design frameworks, coding challenges, and DevOps troubleshooting scenarios.
-            </p>
-            <Link
-              href={ctaHref}
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-5 py-2.5 text-xs text-white/80 transition hover:border-white/30 hover:text-white"
-            >
-              <span>Explore Interview Topics</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        ) : (
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
             {interviews.slice(0, 4).map((item) => (
               <Link
                 key={item.id}
@@ -97,7 +94,6 @@ export default function InterviewSection({
               </Link>
             ))}
           </div>
-        )}
       </div>
     </section>
   );

@@ -3,8 +3,8 @@
     "name": "The AI Rishi",
     "logo": "/brand/logo-horizontal.png",
     "logoAlt": "The AI Rishi",
-    "logoMark": "/brand/logo.png",
-    "ogImage": "/brand/logo-horizontal.png",
+    "logoMark": "/brand/logo-mark.png",
+    "ogImage": "/brand/og-image.jpg",
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
     "tagline": "Learn. Build. Stay Ahead.",
@@ -261,7 +261,7 @@
       "iconName": "InstagramIcon",
       "category": "Media",
       "enabled": true,
-      "status": "active",
+      "status": "coming-soon",
       "showOnHomepage": true,
       "order": 8
     }
@@ -490,7 +490,7 @@
       "href": "/instagram",
       "externalUrl": "https://instagram.com/theairishi",
       "enabled": true,
-      "status": "active",
+      "status": "coming-soon",
       "order": 2,
       "displayName": "Instagram Visual Notes",
       "description": "Bite-sized visual guides, architecture carousels, and quick concept teardowns designed for rapid daily tech learning.",

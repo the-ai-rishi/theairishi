@@ -11,7 +11,6 @@ interface LessonCompletionButtonProps {
 
 export default function LessonCompletionButton({
   slug,
-  nextSlug,
 }: LessonCompletionButtonProps) {
   const { isCompleted, toggleComplete, setLastVisited, hasHydrated } =
     useLessonProgress();

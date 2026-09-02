@@ -2,11 +2,12 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import TechnologyOrbit from "./TechnologyOrbit";
 import SearchModal from "@/components/search/SearchModal";
-import { getAllTopics, getPlatformCopy } from "@/lib/config";
+import { getAllTopics, getBrandConfig, getPlatformCopy } from "@/lib/config";
 
 export default function HeroSection() {
   const topics = getAllTopics();
   const copy = getPlatformCopy();
+  const brand = getBrandConfig();
 
   return (
     <section className="relative pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 overflow-hidden">
@@ -56,7 +57,7 @@ export default function HeroSection() {
 
           {/* Right Column: Code-Generated Technology Orbit Visual */}
           <div className="lg:col-span-5 flex justify-center">
-            <TechnologyOrbit topics={topics} />
+            <TechnologyOrbit topics={topics} brandName={brand.name} />
           </div>
         </div>
       </div>

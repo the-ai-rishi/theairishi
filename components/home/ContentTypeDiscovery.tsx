@@ -66,6 +66,7 @@ export default function ContentTypeDiscovery({ section }: ContentTypeDiscoveryPr
           {contentTypes.map((ct) => {
             const Icon = getIconComponent(ct.iconName);
             const href = ct.url ?? "#";
+            const comingSoon = ct.status === "coming-soon";
             return (
               <Link
                 key={ct.id}
@@ -78,7 +79,7 @@ export default function ContentTypeDiscovery({ section }: ContentTypeDiscoveryPr
                       <Icon className="h-5 w-5" />
                     </div>
                     <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[10px] font-mono text-white/40">
-                      {ct.badge}
+                      {comingSoon ? "Coming Soon" : ct.badge}
                     </span>
                   </div>
 
@@ -92,7 +93,7 @@ export default function ContentTypeDiscovery({ section }: ContentTypeDiscoveryPr
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-white/[0.05] flex items-center justify-between text-xs font-medium text-violet-300 group-hover:text-white transition">
-                  <span>Browse Format</span>
+                  <span>{comingSoon ? "Coming Soon" : "Browse Format"}</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>

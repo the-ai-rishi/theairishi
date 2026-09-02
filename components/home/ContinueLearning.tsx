@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import { Course } from "@/lib/lessons";
 
@@ -10,14 +10,17 @@ export default function ContinueLearning({ courses }: { courses: Course[] }) {
 
   const hasProgress = completedSlugs.length > 0;
 
-  // Find last course with completed lesson or fallback to first course
+  const lessonSlugsFor = (course: Course) =>
+    course.stages?.flatMap((s) => s.lessons.map((l) => l.slug)) ?? [];
+
   const activeCourse =
     courses.find((c) =>
-      completedSlugs.some((slug: string) => slug.startsWith(c.id))
+      lessonSlugsFor(c).some((slug) => completedSlugs.includes(slug))
     ) || courses[0];
 
-  const totalCompletedInCourse = completedSlugs.filter((slug: string) =>
-    activeCourse ? slug.startsWith(activeCourse.id) : false
+  const activeLessonSlugs = activeCourse ? lessonSlugsFor(activeCourse) : [];
+  const totalCompletedInCourse = activeLessonSlugs.filter((slug) =>
+    completedSlugs.includes(slug)
   ).length;
 
   const totalLessonsInCourse = activeCourse?.totalLessons || 1;

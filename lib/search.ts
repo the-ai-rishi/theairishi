@@ -1,4 +1,4 @@
-import { getPublishedContent, UniversalContentItem } from "./content";
+import { getPublishedContent } from "./content";
 import { getAllCourses } from "./lessons";
 import { getAllTopics, getAllSeriesConfigs } from "./config";
 

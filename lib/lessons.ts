@@ -5,8 +5,6 @@ import { renderMarkdownToHtml } from "./markdown";
 import {
   getCourseConfig,
   getTopicSlugForCourse,
-  getAllCourseConfigs,
-  type CourseConfig,
 } from "./config";
 
 const contentRootDirectory = path.join(process.cwd(), "content");

@@ -229,6 +229,62 @@ for (const filePath of allMdFiles) {
 
 console.log(`✓ Markdown content validated: ${validMdCount} files inspected.`);
 
+function isSiteRootUrl(url) {
+  if (!url || typeof url !== "string") return false;
+  const trimmed = url.trim().replace(/\/+$/, "");
+  return [
+    "https://github.com",
+    "http://github.com",
+    "https://www.github.com",
+    "https://theairishi.com",
+    "http://theairishi.com",
+    "https://instagram.com",
+    "https://www.instagram.com",
+    "https://youtube.com",
+    "https://www.youtube.com",
+  ].includes(trimmed);
+}
+
+const projectFiles = scanMarkdownFiles(path.join(contentDir, "projects"));
+for (const filePath of projectFiles) {
+  const content = fs.readFileSync(filePath, "utf8");
+  const relPath = path.relative(rootDir, filePath);
+  const gh = content.match(/^githubUrl:\s*"?([^"\n]+)"?/m);
+  const demo = content.match(/^demoUrl:\s*"?([^"\n]+)"?/m);
+  if (gh && isSiteRootUrl(gh[1])) {
+    errors.push("[" + relPath + "] githubUrl is a placeholder site root: " + gh[1]);
+  }
+  if (demo && isSiteRootUrl(demo[1])) {
+    errors.push("[" + relPath + "] demoUrl is a placeholder site root: " + demo[1]);
+  }
+}
+
+if (fs.existsSync(coursesPath)) {
+  try {
+    const courses = JSON.parse(fs.readFileSync(coursesPath, "utf8"));
+    const lessonFiles = [
+      ...scanMarkdownFiles(path.join(contentDir, "lessons")),
+      ...scanMarkdownFiles(path.join(contentDir, "courses")),
+    ];
+    const lessonCounts = {};
+    for (const filePath of lessonFiles) {
+      const content = fs.readFileSync(filePath, "utf8");
+      const m = content.match(/^course:\s*"?([a-z0-9-]+)"?/m);
+      if (m) lessonCounts[m[1]] = (lessonCounts[m[1]] || 0) + 1;
+    }
+    for (const c of courses) {
+      if (c.enabled === false) continue;
+      if (c.status !== "active" && c.status !== "published") continue;
+      const count = lessonCounts[c.id] || lessonCounts[c.slug] || 0;
+      warn(count > 0, "Active course " + c.id + " has zero lessons — mark it coming-soon or add lessons");
+    }
+  } catch (err) {
+    errors.push("Failed checking course lesson counts: " + err.message);
+  }
+}
+
+
+
 
 // ── 5. Lifecycle simulation (in-memory, does not mutate files) ───────────────
 function isTopicPublicSim(topic) {

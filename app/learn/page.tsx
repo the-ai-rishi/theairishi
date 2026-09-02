@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, Bot, Cloud, Code2, Database, Sparkles, Layers } from "lucide-react";
 
 import { getAllCourses, getAllLessonSummaries } from "@/lib/lessons";
 import ResumeLearningBanner from "@/components/learning/ResumeLearningBanner";
 import CourseCard from "@/components/learning/CourseCard";
-import SearchModal from "@/components/search/SearchModal";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import {

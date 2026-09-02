@@ -9,7 +9,7 @@ This manual covers build verification, deployment prerequisites, environment var
 - **Node.js**: v18.x or v20.x
 - **Framework**: Next.js 16.3+ (App Router)
 - **Language**: TypeScript 5.x
-- **Styling**: Tailwind CSS v3.4
+- **Styling**: Tailwind CSS v4
 - **Icons**: Lucide React
 
 ---

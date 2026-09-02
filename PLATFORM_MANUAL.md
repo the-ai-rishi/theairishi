@@ -2,7 +2,7 @@
 
 Welcome to **The AI Rishi** platform manual.
 
-This guide explains how the entire platform is structured, how configuration controls every piece of UI and content, and how you can add, modify, reorder, or disable topics, courses, lessons, guides, sections, and branding without writing any code.
+This guide explains how the entire platform is structured, how configuration controls every piece of UI and content, and how you can add, modify, reorder, or disable topics, courses, lessons, guides, sections, and branding from JSON and Markdown. New homepage section ids still need a small code switch case.
 
 ---
 
@@ -11,7 +11,11 @@ This guide explains how the entire platform is structured, how configuration con
 > **TypeScript and React code defines HOW the platform functions.**
 > **JSON configuration and Markdown content defines WHAT the platform contains.**
 
-No category, topic, course, social network, or brand text is hardcoded into the platform's components. Everything is driven from configuration files located in `content/config/`.
+Most of what the site shows comes from `content/config/` and Markdown. A few presentation pieces stay in code:
+
+- Homepage *section components* are a closed set of ids in `app/page.tsx` (enable, reorder, and hide work from JSON; a new section id needs a switch case).
+- Social cards loop `getSocialPlatforms()` with id-based icon/color fallbacks.
+- Coming-soon social platforms stay routable but are omitted from sitemap and search.
 
 ---
 
@@ -36,8 +40,8 @@ Open `content/config/platform.json` and edit the `"brand"` block:
   "name": "The AI Rishi",
   "logo": "/brand/logo-horizontal.png",
   "logoAlt": "The AI Rishi",
-  "logoMark": "/brand/logo.png",
-  "ogImage": "/brand/logo.png",
+  "logoMark": "/brand/logo-mark.png",
+  "ogImage": "/brand/og-image.jpg",
   "faviconUrl": "/icon.png",
   "appleTouchIcon": "/apple-icon.png",
   "tagline": "Learn. Build. Stay Ahead.",
@@ -111,6 +115,8 @@ In `content/config/platform.json`, the `"homepage.sections"` array controls whic
 - **Reorder sections**: Change the `"order"` numbers.
 - **Hide a section**: Set `"enabled": false`.
 - **Change section title/subtitle/CTA**: Edit `"title"`, `"subtitle"`, `"ctaLabel"`, or `"ctaHref"`.
+- Adding a new section id (not just hiding/reordering) still needs a matching switch case in `app/page.tsx`.
+- A section bound with `topicId` that has no published content renders a compact coming-soon line, not a giant empty theater.
 
 ---
 
@@ -133,8 +139,9 @@ In `content/config/platform.json`, find the `"social"` array:
 }
 ```
 
-- When `"status": "coming-soon"`, the `/youtube` page displays a high-conversion waiting list / subscribe card.
-- When `"status": "active"`, it renders all videos from `content/media/youtube.json`.
+- When `"status": "coming-soon"`, the channel page shows a Coming Soon card (no fake posts or videos). Coming-soon social is omitted from sitemap and search.
+- When `"status": "active"`, it renders items from `content/media/<id>.json`.
+- The homepage social section loops every enabled platform in `social[]` (not a hardcoded YouTube/Instagram pair).
 
 ---
 

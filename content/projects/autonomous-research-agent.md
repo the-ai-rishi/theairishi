@@ -6,8 +6,6 @@ date: "2026-08-16"
 category: "Artificial Intelligence"
 technologies: ["TypeScript", "LLMs", "Vector DB", "ReAct", "Node.js"]
 difficulty: "Intermediate"
-githubUrl: "https://github.com"
-demoUrl: "https://theairishi.com"
 status: "Completed"
 featured: true
 ---

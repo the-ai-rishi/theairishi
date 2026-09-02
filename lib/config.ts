@@ -262,7 +262,7 @@ function validateCoursesConfig(raw: unknown, filePath: string): CourseConfig[] {
   return raw as CourseConfig[];
 }
 
-function validateSeriesConfig(raw: unknown, _filePath: string): SeriesConfig[] {
+function validateSeriesConfig(raw: unknown): SeriesConfig[] {
   if (!Array.isArray(raw)) {
     return [];
   }
@@ -341,7 +341,7 @@ function loadSeriesConfig(): SeriesConfig[] {
   }
   try {
     const raw = JSON.parse(fs.readFileSync(filePath, "utf8")) as unknown;
-    _seriesConfig = validateSeriesConfig(raw, filePath);
+    _seriesConfig = validateSeriesConfig(raw);
     return _seriesConfig;
   } catch (err) {
     console.warn(`[config] Warning loading series.json:`, err);

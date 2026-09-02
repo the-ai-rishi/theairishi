@@ -80,6 +80,9 @@ All content items (Lessons, Guides, Projects, Updates, Series) support lifecycle
 | `archived` | `true`/`false` | ❌ No | ❌ No | ❌ No | Deprecated content |
 | Any | `false` | ❌ No | ❌ No | ❌ No | Globally turned off |
 
+Coming-soon social platforms (`status: coming-soon` in platform.json `social`) remain routable so a Coming Soon page can exist, but they are not added to sitemap or search results.
+
+
 ---
 
 ## 5. Markdown & Media Conventions

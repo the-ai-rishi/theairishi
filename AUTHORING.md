@@ -49,6 +49,8 @@ Open content/config/platform.json, then homepage.sections.
 - order controls sequence (lower first).
 - title, subtitle, ctaLabel change copy.
 - topicId binds a section to a topic. If that topic is removed or disabled, the section is hidden automatically.
+- Homepage section *components* are a closed set of ids. Enable/reorder/hide works from JSON; a new section id needs a switch case in app/page.tsx.
+- If a topic-bound homepage section has no published content, it renders a compact coming-soon line instead of a giant empty theater.
 
 ## Courses and lessons
 
@@ -63,13 +65,14 @@ status draft or enabled false keeps it off the public site.
 ## Guides, projects, images
 
 - Guides: content/guides/<slug>.md
-- Projects: content/projects/<slug>.md
+- Projects: content/projects/<slug>.md (omit githubUrl/demoUrl until they are real repo or demo URLs, not site roots like https://github.com)
 - Images: public/content/images/<topic-or-general>/file.png referenced as /content/images/...
 
 ## Instagram and YouTube
 
 Open content/config/platform.json, then social.
 
-- status coming-soon shows a Coming Soon page (no fake videos).
+- status coming-soon shows a Coming Soon page (no fake videos or posts). Coming-soon social is omitted from sitemap and search.
 - status active uses content/media/youtube.json and content/media/instagram.json.
-- status disabled removes it from nav, footer, and sitemap.
+- status disabled removes it from nav, footer, sitemap, and search.
+- Homepage social cards loop getSocialPlatforms() (not a hardcoded YouTube/Instagram pair).

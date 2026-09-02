@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LearnIcon from "@/components/icons/LearnIcon";
-import GuidesIcon from "@/components/icons/GuidesIcon";
 import ProjectsIcon from "@/components/icons/ProjectsIcon";
-import YouTubeIcon from "@/components/icons/YouTubeIcon";
-import InstagramIcon from "@/components/icons/InstagramIcon";
 import AboutIcon from "@/components/icons/AboutIcon";
 import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy } from "@/lib/config";
-import { siteConfig } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();

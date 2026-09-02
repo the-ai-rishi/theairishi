@@ -28,6 +28,24 @@ export interface Project extends ProjectSummary {
   content: string;
 }
 
+
+function isUsableExternalUrl(url: unknown): url is string {
+  if (typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  try {
+    const parsed = new URL(trimmed);
+    const host = parsed.hostname.replace(/^www\./, "").toLowerCase();
+    const path = parsed.pathname.replace(/\/+$/, "") || "";
+    if (!path && ["github.com", "theairishi.com", "instagram.com", "youtube.com"].includes(host)) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function getProjectFiles(): string[] {
   if (!fs.existsSync(projectsDirectory)) {
     return [];
@@ -48,6 +66,10 @@ export function getAllProjectSummaries(): ProjectSummary[] {
       const fileContents = fs.readFileSync(filePath, "utf8");
       const parsed = matter(fileContents);
       const data = parsed.data as Record<string, unknown>;
+
+      if (data.enabled === false) continue;
+      const visibility = typeof data.status === "string" ? data.status.toLowerCase() : "";
+      if (["draft", "archived", "disabled"].includes(visibility)) continue;
 
       const slug =
         typeof data.slug === "string"
@@ -82,10 +104,8 @@ export function getAllProjectSummaries(): ProjectSummary[] {
           ? data.status
           : "In Progress";
 
-      const githubUrl =
-        typeof data.githubUrl === "string" ? data.githubUrl : undefined;
-      const demoUrl =
-        typeof data.demoUrl === "string" ? data.demoUrl : undefined;
+      const githubUrl = isUsableExternalUrl(data.githubUrl) ? data.githubUrl.trim() : undefined;
+      const demoUrl = isUsableExternalUrl(data.demoUrl) ? data.demoUrl.trim() : undefined;
       const featured = Boolean(data.featured);
 
       projects.push({

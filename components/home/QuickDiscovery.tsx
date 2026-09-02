@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Compass } from "lucide-react";
-import { getAllTopics } from "@/lib/config";
+import { getHomepageTopics } from "@/lib/config";
 import type { HomepageSection } from "@/lib/config";
 
 interface QuickDiscoveryProps {
@@ -8,7 +8,7 @@ interface QuickDiscoveryProps {
 }
 
 export default function QuickDiscovery({ section }: QuickDiscoveryProps) {
-  const topics = getAllTopics();
+  const topics = getHomepageTopics();
   const title = section?.title ?? "Explore Topics";
   const subtitle = section?.subtitle ?? "Platform Domains";
   const ctaLabel = section?.ctaLabel ?? "View All Courses";

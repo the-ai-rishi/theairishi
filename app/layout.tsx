@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
-import { getBrandConfig } from "@/lib/config";
+import { getBrandConfig, getAllTopics } from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 const brand = getBrandConfig();
+const topicKeywords = getAllTopics().flatMap((topic) =>
+  [topic.name, topic.shortName, topic.badge].filter(Boolean)
+);
+const keywords = Array.from(new Set([brand.name, brand.tagline, ...topicKeywords]));
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -26,20 +30,7 @@ export const metadata: Metadata = {
 
   description: siteConfig.description,
 
-  keywords: [
-    "AI",
-    "Artificial Intelligence",
-    "Machine Learning",
-    "LLMs",
-    "Generative AI",
-    "AI Agents",
-    "Agentic AI",
-    "DevOps",
-    "Azure",
-    "Cloud Computing",
-    "Software Engineering",
-    siteConfig.name,
-  ],
+  keywords,
 
   authors: [
     {
@@ -64,7 +55,7 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     images: [
       {
-        url: brand.ogImage || "/brand/logo.png",
+        url: brand.ogImage || "/brand/og-image.jpg",
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} — ${siteConfig.tagline}`,
@@ -76,7 +67,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: [brand.ogImage || "/brand/logo.png"],
+    images: [brand.ogImage || "/brand/og-image.jpg"],
   },
 
   robots: {
