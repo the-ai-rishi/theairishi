@@ -79,6 +79,7 @@ export interface ResolvedHomepageSection {
     channels?: unknown[];
     focusTopic?: unknown;
     tone?: string;
+    modes?: Array<{ id: string; label: string; href: string }>;
     ctaHref?: string;
     missingSource?: boolean;
     [key: string]: unknown;

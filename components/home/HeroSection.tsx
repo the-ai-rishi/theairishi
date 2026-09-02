@@ -1,23 +1,31 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
 import TechnologyOrbit from "./TechnologyOrbit";
-import SearchModal from "@/components/search/SearchModal";
 import { getBrandConfig, getPlatformCopy, type TopicConfig } from "@/lib/config";
+import { getBrandShortName } from "@/lib/brand";
+
+export interface HeroMode {
+  id: string;
+  label: string;
+  href: string;
+}
 
 interface HeroSectionProps {
   topics: TopicConfig[];
   focusTopic?: TopicConfig | null;
   tone?: "focus" | "discovery";
+  modes?: HeroMode[];
 }
 
 export default function HeroSection({
   topics,
   focusTopic = null,
   tone = "discovery",
+  modes = [],
 }: HeroSectionProps) {
   const copy = getPlatformCopy();
   const brand = getBrandConfig();
   const focused = tone === "focus" && focusTopic;
+  const shortName = getBrandShortName(brand);
 
   const description = focused
     ? `Learn ${focusTopic.name} from first principles — ${focusTopic.description}`
@@ -25,58 +33,78 @@ export default function HeroSection({
 
   const primaryHref = focused ? `/topics/${focusTopic.slug}` : copy.heroPrimaryCtaHref;
   const primaryLabel = focused ? `Start ${focusTopic.shortName}` : copy.heroPrimaryCta;
-  const secondaryHref = topics.length > 0 ? "#topics" : copy.heroSecondaryCtaHref;
-  const secondaryLabel = focused ? "View course" : copy.heroSecondaryCta;
+
+  const readMode = modes.find((m) => m.id === "read");
+  const buildMode = modes.find((m) => m.id === "build");
+  const secondary =
+    readMode && buildMode
+      ? { label: copy.heroSecondaryCta || "Read & build", href: readMode.href }
+      : readMode
+        ? { label: "Read a guide", href: readMode.href }
+        : buildMode
+          ? { label: "See a project", href: buildMode.href }
+          : null;
 
   return (
-    <section className="relative pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 overflow-hidden">
+    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300 backdrop-blur-md">
-              <Sparkles className="h-3.5 w-3.5 text-violet-300" />
-              <span>{copy.heroBadge}</span>
+        <div className="grid items-center gap-12 lg:grid-cols-12">
+          <div className="flex flex-col space-y-7 text-left lg:col-span-7">
+            <p className="kicker text-gold/85">{copy.heroBadge}</p>
+
+            <div>
+              <h1 className="font-serif text-[2.75rem] leading-[0.95] tracking-[0.012em] text-cream sm:text-6xl lg:text-7xl xl:text-[5rem]">
+                {copy.heroTitle}
+              </h1>
+              <p className="mt-4 max-w-xl font-serif text-xl italic tracking-[0.02em] text-cream/55 sm:text-2xl">
+                {copy.heroTagline}
+              </p>
             </div>
 
-            <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl leading-[1.1]">
-              {copy.heroTitle} <br />
-              <span className="bg-gradient-to-r from-violet-300 via-indigo-200 to-amber-200 bg-clip-text text-transparent">
-                {copy.heroTagline}
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-lg lg:text-xl text-white/60 max-w-xl leading-relaxed">
+            <p className="max-w-xl text-[17px] leading-relaxed text-cream/60 sm:text-lg">
               {description}
             </p>
 
-            {topics.length > 0 && (
-              <p className="text-xs font-mono uppercase tracking-widest text-white/35">
-                {topics.map((t) => t.shortName || t.name).join("  ·  ")}
-              </p>
-            )}
+            {modes.length > 0 ? (
+              <nav aria-label="Modes" className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                {modes.map((mode, i) => (
+                  <span key={mode.id} className="contents">
+                    {i > 0 ? (
+                      <span className="text-cream/25" aria-hidden="true">
+                        /
+                      </span>
+                    ) : null}
+                    <Link
+                      href={mode.href}
+                      className="link-editorial font-mono text-[14px] tracking-[0.16em] uppercase text-cream/70 hover:text-gold"
+                    >
+                      {mode.label}
+                    </Link>
+                  </span>
+                ))}
+              </nav>
+            ) : null}
 
-            <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <div className="flex flex-wrap items-center gap-6 pt-1">
               <Link
                 href={primaryHref}
-                className="inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-black transition duration-300 hover:bg-white/90 shadow-lg shadow-white/5"
+                className="inline-flex items-center gap-2 bg-cream px-6 py-3 text-[14px] font-medium tracking-[0.04em] text-ink transition hover:bg-gold-bright"
               >
-                <span>{primaryLabel}</span>
-                <ArrowRight className="h-4 w-4" />
+                {primaryLabel}
               </Link>
-
-              <Link
-                href={secondaryHref}
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3.5 text-sm font-medium text-white/80 transition duration-300 hover:border-white/30 hover:bg-white/[0.07] hover:text-white"
-              >
-                <span>{secondaryLabel}</span>
-              </Link>
-
-              <SearchModal />
+              {secondary ? (
+                <Link
+                  href={secondary.href}
+                  className="link-editorial font-mono text-[14px] tracking-[0.12em] text-cream/65 hover:text-circuit-bright"
+                >
+                  {secondary.label} →
+                </Link>
+              ) : null}
             </div>
           </div>
 
-          <div className="lg:col-span-5 flex justify-center">
-            <TechnologyOrbit topics={topics} brandName={brand.name} />
+          <div className="flex justify-center lg:col-span-5">
+            <TechnologyOrbit topics={topics} brandName={shortName} />
           </div>
         </div>
       </div>

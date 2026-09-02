@@ -48,19 +48,19 @@ export default function LessonSidebar({
     <aside className="hidden lg:block">
       <div className="sticky top-28 space-y-6">
         {/* Course Syllabus Card */}
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
-          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+        <div className="border border-hairline bg-field/40 p-5">
+          <div className="flex items-center justify-between border-b border-hairline pb-3">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-violet-300/70 font-medium">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-gold/70 font-medium">
                 Course Syllabus
               </p>
               {courseTitle && (
-                <h3 className="mt-0.5 text-xs font-semibold text-white/90">
+                <h3 className="mt-0.5 text-xs font-semibold text-cream/90">
                   {courseTitle}
                 </h3>
               )}
             </div>
-            <span className="text-[11px] text-violet-300 font-mono">
+            <span className="text-[11px] text-gold font-mono">
               {totalCompletedInCourse}/{allCourseLessons.length} done
             </span>
           </div>
@@ -74,7 +74,7 @@ export default function LessonSidebar({
                   <div className="flex items-center justify-between text-[11px] font-medium tracking-wide">
                     <span
                       className={
-                        isStageActive ? "text-white" : "text-white/40"
+                        isStageActive ? "text-cream" : "text-cream/40"
                       }
                     >
                       Stage {String(stg.number).padStart(2, "0")} · {stg.name}
@@ -95,8 +95,8 @@ export default function LessonSidebar({
                           aria-current={isCurrent ? "page" : undefined}
                           className={`group flex items-start gap-2.5 rounded-lg px-2.5 py-2 text-xs leading-snug transition ${
                             isCurrent
-                              ? "bg-white/[0.08] text-white font-medium shadow-sm"
-                              : "text-white/40 hover:bg-white/[0.03] hover:text-white/80"
+                              ? "bg-cream/[0.06] text-cream font-medium"
+                              : "text-cream/40 hover:bg-cream/[0.03] hover:text-cream/80"
                           }`}
                         >
                           <span
@@ -104,8 +104,8 @@ export default function LessonSidebar({
                               completed
                                 ? "text-emerald-400"
                                 : isCurrent
-                                  ? "text-violet-300"
-                                  : "text-white/20 group-hover:text-white/40"
+                                  ? "text-gold"
+                                  : "text-cream/20 group-hover:text-cream/40"
                             }`}
                             aria-hidden="true"
                           >
@@ -113,7 +113,7 @@ export default function LessonSidebar({
                               <CheckCircle2 className="h-3.5 w-3.5" />
                             ) : isCurrent ? (
                               <span className="flex h-3.5 w-3.5 items-center justify-center">
-                                <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
+                                <span className="h-1.5 w-1.5 rounded-full bg-gold" />
                               </span>
                             ) : (
                               <Circle className="h-3.5 w-3.5" />
@@ -121,7 +121,7 @@ export default function LessonSidebar({
                           </span>
 
                           <span className="flex-1">
-                            <span className="mr-1 text-white/25 font-mono">
+                            <span className="mr-1 text-cream/25 font-mono">
                               {String(lesson.metadata.lesson).padStart(2, "0")}.
                             </span>
                             {lesson.metadata.title}
@@ -138,9 +138,9 @@ export default function LessonSidebar({
 
         {/* On this page / Table of contents */}
         {headings.length > 0 && (
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.015] p-5">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-white/30">
-              <ListOrdered className="h-3.5 w-3.5 text-violet-300/60" />
+          <div className="border border-hairline p-5">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-cream/30">
+              <ListOrdered className="h-3.5 w-3.5 text-gold/60" />
               <span>On this page</span>
             </div>
 
@@ -149,10 +149,10 @@ export default function LessonSidebar({
                 <a
                   key={heading.id}
                   href={`#${heading.id}`}
-                  className={`block text-xs leading-relaxed transition hover:text-violet-200 ${
+                  className={`block text-xs leading-relaxed transition hover:text-gold-bright ${
                     heading.level === 3
-                      ? "pl-3 text-white/30 hover:text-white/60"
-                      : "text-white/45"
+                      ? "pl-3 text-cream/30 hover:text-cream/60"
+                      : "text-cream/45"
                   }`}
                 >
                   {heading.text}

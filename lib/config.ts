@@ -19,6 +19,7 @@ export type PlatformStatus = LifecycleStatus;
 
 export interface BrandConfig {
   name: string;
+  shortName?: string;
   logo: string;
   logoAlt: string;
   logoMark: string;

@@ -51,17 +51,17 @@ export default function MobileLessonMenu({
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="flex w-full items-center justify-between rounded-full border border-white/15 bg-[#0a0a0d]/90 px-5 py-3 shadow-2xl backdrop-blur-md text-white text-xs font-medium transition active:scale-95"
+          className="flex w-full items-center justify-between border border-hairline bg-ink/90 px-5 py-3 backdrop-blur-md text-cream text-xs font-medium"
         >
           <div className="flex items-center gap-2.5 line-clamp-1">
-            <Menu className="h-4 w-4 text-violet-300 shrink-0" />
-            <span className="text-white/60">Syllabus:</span>
-            <span className="text-white truncate">
+            <Menu className="h-4 w-4 text-gold shrink-0" />
+            <span className="text-cream/60">Syllabus:</span>
+            <span className="text-cream truncate">
               {currentLesson?.metadata.title || "Lessons"}
             </span>
           </div>
 
-          <span className="ml-2 shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/60 font-mono">
+          <span className="ml-2 shrink-0 bg-hairline px-2 py-0.5 text-[10px] text-cream/60 font-mono">
             {completedCount}/{allLessons.length}
           </span>
         </button>
@@ -78,13 +78,13 @@ export default function MobileLessonMenu({
           />
 
           {/* Drawer Content */}
-          <div className="relative z-10 max-h-[80vh] w-full overflow-y-auto rounded-t-3xl border-t border-white/15 bg-[#0d0d12] p-6 text-white shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+          <div className="relative z-10 max-h-[80vh] w-full overflow-y-auto border-t border-hairline bg-field p-6 text-cream">
+            <div className="flex items-center justify-between border-b border-hairline pb-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-violet-300 font-medium">
+                <p className="text-xs uppercase tracking-[0.2em] text-gold font-medium">
                   {courseTitle || "Course Syllabus"}
                 </p>
-                <h3 className="mt-1 text-sm font-semibold text-white">
+                <h3 className="mt-1 text-sm font-semibold text-cream">
                   Curriculum Overview
                 </h3>
               </div>
@@ -92,7 +92,7 @@ export default function MobileLessonMenu({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="rounded-full border border-white/10 p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
+                className="border border-hairline p-1.5 text-cream/50 hover:text-cream"
                 aria-label="Close menu"
               >
                 <X className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function MobileLessonMenu({
             <div className="mt-4 space-y-5 pb-6">
               {stagesToRender.map((stg) => (
                 <div key={stg.name} className="space-y-1.5">
-                  <div className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
+                  <div className="text-[11px] font-medium text-cream/40 tracking-wide uppercase">
                     Stage {String(stg.number).padStart(2, "0")} · {stg.name}
                   </div>
 
@@ -120,8 +120,8 @@ export default function MobileLessonMenu({
                           onClick={() => setIsOpen(false)}
                           className={`flex items-start gap-3 rounded-xl p-2.5 text-xs leading-snug transition ${
                             isCurrent
-                              ? "bg-white/[0.08] text-white font-medium border border-violet-400/20"
-                              : "text-white/50 hover:bg-white/[0.03] hover:text-white"
+                              ? "bg-cream/[0.06] text-cream font-medium border border-gold/30"
+                              : "text-cream/50 hover:bg-cream/[0.03] hover:text-cream"
                           }`}
                         >
                           <span
@@ -129,8 +129,8 @@ export default function MobileLessonMenu({
                               completed
                                 ? "text-emerald-400"
                                 : isCurrent
-                                  ? "text-violet-300"
-                                  : "text-white/20"
+                                  ? "text-gold"
+                                  : "text-cream/20"
                             }`}
                           >
                             {completed ? (
@@ -141,7 +141,7 @@ export default function MobileLessonMenu({
                           </span>
 
                           <div>
-                            <span className="mr-1.5 text-white/30 font-mono">
+                            <span className="mr-1.5 text-cream/30 font-mono">
                               {String(lesson.metadata.lesson).padStart(2, "0")}.
                             </span>
                             {lesson.metadata.title}

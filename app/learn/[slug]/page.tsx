@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import SearchModal from "@/components/search/SearchModal";
 import Footer from "@/components/layout/Footer";
+import Logo from "@/components/brand/Logo";
 import { getBrandConfig, getFooterNavigation, getPlatformCopy } from "@/lib/config";
 
 import LessonHeader from "@/components/learning/LessonHeader";
@@ -107,37 +107,28 @@ export default async function LessonPage({ params }: LessonPageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-violet-500/30 selection:text-white pb-20">
+    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-20">
       {/* Structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-300px] h-[650px] w-[650px] -translate-x-1/2 rounded-full bg-violet-700/10 blur-[150px]" />
-        <div className="absolute right-[-150px] top-[400px] h-[450px] w-[450px] rounded-full bg-indigo-600/5 blur-[140px]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-[-12%] top-[-18%] h-[520px] w-[520px] rounded-full bg-gold/[0.05] blur-[140px]" />
+        <div className="absolute right-[-16%] top-[30%] h-[480px] w-[480px] rounded-full bg-circuit/[0.06] blur-[140px]" />
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-[#050505]/80 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-hairline bg-ink/85 backdrop-blur-md">
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="group flex items-center gap-3">
-            <Image
-              src={brand.logo}
-              alt={brand.logoAlt}
-              width={200}
-              height={50}
-              className="h-9 sm:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
-              priority
-            />
-          </Link>
+          <Logo brand={brand} variant="horizontal" priority />
 
           <div className="flex items-center gap-3">
             <SearchModal />
             <Link
               href="/learn"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs text-white/60 transition hover:border-white/20 hover:text-white"
+              className="inline-flex items-center gap-2 border border-hairline px-4 py-2 font-mono text-xs text-cream/60 transition hover:text-cream"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Learning Hub</span>
@@ -159,7 +150,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       />
 
       {/* Lesson Content Area & Sidebar */}
-      <section className="border-y border-white/[0.07] bg-white/[0.015]">
+      <section className="border-y border-hairline">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-[1fr_280px] lg:px-8">
           <div className="space-y-12">
             <LessonContent content={lesson.content} />

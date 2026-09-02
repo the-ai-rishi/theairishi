@@ -1,5 +1,5 @@
 import type { ResolvedHomepageSection } from "@/lib/homepage";
-import HeroSection from "./HeroSection";
+import HeroSection, { type HeroMode } from "./HeroSection";
 import TopicGrid from "./TopicGrid";
 import CourseListSection from "./CourseListSection";
 import ContentList from "./ContentList";
@@ -22,6 +22,7 @@ export default function SectionRenderer({
           topics={(section.data.topics as TopicConfig[]) || []}
           focusTopic={(section.data.focusTopic as TopicConfig | null) || null}
           tone={(section.data.tone as "focus" | "discovery") || "discovery"}
+          modes={(section.data.modes as HeroMode[]) || []}
         />
       );
     case "topic-grid":
@@ -53,9 +54,7 @@ export default function SectionRenderer({
         />
       );
     case "continue-learning":
-      return (
-        <ContinueLearning courses={(section.data.courses as Course[]) || []} />
-      );
+      return <ContinueLearning courses={(section.data.courses as Course[]) || []} />;
     case "cta":
       return <CallToAction section={section} />;
     default:

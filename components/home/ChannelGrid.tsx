@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Radio } from "lucide-react";
+import SectionHeading from "@/components/brand/SectionHeading";
 import type { SocialPlatform } from "@/lib/config";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
+import { sectionAnchorId } from "@/lib/presentation";
 
 export default function ChannelGrid({
   section,
@@ -11,39 +12,39 @@ export default function ChannelGrid({
   channels: SocialPlatform[];
 }) {
   if (!channels.length) return null;
-  const title = section.title ?? "Channels";
+  const title = section.title ?? "On air";
   const subtitle = section.subtitle ?? "Media";
 
   return (
-    <section className="py-12 sm:py-16">
+    <section
+      id={sectionAnchorId("channel-grid")}
+      className="scroll-mt-24 py-12 sm:py-16"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="border-b border-white/[0.08] pb-6">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-violet-300">
-            <Radio className="h-3.5 w-3.5" />
-            <span>{subtitle}</span>
-          </div>
-          <h2 className="mt-2 text-2xl sm:text-4xl font-semibold tracking-[-0.03em] text-white">
-            {title}
-          </h2>
-        </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <SectionHeading kicker={subtitle} title={title} />
+        <div className="mt-8 flex gap-5 overflow-x-auto pb-2">
           {channels.map((channel) => (
             <Link
               key={channel.id}
               href={channel.href}
-              className="group rounded-3xl border border-white/[0.08] bg-black/40 p-6 transition duration-300 hover:border-violet-400/30 hover:bg-white/[0.02]"
+              className="group w-[280px] shrink-0 sm:w-[340px]"
             >
-              <div className="flex items-center justify-between">
-                <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-mono text-white/50">
-                  {channel.badge || channel.label}
-                </span>
-                <ArrowRight className="h-4 w-4 text-white/30 transition-transform group-hover:translate-x-1 group-hover:text-violet-300" />
+              <div className="relative aspect-video overflow-hidden border border-hairline bg-field">
+                <div className="absolute inset-0 bg-gradient-to-tr from-gold/10 via-transparent to-circuit/15" />
+                <span className="absolute left-1/2 top-1/2 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream/35" />
+                <span
+                  className="absolute left-1/2 top-1/2 -translate-y-1/2 border-y-[8px] border-l-[14px] border-y-transparent border-l-cream/85"
+                  style={{ marginLeft: "2px" }}
+                />
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-white group-hover:text-amber-200 transition">
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-circuit-bright">
+                {channel.badge || channel.label}
+              </p>
+              <h3 className="mt-1 font-serif text-2xl text-cream group-hover:text-gold-bright">
                 {channel.displayName || channel.label}
               </h3>
               {channel.description ? (
-                <p className="mt-2 text-xs text-white/50 leading-relaxed">{channel.description}</p>
+                <p className="mt-2 line-clamp-2 text-sm text-cream/45">{channel.description}</p>
               ) : null}
             </Link>
           ))}

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import { Course } from "@/lib/lessons";
 
@@ -38,48 +37,34 @@ export default function ContinueLearning({ courses }: { courses: Course[] }) {
   const targetHref = targetLessonSlug ? `/learn/${targetLessonSlug}` : "/learn";
 
   return (
-    <section className="py-8">
+    <section id="continue" className="py-2 sm:py-3">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-r from-violet-950/40 via-black to-indigo-950/40 p-6 sm:p-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs uppercase font-mono tracking-wider text-violet-300">
-                  {hasProgress ? "Continue Learning" : "Start Your Learning Journey"}
-                </span>
+        <div className="flex flex-col gap-4 border-y border-hairline py-4 sm:flex-row sm:items-center sm:gap-6">
+          <span className="kicker shrink-0 text-signal/80">
+            {hasProgress ? "Continue" : "Begin"}
+          </span>
+          <h3 className="min-w-0 flex-1 font-serif text-xl tracking-[0.01em] text-cream sm:text-2xl">
+            {activeCourse?.title || "Start learning"}
+          </h3>
+          {hasProgress ? (
+            <div className="flex items-center gap-3 sm:w-40">
+              <div className="h-px flex-1 bg-hairline">
+                <div
+                  className="h-px bg-gold"
+                  style={{ width: `${Math.max(6, progressPercent)}%` }}
+                />
               </div>
-
-              <h3 className="text-xl sm:text-2xl font-semibold text-white">
-                {activeCourse?.title || "Start learning"}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-white/50 max-w-xl leading-relaxed">
-                {hasProgress
-                  ? `You have completed ${totalCompletedInCourse} of ${totalLessonsInCourse} lessons in this course.`
-                  : `Begin with ${activeCourse?.title || "the first course"}.`}
-              </p>
+              <span className="font-mono text-[12px] text-cream/40">
+                {progressPercent}%
+              </span>
             </div>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 shrink-0">
-              {hasProgress && (
-                <div className="w-full sm:w-32 bg-white/10 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-violet-400 h-full transition-all duration-500"
-                    style={{ width: `${Math.max(5, progressPercent)}%` }}
-                  />
-                </div>
-              )}
-
-              <Link
-                href={targetHref}
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs sm:text-sm font-semibold text-black transition hover:bg-white/90"
-              >
-                <span>{hasProgress ? "Continue Lesson" : "Start First Lesson"}</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
+          ) : null}
+          <Link
+            href={targetHref}
+            className="link-editorial shrink-0 font-mono text-[13px] tracking-[0.12em] text-cream/70 hover:text-gold"
+          >
+            {hasProgress ? "Resume →" : "Open path →"}
+          </Link>
         </div>
       </div>
     </section>

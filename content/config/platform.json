@@ -8,20 +8,21 @@
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
     "tagline": "Learn. Build. Stay Ahead.",
-    "description": "Practical courses and writing on artificial intelligence, large language models, and DevOps — explained simply, from first principles.",
+    "description": "A living field for understanding technology \u2014 learn it from first principles, build with it, and follow what is changing.",
     "url": "https://theairishi.com",
-    "email": "contact@theairishi.com"
+    "email": "contact@theairishi.com",
+    "shortName": "Rishi"
   },
   "copy": {
-    "heroBadge": "First-principles learning",
+    "heroBadge": "Knowledge \u00b7 Systems \u00b7 Building",
     "heroTitle": "The AI Rishi",
     "heroTagline": "Learn. Build. Stay Ahead.",
-    "heroDescription": "Practical courses and writing on artificial intelligence, large language models, and DevOps — explained simply, from first principles.",
-    "heroPrimaryCta": "Start Learning",
+    "heroDescription": "A living field for understanding technology \u2014 learn it from first principles, build with it, and follow what is changing.",
+    "heroPrimaryCta": "Start with AI",
     "heroPrimaryCtaHref": "/learn",
-    "heroSecondaryCta": "Browse topics",
-    "heroSecondaryCtaHref": "#topics",
-    "headerCta": "Start Learning",
+    "heroSecondaryCta": "Read & build",
+    "heroSecondaryCtaHref": "#read",
+    "headerCta": "Start with AI",
     "headerCtaHref": "/learn",
     "footerCopyright": "The AI Rishi"
   },
@@ -36,7 +37,7 @@
       "slug": "ai",
       "name": "Artificial Intelligence & LLMs",
       "shortName": "AI / LLM",
-      "description": "Neural networks, attention, vector search, RAG, and working with large language models — from first principles.",
+      "description": "Neural networks, attention, vector search, RAG, and working with large language models \u2014 from first principles.",
       "badge": "AI / LLM",
       "category": "AI & Data",
       "color": "purple",
@@ -52,7 +53,7 @@
       "slug": "devops",
       "name": "DevOps & Kubernetes",
       "shortName": "DevOps",
-      "description": "Containers, Kubernetes, infrastructure-as-code, and CI/CD — how software actually ships.",
+      "description": "Containers, Kubernetes, infrastructure-as-code, and CI/CD \u2014 how software actually ships.",
       "badge": "DevOps",
       "category": "Cloud & DevOps",
       "color": "emerald",
@@ -290,7 +291,10 @@
         "enabled": true,
         "order": 2,
         "status": "active",
-        "source": { "kind": "contentType", "id": "learn" }
+        "source": {
+          "kind": "contentType",
+          "id": "learn"
+        }
       },
       {
         "id": "guides",
@@ -298,7 +302,10 @@
         "enabled": true,
         "order": 3,
         "status": "active",
-        "source": { "kind": "contentType", "id": "guides" }
+        "source": {
+          "kind": "contentType",
+          "id": "guides"
+        }
       },
       {
         "id": "projects",
@@ -306,7 +313,10 @@
         "enabled": true,
         "order": 4,
         "status": "active",
-        "source": { "kind": "contentType", "id": "projects" }
+        "source": {
+          "kind": "contentType",
+          "id": "projects"
+        }
       },
       {
         "id": "about",
@@ -332,7 +342,10 @@
         "enabled": true,
         "order": 2,
         "status": "active",
-        "source": { "kind": "contentType", "id": "learn" }
+        "source": {
+          "kind": "contentType",
+          "id": "learn"
+        }
       },
       {
         "id": "guides",
@@ -340,7 +353,10 @@
         "enabled": true,
         "order": 3,
         "status": "active",
-        "source": { "kind": "contentType", "id": "guides" }
+        "source": {
+          "kind": "contentType",
+          "id": "guides"
+        }
       },
       {
         "id": "projects",
@@ -348,7 +364,10 @@
         "enabled": true,
         "order": 4,
         "status": "active",
-        "source": { "kind": "contentType", "id": "projects" }
+        "source": {
+          "kind": "contentType",
+          "id": "projects"
+        }
       },
       {
         "id": "about",
@@ -380,9 +399,9 @@
         "type": "course-list",
         "enabled": true,
         "order": 3,
-        "title": "Courses",
-        "subtitle": "Start here",
-        "ctaLabel": "All courses",
+        "title": "Learning paths",
+        "subtitle": "First principles",
+        "ctaLabel": "All paths",
         "ctaHref": "/learn",
         "showWhenEmpty": false
       },
@@ -391,9 +410,9 @@
         "type": "topic-grid",
         "enabled": true,
         "order": 4,
-        "title": "Topics with real lessons",
-        "subtitle": "Currently available",
-        "ctaLabel": "View courses",
+        "title": "The field",
+        "subtitle": "Where we work",
+        "ctaLabel": "View paths",
         "ctaHref": "/learn",
         "showWhenEmpty": false
       },
@@ -402,9 +421,11 @@
         "type": "content-list",
         "enabled": true,
         "order": 5,
-        "title": "Latest writing",
+        "title": "From the desk",
         "subtitle": "Recently published",
-        "source": { "kind": "recent" },
+        "source": {
+          "kind": "recent"
+        },
         "maxItems": 6,
         "showWhenEmpty": false
       },
@@ -413,11 +434,14 @@
         "type": "content-list",
         "enabled": true,
         "order": 6,
-        "title": "Guides",
-        "subtitle": "Deep dives",
-        "source": { "kind": "format", "format": "guide" },
+        "title": "Writing",
+        "subtitle": "Essays",
+        "source": {
+          "kind": "format",
+          "format": "guide"
+        },
         "maxItems": 4,
-        "ctaLabel": "All guides",
+        "ctaLabel": "All writing",
         "ctaHref": "/guides",
         "showWhenEmpty": false
       },
@@ -426,11 +450,14 @@
         "type": "content-list",
         "enabled": true,
         "order": 7,
-        "title": "Projects",
-        "subtitle": "Build in public",
-        "source": { "kind": "format", "format": "project" },
+        "title": "Labs",
+        "subtitle": "Built in public",
+        "source": {
+          "kind": "format",
+          "format": "project"
+        },
         "maxItems": 4,
-        "ctaLabel": "All projects",
+        "ctaLabel": "All labs",
         "ctaHref": "/projects",
         "showWhenEmpty": false
       },

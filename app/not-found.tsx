@@ -1,45 +1,29 @@
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "@/components/brand/Logo";
 import { getBrandConfig } from "@/lib/config";
 
 export default function NotFound() {
   const brand = getBrandConfig();
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#050505] px-6 text-white selection:bg-violet-500/30 selection:text-white">
+    <main className="flex min-h-screen items-center justify-center bg-ink px-6 text-cream selection:bg-gold/25 selection:text-ink">
       <div className="flex flex-col items-center text-center">
-        <Image
-          src={brand.logo}
-          alt={brand.logoAlt}
-          width={160}
-          height={40}
-          className="h-8 w-auto object-contain opacity-70"
-        />
-
-        <p className="mt-4 text-xs uppercase tracking-[0.2em] text-violet-300/60 font-mono">
-          404 — Page Not Found
-        </p>
-
-        <h1 className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl text-white">
-          Beyond the Horizon
+        <Logo brand={brand} variant="horizontal" />
+        <p className="mt-8 kicker text-gold/70">404 — Beyond the field</p>
+        <h1 className="mt-4 font-serif text-4xl tracking-[0.01em] text-cream sm:text-6xl">
+          This path does not exist
         </h1>
-
-        <p className="mt-3 text-sm text-white/40 max-w-md leading-relaxed">
-          The path or document you requested does not exist on this platform.
+        <p className="mt-4 max-w-md text-[16px] leading-relaxed text-cream/45">
+          The document you requested is not on this platform.
         </p>
-
-        <div className="mt-8 flex items-center gap-4">
+        <div className="mt-10 flex items-center gap-8">
+          <Link href="/" className="link-editorial font-mono text-[14px] text-gold">
+            Return home
+          </Link>
           <Link
             href="/learn"
-            className="inline-flex rounded-full bg-white px-6 py-3 text-xs font-semibold text-black transition hover:bg-white/90"
+            className="bg-cream px-5 py-2.5 text-[13px] font-medium tracking-[0.04em] text-ink"
           >
-            Explore Learning Hub
-          </Link>
-
-          <Link
-            href="/"
-            className="inline-flex rounded-full border border-white/15 bg-white/[0.03] px-6 py-3 text-xs text-white/80 transition hover:border-white/30 hover:text-white"
-          >
-            Return Home
+            Open paths
           </Link>
         </div>
       </div>
