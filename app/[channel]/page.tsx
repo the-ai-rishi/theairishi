@@ -35,27 +35,25 @@ export async function generateMetadata({
   const { channel } = await params;
   const state = channelRouteState(loadPlatformConfig(), channel, getLiveCatalog());
   const brand = getBrandConfig();
-  if (state.state === "not-found" || !state.channel) {
+  if (state.state !== "active" || !state.channel) {
     return { title: `Not found | ${brand.name}` };
   }
   const platform = state.channel as unknown as SocialPlatform;
   return {
     title: `${platform.displayName || platform.label} | ${brand.name}`,
     description: platform.description || brand.description,
-    robots: state.state === "coming-soon" ? { index: false, follow: false } : undefined,
   };
 }
 
 export default async function ChannelPage({ params }: ChannelPageProps) {
   const { channel } = await params;
   const state = channelRouteState(loadPlatformConfig(), channel, getLiveCatalog());
-  if (state.state === "not-found" || !state.channel) {
+  if (state.state !== "active" || !state.channel) {
     notFound();
   }
 
   const platform = state.channel as unknown as SocialPlatform;
-  const isComingSoon = state.state === "coming-soon";
-  const items = isComingSoon ? [] : getChannelItems(platform.id);
+  const items = getChannelItems(platform.id);
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
@@ -80,7 +78,7 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        {isComingSoon || items.length === 0 ? (
+        {items.length === 0 ? (
           <div className="border-t border-hairline py-16 text-center">
             <h2 className="font-serif text-3xl text-cream">Coming soon</h2>
             <p className="mt-3 text-sm text-cream/50 max-w-md mx-auto leading-relaxed">

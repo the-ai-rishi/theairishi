@@ -1,2 +1,3 @@
 # Moved
-See docs/AUTHORING.md and docs/START_HERE.md.
+
+See docs/ADDING_CONTENT.md and docs/START_HERE.md.

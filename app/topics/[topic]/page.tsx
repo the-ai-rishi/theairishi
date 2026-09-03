@@ -32,7 +32,7 @@ export async function generateMetadata({
   const state = topicRouteState(loadPlatformConfig(), topic, getLiveCatalog());
   const brand = getBrandConfig();
 
-  if (state.state === "not-found" || !state.topic) {
+  if (state.state !== "active" || !state.topic) {
     return { title: `Topic Not Found | ${brand.name}` };
   }
 
@@ -40,7 +40,6 @@ export async function generateMetadata({
   return {
     title: `${config.name} | ${brand.name}`,
     description: config.description,
-    robots: state.state === "coming-soon" ? { index: false, follow: false } : undefined,
   };
 }
 
@@ -48,7 +47,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
   const { topic } = await params;
   const state = topicRouteState(loadPlatformConfig(), topic, getLiveCatalog());
 
-  if (state.state === "not-found" || !state.topic) {
+  if (state.state !== "active" || !state.topic) {
     notFound();
   }
 
@@ -58,7 +57,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
-  const isComingSoon = state.state === "coming-soon" || items.length === 0;
+  const isEmpty = items.length === 0;
   const tone = topicTone(config.color, 0, 1);
 
   return (
@@ -77,7 +76,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
-        {isComingSoon ? (
+        {isEmpty ? (
           <div className="border-t border-hairline py-16">
             <p className="kicker text-cream/40">Coming soon</p>
             <p className="mt-4 max-w-md text-cream/45">

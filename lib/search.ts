@@ -12,6 +12,29 @@ export interface SearchResultItem {
   badge?: string;
 }
 
+const SEARCH_TYPE_LABELS: Record<string, string> = {
+  lesson: "Lesson",
+  guide: "Guide",
+  project: "Project",
+  article: "Article",
+  update: "Update",
+  interview: "Interview",
+  career: "Career",
+  youtube: "Video",
+  instagram: "Video",
+  topic: "Topic",
+  course: "Course",
+};
+
+function labelForSearchType(raw: unknown): string {
+  const key = String(raw || "").trim().toLowerCase();
+  if (SEARCH_TYPE_LABELS[key]) return SEARCH_TYPE_LABELS[key];
+  if (!key) return "Content";
+  return key
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (ch) => ch.toUpperCase());
+}
+
 export function searchSite(query: string): SearchResultItem[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
@@ -67,7 +90,7 @@ export function searchSite(query: string): SearchResultItem[] {
         id: String(item.id),
         title: String(item.title),
         description: String(item.description || ""),
-        type: String(item.type || "content").toUpperCase(),
+        type: labelForSearchType(item.type),
         url: String(item.url || "/"),
         category: item.category as string | undefined,
         badge: item.topicSlug as string | undefined,

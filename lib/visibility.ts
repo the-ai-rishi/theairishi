@@ -44,4 +44,6 @@ export {
   channelRouteState,
   deriveContentTypeHref,
   collectResolvedText,
+  PRIMARY_NAV_LIMIT,
+  splitPrimaryNav,
 } from "./visibility-core";

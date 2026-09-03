@@ -1,2 +1,3 @@
 # Moved
-See docs/OPERATIONS.md. Run the validate script before a production build.
+
+See docs/DEPLOYMENT.md and docs/VALIDATION_AND_TESTING.md. Run validate, then lint, then build.

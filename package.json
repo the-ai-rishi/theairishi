@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "validate": "node scripts/validate.js",
-    "test:platform": "node scripts/scenario-test.js"
+    "test:platform": "node scripts/scenario-test.js",
+    "content:index": "node scripts/content-index.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

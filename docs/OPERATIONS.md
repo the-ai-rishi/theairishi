@@ -1,38 +1,123 @@
 # Operations
-Edit platform.json for topics nav and homepage.
 
-## Add a topic such as Python
-1. Add a topic object in platform.json topics array.
-2. Start with status planned, showOnHomepage false, showInNavigation false.
-3. Add markdown with topic python in frontmatter, or files in content/python/.
-4. When content exists set status active. Set showOnHomepage true to appear in topic-grid. Set showInNavigation true for a header link.
-5. Run the validate script then build. No React changes for a normal new topic.
+All paths below are real. File: content/config/platform.json unless noted.
 
-## Rename a topic
-Change name, shortName, slug on the same object. Keep id stable. Nav and homepage that bind to the topic id will pick up the new slug and label automatically.
+## 1. Only AI
 
-## Disable or re-enable
-To hide everywhere: enabled false, or status disabled. To pause: status paused. To put back: enabled true and status active, with real content if it should appear on the homepage.
+Leave topics id ai enabled true, status active, showOnHomepage true.
 
-## Hide from homepage only
-Keep status active. Set showOnHomepage false. The topic page can still exist. Topic-grid will omit it.
+For every other topics[] row (devops, cloud, software-engineering, interview, updates, career, projects):
 
-## Remove a topic
-Delete the object from the topics array. Do not leave nav hrefs pointing at its old slug; source-bound nav drops automatically. The site must not throw.
+  "enabled": false,
+  "status": "disabled",
+  "showOnHomepage": false,
+  "showInNavigation": false
 
-## Add lessons, guides, projects, updates, a course
-Lessons: markdown in content/lessons or content/courses/<course-id>/ with course and topic frontmatter. Add the course in courses.json if new. Status active only when it has lessons.
-Guides: content/guides/*.md. Projects: content/projects/*.md. Updates: add markdown under content/updates/ after the updates topic exists, then set that topic active when files are published.
-See AUTHORING.md for copy-paste frontmatter.
+Lessons stay on disk. DevOps leaves topic-grid, nav, search, and sitemap. See scenario test 1.
 
-## Homepage order and sections
-Edit homepage.sections. order is the sort key. enabled false hides the instance. showWhenEmpty false (default) drops the section when it has no data. Adding another content-list instance is JSON only. Adding a new TYPE needs a developer.
+## 2. Add DevOps
 
-## Copy, logos, favicon
-Brand and copy live under brand and copy in platform.json. Replace files in public/brand/ and keep logo, logoMark, ogImage paths in JSON. Favicon is app/icon.png (Next.js). Header uses the horizontal logo.
+DevOps is already live (topics id devops, courses.json id devops, two files in content/courses/devops/). To repeat the pattern for a new area:
 
-## YouTube, Instagram, future channels
-Keep status coming-soon until content/media/<id>.json has real items. Then status active, and optionally showOnHomepage true plus a channel-grid section. Add a new channel object with id, href like /tiktok, and content/media/tiktok.json. The generic channel page at /[channel] picks it up. Do not show empty channels as large homepage theater.
+1. Add a topics[] object (see section 7).
+2. Add a courses.json row with topic pointing at that id, status coming-soon until lessons exist.
+3. Add lesson markdown with course and topic set.
+4. Set topic and course status active.
 
-## Copy-paste topic object
-id and slug: python. name: Python. shortName: Python. status: planned (or active when content exists). enabled: true. showOnHomepage: false until it has lessons. showInNavigation: false unless you want a header link. order: a number after existing topics. color and category are display only.
+Current devops topic:
+
+  "id": "devops",
+  "slug": "devops",
+  "status": "active",
+  "enabled": true,
+  "showOnHomepage": true,
+  "showInNavigation": false
+
+## 3. Disable AI
+
+On topics[] id ai:
+
+  "enabled": false,
+  "status": "disabled"
+
+Or status paused to mean temporarily hidden. 15 AI lessons stay on disk. The AI course in courses.json should also move off active if you do not want it on /learn (status coming-soon or enabled false).
+
+## 4. Pause vs disable vs archive vs planned
+
+Use status on the same object. enabled false is a hard hide.
+
+- planned: config only. No route, nav, search, sitemap, homepage. Use for areas that are not launched (cloud, interview, updates today).
+- coming-soon: same public silence for route (404). Not a public coming-soon URL.
+- paused: hidden everywhere, intended as temporary.
+- disabled: hidden everywhere, intended as off.
+- archived: hidden everywhere, intended as retired.
+- active: public where contentCount > 0.
+
+Example pause DevOps:
+
+  "id": "devops",
+  "status": "paused",
+  "enabled": true
+
+## 5. Enable YouTube after the first video
+
+content/media/youtube.json:
+
+  [ { "id": "yt-1", "title": "Attention from scratch", "publishedAt": "2026-09-01", "url": "https://www.youtube.com/watch?v=REAL_ID", "duration": "12:04" } ]
+
+platform.json social id youtube:
+
+  "status": "active",
+  "showOnHomepage": true,
+  "showInNavigation": true
+
+contentTypes id youtube: "status": "active"
+
+Optional homepage.sections item: type channel-grid, enabled true. Optional nav source.kind channel id youtube.
+
+Until those fields change, /youtube is not-found.
+
+## 6. Enable Instagram
+
+Same as YouTube using content/media/instagram.json and ids instagram.
+
+  "id": "instagram",
+  "href": "/instagram",
+  "status": "active"
+
+Do not invent posts.
+
+## 7. Add a Python topic
+
+Do not invent Python lessons. You may add the topic as planned:
+
+  "id": "python",
+  "slug": "python",
+  "name": "Python",
+  "shortName": "Python",
+  "description": "Python from first principles.",
+  "badge": "Python",
+  "category": "Languages",
+  "color": "amber",
+  "order": 20,
+  "enabled": true,
+  "featured": false,
+  "showOnHomepage": false,
+  "showInNavigation": false,
+  "status": "planned"
+
+When real markdown exists with topic: python, flip status to active and showOnHomepage true. No React change.
+
+## 8. Add a new content type
+
+A new Writing-like block is another homepage.sections content-list instance (JSON). Example:
+
+  "id": "python-notes",
+  "type": "content-list",
+  "enabled": true,
+  "order": 9,
+  "title": "Python notes",
+  "source": { "kind": "topic", "topicId": "python" },
+  "showWhenEmpty": false
+
+A new TYPE (pricing table, live stream, map) needs a developer: SECTION_TYPES in visibility-core, a case in SectionRenderer, a React component. The site is not fully config-driven for every UI idea.

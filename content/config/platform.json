@@ -22,8 +22,8 @@
     "heroPrimaryCtaHref": "/learn",
     "heroSecondaryCta": "Read & build",
     "heroSecondaryCtaHref": "#read",
-    "headerCta": "Start with AI",
-    "headerCtaHref": "/learn",
+    "headerCta": "Explore",
+    "headerCtaHref": "#explore",
     "footerCopyright": "The AI Rishi"
   },
   "defaults": {
@@ -395,21 +395,10 @@
         "showWhenEmpty": false
       },
       {
-        "id": "courses",
-        "type": "course-list",
-        "enabled": true,
-        "order": 3,
-        "title": "Learning paths",
-        "subtitle": "First principles",
-        "ctaLabel": "All paths",
-        "ctaHref": "/learn",
-        "showWhenEmpty": false
-      },
-      {
         "id": "topics",
         "type": "topic-grid",
         "enabled": true,
-        "order": 4,
+        "order": 3,
         "title": "The field",
         "subtitle": "Where we work",
         "ctaLabel": "View paths",
@@ -420,7 +409,7 @@
         "id": "recent",
         "type": "content-list",
         "enabled": true,
-        "order": 5,
+        "order": 4,
         "title": "From the desk",
         "subtitle": "Recently published",
         "source": {
@@ -433,7 +422,7 @@
         "id": "guides",
         "type": "content-list",
         "enabled": true,
-        "order": 6,
+        "order": 5,
         "title": "Writing",
         "subtitle": "Essays",
         "source": {
@@ -449,7 +438,7 @@
         "id": "projects-list",
         "type": "content-list",
         "enabled": true,
-        "order": 7,
+        "order": 6,
         "title": "Labs",
         "subtitle": "Built in public",
         "source": {
@@ -459,6 +448,17 @@
         "maxItems": 4,
         "ctaLabel": "All labs",
         "ctaHref": "/projects",
+        "showWhenEmpty": false
+      },
+      {
+        "id": "courses",
+        "type": "course-list",
+        "enabled": true,
+        "order": 7,
+        "title": "Learning paths",
+        "subtitle": "First principles",
+        "ctaLabel": "All paths",
+        "ctaHref": "/learn",
         "showWhenEmpty": false
       },
       {

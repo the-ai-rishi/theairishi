@@ -168,3 +168,8 @@ export function channelRouteState(
 ): { state: "not-found" | "coming-soon" | "active"; channel: KernelEntity | null };
 export function deriveContentTypeHref(platform: unknown, contentType: unknown): string | null;
 export function collectResolvedText(resolved: unknown): string;
+export const PRIMARY_NAV_LIMIT: number;
+export function splitPrimaryNav<T = unknown>(
+  items: T[] | null | undefined,
+  limit?: number
+): { primary: T[]; explore: T[]; limit: number };

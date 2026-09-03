@@ -436,7 +436,7 @@ export function isTopicPublicOn(topic: TopicConfig | null | undefined, surface: 
   return vis.isTopicVisible(loadPlatformConfig(), topic, surface, liveCatalog());
 }
 
-/** Route-visible topics (active + coming-soon). */
+/** Route-visible topics (active with published content). */
 export function getAllTopics(): TopicConfig[] {
   return vis.getRouteTopics(loadPlatformConfig(), liveCatalog()) as unknown as TopicConfig[];
 }

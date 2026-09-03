@@ -336,6 +336,28 @@ function runScenarioTests() {
       channelGrid(home7).some((c) => c.id === "youtube"),
       "Test 7: youtube appears in channel-grid when active with items"
     );
+    const sitemap7 = vis.getSitemapInputs(t7, cat7);
+    const search7 = vis.getSearchIndexInputs(t7, cat7);
+    check(
+      vis.getRouteChannels(t7, cat7).some((c) => c.href === "/youtube" || c.id === "youtube"),
+      "Test 7: enabling YouTube with items adds a /youtube route"
+    );
+    check(
+      sitemap7.channelPaths.includes("/youtube"),
+      "Test 7: /youtube appears in sitemap channelPaths"
+    );
+    check(
+      vis.channelRouteState(t7, "youtube", cat7).state === "active",
+      "Test 7: channelRouteState is active when YouTube has items"
+    );
+    check(
+      search7.items.some((item) => item.type === "youtube"),
+      "Test 7: youtube items are in search when the channel is active with content"
+    );
+    check(
+      search7.channels.some((c) => c.id === "youtube"),
+      "Test 7: youtube channel is in search inputs when active with content"
+    );
 
     // ── Test 8: disable guides content type ─────────────────────────────────
     const t8 = clone(live);
@@ -419,6 +441,124 @@ function runScenarioTests() {
       !liveHome.some((s) => s.type === "channel-grid"),
       "Production: channel-grid is not on the live homepage"
     );
+    check(
+      !liveHome.some(
+        (s) =>
+          s.id === "technology-updates" ||
+          s.id === "interviews" ||
+          s.type === "technology-updates" ||
+          s.type === "interviews"
+      ),
+      "Production: homepage resolved types do not include frozen ids"
+    );
+    const liveSitemap = vis.getSitemapInputs(live, liveCat);
+    check(
+      !liveSitemap.channelPaths.some((path) => String(path).includes("youtube")),
+      "Production: coming-soon YouTube is not a sitemap channelPath"
+    );
+    check(
+      !vis.getRouteChannels(live, liveCat).some((c) => c.id === "youtube"),
+      "Production: coming-soon YouTube is not a route channel"
+    );
+    check(
+      vis.channelRouteState(live, "youtube", liveCat).state === "not-found",
+      "Production: direct /youtube while coming-soon is not-found"
+    );
+
+    // ── Test 10: planned/coming-soon YouTube has no public route ────────────
+    const t10 = clone(live);
+    enableChannelGrid(t10);
+    t10.navigation.main.push({
+      id: "youtube",
+      label: "YouTube",
+      enabled: true,
+      order: 20,
+      source: { kind: "channel", id: "youtube" },
+    });
+    const yt10 = t10.social.find((s) => s.id === "youtube");
+    yt10.enabled = true;
+    yt10.status = "planned";
+    yt10.showOnHomepage = true;
+    yt10.showInNavigation = true;
+    const cat10 = productionCatalog({ channelItemCounts: { youtube: 0, instagram: 0 } });
+    const home10 = vis.resolveHomepageSections(t10, cat10).sections;
+    const nav10 = vis.resolveNavItems(t10, cat10, "main");
+    const search10 = vis.getSearchIndexInputs(t10, cat10);
+    const sitemap10 = vis.getSitemapInputs(t10, cat10);
+    check(
+      !vis.getRouteChannels(t10, cat10).some((c) => c.id === "youtube"),
+      "Test 10: planned YouTube is not a route channel"
+    );
+    check(
+      !sitemap10.channelPaths.includes("/youtube"),
+      "Test 10: planned YouTube is not a channelPath"
+    );
+    check(
+      vis.channelRouteState(t10, "youtube", cat10).state === "not-found",
+      "Test 10: planned YouTube route state is not-found"
+    );
+    check(
+      !channelGrid(home10).some((c) => c.id === "youtube"),
+      "Test 10: planned YouTube is not on homepage channel-grid"
+    );
+    check(
+      !nav10.some((item) => item.id === "youtube" || String(item.href).includes("youtube")),
+      "Test 10: planned YouTube is not in nav"
+    );
+    check(
+      !search10.channels.some((c) => c.id === "youtube"),
+      "Test 10: planned YouTube is not in search"
+    );
+    yt10.status = "coming-soon";
+    const sitemap10b = vis.getSitemapInputs(t10, cat10);
+    check(
+      !sitemap10b.channelPaths.includes("/youtube"),
+      "Test 10: coming-soon YouTube is not a channelPath"
+    );
+    check(
+      vis.channelRouteState(t10, "youtube", cat10).state === "not-found",
+      "Test 10: coming-soon YouTube route state is not-found"
+    );
+    check(
+      !vis.getRouteChannels(t10, cat10).some((c) => c.id === "youtube"),
+      "Test 10: coming-soon YouTube is not a route channel"
+    );
+
+    // ── Test 11: nav split — 8 visible items => 5 primary + 3 explore ───────
+    const eight = Array.from({ length: 8 }, (_, i) => ({
+      id: "nav-" + (i + 1),
+      label: "Item " + (i + 1),
+      href: "/item-" + (i + 1),
+    }));
+    const split8 = vis.splitPrimaryNav(eight, 5);
+    check(split8.primary.length === 5, "Test 11: header primary count is 5");
+    check(split8.explore.length === 3, "Test 11: Explore contains the remaining 3");
+    check(split8.primary[0].id === "nav-1", "Test 11: first primary is the first item");
+    check(split8.explore[0].id === "nav-6", "Test 11: Explore starts at the 6th item");
+    const split5 = vis.splitPrimaryNav(eight.slice(0, 5), 5);
+    check(split5.primary.length === 5 && split5.explore.length === 0, "Test 11: 5 items stay in the bar");
+    const splitDefault = vis.splitPrimaryNav(eight);
+    check(
+      splitDefault.primary.length === 5 && splitDefault.explore.length === 3,
+      "Test 11: default limit is 5"
+    );
+
+    // ── Test 12: active-with-zero-content YouTube is not a public route ──────
+    const t12 = clone(live);
+    enableChannelGrid(t12);
+    const yt12 = t12.social.find((s) => s.id === "youtube");
+    yt12.enabled = true;
+    yt12.status = "active";
+    yt12.showOnHomepage = true;
+    const cat12 = productionCatalog({ channelItemCounts: { youtube: 0, instagram: 0 } });
+    check(
+      vis.channelRouteState(t12, "youtube", cat12).state === "not-found",
+      "Test 12: active YouTube with zero items is not-found"
+    );
+    check(
+      !vis.getSitemapInputs(t12, cat12).channelPaths.includes("/youtube"),
+      "Test 12: active empty YouTube is not a channelPath"
+    );
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -432,7 +572,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-9)");
+  console.log("SCENARIO TESTS PASSED (1-12)");
   return true;
 }
 
