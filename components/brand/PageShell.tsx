@@ -26,7 +26,7 @@ export default function PageShell({
         <div className="absolute right-[-16%] top-[28%] h-[540px] w-[540px] rounded-full bg-circuit/[0.07] blur-[150px]" />
       </div>
       <Header navItems={navItems} brand={brand} copy={copy} showSearch={showSearch} />
-      <div className="flex-1">{children}</div>
+      <div id="main-content" className="flex-1" tabIndex={-1}>{children}</div>
       <Footer navItems={footerNav} brand={brand} copy={copy} />
     </main>
   );

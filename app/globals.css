@@ -334,3 +334,33 @@ details.practice-card .practice-body {
   line-height: 1.7;
   color: rgba(243, 238, 228, 0.75);
 }
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -120%;
+  z-index: 100;
+  background: #d4b46a;
+  color: #08080b;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="button"]:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #d4b46a;
+  outline-offset: 3px;
+}

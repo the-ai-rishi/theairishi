@@ -1,0 +1,17 @@
+# Common tasks
+
+Each of these docs has PURPOSE, WHEN TO USE, PREREQUISITES, WHERE, STEP-BY-STEP, COMPLETE EXAMPLE, VALIDATION, COMMON MISTAKES, TROUBLESHOOTING, HOW TO UNDO.
+
+- [Add a lesson](CONTENT/ADD-LESSON.md)
+- [Add a guide](CONTENT/ADD-GUIDE.md)
+- [Add an article (guide)](CONTENT/ADD-ARTICLE.md)
+- [Add a learning path](CONTENT/ADD-LEARNING-PATH.md)
+- [Edit content](CONTENT/EDIT-CONTENT.md)
+- [Delete or unpublish](CONTENT/DELETE-OR-UNPUBLISH-CONTENT.md)
+- [Enable YouTube](FEATURES/YOUTUBE.md)
+- [Enable Instagram](FEATURES/INSTAGRAM.md)
+- [Add a domain](ADVANCED/ADDING-A-NEW-DOMAIN.md)
+- [Pre-publish checklist](OPERATIONS/PRE-PUBLISH-CHECKLIST.md)
+- [Validate](OPERATIONS/VALIDATION.md)
+- [Deploy](OPERATIONS/DEPLOYMENT.md)
+- [Revert](OPERATIONS/BACKUP-AND-RECOVERY.md)

@@ -1,5 +1,3 @@
-# Content file index
+# CONTENT FILE INDEX
 
-Do not maintain a stale file-by-file list in git. Use the content:index script (scripts/content-index.js). It prints markdown and config grouped by content/config, content/lessons, content/courses, content/guides, content/projects, content/media, and docs. It skips node_modules, .git, and .next.
-
-Today: 15 AI lessons, 2 DevOps lessons, 1 guide, 1 project, empty youtube.json and instagram.json.
+Moved. See REFERENCE/FILE-STRUCTURE.md (or run the content:index script). Start at START_HERE.md.

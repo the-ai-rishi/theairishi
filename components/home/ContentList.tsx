@@ -102,18 +102,28 @@ function LabShowcase({ items }: { items: UniversalContentItem[] }) {
   );
 }
 
+function journalTypeLabel(type?: string): string {
+  const key = String(type || "").toLowerCase();
+  if (key === "lesson" || key === "learn") return "Lesson";
+  if (key === "guide" || key === "guides" || key === "article") return "Guide";
+  if (key === "project" || key === "projects") return "Lab";
+  if (key === "youtube" || key === "instagram") return "Video";
+  if (!key) return "Note";
+  return key.replace(/[-_]+/g, " ").replace(/\b\w/g, (ch) => ch.toUpperCase());
+}
+
 function JournalRow({ item }: { item: UniversalContentItem }) {
   return (
     <li>
       <Link
         href={item.url}
-        className="group grid grid-cols-1 items-baseline gap-2 py-4 sm:grid-cols-[7.5rem_5.5rem_1fr] sm:gap-6"
+        className="group grid grid-cols-1 items-baseline gap-2 py-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:grid-cols-[7.5rem_5.5rem_1fr] sm:gap-6"
       >
         <span className="font-mono text-[13px] text-cream/40">
           {formatDate(item.publishedAt) || "\u00a0"}
         </span>
         <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold/70">
-          {item.type}
+          {journalTypeLabel(item.type)}
         </span>
         <span className="font-serif text-xl tracking-[0.01em] text-cream group-hover:text-gold-bright sm:text-2xl">
           {item.title}
@@ -185,13 +195,13 @@ function MediaStrip({ items }: { items: UniversalContentItem[] }) {
   return (
     <div className="mt-8 flex gap-5 overflow-x-auto pb-2">
       {items.map((item) => (
-        <Link key={item.id} href={item.url} className="group w-[280px] shrink-0 sm:w-[320px]">
+        <Link key={item.id} href={item.url} className="group w-[280px] shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:w-[320px]">
           <div className="relative aspect-video border border-hairline bg-field">
             <span className="absolute inset-0 m-auto h-10 w-10 border border-cream/30" />
             <span className="absolute inset-0 m-auto h-0 w-0 border-y-[7px] border-l-[12px] border-y-transparent border-l-cream/80" style={{ left: "52%" }} />
           </div>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-cream/40">
-            {item.type}
+            {journalTypeLabel(item.type)}
           </p>
           <h3 className="mt-1 font-serif text-xl text-cream group-hover:text-gold-bright">
             {item.title}
@@ -230,7 +240,7 @@ export default function ContentList({
   return (
     <section
       id={sectionAnchorId("content-list", section.source, items)}
-      className="scroll-mt-24 py-12 sm:py-16"
+      className="scroll-mt-24 py-10 sm:py-12"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading

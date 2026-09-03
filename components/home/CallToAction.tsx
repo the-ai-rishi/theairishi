@@ -7,10 +7,10 @@ export default function CallToAction({ section }: { section?: ResolvedHomepageSe
   const copy = getPlatformCopy();
 
   return (
-    <section id="close" className="py-20 sm:py-28">
+    <section id="close" className="py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="dual-rule" />
-        <div className="py-16 text-center sm:py-20">
+        <div className="py-12 text-center sm:py-16">
           <p className="kicker text-gold/80">{section?.subtitle || brand.shortName || brand.name}</p>
           <h2 className="mx-auto mt-6 max-w-4xl font-serif text-4xl leading-[1.05] tracking-[0.012em] text-cream sm:text-6xl lg:text-7xl">
             {section?.title || brand.tagline}

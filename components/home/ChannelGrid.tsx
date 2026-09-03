@@ -18,7 +18,7 @@ export default function ChannelGrid({
   return (
     <section
       id={sectionAnchorId("channel-grid")}
-      className="scroll-mt-24 py-12 sm:py-16"
+      className="scroll-mt-24 py-10 sm:py-12"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading kicker={subtitle} title={title} />
@@ -27,7 +27,7 @@ export default function ChannelGrid({
             <Link
               key={channel.id}
               href={channel.href}
-              className="group w-[280px] shrink-0 sm:w-[340px]"
+              className="group w-[280px] shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:w-[340px]"
             >
               <div className="relative aspect-video overflow-hidden border border-hairline bg-field">
                 <div className="absolute inset-0 bg-gradient-to-tr from-gold/10 via-transparent to-circuit/15" />

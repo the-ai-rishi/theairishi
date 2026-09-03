@@ -1,3 +1,3 @@
 # Moved
 
-See docs/ADDING_CONTENT.md and docs/START_HERE.md.
+See docs/CONTENT/ADD-LESSON.md and docs/START_HERE.md.

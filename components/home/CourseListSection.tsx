@@ -21,7 +21,7 @@ export default function CourseListSection({
   return (
     <section
       id={sectionAnchorId("course-list")}
-      className="scroll-mt-24 py-12 sm:py-16"
+      className="scroll-mt-24 py-10 sm:py-12"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
@@ -44,7 +44,7 @@ export default function CourseListSection({
                 <li key={course.id}>
                   <Link
                     href={href}
-                    className="group flex items-baseline gap-4 py-5 sm:gap-8"
+                    className="group flex items-baseline gap-4 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:gap-8"
                   >
                     <span className="w-8 font-mono text-[13px] text-cream/35">
                       {String(index + 2).padStart(2, "0")}

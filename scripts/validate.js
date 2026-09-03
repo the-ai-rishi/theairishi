@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const vis = require("../lib/visibility-core");
 const { runScenarioTests } = require("./scenario-test");
+const matter = require("gray-matter");
 
 const rootDir = process.cwd();
 const configDir = path.join(rootDir, "content", "config");
@@ -121,7 +122,30 @@ if (platform) {
 
   for (const listName of ["main", "footer"]) {
     const list = (platform.navigation && platform.navigation[listName]) || [];
+    const navIds = new Set();
     for (const item of list) {
+      if (item && item.id) {
+        if (navIds.has(item.id)) {
+          errors.push(
+            "Problem: duplicate navigation id '" +
+              item.id +
+              "' in navigation." +
+              listName +
+              ". Fix: edit content/config/platform.json, set FIELD navigation." +
+              listName +
+              "[].id to VALUE a unique id (each id may appear only once inside " +
+              listName +
+              ")."
+          );
+        }
+        navIds.add(item.id);
+      } else {
+        errors.push(
+          "Problem: a navigation." +
+            listName +
+            " item is missing id. Fix: edit content/config/platform.json, set FIELD id to VALUE a unique string."
+        );
+      }
       if (item.enabled === false) continue;
       if (item.source && item.source.kind === "topic") {
         const key = item.source.topicId || item.source.id;
@@ -311,6 +335,135 @@ for (const root of codeRoots) {
     }
     if (src.includes("/file.svg")) {
       errors.push("Placeholder /file.svg in " + rel);
+    }
+  }
+}
+
+function problem(file, field, value, issue) {
+  return (
+    "Problem: " +
+    issue +
+    ". Fix: edit " +
+    file +
+    ", set FIELD " +
+    field +
+    " to VALUE " +
+    value
+  );
+}
+
+function parseMarkdownFile(filePath) {
+  const raw = fs.readFileSync(filePath, "utf8");
+  try {
+    const parsed = matter(raw);
+    return { data: parsed.data || {}, content: parsed.content || "", raw };
+  } catch (err) {
+    return { data: {}, content: raw, raw, parseError: err.message };
+  }
+}
+
+function collectMarkdownGroup(relDir) {
+  return scanMarkdown(path.join(contentDir, relDir)).map((filePath) => {
+    const parsed = parseMarkdownFile(filePath);
+    const rel = path.relative(rootDir, filePath);
+    const filenameSlug = path.basename(filePath, ".md");
+    const slug =
+      typeof parsed.data.slug === "string" && parsed.data.slug.trim()
+        ? parsed.data.slug.trim()
+        : filenameSlug;
+    return { filePath, rel, filenameSlug, slug, data: parsed.data, content: parsed.content, raw: parsed.raw, parseError: parsed.parseError };
+  });
+}
+
+const lessonMarkdown = [
+  ...collectMarkdownGroup("lessons"),
+  ...collectMarkdownGroup("courses"),
+];
+const guideMarkdown = collectMarkdownGroup("guides");
+const projectMarkdown = collectMarkdownGroup("projects");
+
+function checkDuplicateSlugs(items, kind) {
+  const seen = new Map();
+  for (const item of items) {
+    if (item.parseError) {
+      errors.push(
+        problem(item.rel, "frontmatter", "valid YAML between --- fences", "could not parse frontmatter (" + item.parseError + ")")
+      );
+      continue;
+    }
+    const key = String(item.slug || "").toLowerCase();
+    if (!key) {
+      errors.push(
+        problem(item.rel, "slug", item.filenameSlug, kind + " is missing a slug and a usable filename")
+      );
+      continue;
+    }
+    if (seen.has(key)) {
+      errors.push(
+        problem(
+          item.rel,
+          "slug",
+          "a unique " + kind + " slug (also used by " + seen.get(key) + ")",
+          "duplicate " + kind + " slug '" + item.slug + "'"
+        )
+      );
+    } else {
+      seen.set(key, item.rel);
+    }
+  }
+}
+
+checkDuplicateSlugs(lessonMarkdown, "lesson");
+checkDuplicateSlugs(guideMarkdown, "guide");
+checkDuplicateSlugs(projectMarkdown, "project");
+
+for (const item of [...lessonMarkdown, ...guideMarkdown, ...projectMarkdown]) {
+  if (item.parseError) continue;
+  const title = item.data.title;
+  if (!title || (typeof title === "string" && !title.trim())) {
+    errors.push(
+      problem(item.rel, "title", '"A clear title"', "missing required frontmatter title")
+    );
+  }
+}
+
+for (const item of lessonMarkdown) {
+  if (item.parseError) continue;
+  const course = item.data.course;
+  const topic = item.data.topic || item.data.topicSlug;
+  if (!course || (typeof course === "string" && !String(course).trim())) {
+    errors.push(
+      problem(item.rel, "course", '"ai" or another courses.json id', "lesson is missing required frontmatter course")
+    );
+  }
+  if (!topic || (typeof topic === "string" && !String(topic).trim())) {
+    errors.push(
+      problem(item.rel, "topic", '"ai" or another topics[].id', "lesson is missing required frontmatter topic")
+    );
+  }
+}
+
+const imageRefPattern = /!\[[^\]]*\]\((\/(?:brand|images)\/[^)\s]+)\)|<(?:img|Image)[^>]+(?:src|srcSet)=["'](\/(?:brand|images)\/[^"'\s]+)["']/gi;
+for (const item of [...lessonMarkdown, ...guideMarkdown, ...projectMarkdown]) {
+  const haystack = item.raw || "";
+  let match;
+  const found = new Set();
+  imageRefPattern.lastIndex = 0;
+  while ((match = imageRefPattern.exec(haystack))) {
+    const relUrl = match[1] || match[2];
+    if (relUrl) found.add(relUrl);
+  }
+  for (const relUrl of found) {
+    const disk = path.join(publicDir, relUrl.replace(/^\//, ""));
+    if (!fs.existsSync(disk)) {
+      errors.push(
+        problem(
+          item.rel,
+          "markdown image path " + relUrl,
+          "a file that exists under public" + relUrl,
+          "markdown image is missing on disk"
+        )
+      );
     }
   }
 }

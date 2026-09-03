@@ -70,7 +70,7 @@ export default function Header({
             <div className="relative" ref={exploreRef}>
               <button
                 type="button"
-                className="inline-flex items-center gap-1 font-mono text-[13px] tracking-[0.14em] text-cream/60 hover:text-cream"
+                className="inline-flex items-center gap-1 font-mono text-[13px] tracking-[0.14em] text-cream/60 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 aria-expanded={exploreOpen}
                 aria-controls="header-explore-menu"
                 aria-haspopup="true"
@@ -110,7 +110,7 @@ export default function Header({
 
           <Link
             href={headerCtaHref}
-            className="hidden font-mono text-[13px] tracking-[0.14em] text-gold hover:text-gold-bright sm:inline-flex"
+            className="hidden font-mono text-[13px] tracking-[0.14em] text-gold hover:text-gold-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:inline-flex"
           >
             {headerCta}
           </Link>
@@ -121,7 +121,7 @@ export default function Header({
               setMobileMenuOpen(!mobileMenuOpen);
               setExploreOpen(false);
             }}
-            className="flex h-10 w-10 items-center justify-center text-cream/70 transition hover:text-cream lg:hidden"
+            className="flex h-10 w-10 items-center justify-center text-cream/70 transition hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink lg:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"

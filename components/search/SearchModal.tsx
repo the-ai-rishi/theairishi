@@ -68,7 +68,7 @@ export default function SearchModal() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 border border-hairline bg-transparent px-3 py-1.5 font-mono text-[12px] tracking-[0.08em] text-cream/45 transition hover:border-gold/30 hover:text-cream cursor-pointer"
+        className="inline-flex items-center gap-2 border border-hairline bg-transparent px-3 py-1.5 font-mono text-[12px] tracking-[0.08em] text-cream/45 transition hover:border-gold/30 hover:text-cream cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         aria-label="Search platform"
       >
         <Search className="h-3.5 w-3.5 text-gold/70" />

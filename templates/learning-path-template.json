@@ -1,0 +1,14 @@
+{
+  "id": "example-path",
+  "slug": "example-path",
+  "title": "Example Path Title",
+  "description": "One paragraph describing the curriculum. Do not publish this object until real lessons exist.",
+  "topic": "ai",
+  "category": "Artificial Intelligence",
+  "order": 20,
+  "enabled": true,
+  "status": "coming-soon",
+  "featured": false,
+  "showOnHomepage": false,
+  "badge": "Upcoming Course"
+}

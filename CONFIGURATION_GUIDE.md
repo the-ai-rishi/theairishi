@@ -1,3 +1,3 @@
 # Moved
 
-See docs/CONFIGURATION.md and docs/OPERATIONS.md.
+See docs/CONFIGURATION/SITE-CONFIGURATION.md.

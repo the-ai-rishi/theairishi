@@ -15,7 +15,13 @@ interface HeroSectionProps {
   modes?: HeroMode[];
 }
 
+function isExploreHref(href?: string): boolean {
+  const value = String(href || "").trim();
+  return value === "/#explore" || value === "#explore";
+}
+
 export default function HeroSection({
+  topics = [],
   focusTopic = null,
   tone = "discovery",
   modes = [],
@@ -30,16 +36,14 @@ export default function HeroSection({
   const primaryHref = focused ? `/topics/${focusTopic.slug}` : copy.heroPrimaryCtaHref;
   const primaryLabel = focused ? `Start ${focusTopic.shortName}` : copy.heroPrimaryCta;
 
-  const readMode = modes.find((m) => m.id === "read");
-  const buildMode = modes.find((m) => m.id === "build");
-  const secondary =
-    readMode && buildMode
-      ? { label: copy.heroSecondaryCta || "Read & build", href: readMode.href }
-      : readMode
-        ? { label: "Read a guide", href: readMode.href }
-        : buildMode
-          ? { label: "See a project", href: buildMode.href }
-          : null;
+  const secondaryLabel = copy.heroSecondaryCta;
+  const secondaryHref = copy.heroSecondaryCtaHref || "/guides";
+  const secondary = secondaryLabel
+    ? { label: secondaryLabel, href: secondaryHref }
+    : null;
+
+  const showExploreField =
+    topics.length > 0 && !isExploreHref(primaryHref) && !isExploreHref(secondary?.href);
 
   return (
     <section className="relative overflow-hidden pt-8 pb-8 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-10">
@@ -62,7 +66,7 @@ export default function HeroSection({
             </p>
 
             {modes.length > 0 ? (
-              <nav aria-label="Modes" className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <nav aria-label="What you can do today" className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 {modes.map((mode, i) => (
                   <span key={mode.id} className="contents">
                     {i > 0 ? (
@@ -94,6 +98,14 @@ export default function HeroSection({
                   className="link-editorial font-mono text-[14px] tracking-[0.12em] text-cream/65 hover:text-circuit-bright"
                 >
                   {secondary.label} →
+                </Link>
+              ) : null}
+              {showExploreField ? (
+                <Link
+                  href="/#explore"
+                  className="link-editorial font-mono text-[13px] tracking-[0.12em] text-cream/45 hover:text-gold"
+                >
+                  Explore the field
                 </Link>
               ) : null}
             </div>

@@ -67,6 +67,8 @@ export interface TopicConfig {
   showOnHomepage: boolean;
   showInNavigation: boolean;
   status: PlatformStatus;
+  /** Hydrated at homepage resolve from catalog.topicContentCounts. Not a JSON field. */
+  contentCount?: number;
 }
 
 export type NavSource =
