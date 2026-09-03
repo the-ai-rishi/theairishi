@@ -10,7 +10,9 @@ import {
   getComingSoonCourses,
   getBrandConfig,
   getPlatformCopy,
+  isContentTypeRoutable,
 } from "@/lib/config";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();
@@ -34,6 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function LearnPage() {
+  if (!isContentTypeRoutable("learn")) notFound();
   const courses = getAllCourses();
   const allLessons = getAllLessonSummaries();
   const mainNav = getMainNavigation();

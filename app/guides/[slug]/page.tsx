@@ -3,7 +3,7 @@ import { Clock } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getAllGuideSlugs, getGuide } from "@/lib/guides";
 import LessonContent from "@/components/learning/LessonContent";
-import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy } from "@/lib/config";
+import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -12,6 +12,7 @@ interface GuidePageProps {
 }
 
 export async function generateStaticParams() {
+  if (!isContentTypeRoutable("guides")) return [];
   return getAllGuideSlugs().map((slug) => ({ slug }));
 }
 
@@ -34,6 +35,7 @@ export async function generateMetadata({
 
 export default async function GuideSinglePage({ params }: GuidePageProps) {
   const { slug } = await params;
+  if (!isContentTypeRoutable("guides")) notFound();
   const guide = await getGuide(slug);
   const brand = getBrandConfig();
 

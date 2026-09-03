@@ -559,6 +559,38 @@ function runScenarioTests() {
       !vis.getSitemapInputs(t12, cat12).channelPaths.includes("/youtube"),
       "Test 12: active empty YouTube is not a channelPath"
     );
+
+    // ── Test 13: listing file routes follow content type status ─────────────
+    check(
+      vis.contentTypeRouteState(live, "learn").state === "active",
+      "Test 13: live learn is routable"
+    );
+    check(
+      vis.contentTypeRouteState(live, "guides").state === "active",
+      "Test 13: live guides is routable"
+    );
+    check(
+      vis.contentTypeRouteState(live, "projects").state === "active",
+      "Test 13: live projects is routable"
+    );
+    const t13 = clone(live);
+    const learn13 = t13.contentTypes.find((c) => c.id === "learn");
+    learn13.status = "disabled";
+    check(
+      vis.contentTypeRouteState(t13, "learn").state === "not-found",
+      "Test 13: disabled learn is not-found"
+    );
+    learn13.status = "coming-soon";
+    check(
+      vis.contentTypeRouteState(t13, "learn").state === "not-found",
+      "Test 13: coming-soon learn is not-found"
+    );
+    learn13.status = "active";
+    learn13.enabled = false;
+    check(
+      vis.contentTypeRouteState(t13, "learn").state === "not-found",
+      "Test 13: enabled-false learn is not-found"
+    );
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -572,7 +604,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-12)");
+  console.log("SCENARIO TESTS PASSED (1-13)");
   return true;
 }
 

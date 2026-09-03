@@ -3,7 +3,7 @@ import { Globe } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getAllProjectSlugs, getProject } from "@/lib/projects";
 import LessonContent from "@/components/learning/LessonContent";
-import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy } from "@/lib/config";
+import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -30,6 +30,7 @@ function GithubIcon({ className }: { className?: string }) {
 }
 
 export async function generateStaticParams() {
+  if (!isContentTypeRoutable("projects")) return [];
   return getAllProjectSlugs().map((slug) => ({ slug }));
 }
 
@@ -52,6 +53,7 @@ export async function generateMetadata({
 
 export default async function ProjectSinglePage({ params }: ProjectPageProps) {
   const { slug } = await params;
+  if (!isContentTypeRoutable("projects")) notFound();
   const project = await getProject(slug);
   const brand = getBrandConfig();
 

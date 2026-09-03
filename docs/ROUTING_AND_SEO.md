@@ -14,7 +14,9 @@
 
 Topic and channel generateStaticParams use getRouteTopics / getRouteChannels. Only active plus contentCount > 0 is emitted. Visiting /youtube while coming-soon is notFound().
 
-/learn, /guides, /projects always exist as files. Nav and sitemap hide them when the content type is not public.
+/learn, /guides, /projects (and their /SLUG pages) still exist as files, but the page calls notFound() unless the matching content type is enabled and active. generateStaticParams emits no slugs when the type is hidden. Nav and sitemap already hide them.
+
+Helper: contentTypeRouteState / isContentTypeRoutable.
 
 ## Sitemap and robots
 

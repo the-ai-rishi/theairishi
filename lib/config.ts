@@ -458,13 +458,18 @@ export function getSitemapTopics(): TopicConfig[] {
 }
 
 /**
- * Look up a topic by id/slug. Returns the record if it has a public route
- * (active or coming-soon). Disabled/planned topics return null.
+ * Look up a topic by id/slug. Returns the record only if it has a public
+ * route (active with content). Hidden/empty topics return null.
  */
 export function getTopicBySlug(slug: string): TopicConfig | null {
   const state = vis.topicRouteState(loadPlatformConfig(), slug, liveCatalog());
   if (state.state === "not-found") return null;
   return state.topic as unknown as TopicConfig;
+}
+
+
+export function isContentTypeRoutable(id: string): boolean {
+  return vis.contentTypeRouteState(loadPlatformConfig(), id).state === "active";
 }
 
 export function getContentTypeRecord(id: string): ContentTypeConfig | null {

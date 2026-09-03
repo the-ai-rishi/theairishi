@@ -20,7 +20,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Explore, headerCtaHref #explore, heroPrimaryCta Start with AI, heroPrimaryCtaHref /learn.
+Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start with AI, heroPrimaryCtaHref /learn. Overflow disclosure is More.
 
 ## defaults
 

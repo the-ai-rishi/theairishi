@@ -23,7 +23,7 @@
     "heroSecondaryCta": "Read & build",
     "heroSecondaryCtaHref": "#read",
     "headerCta": "Explore",
-    "headerCtaHref": "#explore",
+    "headerCtaHref": "/#explore",
     "footerCopyright": "The AI Rishi"
   },
   "defaults": {

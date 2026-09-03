@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/brand/PageShell";
 import { getAllGuideSummaries } from "@/lib/guides";
-import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, getContentTypeRecord } from "@/lib/config";
+import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { notFound } from "next/navigation";
-import * as vis from "@/lib/visibility-core";
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();
@@ -16,10 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function GuidesPage() {
-  const contentType = getContentTypeRecord("guides");
-  if (!contentType || contentType.enabled === false) notFound();
-  const status = vis.normalizeStatus(contentType.status);
-  if (["planned", "paused", "disabled", "archived"].includes(status)) notFound();
+  if (!isContentTypeRoutable("guides")) notFound();
   const guides = getAllGuideSummaries();
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();

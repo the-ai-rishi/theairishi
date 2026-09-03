@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import SearchModal from "@/components/search/SearchModal";
 import Footer from "@/components/layout/Footer";
 import Logo from "@/components/brand/Logo";
-import { getBrandConfig, getFooterNavigation, getPlatformCopy } from "@/lib/config";
+import { getBrandConfig, getFooterNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 
 import LessonHeader from "@/components/learning/LessonHeader";
 import LessonNavigation from "@/components/learning/LessonNavigation";
@@ -27,6 +27,7 @@ interface LessonPageProps {
 }
 
 export async function generateStaticParams() {
+  if (!isContentTypeRoutable("learn")) return [];
   return getAllLessonSlugs().map((slug) => ({ slug }));
 }
 
@@ -79,6 +80,7 @@ export async function generateMetadata({
 
 export default async function LessonPage({ params }: LessonPageProps) {
   const { slug } = await params;
+  if (!isContentTypeRoutable("learn")) notFound();
   const lesson = await getLesson(slug);
   const lessonContext = getLessonContext(slug);
 

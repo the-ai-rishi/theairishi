@@ -31,7 +31,7 @@ Enable YouTube after first video? See YOUTUBE_AND_INSTAGRAM.md and OPERATIONS.md
 Enable Instagram? Same pattern. See OPERATIONS.md section 6.
 Add a Python topic? JSON plus real lessons. Do not invent Python content. See TOPICS_AND_AREAS.md and OPERATIONS.md section 7.
 Add a new content type? Another content-list is JSON. A new TYPE needs React. See FUTURE_CONTENT_TYPES.md and OPERATIONS.md section 8.
-Change homepage order or copy? homepage.sections and copy.* . Header CTA is Explore to #explore. Hero stays Start with AI / /learn. See HOMEPAGE_COMPOSITION.md
+Change homepage order or copy? homepage.sections and copy.* . Header CTA is Explore to /#explore. Overflow is More. Hero stays Start with AI / /learn. See HOMEPAGE_COMPOSITION.md
 Will search find a guide or future video? When that format or channel is active with content. Labels: Lesson, Guide, Project, Topic, Course, Video. See SEARCH.md
 Why does /youtube 404? We do not advertise unlaunched products via a public URL. See ROUTING_AND_SEO.md
 Validate before deploy? validate, lint, build. See VALIDATION_AND_TESTING.md and DEPLOYMENT.md

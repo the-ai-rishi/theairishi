@@ -166,6 +166,11 @@ export function channelRouteState(
   key: string,
   catalog?: PlatformCatalog
 ): { state: "not-found" | "coming-soon" | "active"; channel: KernelEntity | null };
+export function contentTypeRouteState(
+  platform: unknown,
+  key: string,
+  catalog?: PlatformCatalog
+): { state: "not-found" | "coming-soon" | "active"; contentType: KernelEntity | null };
 export function deriveContentTypeHref(platform: unknown, contentType: unknown): string | null;
 export function collectResolvedText(resolved: unknown): string;
 export const PRIMARY_NAV_LIMIT: number;

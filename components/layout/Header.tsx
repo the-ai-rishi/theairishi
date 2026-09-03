@@ -76,7 +76,7 @@ export default function Header({
                 aria-haspopup="true"
                 onClick={() => setExploreOpen((open) => !open)}
               >
-                Explore
+                More
                 <ChevronDown
                   className={`h-3.5 w-3.5 transition ${exploreOpen ? "rotate-180" : ""}`}
                   aria-hidden="true"

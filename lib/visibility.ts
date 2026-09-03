@@ -42,6 +42,7 @@ export {
   getRouteChannels,
   topicRouteState,
   channelRouteState,
+  contentTypeRouteState,
   deriveContentTypeHref,
   collectResolvedText,
   PRIMARY_NAV_LIMIT,

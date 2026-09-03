@@ -24,4 +24,4 @@ Adding another Writing-like block: another content-list instance. Adding a prici
 
 Do not add empty youtube, instagram, updates, or interview instances. showWhenEmpty defaults to false.
 
-Header CTA: copy.headerCta Explore, copy.headerCtaHref #explore. Hero primary CTA stays Start with AI / /learn.
+Header CTA: copy.headerCta Explore, copy.headerCtaHref /#explore (works from inner pages). Overflow disclosure is More, not Explore. Hero primary CTA stays Start with AI / /learn.
