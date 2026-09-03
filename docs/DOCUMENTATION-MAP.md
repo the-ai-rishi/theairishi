@@ -1,8 +1,26 @@
 # Documentation map
 
-Start at START_HERE.md. Then this map. Then COMMON-TASKS.md.
+## PURPOSE
+
+Find the operator doc and the exact files for a job in this repository. Not a generic CMS map.
+
+## WHEN TO USE
+
+When you know the job (add a guide, change hero, enable YouTube) and need the file plus the long-form doc.
+
+## PREREQUISITES
+
+Read [START_HERE.md](./START_HERE.md) first. Then this map. Then [COMMON-TASKS.md](./COMMON-TASKS.md).
+
+## WHERE
 
 Honesty: new topic / lesson / guide / project / channel-with-existing-type = JSON + markdown, no React. New homepage section TYPE, new route shape, new visibility semantics = developer. There is no Python content. YouTube and Instagram stay empty and coming-soon until REAL items exist. Active + zero content = no public route. Coming-soon is not a public coming-soon URL.
+
+Kernel: `lib/visibility-core.js`. Config: `content/config/platform.json`, `content/config/courses.json`. Content: `content/lessons`, `content/courses`, `content/guides`, `content/projects`, `content/media`.
+
+## STEP-BY-STEP
+
+Use the I want to table, then the What file do I edit table.
 
 | I want to | Read | Files involved |
 | --- | --- | --- |
@@ -29,3 +47,44 @@ Honesty: new topic / lesson / guide / project / channel-with-existing-type = JSO
 | Deploy | OPERATIONS/DEPLOYMENT.md | Vercel, theairishi.vercel.app. PR branch is not auto-main. |
 | Fix a missing route or block | OPERATIONS/TROUBLESHOOTING.md | visibility-core 404-until-active-plus-content |
 | Revert a mistake | OPERATIONS/BACKUP-AND-RECOVERY.md | git restore, git revert. No force-push. |
+
+### What file do I edit?
+
+| Job | File | Field / what to change |
+| --- | --- | --- |
+| Homepage title | `content/config/platform.json` | `copy.heroTitle` (live: The AI Rishi). Also `copy.heroBadge`, `copy.heroTagline` |
+| Hero description | `content/config/platform.json` | `copy.heroDescription` (and `brand.description` if the site description should match) |
+| Enable YouTube | `content/media/youtube.json` plus `content/config/platform.json` | Real items in youtube.json first. Then `social[]` id `youtube` and `contentTypes[]` id `youtube` `status` `active`. Do not invent items. Live files are empty and coming-soon. |
+| Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |
+| Add domain | `content/config/platform.json` | `topics[]` object. Start `planned`, `showOnHomepage` false, `showInNavigation` false. Planned python topic is OK. Do not invent Python lessons. |
+| SEO | `content/config/platform.json` `brand.description`, `brand.tagline`, `brand.url`; `app/layout.tsx` `metadata` | layout reads `siteConfig` from `lib/site.ts` (brand name/tagline/description). Per-page `generateMetadata` on listing/slug pages. Sitemap `app/sitemap.ts`, robots `app/robots.ts` |
+| Header CTA | `content/config/platform.json` | `copy.headerCta` (live: Explore), `copy.headerCtaHref` (live: /#explore). Overflow label More is code, cap 5 |
+
+## COMPLETE EXAMPLE
+
+Change the hero title: edit `content/config/platform.json` `copy.heroTitle`. Do not edit `components/home/HeroSection.tsx` for that string. Then npm run validate and refresh http://localhost:3000.
+
+Enable YouTube: only after a real video exists. Put an object with `id`, `title`, `publishedAt`, `url` in `content/media/youtube.json`. Set `social` id youtube and `contentTypes` id youtube to `status` `active`. Until then /youtube 404s. Full doc: [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md).
+
+## VALIDATION
+
+npm run validate. See [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md).
+
+## COMMON MISTAKES
+
+- Editing React for copy that lives in `copy.hero*` or `copy.headerCta`
+- Enabling YouTube with an empty `youtube.json`
+- Inventing Python lessons when adding a domain
+- Cropping brand PNG/JPG
+
+## TROUBLESHOOTING
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Cannot find which file to edit | Job is copy vs content vs type | Use What file do I edit? then the I want to row |
+| Hero did not change | Edited the wrong field or a component | `copy.heroTitle` / `copy.heroDescription` in platform.json |
+| /youtube still 404 | coming-soon or empty JSON | Expected until real items + status active |
+
+## HOW TO UNDO
+
+`git restore` the JSON or markdown, or `git revert`. Do not force-push. See [OPERATIONS/BACKUP-AND-RECOVERY.md](./OPERATIONS/BACKUP-AND-RECOVERY.md).

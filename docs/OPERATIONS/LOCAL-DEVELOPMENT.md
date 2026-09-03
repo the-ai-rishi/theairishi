@@ -2,316 +2,93 @@
 
 ## PURPOSE
 
-
-Operator guide for this repository, not a generic CMS.
+Install dependencies, run the Next.js 16 dev server, click the live public surfaces, stop the server, and recover from common port problems. This file is not the Only-AI / Add-DevOps operations playbook.
 
 ## WHEN TO USE
 
-
-Use this when changing this area of The AI Rishi.
+Whenever you need a local http://localhost:3000 session for The AI Rishi.
 
 ## PREREQUISITES
 
-
-Repo cloned.
+- Repository cloned.
+- Node.js and npm on PATH.
+- Work from the repository root (`package.json` lives there).
 
 ## WHERE
 
-
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
+- App: `package.json` scripts `dev` (`next dev`), `start` (`next start`)
+- Hero copy: `content/config/platform.json` `copy.hero*`
+- Topics: `content/config/platform.json` `topics[]`
+- Lessons: `content/lessons`, `content/courses/devops`
+- Guides: `content/guides`
+- Projects: `content/projects`
+- Media: `content/media/youtube.json`, `content/media/instagram.json`
+- Kernel: `lib/visibility-core.js`
 
 ## STEP-BY-STEP
 
-
-# Operations
-
-
-All paths below are real. File: content/config/platform.json unless noted.
-
-## 1. Only AI
-
-
-Leave topics id ai enabled true, status active, showOnHomepage true.
-
-For every other topics[] row (devops, cloud, software-engineering, interview, updates, career, projects):
-
-  "enabled": false,
-  "status": "disabled",
-  "showOnHomepage": false,
-  "showInNavigation": false
-
-Lessons stay on disk. DevOps leaves topic-grid, nav, search, and sitemap. See scenario test 1.
-
-## 2. Add DevOps
-
-
-DevOps is already live (topics id devops, courses.json id devops, two files in content/courses/devops/). To repeat the pattern for a new area:
-
-1. Add a topics[] object (see section 7).
-2. Add a courses.json row with topic pointing at that id, status coming-soon until lessons exist.
-3. Add lesson markdown with course and topic set.
-4. Set topic and course status active.
-
-Current devops topic:
-
-  "id": "devops",
-  "slug": "devops",
-  "status": "active",
-  "enabled": true,
-  "showOnHomepage": true,
-  "showInNavigation": false
-
-## 3. Disable AI
-
-
-On topics[] id ai:
-
-  "enabled": false,
-  "status": "disabled"
-
-Or status paused to mean temporarily hidden. 15 AI lessons stay on disk. The AI course in courses.json should also move off active if you do not want it on /learn (status coming-soon or enabled false).
-
-## 4. Pause vs disable vs archive vs planned
-
-
-Use status on the same object. enabled false is a hard hide.
-
-- planned: config only. No route, nav, search, sitemap, homepage. Use for areas that are not launched (cloud, interview, updates today).
-- coming-soon: same public silence for route (404). Not a public coming-soon URL.
-- paused: hidden everywhere, intended as temporary.
-- disabled: hidden everywhere, intended as off.
-- archived: hidden everywhere, intended as retired.
-- active: public where contentCount > 0.
-
-Example pause DevOps:
-
-  "id": "devops",
-  "status": "paused",
-  "enabled": true
-
-## 5. Enable YouTube after the first video
-
-
-content/media/youtube.json:
-
-  [ { "id": "yt-1", "title": "Attention from scratch", "publishedAt": "2026-09-01", "url": "https://www.youtube.com/watch?v=REAL_ID", "duration": "12:04" } ]
-
-platform.json social id youtube:
-
-  "status": "active",
-  "showOnHomepage": true,
-  "showInNavigation": true
-
-contentTypes id youtube: "status": "active"
-
-Optional homepage.sections item: type channel-grid, enabled true. Optional nav source.kind channel id youtube.
-
-Until those fields change, /youtube is not-found.
-
-## 6. Enable Instagram
-
-
-Same as YouTube using content/media/instagram.json and ids instagram.
-
-  "id": "instagram",
-  "href": "/instagram",
-  "status": "active"
-
-Do not invent posts.
-
-## 7. Add a Python topic
-
-
-Do not invent Python lessons. You may add the topic as planned:
-
-  "id": "python",
-  "slug": "python",
-  "name": "Python",
-  "shortName": "Python",
-  "description": "Python from first principles.",
-  "badge": "Python",
-  "category": "Languages",
-  "color": "amber",
-  "order": 20,
-  "enabled": true,
-  "featured": false,
-  "showOnHomepage": false,
-  "showInNavigation": false,
-  "status": "planned"
-
-When real markdown exists with topic: python, flip status to active and showOnHomepage true. No React change.
-
-## 8. Add a new content type
-
-
-A new Writing-like block is another homepage.sections content-list instance (JSON). Example:
-
-  "id": "python-notes",
-  "type": "content-list",
-  "enabled": true,
-  "order": 9,
-  "title": "Python notes",
-  "source": { "kind": "topic", "topicId": "python" },
-  "showWhenEmpty": false
-
-A new TYPE (pricing table, live stream, map) needs a developer: SECTION_TYPES in visibility-core, a case in SectionRenderer, a React component. The site is not fully config-driven for every UI idea.
+1. cd to the repository root.
+2. npm install
+3. npm run dev
+4. Wait until the terminal prints a Local URL. Default is http://localhost:3000
+5. Open that URL.
+6. What to click:
+   - Hero **Start learning** goes to /learn (`copy.heroPrimaryCta` / `copy.heroPrimaryCtaHref`).
+   - Hero **Read a guide** goes to /guides (`copy.heroSecondaryCta` / `copy.heroSecondaryCtaHref`).
+   - Header links: Home /, Learn /learn, Guides /guides, Projects /projects, About /about.
+   - Header CTA **Explore** goes to /#explore (`copy.headerCta` / `copy.headerCtaHref`), the topic-grid titled **The field**.
+   - The field cards: **AI / LLM** -> /topics/ai and **DevOps** -> /topics/devops only.
+   - /youtube and /instagram must 404.
+7. After JSON or markdown edits, refresh. If copy does not update, stop and start npm run dev again. There is no runtime CMS.
+8. How to stop: focus the npm run dev terminal and press Ctrl+C.
+9. Production-style local serve (optional): npm run build then npm start. That also defaults to port 3000.
 
 ## COMPLETE EXAMPLE
 
+```bash
+npm install
+npm run dev
+```
 
-# Operations
+Then open http://localhost:3000
 
+- Confirm hero title The AI Rishi and CTAs Start learning + Read a guide.
+- Click Start learning, then the browser back button, then Read a guide.
+- Click Explore in the header; the page should land on The field.
+- Visit http://localhost:3000/youtube and confirm not-found.
+- Press Ctrl+C to stop.
 
-All paths below are real. File: content/config/platform.json unless noted.
-
-## 1. Only AI
-
-
-Leave topics id ai enabled true, status active, showOnHomepage true.
-
-For every other topics[] row (devops, cloud, software-engineering, interview, updates, career, projects):
-
-  "enabled": false,
-  "status": "disabled",
-  "showOnHomepage": false,
-  "showInNavigation": false
-
-Lessons stay on disk. DevOps leaves topic-grid, nav, search, and sitemap. See scenario test 1.
-
-## 2. Add DevOps
-
-
-DevOps is already live (topics id devops, courses.json id devops, two files in content/courses/devops/). To repeat the pattern for a new area:
-
-1. Add a topics[] object (see section 7).
-2. Add a courses.json row with topic pointing at that id, status coming-soon until lessons exist.
-3. Add lesson markdown with course and topic set.
-4. Set topic and course status active.
-
-Current devops topic:
-
-  "id": "devops",
-  "slug": "devops",
-  "status": "active",
-  "enabled": true,
-  "showOnHomepage": true,
-  "showInNavigation": false
-
-## 3. Disable AI
-
-
-On topics[] id ai:
-
-  "enabled": false,
-  "status": "disabled"
-
-Or status paused to mean temporarily hidden. 15 AI lessons stay on disk. The AI course in courses.json should also move off active if you do not want it on /learn (status coming-soon or enabled false).
-
-## 4. Pause vs disable vs archive vs planned
-
-
-Use status on the same object. enabled false is a hard hide.
-
-- planned: config only. No route, nav, search, sitemap, homepage. Use for areas that are not launched (cloud, interview, updates today).
-- coming-soon: same public silence for route (404). Not a public coming-soon URL.
-- paused: hidden everywhere, intended as temporary.
-- disabled: hidden everywhere, intended as off.
-- archived: hidden everywhere, intended as retired.
-- active: public where contentCount > 0.
-
-Example pause DevOps:
-
-  "id": "devops",
-  "status": "paused",
-  "enabled": true
-
-## 5. Enable YouTube after the first video
-
-
-content/media/youtube.json:
-
-  [ { "id": "yt-1", "title": "Attention from scratch", "publishedAt": "2026-09-01", "url": "https://www.youtube.com/watch?v=REAL_ID", "duration": "12:04" } ]
-
-platform.json social id youtube:
-
-  "status": "active",
-  "showOnHomepage": true,
-  "showInNavigation": true
-
-contentTypes id youtube: "status": "active"
-
-Optional homepage.sections item: type channel-grid, enabled true. Optional nav source.kind channel id youtube.
-
-Until those fields change, /youtube is not-found.
-
-## 6. Enable Instagram
-
-
-Same as YouTube using content/media/instagram.json and ids instagram.
-
-  "id": "instagram",
-  "href": "/instagram",
-  "status": "active"
-
-Do not invent posts.
-
-## 7. Add a Python topic
-
-
-Do not invent Python lessons. You may add the topic as planned:
-
-  "id": "python",
-  "slug": "python",
-  "name": "Python",
-  "shortName": "Python",
-  "description": "Python from first principles.",
-  "badge": "Python",
-  "category": "Languages",
-  "color": "amber",
-  "order": 20,
-  "enabled": true,
-  "featured": false,
-  "showOnHomepage": false,
-  "showInNavigation": false,
-  "status": "planned"
-
-When real markdown exists with topic: python, flip status to active and showOnHomepage true. No React change.
-
-## 8. Add a new content type
-
-
-A new Writing-like block is another homepage.sections content-list instance (JSON). Example:
-
-  "id": "python-notes",
-  "type": "content-list",
-  "enabled": true,
-  "order": 9,
-  "title": "Python notes",
-  "source": { "kind": "topic", "topicId": "python" },
-  "showWhenEmpty": false
-
-A new TYPE (pricing table, live stream, map) needs a developer: SECTION_TYPES in visibility-core, a case in SectionRenderer, a React component. The site is not fully config-driven for every UI idea.
+Common port issues: if 3000 is taken, Next prints a different Local port. Use that URL, or stop the other process, or start with `npx next dev -p 3001`. Do not assume a silent fallback without reading the terminal.
 
 ## VALIDATION
 
+With the dev server running or after stopping it:
 
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
+```bash
+npm run validate
+```
+
+Exit 0 required. See [OPERATIONS/VALIDATION.md](./VALIDATION.md) and [../QUICK-START.md](../QUICK-START.md).
 
 ## COMMON MISTAKES
 
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
+- Running npm run dev from `docs/` or another subdirectory
+- Treating /youtube 404 as a broken server
+- Editing brand PNG/JPG under `public/brand`
+- Inventing YouTube or Instagram rows so local /youtube stops 404ing
+- Leaving a previous Next process on 3000 and clicking the wrong Local URL
 
 ## TROUBLESHOOTING
 
-
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
+| Install fails | Missing Node/npm or network | Install Node.js; retry npm install from repo root |
+| `EADDRINUSE 3000` | Another process holds 3000 | Ctrl+C the old npm run dev, or use `npx next dev -p 3001` |
+| Page is a different port than 3000 | Next picked the next free port | Use the Local URL printed in the terminal |
+| Changes to `platform.json` not visible | Dev server cache / process stale | Ctrl+C, then npm run dev |
+| `next start` errors | No production build yet | Run npm run build first |
+| Module not found | `node_modules` missing | npm install |
 
 ## HOW TO UNDO
 
-
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+Ctrl+C stops the server. `git restore` the files you edited. Delete `.next` if a stale build is in the way; it is generated. Do not force-push.

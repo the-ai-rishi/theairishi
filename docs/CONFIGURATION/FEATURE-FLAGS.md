@@ -49,7 +49,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start with AI, heroPrimaryCtaHref /learn. Overflow disclosure is More.
+Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start learning, heroPrimaryCtaHref /learn, heroSecondaryCta Read a guide, heroSecondaryCtaHref /guides. Overflow disclosure is More.
 
 ## defaults
 
@@ -143,7 +143,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start with AI, heroPrimaryCtaHref /learn. Overflow disclosure is More.
+Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start learning, heroPrimaryCtaHref /learn, heroSecondaryCta Read a guide, heroSecondaryCtaHref /guides. Overflow disclosure is More.
 
 ## defaults
 
