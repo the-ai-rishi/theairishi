@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 2
+topic: "ai"
+status: "published"
 description: "Understand the core differences between artificial intelligence and machine learning, and why learning from data became the dominant paradigm for modern AI."
 ---
 

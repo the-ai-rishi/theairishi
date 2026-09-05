@@ -49,22 +49,22 @@ export default function LessonNavigation({
 
   return (
     <nav
-      className="mt-8 grid gap-4 border-t border-white/[0.08] pt-8 sm:grid-cols-2 sm:items-center"
+      className="mt-8 grid gap-4 border-t border-hairline pt-8 sm:grid-cols-2 sm:items-center"
       aria-label="Lesson navigation"
     >
       {previous ? (
         <Link
           href={`/learn/${previous.slug}`}
-          className="group flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 text-left transition hover:border-white/20 hover:bg-white/[0.04]"
+          className="group flex items-center gap-3 border border-hairline p-4 text-left transition hover:border-gold/30"
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-white/40 transition group-hover:border-white/20 group-hover:text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-hairline text-cream/40 transition group-hover:text-cream">
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           </div>
           <div>
-            <span className="block text-[11px] uppercase tracking-[0.16em] text-white/30">
+            <span className="block text-[11px] uppercase tracking-[0.16em] text-cream/30">
               Previous · [
             </span>
-            <span className="mt-0.5 block text-sm font-medium text-white/80 group-hover:text-white line-clamp-1">
+            <span className="mt-0.5 block text-sm font-medium text-cream/80 group-hover:text-cream line-clamp-1">
               {previous.metadata.title}
             </span>
           </div>
@@ -76,17 +76,17 @@ export default function LessonNavigation({
       {next ? (
         <Link
           href={`/learn/${next.slug}`}
-          className="group flex items-center justify-between gap-3 rounded-2xl border border-violet-400/20 bg-violet-950/20 p-4 text-right transition hover:border-violet-400/40 hover:bg-violet-900/25 sm:justify-self-end w-full"
+          className="group flex items-center justify-between gap-3 border border-circuit/30 bg-circuit/5 p-4 text-right transition hover:border-circuit sm:justify-self-end w-full"
         >
           <div className="text-left sm:text-right">
-            <span className="block text-[11px] uppercase tracking-[0.16em] text-violet-300/60">
+            <span className="block text-[11px] uppercase tracking-[0.16em] text-circuit-bright/80">
               {nextLabel} · ]
             </span>
-            <span className="mt-0.5 block text-sm font-medium text-white group-hover:text-violet-100 line-clamp-1">
+            <span className="mt-0.5 block text-sm font-medium text-cream group-hover:text-cream line-clamp-1">
               {next.metadata.title}
             </span>
           </div>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-violet-400/30 bg-violet-500/20 text-violet-200 transition group-hover:bg-violet-500/30">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-circuit/40 bg-circuit/15 text-circuit-bright">
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </div>
         </Link>
@@ -99,7 +99,7 @@ export default function LessonNavigation({
             <span className="block text-[11px] uppercase tracking-[0.16em] text-emerald-300/60">
               Course Completed!
             </span>
-            <span className="mt-0.5 block text-sm font-medium text-white">
+            <span className="mt-0.5 block text-sm font-medium text-cream">
               Return to Learning Hub
             </span>
           </div>

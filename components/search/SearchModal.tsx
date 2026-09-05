@@ -8,7 +8,7 @@ export interface SearchResultItem {
   id: string;
   title: string;
   description: string;
-  type: "Course" | "Lesson" | "Guide" | "Project" | "YouTube" | "Instagram";
+  type: string;
   url: string;
   category?: string;
   badge?: string;
@@ -38,12 +38,9 @@ export default function SearchModal() {
   useEffect(() => {
     const trimmed = query.trim();
     if (!trimmed) {
-      setResults([]);
-      setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
     const controller = new AbortController();
 
     fetch(`/api/search?q=${encodeURIComponent(trimmed)}`, {
@@ -71,10 +68,10 @@ export default function SearchModal() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-white/50 transition hover:border-white/20 hover:bg-white/[0.06] hover:text-white cursor-pointer"
+        className="inline-flex items-center gap-2 border border-hairline bg-transparent px-3 py-1.5 font-mono text-[12px] tracking-[0.08em] text-cream/45 transition hover:border-gold/30 hover:text-cream cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         aria-label="Search platform"
       >
-        <Search className="h-3.5 w-3.5 text-violet-300/70" />
+        <Search className="h-3.5 w-3.5 text-gold/70" />
         <span className="hidden sm:inline">Search platform...</span>
         <span className="sm:hidden">Search</span>
         <kbd className="hidden sm:inline-block rounded border border-white/15 bg-white/10 px-1.5 py-0.5 text-[9px] font-mono text-white/40">
@@ -93,16 +90,21 @@ export default function SearchModal() {
           />
 
           {/* Modal Container */}
-          <div className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/15 bg-[#0d0d12] text-white shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search"
+            className="relative z-10 w-full max-w-2xl overflow-hidden border border-hairline bg-field text-white shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+          >
             {/* Search Input Bar */}
             <div className="flex items-center border-b border-white/10 px-4 py-3.5">
-              <Search className="h-5 w-5 text-violet-300 shrink-0" />
+              <Search className="h-5 w-5 text-gold shrink-0" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search courses, lessons, guides, projects..."
-                className="w-full bg-transparent px-3 text-sm text-white placeholder-white/40 outline-none"
+                className="w-full bg-transparent px-3 text-sm text-cream placeholder-cream/35 outline-none"
                 autoFocus
               />
               <button
@@ -134,11 +136,11 @@ export default function SearchModal() {
                     key={item.id}
                     href={item.url}
                     onClick={() => setIsOpen(false)}
-                    className="group flex items-center justify-between gap-4 rounded-2xl border border-white/[0.05] bg-white/[0.015] p-3.5 text-xs transition hover:border-violet-400/30 hover:bg-white/[0.04]"
+                    className="group flex items-center justify-between gap-4 border border-hairline bg-ink/40 p-3.5 text-xs transition hover:border-gold/30"
                   >
                     <div className="space-y-1 overflow-hidden">
                       <div className="flex items-center gap-2">
-                        <span className="rounded-full border border-violet-400/20 bg-violet-500/10 px-2 py-0.5 text-[9px] uppercase tracking-wider text-violet-300 font-mono">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold/80">
                           {item.type}
                         </span>
                         {item.category && (
@@ -148,7 +150,7 @@ export default function SearchModal() {
                         )}
                       </div>
 
-                      <h4 className="font-medium text-white group-hover:text-violet-200 truncate">
+                      <h4 className="font-medium text-white group-hover:text-gold-bright truncate">
                         {item.title}
                       </h4>
 
@@ -157,7 +159,7 @@ export default function SearchModal() {
                       </p>
                     </div>
 
-                    <ArrowRight className="h-4 w-4 shrink-0 text-white/20 transition-transform group-hover:translate-x-0.5 group-hover:text-violet-300" />
+                    <ArrowRight className="h-4 w-4 shrink-0 text-white/20 transition-transform group-hover:translate-x-0.5 group-hover:text-gold" />
                   </Link>
                 ))
               )}

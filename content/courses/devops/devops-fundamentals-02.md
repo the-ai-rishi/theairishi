@@ -6,6 +6,8 @@ courseOrder: 2
 stage: "DevOps Basics"
 stageOrder: 1
 lesson: 2
+topic: "devops"
+status: "published"
 description: "Learn how Continuous Integration and Continuous Delivery automate software testing, packaging, and deployments to production environments."
 ---
 

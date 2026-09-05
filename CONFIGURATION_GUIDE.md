@@ -1,0 +1,3 @@
+# Moved
+
+See docs/CONFIGURATION/SITE-CONFIGURATION.md.

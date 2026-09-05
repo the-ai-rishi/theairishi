@@ -1,0 +1,3 @@
+# TOPICS AND AREAS
+
+Moved. See PLATFORM/DOMAIN-SYSTEM.md. Start at START_HERE.md.

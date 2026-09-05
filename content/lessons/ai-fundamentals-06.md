@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 6
+topic: "ai"
+status: "published"
 description: "Understand deep learning, multi-layer representation learning, and why GPUs and massive datasets sparked the modern AI revolution."
 ---
 

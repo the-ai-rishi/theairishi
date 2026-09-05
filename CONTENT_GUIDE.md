@@ -1,0 +1,3 @@
+# Moved
+
+See docs/CONTENT/CONTENT-METADATA.md.

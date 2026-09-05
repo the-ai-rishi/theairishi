@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { renderMarkdownToHtml } from "./markdown";
+import { getDefaultAuthorName } from "./config";
 
 const guidesDirectory = path.join(process.cwd(), "content", "guides");
 
@@ -16,6 +16,10 @@ export interface GuideMetadata {
   readTime?: number;
   author?: string;
   featured?: boolean;
+  topic?: string;
+  topicSlug?: string;
+  status?: string;
+  enabled?: boolean;
 }
 
 export interface GuideSummary {
@@ -70,8 +74,11 @@ export function getAllGuideSummaries(): GuideSummary[] {
       const readTime =
         typeof data.readTime === "number" ? data.readTime : 5;
       const author =
-        typeof data.author === "string" ? data.author : "The AI Rishi";
+        typeof data.author === "string" ? data.author : getDefaultAuthorName();
       const featured = Boolean(data.featured);
+      if (data.enabled === false) continue;
+      const visibility = typeof data.status === "string" ? data.status : "published";
+      if (["draft", "archived", "disabled"].includes(visibility)) continue;
 
       guides.push({
         slug,
@@ -85,6 +92,10 @@ export function getAllGuideSummaries(): GuideSummary[] {
           readTime,
           author,
           featured,
+          topic: typeof data.topic === "string" ? data.topic : undefined,
+          topicSlug: typeof data.topicSlug === "string" ? data.topicSlug : undefined,
+          status: visibility,
+          enabled: data.enabled !== false,
         },
       });
     } catch (err) {
@@ -130,7 +141,7 @@ export async function getGuide(slug: string): Promise<Guide | null> {
 
   const fileContents = fs.readFileSync(/*turbopackIgnore: true*/ targetFile, "utf8");
   const parsed = matter(fileContents);
-  const processed = await remark().use(html).process(parsed.content);
+  const enhancedContent = await renderMarkdownToHtml(parsed.content);
 
   const summaries = getAllGuideSummaries();
   const summary = summaries.find((s) => s.slug === slug);
@@ -140,6 +151,6 @@ export async function getGuide(slug: string): Promise<Guide | null> {
   return {
     slug: summary.slug,
     metadata: summary.metadata,
-    content: processed.toString(),
+    content: enhancedContent,
   };
 }

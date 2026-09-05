@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 4
+topic: "ai"
+status: "published"
 description: "Explore the landmark Transformer architecture, why it superseded recurrent networks, and how decoder-only blocks process tokens in parallel."
 ---
 

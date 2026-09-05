@@ -1,0 +1,41 @@
+[
+  {
+    "id": "ai-agents-series",
+    "slug": "ai-agents-series",
+    "title": "Autonomous AI Agents & Multi-Agent Systems",
+    "description": "A comprehensive multi-format track covering ReAct patterns, tool calling, memory management, and multi-agent coordination.",
+    "topic": "ai",
+    "category": "Advanced AI",
+    "order": 1,
+    "enabled": false,
+    "featured": false,
+    "badge": "Series",
+    "status": "planned"
+  },
+  {
+    "id": "system-design-friday",
+    "slug": "system-design-friday",
+    "title": "System Design & Architecture Teardowns",
+    "description": "Weekly architectural teardowns of production-scale microservices, distributed databases, and high-availability systems.",
+    "topic": "software-engineering",
+    "category": "Architecture",
+    "order": 2,
+    "enabled": false,
+    "featured": false,
+    "badge": "Teardowns",
+    "status": "planned"
+  },
+  {
+    "id": "devops-blueprints",
+    "slug": "devops-blueprints",
+    "title": "DevOps & Cloud Production Blueprints",
+    "description": "Production-grade Terraform scripts, Kubernetes deployment manifests, and GitOps CI/CD pipelines.",
+    "topic": "devops",
+    "category": "Infrastructure",
+    "order": 3,
+    "enabled": false,
+    "featured": false,
+    "badge": "Blueprints",
+    "status": "planned"
+  }
+]

@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 4
+topic: "ai"
+status: "published"
 description: "Explore the three foundational paradigms of machine learning: supervised learning, unsupervised learning, and reinforcement learning."
 ---
 

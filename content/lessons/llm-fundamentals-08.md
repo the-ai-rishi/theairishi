@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 8
+topic: "ai"
+status: "published"
 description: "Master practical runtime controls: context window constraints, temperature and sampling tuning, token budgets, and distinguishing model weights from generation parameters."
 ---
 

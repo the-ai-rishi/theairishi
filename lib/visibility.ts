@@ -1,0 +1,50 @@
+/**
+ * Typed access to the unified visibility kernel (lib/visibility-core.js).
+ * Every public surface should go through these helpers.
+ */
+export type {
+  Surface,
+  LifecycleStatus,
+  PlatformCatalog,
+  ResolvedHomepageSection,
+} from "./visibility-core";
+
+export {
+  LIFECYCLE_STATUSES,
+  SURFACES,
+  SECTION_TYPES,
+  FORMAT_TO_CONTENT_TYPE,
+  CONTENT_TYPE_TO_FORMAT,
+  normalizeKey,
+  normalizeStatus,
+  isValidLifecycle,
+  emptyCatalog,
+  findTopic,
+  findContentType,
+  findChannel,
+  topicCount,
+  formatCount,
+  channelCount,
+  isVisibleOnSurface,
+  isTopicVisible,
+  isContentTypeVisible,
+  isChannelVisible,
+  publicTopics,
+  publicContentTypes,
+  publicChannels,
+  publicCourses,
+  comingSoonCourses,
+  resolveHomepageSections,
+  resolveNavItems,
+  getSearchIndexInputs,
+  getSitemapInputs,
+  getRouteTopics,
+  getRouteChannels,
+  topicRouteState,
+  channelRouteState,
+  contentTypeRouteState,
+  deriveContentTypeHref,
+  collectResolvedText,
+  PRIMARY_NAV_LIMIT,
+  splitPrimaryNav,
+} from "./visibility-core";

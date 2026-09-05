@@ -1,0 +1,3 @@
+# ARCHITECTURE
+
+Moved. See PLATFORM/ARCHITECTURE.md. Start at START_HERE.md.

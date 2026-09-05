@@ -6,6 +6,8 @@ courseOrder: 2
 stage: "DevOps Basics"
 stageOrder: 1
 lesson: 1
+topic: "devops"
+status: "published"
 description: "Understand what DevOps actually means, the cultural philosophy, and how software delivery evolved from isolated silos to continuous collaboration."
 ---
 

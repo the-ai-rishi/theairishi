@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 6
+topic: "ai"
+status: "published"
 description: "Understand the end-to-end training pipeline: self-supervised pre-training, next-token loss, gradient optimization, instruction tuning, and RLHF alignment."
 ---
 

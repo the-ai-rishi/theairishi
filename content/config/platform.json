@@ -1,0 +1,502 @@
+{
+  "brand": {
+    "name": "The AI Rishi",
+    "logo": "/brand/logo-horizontal.png",
+    "logoAlt": "The AI Rishi",
+    "logoMark": "/brand/logo-mark.png",
+    "ogImage": "/brand/og-image.jpg",
+    "faviconUrl": "/icon.png",
+    "appleTouchIcon": "/apple-icon.png",
+    "tagline": "Learn. Build. Stay Ahead.",
+    "description": "A long-term technology and knowledge platform. Today you can learn AI and DevOps from first principles, read essays, and study a public lab.",
+    "url": "https://theairishi.com",
+    "email": "contact@theairishi.com",
+    "shortName": "Rishi"
+  },
+  "copy": {
+    "heroBadge": "Knowledge · Systems · Building",
+    "heroTitle": "The AI Rishi",
+    "heroTagline": "Learn. Build. Stay Ahead.",
+    "heroDescription": "A long-term technology and knowledge platform. Today you can learn AI and DevOps from first principles, read essays, and study a public lab.",
+    "heroPrimaryCta": "Start learning",
+    "heroPrimaryCtaHref": "/learn",
+    "heroSecondaryCta": "Read a guide",
+    "heroSecondaryCtaHref": "/guides",
+    "headerCta": "Explore",
+    "headerCtaHref": "/#explore",
+    "footerCopyright": "The AI Rishi"
+  },
+  "defaults": {
+    "topicSlug": "ai",
+    "authorName": "The AI Rishi",
+    "contentDate": "2026-08-20"
+  },
+  "topics": [
+    {
+      "id": "ai",
+      "slug": "ai",
+      "name": "Artificial Intelligence & LLMs",
+      "shortName": "AI / LLM",
+      "description": "Neural networks, attention, vector search, RAG, and working with large language models — from first principles.",
+      "badge": "AI / LLM",
+      "category": "AI & Data",
+      "color": "purple",
+      "order": 1,
+      "enabled": true,
+      "featured": true,
+      "showOnHomepage": true,
+      "showInNavigation": false,
+      "status": "active"
+    },
+    {
+      "id": "devops",
+      "slug": "devops",
+      "name": "DevOps & Kubernetes",
+      "shortName": "DevOps",
+      "description": "Containers, Kubernetes, infrastructure-as-code, and CI/CD — how software actually ships.",
+      "badge": "DevOps",
+      "category": "Cloud & DevOps",
+      "color": "emerald",
+      "order": 2,
+      "enabled": true,
+      "featured": true,
+      "showOnHomepage": true,
+      "showInNavigation": false,
+      "status": "active"
+    },
+    {
+      "id": "cloud",
+      "slug": "cloud",
+      "name": "Cloud Computing & Azure",
+      "shortName": "Cloud",
+      "description": "Multi-cloud architecture, Azure, AWS, serverless, and high-availability design.",
+      "badge": "Cloud",
+      "category": "Cloud & DevOps",
+      "color": "blue",
+      "order": 3,
+      "enabled": true,
+      "featured": false,
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "status": "planned"
+    },
+    {
+      "id": "software-engineering",
+      "slug": "software-engineering",
+      "name": "Software & System Design",
+      "shortName": "Engineering",
+      "description": "Programming, microservice patterns, database design, and clean architecture.",
+      "badge": "Engineering",
+      "category": "Engineering & Architecture",
+      "color": "amber",
+      "order": 4,
+      "enabled": true,
+      "featured": false,
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "status": "planned"
+    },
+    {
+      "id": "interview",
+      "slug": "interview",
+      "name": "Interview Preparation",
+      "shortName": "Interview",
+      "description": "System design teardowns, coding challenges, and technical interview practice.",
+      "badge": "Interview Prep",
+      "category": "Career & Strategy",
+      "color": "pink",
+      "order": 5,
+      "enabled": true,
+      "featured": false,
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "status": "planned"
+    },
+    {
+      "id": "updates",
+      "slug": "updates",
+      "name": "Technology & Platform Updates",
+      "shortName": "Updates",
+      "description": "Curated technical updates from the tools and platforms we teach.",
+      "badge": "Updates",
+      "category": "Engineering & Architecture",
+      "color": "violet",
+      "order": 6,
+      "enabled": true,
+      "featured": false,
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "status": "planned"
+    },
+    {
+      "id": "career",
+      "slug": "career",
+      "name": "Career & Engineering Growth",
+      "shortName": "Career",
+      "description": "Senior engineering mindset, technical leadership, and portfolio building.",
+      "badge": "Career",
+      "category": "Career & Strategy",
+      "color": "indigo",
+      "order": 7,
+      "enabled": true,
+      "featured": false,
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "status": "planned"
+    },
+    {
+      "id": "projects",
+      "slug": "projects",
+      "name": "Projects & Practical Labs",
+      "shortName": "Projects",
+      "description": "Hands-on lab projects and real-world build write-ups.",
+      "badge": "Projects",
+      "category": "Engineering & Architecture",
+      "color": "teal",
+      "order": 8,
+      "enabled": true,
+      "featured": false,
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "status": "planned"
+    }
+  ],
+  "contentTypes": [
+    {
+      "id": "learn",
+      "title": "Structured Courses",
+      "description": "Step-by-step first-principles curriculums with progress tracking.",
+      "badge": "Learning",
+      "url": "/learn",
+      "iconName": "LearnIcon",
+      "category": "Learning",
+      "enabled": true,
+      "status": "active",
+      "showOnHomepage": false,
+      "showInNavigation": true,
+      "order": 1
+    },
+    {
+      "id": "guides",
+      "title": "Technical Guides",
+      "description": "In-depth essays, mental frameworks, and architecture write-ups.",
+      "badge": "Guides",
+      "url": "/guides",
+      "iconName": "GuidesIcon",
+      "category": "Reference",
+      "enabled": true,
+      "status": "active",
+      "showOnHomepage": false,
+      "showInNavigation": true,
+      "order": 2
+    },
+    {
+      "id": "projects",
+      "title": "Projects & Labs",
+      "description": "Build write-ups and practical lab projects.",
+      "badge": "Projects",
+      "url": "/projects",
+      "iconName": "ProjectsIcon",
+      "category": "Reference",
+      "enabled": true,
+      "status": "active",
+      "showOnHomepage": false,
+      "showInNavigation": true,
+      "order": 3
+    },
+    {
+      "id": "updates",
+      "title": "Technology Radar",
+      "description": "Curated updates from the tools and platforms we teach.",
+      "badge": "Updates",
+      "topicSlug": "updates",
+      "iconName": "Radio",
+      "category": "Updates",
+      "enabled": true,
+      "status": "planned",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 4
+    },
+    {
+      "id": "interview",
+      "title": "Interview Preparation",
+      "description": "System design teardowns, coding concepts, and interview Q&As.",
+      "badge": "Interview Prep",
+      "topicSlug": "interview",
+      "iconName": "HelpCircle",
+      "category": "Career",
+      "enabled": true,
+      "status": "planned",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 5
+    },
+    {
+      "id": "career",
+      "title": "Career & Mindset",
+      "description": "Senior engineering principles, portfolio design, and tech leadership.",
+      "badge": "Career",
+      "topicSlug": "career",
+      "iconName": "UserCheck",
+      "category": "Career",
+      "enabled": true,
+      "status": "planned",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 6
+    },
+    {
+      "id": "youtube",
+      "title": "YouTube Videos",
+      "description": "Long-form walk-throughs and build streams.",
+      "badge": "Video",
+      "url": "/youtube",
+      "iconName": "YouTubeIcon",
+      "category": "Media",
+      "enabled": true,
+      "status": "coming-soon",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 7
+    },
+    {
+      "id": "instagram",
+      "title": "Instagram Carousels",
+      "description": "Short visual guides and architecture carousels.",
+      "badge": "Visual Notes",
+      "url": "/instagram",
+      "iconName": "InstagramIcon",
+      "category": "Media",
+      "enabled": true,
+      "status": "coming-soon",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 8
+    }
+  ],
+  "navigation": {
+    "main": [
+      {
+        "id": "home",
+        "label": "Home",
+        "href": "/",
+        "enabled": true,
+        "order": 1,
+        "status": "active"
+      },
+      {
+        "id": "learn",
+        "label": "Learn",
+        "enabled": true,
+        "order": 2,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "learn"
+        }
+      },
+      {
+        "id": "guides",
+        "label": "Guides",
+        "enabled": true,
+        "order": 3,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "guides"
+        }
+      },
+      {
+        "id": "projects",
+        "label": "Projects",
+        "enabled": true,
+        "order": 4,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "projects"
+        }
+      },
+      {
+        "id": "about",
+        "label": "About",
+        "href": "/about",
+        "enabled": true,
+        "order": 5,
+        "status": "active"
+      }
+    ],
+    "footer": [
+      {
+        "id": "home",
+        "label": "Home",
+        "href": "/",
+        "enabled": true,
+        "order": 1,
+        "status": "active"
+      },
+      {
+        "id": "learn",
+        "label": "Learn",
+        "enabled": true,
+        "order": 2,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "learn"
+        }
+      },
+      {
+        "id": "guides",
+        "label": "Guides",
+        "enabled": true,
+        "order": 3,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "guides"
+        }
+      },
+      {
+        "id": "projects",
+        "label": "Projects",
+        "enabled": true,
+        "order": 4,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "projects"
+        }
+      },
+      {
+        "id": "about",
+        "label": "About",
+        "href": "/about",
+        "enabled": true,
+        "order": 5,
+        "status": "active"
+      }
+    ]
+  },
+  "homepage": {
+    "sections": [
+      {
+        "id": "hero",
+        "type": "hero",
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "id": "continue-learning",
+        "type": "continue-learning",
+        "enabled": true,
+        "order": 2,
+        "showWhenEmpty": false
+      },
+      {
+        "id": "topics",
+        "type": "topic-grid",
+        "enabled": true,
+        "order": 3,
+        "title": "The field",
+        "subtitle": "Where we work",
+        "ctaLabel": "View paths",
+        "ctaHref": "/learn",
+        "showWhenEmpty": false
+      },
+      {
+        "id": "recent",
+        "type": "content-list",
+        "enabled": true,
+        "order": 4,
+        "title": "From the desk",
+        "subtitle": "What is live today",
+        "source": {
+          "kind": "recent"
+        },
+        "maxItems": 6,
+        "showWhenEmpty": false
+      },
+      {
+        "id": "guides",
+        "type": "content-list",
+        "enabled": true,
+        "order": 5,
+        "title": "Writing",
+        "subtitle": "Essays",
+        "source": {
+          "kind": "format",
+          "format": "guide"
+        },
+        "maxItems": 4,
+        "ctaLabel": "All writing",
+        "ctaHref": "/guides",
+        "showWhenEmpty": false
+      },
+      {
+        "id": "projects-list",
+        "type": "content-list",
+        "enabled": true,
+        "order": 6,
+        "title": "Labs",
+        "subtitle": "Built in public",
+        "source": {
+          "kind": "format",
+          "format": "project"
+        },
+        "maxItems": 4,
+        "ctaLabel": "All labs",
+        "ctaHref": "/projects",
+        "showWhenEmpty": false
+      },
+      {
+        "id": "courses",
+        "type": "course-list",
+        "enabled": true,
+        "order": 7,
+        "title": "Learning paths",
+        "subtitle": "First principles",
+        "ctaLabel": "All paths",
+        "ctaHref": "/learn",
+        "showWhenEmpty": false
+      },
+      {
+        "id": "cta",
+        "type": "cta",
+        "enabled": true,
+        "order": 8
+      }
+    ]
+  },
+  "social": [
+    {
+      "id": "youtube",
+      "label": "YouTube",
+      "href": "/youtube",
+      "externalUrl": "https://youtube.com/@theairishi",
+      "enabled": true,
+      "status": "coming-soon",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 1,
+      "displayName": "YouTube",
+      "description": "Long-form walk-throughs and first-principles build sessions. Nothing published yet.",
+      "badge": "Coming soon"
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "href": "/instagram",
+      "externalUrl": "https://instagram.com/theairishi",
+      "enabled": true,
+      "status": "coming-soon",
+      "showOnHomepage": false,
+      "showInNavigation": false,
+      "order": 2,
+      "displayName": "Instagram",
+      "description": "Short visual guides. Nothing published yet.",
+      "badge": "Coming soon"
+    }
+  ]
+}

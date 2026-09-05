@@ -10,7 +10,6 @@ import {
   ChevronUp,
   Circle,
   Layers,
-  Sparkles,
 } from "lucide-react";
 import type { Course } from "@/lib/lessons";
 import { useLessonProgress } from "./useLessonProgress";
@@ -45,44 +44,41 @@ export default function CourseCard({ course }: CourseCardProps) {
     completedCount === allCourseLessons.length && allCourseLessons.length > 0;
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-black/40 p-6 sm:p-8 transition-all duration-300 hover:border-violet-400/25 hover:bg-white/[0.02]">
-      {/* Background glow accent */}
-      <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-violet-600/10 blur-3xl group-hover:bg-violet-600/20 transition-all duration-500" />
+    <div className="group relative border-y border-hairline py-8 sm:py-10">
 
       <div className="relative z-10">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           {/* Header & Meta */}
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/20 bg-violet-500/10 px-3 py-1 text-[11px] uppercase tracking-wider text-violet-300 font-medium">
-                <Sparkles className="h-3 w-3" />
+              <span className="inline-flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.16em] text-gold">
                 {course.category}
               </span>
 
               {course.badge && (
-                <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-white/40 font-mono">
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-cream/40">
                   {course.badge}
                 </span>
               )}
 
               {isCourseFinished && (
-                <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-emerald-300 font-medium">
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-signal">
                   Completed
                 </span>
               )}
             </div>
 
-            <h3 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
+            <h3 className="font-serif text-3xl tracking-[0.01em] text-cream sm:text-4xl">
               {course.title}
             </h3>
 
-            <p className="text-xs sm:text-sm leading-relaxed text-white/50 max-w-2xl">
+            <p className="text-xs sm:text-sm leading-relaxed text-cream/50 max-w-2xl">
               {course.description}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-white/40 pt-1">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-cream/40 pt-1">
               <div className="flex items-center gap-1.5">
-                <Layers className="h-3.5 w-3.5 text-violet-300/60" />
+                <Layers className="h-3.5 w-3.5 text-gold/60" />
                 <span>
                   {course.stages.length} Stage
                   {course.stages.length === 1 ? "" : "s"}
@@ -90,7 +86,7 @@ export default function CourseCard({ course }: CourseCardProps) {
               </div>
 
               <div className="flex items-center gap-1.5">
-                <BookOpen className="h-3.5 w-3.5 text-violet-300/60" />
+                <BookOpen className="h-3.5 w-3.5 text-gold/60" />
                 <span>
                   {allCourseLessons.length} Lesson
                   {allCourseLessons.length === 1 ? "" : "s"}
@@ -104,7 +100,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-xs text-white/60 hover:bg-white/[0.08] hover:text-white transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 border border-hairline px-4 py-2.5 font-mono text-[12px] text-cream/60 hover:text-cream transition cursor-pointer"
             >
               <span>{isExpanded ? "Hide curriculum" : "Explore stages"}</span>
               {isExpanded ? (
@@ -116,7 +112,7 @@ export default function CourseCard({ course }: CourseCardProps) {
 
             <Link
               href={`/learn/${nextLesson.slug}`}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black transition hover:bg-white/90 shadow-md cursor-pointer"
+              className="inline-flex items-center gap-2 bg-cream px-5 py-2.5 text-[13px] font-medium tracking-[0.04em] text-ink transition hover:bg-gold-bright cursor-pointer"
             >
               <span>{completedCount > 0 ? "Continue learning" : "Start course"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -125,17 +121,17 @@ export default function CourseCard({ course }: CourseCardProps) {
         </div>
 
         {/* Progress Bar */}
-        <div className="mt-6 border-t border-white/[0.06] pt-4">
-          <div className="flex items-center justify-between text-[11px] text-white/35">
+        <div className="mt-6 border-t border-hairline pt-4">
+          <div className="flex items-center justify-between text-[11px] text-cream/35">
             <span>Course completion</span>
             <span className="font-mono">
               {completedCount} of {allCourseLessons.length} completed ({progress}%)
             </span>
           </div>
 
-          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div className="mt-2 h-1.5 overflow-hidden bg-hairline">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-violet-400 to-indigo-300 transition-all duration-500"
+              className="h-full bg-gradient-to-r from-gold to-circuit transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -143,7 +139,7 @@ export default function CourseCard({ course }: CourseCardProps) {
 
         {/* Expanded Stages & Lessons View */}
         {isExpanded && (
-          <div className="mt-6 space-y-6 border-t border-white/[0.08] pt-6 animate-in fade-in duration-200">
+          <div className="mt-6 space-y-6 border-t border-hairline pt-6 animate-in fade-in duration-200">
             {course.stages.map((stage) => {
               const stageCompletedCount = stage.lessons.filter((l) =>
                 hasHydrated ? isCompleted(l.slug) : false
@@ -152,11 +148,11 @@ export default function CourseCard({ course }: CourseCardProps) {
               return (
                 <div
                   key={stage.name}
-                  className="rounded-2xl border border-white/[0.05] bg-white/[0.01] p-5 space-y-3"
+                  className="border border-hairline p-5 space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] uppercase tracking-[0.2em] text-violet-300/70 font-mono">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-gold/70 font-mono">
                         Stage {String(stage.number).padStart(2, "0")}
                       </span>
                       <h4 className="text-sm font-medium text-white">
@@ -164,7 +160,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                       </h4>
                     </div>
 
-                    <span className="text-[11px] text-white/35 font-mono">
+                    <span className="text-[11px] text-cream/35 font-mono">
                       {stageCompletedCount}/{stage.lessons.length} done
                     </span>
                   </div>
@@ -179,14 +175,14 @@ export default function CourseCard({ course }: CourseCardProps) {
                         <Link
                           key={lesson.slug}
                           href={`/learn/${lesson.slug}`}
-                          className="group/lesson flex items-center justify-between gap-3 rounded-xl border border-white/[0.04] bg-white/[0.015] p-3 text-xs transition hover:border-violet-400/25 hover:bg-white/[0.04]"
+                          className="group/lesson flex items-center justify-between gap-3 border border-hairline p-3 text-xs transition hover:border-gold/30"
                         >
                           <div className="flex items-center gap-2.5 overflow-hidden">
                             <span
                               className={`shrink-0 ${
                                 completed
                                   ? "text-emerald-400"
-                                  : "text-white/20"
+                                  : "text-cream/20"
                               }`}
                             >
                               {completed ? (
@@ -195,15 +191,15 @@ export default function CourseCard({ course }: CourseCardProps) {
                                 <Circle className="h-3.5 w-3.5" />
                               )}
                             </span>
-                            <span className="text-white/35 font-mono">
+                            <span className="text-cream/35 font-mono">
                               {String(lesson.metadata.lesson).padStart(2, "0")}.
                             </span>
-                            <span className="text-white/80 group-hover/lesson:text-white truncate">
+                            <span className="text-cream/80 group-hover/lesson:text-cream truncate">
                               {lesson.metadata.title}
                             </span>
                           </div>
 
-                          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-white/15 group-hover/lesson:text-violet-300 transition-transform group-hover/lesson:translate-x-0.5" />
+                          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-cream/20 group-hover/lesson:text-gold transition-transform group-hover/lesson:translate-x-0.5" />
                         </Link>
                       );
                     })}

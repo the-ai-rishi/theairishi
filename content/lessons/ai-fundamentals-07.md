@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
 lesson: 7
+topic: "ai"
+status: "published"
 description: "Discover generative AI: how foundation models, tokens, and multimodal generation differ from predictive AI, and what lies ahead in large language models."
 ---
 

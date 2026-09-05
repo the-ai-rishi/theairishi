@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { renderMarkdownToHtml } from "./markdown";
 
 const projectsDirectory = path.join(process.cwd(), "content", "projects");
 
@@ -18,6 +17,10 @@ export interface ProjectMetadata {
   demoUrl?: string;
   status: "Completed" | "In Progress" | "Planned";
   featured?: boolean;
+  topic?: string;
+  topicSlug?: string;
+  enabled?: boolean;
+  visibilityStatus?: string;
 }
 
 export interface ProjectSummary {
@@ -27,6 +30,24 @@ export interface ProjectSummary {
 
 export interface Project extends ProjectSummary {
   content: string;
+}
+
+
+function isUsableExternalUrl(url: unknown): url is string {
+  if (typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  try {
+    const parsed = new URL(trimmed);
+    const host = parsed.hostname.replace(/^www\./, "").toLowerCase();
+    const path = parsed.pathname.replace(/\/+$/, "") || "";
+    if (!path && ["github.com", "theairishi.com", "instagram.com", "youtube.com"].includes(host)) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function getProjectFiles(): string[] {
@@ -49,6 +70,10 @@ export function getAllProjectSummaries(): ProjectSummary[] {
       const fileContents = fs.readFileSync(filePath, "utf8");
       const parsed = matter(fileContents);
       const data = parsed.data as Record<string, unknown>;
+
+      if (data.enabled === false) continue;
+      const visibility = typeof data.status === "string" ? data.status.toLowerCase() : "";
+      if (["draft", "archived", "disabled"].includes(visibility)) continue;
 
       const slug =
         typeof data.slug === "string"
@@ -83,10 +108,8 @@ export function getAllProjectSummaries(): ProjectSummary[] {
           ? data.status
           : "In Progress";
 
-      const githubUrl =
-        typeof data.githubUrl === "string" ? data.githubUrl : undefined;
-      const demoUrl =
-        typeof data.demoUrl === "string" ? data.demoUrl : undefined;
+      const githubUrl = isUsableExternalUrl(data.githubUrl) ? data.githubUrl.trim() : undefined;
+      const demoUrl = isUsableExternalUrl(data.demoUrl) ? data.demoUrl.trim() : undefined;
       const featured = Boolean(data.featured);
 
       projects.push({
@@ -103,6 +126,10 @@ export function getAllProjectSummaries(): ProjectSummary[] {
           demoUrl,
           status,
           featured,
+          topic: typeof data.topic === "string" ? data.topic : undefined,
+          topicSlug: typeof data.topicSlug === "string" ? data.topicSlug : undefined,
+          enabled: data.enabled !== false,
+          visibilityStatus: visibility || undefined,
         },
       });
     } catch (err) {
@@ -148,7 +175,7 @@ export async function getProject(slug: string): Promise<Project | null> {
 
   const fileContents = fs.readFileSync(/*turbopackIgnore: true*/ targetFile, "utf8");
   const parsed = matter(fileContents);
-  const processed = await remark().use(html).process(parsed.content);
+  const enhancedContent = await renderMarkdownToHtml(parsed.content);
 
   const summaries = getAllProjectSummaries();
   const summary = summaries.find((s) => s.slug === slug);
@@ -158,6 +185,6 @@ export async function getProject(slug: string): Promise<Project | null> {
   return {
     slug: summary.slug,
     metadata: summary.metadata,
-    content: processed.toString(),
+    content: enhancedContent,
   };
 }

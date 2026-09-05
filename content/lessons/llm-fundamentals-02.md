@@ -6,6 +6,8 @@ courseOrder: 1
 stage: "LLM Fundamentals"
 stageOrder: 2
 lesson: 2
+topic: "ai"
+status: "published"
 description: "Learn how language models convert raw text into discrete numerical tokens, why subword tokenization rules the field, and how it impacts latency, costs, and context."
 ---
 

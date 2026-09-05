@@ -1,16 +1,38 @@
-import { getAllCourses, getAllLessonSummaries } from "./lessons";
-import { getAllGuideSummaries } from "./guides";
-import { getAllProjectSummaries } from "./projects";
-import { getInstagramPosts, getYoutubeVideos } from "./media";
+import { getSearchIndexInputs } from "./visibility-core";
+import { loadPlatformConfig } from "./config";
+import { getLiveCatalog } from "./catalog";
 
 export interface SearchResultItem {
   id: string;
   title: string;
   description: string;
-  type: "Course" | "Lesson" | "Guide" | "Project" | "YouTube" | "Instagram";
+  type: string;
   url: string;
   category?: string;
   badge?: string;
+}
+
+const SEARCH_TYPE_LABELS: Record<string, string> = {
+  lesson: "Lesson",
+  guide: "Guide",
+  project: "Project",
+  article: "Article",
+  update: "Update",
+  interview: "Interview",
+  career: "Career",
+  youtube: "Video",
+  instagram: "Video",
+  topic: "Topic",
+  course: "Course",
+};
+
+function labelForSearchType(raw: unknown): string {
+  const key = String(raw || "").trim().toLowerCase();
+  if (SEARCH_TYPE_LABELS[key]) return SEARCH_TYPE_LABELS[key];
+  if (!key) return "Content";
+  return key
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (ch) => ch.toUpperCase());
 }
 
 export function searchSite(query: string): SearchResultItem[] {
@@ -18,125 +40,75 @@ export function searchSite(query: string): SearchResultItem[] {
   if (!q) return [];
 
   const results: SearchResultItem[] = [];
+  const index = getSearchIndexInputs(loadPlatformConfig(), getLiveCatalog());
 
-  // Search Courses
-  const courses = getAllCourses();
-  for (const c of courses) {
+  for (const t of index.topics) {
     if (
-      c.title.toLowerCase().includes(q) ||
-      c.description.toLowerCase().includes(q) ||
-      c.category.toLowerCase().includes(q)
+      String(t.name || "").toLowerCase().includes(q) ||
+      String(t.shortName || "").toLowerCase().includes(q) ||
+      String(t.description || "").toLowerCase().includes(q) ||
+      String(t.slug || "").toLowerCase().includes(q)
     ) {
       results.push({
-        id: `course-${c.id}`,
-        title: c.title,
-        description: c.description,
+        id: `topic-${String(t.id || "")}`,
+        title: String(t.name || ""),
+        description: String(t.description || ""),
+        type: "Topic",
+        url: `/topics/${String(t.slug || "")}`,
+        category: t.category ? String(t.category) : undefined,
+        badge: t.badge ? String(t.badge) : undefined,
+      });
+    }
+  }
+
+  for (const c of index.courses) {
+    if (
+      String(c.title || "").toLowerCase().includes(q) ||
+      String(c.description || "").toLowerCase().includes(q) ||
+      String(c.category || "").toLowerCase().includes(q)
+    ) {
+      results.push({
+        id: `course-${String(c.id || "")}`,
+        title: String(c.title || ""),
+        description: String(c.description || ""),
         type: "Course",
-        url: `/learn`,
-        category: c.category,
-        badge: `${c.totalLessons} lessons`,
+        url: "/learn",
+        category: c.category ? String(c.category) : undefined,
+        badge: c.lessonCount ? `${c.lessonCount} lessons` : undefined,
       });
     }
   }
 
-  // Search Lessons
-  const lessons = getAllLessonSummaries();
-  for (const l of lessons) {
+  for (const item of index.items) {
     if (
-      l.metadata.title.toLowerCase().includes(q) ||
-      l.metadata.description.toLowerCase().includes(q) ||
-      l.metadata.stage.toLowerCase().includes(q) ||
-      (l.metadata.courseTitle && l.metadata.courseTitle.toLowerCase().includes(q))
+      String(item.title || "").toLowerCase().includes(q) ||
+      String(item.description || "").toLowerCase().includes(q) ||
+      String(item.category || "").toLowerCase().includes(q) ||
+      (Array.isArray(item.tags) && item.tags.some((t: string) => String(t).toLowerCase().includes(q)))
     ) {
       results.push({
-        id: `lesson-${l.slug}`,
-        title: l.metadata.title,
-        description: l.metadata.description,
-        type: "Lesson",
-        url: `/learn/${l.slug}`,
-        category: l.metadata.stage,
-        badge: l.metadata.courseTitle || "Lesson",
+        id: String(item.id),
+        title: String(item.title),
+        description: String(item.description || ""),
+        type: labelForSearchType(item.type),
+        url: String(item.url || "/"),
+        category: item.category as string | undefined,
+        badge: item.topicSlug as string | undefined,
       });
     }
   }
 
-  // Search Guides
-  const guides = getAllGuideSummaries();
-  for (const g of guides) {
-    if (
-      g.metadata.title.toLowerCase().includes(q) ||
-      g.metadata.description.toLowerCase().includes(q) ||
-      g.metadata.category.toLowerCase().includes(q)
-    ) {
-      results.push({
-        id: `guide-${g.slug}`,
-        title: g.metadata.title,
-        description: g.metadata.description,
-        type: "Guide",
-        url: `/guides/${g.slug}`,
-        category: g.metadata.category,
-        badge: "Guide",
-      });
-    }
+  const map = new Map<string, SearchResultItem>();
+  for (const r of results) {
+    if (!map.has(r.id)) map.set(r.id, r);
   }
+  return Array.from(map.values()).slice(0, 12);
+}
 
-  // Search Projects
-  const projects = getAllProjectSummaries();
-  for (const p of projects) {
-    if (
-      p.metadata.title.toLowerCase().includes(q) ||
-      p.metadata.description.toLowerCase().includes(q) ||
-      p.metadata.category.toLowerCase().includes(q)
-    ) {
-      results.push({
-        id: `project-${p.slug}`,
-        title: p.metadata.title,
-        description: p.metadata.description,
-        type: "Project",
-        url: `/projects/${p.slug}`,
-        category: p.metadata.category,
-        badge: p.metadata.status,
-      });
-    }
-  }
+export function searchAll(query: string): SearchResultItem[] {
+  return searchSite(query);
+}
 
-  // Search YouTube
-  const youtube = getYoutubeVideos();
-  for (const y of youtube) {
-    if (
-      y.title.toLowerCase().includes(q) ||
-      y.description.toLowerCase().includes(q)
-    ) {
-      results.push({
-        id: `yt-${y.id}`,
-        title: y.title,
-        description: y.description,
-        type: "YouTube",
-        url: `/youtube`,
-        category: "Video",
-        badge: y.duration,
-      });
-    }
-  }
-
-  // Search Instagram
-  const instagram = getInstagramPosts();
-  for (const i of instagram) {
-    if (
-      i.title.toLowerCase().includes(q) ||
-      i.caption.toLowerCase().includes(q)
-    ) {
-      results.push({
-        id: `ig-${i.id}`,
-        title: i.title,
-        description: i.caption,
-        type: "Instagram",
-        url: `/instagram`,
-        category: "Visual Note",
-        badge: i.type,
-      });
-    }
-  }
-
-  return results.slice(0, 10);
+export function getSearchIndex() {
+  return getSearchIndexInputs(loadPlatformConfig(), getLiveCatalog());
 }

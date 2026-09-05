@@ -1,0 +1,150 @@
+[
+  {
+    "id": "ai",
+    "slug": "ai",
+    "title": "Artificial Intelligence & LLMs",
+    "description": "A first-principles curriculum covering AI fundamentals, machine learning models, transformers, large language models, RAG, and autonomous agents.",
+    "topic": "ai",
+    "category": "Artificial Intelligence",
+    "order": 1,
+    "enabled": true,
+    "status": "active",
+    "featured": true,
+    "showOnHomepage": true,
+    "badge": "Core Path"
+  },
+  {
+    "id": "devops",
+    "slug": "devops",
+    "title": "DevOps & Cloud Engineering",
+    "description": "Master modern infrastructure automation, CI/CD pipelines, containerization, Kubernetes, infrastructure-as-code, and cloud deployment.",
+    "topic": "devops",
+    "category": "Infrastructure & DevOps",
+    "order": 2,
+    "enabled": true,
+    "status": "active",
+    "featured": true,
+    "showOnHomepage": true,
+    "badge": "Engineering"
+  },
+  {
+    "id": "cloud",
+    "slug": "cloud",
+    "title": "Cloud Architecture & Platforms",
+    "description": "Deep dive into multi-cloud architecture, Azure, AWS, Google Cloud, distributed systems, and scalable backend infrastructure.",
+    "topic": "cloud",
+    "category": "Cloud Computing",
+    "order": 3,
+    "enabled": true,
+    "status": "coming-soon",
+    "featured": false,
+    "showOnHomepage": true,
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Distributed Systems"
+    ]
+  },
+  {
+    "id": "programming",
+    "slug": "programming",
+    "title": "Software Engineering & Languages",
+    "description": "High-performance programming in Python, TypeScript, Rust, database design with SQL, and modern system architectures.",
+    "topic": "software-engineering",
+    "category": "Software Development",
+    "order": 4,
+    "enabled": true,
+    "status": "coming-soon",
+    "featured": false,
+    "showOnHomepage": true,
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "Python",
+      "TypeScript",
+      "SQL",
+      "System Design"
+    ]
+  },
+  {
+    "id": "cloud-upcoming",
+    "slug": "cloud-upcoming",
+    "title": "Cloud Architecture & Platforms",
+    "description": "Multi-cloud design patterns across AWS, Azure, and GCP, resilient microservices, serverless compute, and enterprise networking.",
+    "topic": "cloud",
+    "category": "Cloud Computing",
+    "order": 10,
+    "enabled": false,
+    "status": "coming-soon",
+    "featured": false,
+    "showOnHomepage": true,
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Distributed Systems"
+    ]
+  },
+  {
+    "id": "software-engineering-upcoming",
+    "slug": "software-engineering-upcoming",
+    "title": "Software Engineering & Systems",
+    "description": "High-performance programming in Python, TypeScript, and Rust, relational and vector databases, and scalable backend design.",
+    "topic": "software-engineering",
+    "category": "Software Development",
+    "order": 11,
+    "enabled": false,
+    "status": "coming-soon",
+    "featured": false,
+    "showOnHomepage": true,
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "Python",
+      "TypeScript",
+      "SQL",
+      "System Design"
+    ]
+  },
+  {
+    "id": "data-engineering",
+    "slug": "data-engineering",
+    "title": "Data Engineering & Pipelines",
+    "description": "Batch and real-time streaming architectures, Apache Kafka, Apache Spark, data lakes, dbt, and modern analytical warehouses.",
+    "topic": "software-engineering",
+    "category": "Data Platforms",
+    "order": 12,
+    "enabled": true,
+    "status": "coming-soon",
+    "featured": false,
+    "showOnHomepage": true,
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "Kafka",
+      "Spark",
+      "PostgreSQL",
+      "dbt"
+    ]
+  },
+  {
+    "id": "ai-agents",
+    "slug": "ai-agents",
+    "title": "Autonomous AI Agents & Multi-Agent Systems",
+    "description": "Planning architectures, function calling, tool execution loops, self-reflection, and production multi-agent orchestration.",
+    "topic": "ai",
+    "category": "Advanced AI",
+    "order": 13,
+    "enabled": true,
+    "status": "coming-soon",
+    "featured": false,
+    "showOnHomepage": true,
+    "badge": "Upcoming Course",
+    "upcomingTopics": [
+      "Tool Calling",
+      "ReAct Loops",
+      "Multi-Agent",
+      "MCP"
+    ]
+  }
+]
