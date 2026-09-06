@@ -7,6 +7,7 @@
     "predev": "node scripts/generate-content-data.js",
     "build": "next build",
     "prebuild": "node scripts/generate-content-data.js",
+    "postbuild": "node scripts/package-for-workers.js",
     "start": "next start",
     "lint": "eslint",
     "prelint": "node scripts/generate-content-data.js",
