@@ -1,10 +1,8 @@
-import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { renderMarkdownToHtml } from "./markdown";
+import { listContentFiles, readContentFile } from "./content-runtime";
 import { getDefaultAuthorName } from "./config";
-
-const guidesDirectory = path.join(process.cwd(), "content", "guides");
 
 export interface GuideMetadata {
   title: string;
@@ -32,14 +30,7 @@ export interface Guide extends GuideSummary {
 }
 
 function getGuideFiles(): string[] {
-  if (!fs.existsSync(guidesDirectory)) {
-    return [];
-  }
-
-  return fs
-    .readdirSync(guidesDirectory)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => path.join(guidesDirectory, f));
+  return listContentFiles("content/guides", ".md");
 }
 
 export function getAllGuideSummaries(): GuideSummary[] {
@@ -48,7 +39,7 @@ export function getAllGuideSummaries(): GuideSummary[] {
 
   for (const filePath of files) {
     try {
-      const fileContents = fs.readFileSync(filePath, "utf8");
+      const fileContents = readContentFile(filePath) ?? "";
       const parsed = matter(fileContents);
       const data = parsed.data as Record<string, unknown>;
 
@@ -124,7 +115,7 @@ export async function getGuide(slug: string): Promise<Guide | null> {
     }
 
     try {
-      const content = fs.readFileSync(file, "utf8");
+      const content = readContentFile(file) ?? "";
       const parsed = matter(content);
       if (parsed.data.slug === slug) {
         targetFile = file;
@@ -139,7 +130,7 @@ export async function getGuide(slug: string): Promise<Guide | null> {
     return null;
   }
 
-  const fileContents = fs.readFileSync(/*turbopackIgnore: true*/ targetFile, "utf8");
+  const fileContents = readContentFile(targetFile) ?? "";
   const parsed = matter(fileContents);
   const enhancedContent = await renderMarkdownToHtml(parsed.content);
 

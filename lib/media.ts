@@ -1,7 +1,4 @@
-import fs from "fs";
-import path from "path";
-
-const mediaDir = path.join(process.cwd(), "content", "media");
+import { readContentFile } from "./content-runtime";
 
 export interface ChannelItem {
   id: string;
@@ -30,10 +27,10 @@ export type InstagramItem = ChannelItem & {
 export function getChannelItems(channelId: string): ChannelItem[] {
   const safe = String(channelId || "").replace(/[^a-z0-9-]/gi, "");
   if (!safe) return [];
-  const filePath = path.join(mediaDir, `${safe}.json`);
-  if (!fs.existsSync(filePath)) return [];
+  const filePath = `content/media/${safe}.json`;
+  const raw = readContentFile(filePath);
+  if (raw === null) return [];
   try {
-    const raw = fs.readFileSync(filePath, "utf8");
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
   } catch {
