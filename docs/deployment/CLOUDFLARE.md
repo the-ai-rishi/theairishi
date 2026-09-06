@@ -1,23 +1,26 @@
-# Worker deployment
+# Cloudflare Workers deployment
 
-This Next.js site uses the OpenNext adapter.
+This Next.js site uses the OpenNext adapter for Cloudflare Workers.
 
-## Packaging
+## Workers Builds settings
 
-The config JSON is imported as modules. Markdown and media are embedded into a generated content catalog at build time. The runtime reads the repository filesystem for local development and Vercel, then uses the embedded catalog in Workers.
+In the Cloudflare Workers Builds settings, use:
+- Build command (preferred): OpenNext build
+- Deploy command (preferred): Wrangler deploy or the OpenNext deploy script
 
-The Worker entry is .open-next/worker.js and static assets are .open-next/assets. The wrangler file enables nodejs_compat. Do not deploy the .next or out directories as a Pages worker.
+The recommended alternative deploy script runs the OpenNext build followed by the OpenNext deployment.
 
-## Troubleshooting
+The OpenNext build must run before deployment. The old plain Next.js build did not produce the compiled OpenNext configuration, so Wrangler failed during deployment.
+The smart build detects Cloudflare Workers Builds through the Cloudflare environment markers or `/opt/buildhome` and runs the OpenNext package build. Existing dashboard settings using the smart build should therefore start producing the required output automatically, while the explicit settings above remain preferred.
 
-Run the validation, lint, and build commands before the adapter build. If the generated catalog is missing, run the content generator. If the /bundle/content/config/platform.json error returns, inspect that the generated catalog contains platform.json and rebuild the OpenNext output.
+## Vercel
 
-## Commands
+Vercel does not expose the Cloudflare build markers, so the smart build takes the local Next.js-only path there. This preserves the existing Vercel build. The prebuild lifecycle still generates the content catalog before either target-specific build path runs.
+## Local checks and commands
 
-Validation: validate
-Lint: lint
-Production build: build
-Worker package: cf:build
-Deployment: cf:deploy
+Run validation and lint before a production deploy. The explicit Worker package command is the preferred Cloudflare build; use the Wrangler or OpenNext deploy command after it.
 
-The deploy command requires an authenticated account. The full deploy flow uses Wrangler through OpenNext; a dry run requires Node.js 22 or newer.
+The deploy commands require an authenticated Cloudflare account. Rebuild after JSON or Markdown content changes so the generated catalog and Worker bundle include the latest content.
+Use the following explicit settings:
+Build command: cf:build
+Deploy command: npx wrangler deploy or cf:deploy

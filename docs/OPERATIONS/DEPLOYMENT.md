@@ -26,9 +26,9 @@ Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: c
 # Deployment
 
 
-This is a Next.js 16 app (React 19) intended for Vercel.
+This is a Next.js 16 app (React 19) intended for Vercel, with an OpenNext Cloudflare Workers deployment documented in [CLOUDFLARE.md](../deployment/CLOUDFLARE.md).
 
-Before a production deploy run validate, then lint, then build.
+Before a production deploy run validate, then lint, then the smart build. It keeps Vercel on Next.js and selects OpenNext automatically in Cloudflare Workers Builds.
 
 Set NEXT_PUBLIC_SITE_URL if the canonical origin is not brand.url (https://theairishi.com).
 

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "predev": "node scripts/generate-content-data.js",
-    "build": "next build",
+    "build": "node scripts/build-for-target.js",
     "prebuild": "node scripts/generate-content-data.js",
     "start": "next start",
     "lint": "eslint",
