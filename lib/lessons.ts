@@ -1,15 +1,11 @@
-import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { renderMarkdownToHtml } from "./markdown";
+import { listContentFiles, readContentFile } from "./content-runtime";
 import {
   getCourseConfig,
   getTopicSlugForCourse,
 } from "./config";
-
-const contentRootDirectory = path.join(process.cwd(), "content");
-const coursesDirectory = path.join(contentRootDirectory, "courses");
-const lessonsDirectory = path.join(contentRootDirectory, "lessons");
 
 export interface HeadingItem {
   id: string;
@@ -163,37 +159,20 @@ function getLessonMetadata(
   };
 }
 
-function getMarkdownFilesRecursively(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  const files: string[] = [];
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...getMarkdownFilesRecursively(fullPath));
-    } else if (entry.isFile() && entry.name.endsWith(".md")) {
-      files.push(fullPath);
-    }
-  }
-  return files;
-}
+
 
 function getAllLessonFiles(): string[] {
-  const files: string[] = [];
-  if (fs.existsSync(coursesDirectory)) {
-    files.push(...getMarkdownFilesRecursively(coursesDirectory));
-  }
-  if (fs.existsSync(lessonsDirectory)) {
-    files.push(...getMarkdownFilesRecursively(lessonsDirectory));
-  }
-  return Array.from(new Set(files));
+  return Array.from(new Set([
+    ...listContentFiles("content/courses", ".md"),
+    ...listContentFiles("content/lessons", ".md"),
+  ]));
 }
 
 function getLessonSourceFromFile(filePath: string): LessonSource | null {
   const filename = path.basename(filePath);
   const slug = filename.replace(/\.md$/, "");
   try {
-    const fileContents = fs.readFileSync(filePath, "utf8");
+    const fileContents = readContentFile(filePath) ?? "";
     const parsed = matter(fileContents);
     const metadata = getLessonMetadata(
       parsed.data as Record<string, unknown>,

@@ -1,7 +1,6 @@
-import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 import { renderMarkdownToHtml } from "./markdown";
+import { listContentFiles, readContentFile } from "./content-runtime";
 import { getAllLessonSummaries } from "./lessons";
 import { getAllGuideSummaries } from "./guides";
 import { getAllProjectSummaries } from "./projects";
@@ -52,8 +51,6 @@ export interface UniversalContentItem {
   relatedContent?: string[];
 }
 
-const contentRootDir = path.join(process.cwd(), "content");
-
 function resolveTopicSlug(opts: {
   topicSlug?: string;
   topic?: string;
@@ -99,21 +96,19 @@ function loadMarkdownItemsFromDir(
   subDir: string,
   defaultType: ContentType
 ): UniversalContentItem[] {
-  const dirPath = path.join(contentRootDir, subDir);
-  if (!fs.existsSync(dirPath)) return [];
-
   try {
-    const files = fs.readdirSync(dirPath).filter((f) => f.endsWith(".md"));
+    const files = listContentFiles(`content/${subDir}`, ".md");
     const items: UniversalContentItem[] = [];
 
     for (const file of files) {
-      const filePath = path.join(dirPath, file);
-      const raw = fs.readFileSync(filePath, "utf8");
+      const raw = readContentFile(file);
+      if (raw === null) continue;
       const { data, content } = matter(raw);
 
       if (!isPublished(data)) continue;
 
-      const slug = (data.slug as string) || file.replace(/\.md$/, "");
+      const filename = file.split("/").pop() || file;
+      const slug = (data.slug as string) || filename.replace(/\.md$/, "");
       const category = (data.category as string) || "Technology";
       const topicSlug = resolveTopicSlug({
         topicSlug: data.topicSlug as string,
@@ -150,7 +145,6 @@ function loadMarkdownItemsFromDir(
     return [];
   }
 }
-
 export function getAllUniversalContent(): UniversalContentItem[] {
   const items: UniversalContentItem[] = [];
 
@@ -329,11 +323,11 @@ export async function getSingleContentBySlug(
   subDir: string,
   slug: string
 ): Promise<UniversalContentItem | null> {
-  const filePath = path.join(contentRootDir, subDir, `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
+  const filePath = `content/${subDir}/${slug}.md`;
+  const raw = readContentFile(filePath);
+  if (raw === null) return null;
 
   try {
-    const raw = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(raw);
     if (!isPublished(data)) return null;
     const contentHtml = await renderMarkdownToHtml(content);
@@ -370,7 +364,6 @@ export async function getSingleContentBySlug(
     return null;
   }
 }
-
 export function getRelatedContent(
   targetItem: UniversalContentItem,
   limit: number = 4

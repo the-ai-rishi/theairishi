@@ -37,6 +37,16 @@ console.log("Running platform validation...\n");
 
 const platformPath = path.join(configDir, "platform.json");
 check(fs.existsSync(platformPath), "Missing content/config/platform.json");
+const embeddedContentPath = path.join(rootDir, "lib", "content-data.generated.ts");
+check(fs.existsSync(embeddedContentPath), "Missing generated content catalog. Run content:generate");
+if (fs.existsSync(embeddedContentPath)) {
+  const embeddedSource = fs.readFileSync(embeddedContentPath, "utf8");
+  check(embeddedSource.includes("content/config/platform.json"), "Generated catalog does not embed platform.json");
+  check(embeddedSource.includes("content/config/courses.json"), "Generated catalog does not embed courses.json");
+  check(embeddedSource.includes("content/lessons/"), "Generated catalog does not embed lesson markdown");
+  check(embeddedSource.includes("content/guides/"), "Generated catalog does not embed guide markdown");
+  check(embeddedSource.includes("content/projects/"), "Generated catalog does not embed project markdown");
+}
 
 let platform = null;
 const definedTopicIds = new Set();

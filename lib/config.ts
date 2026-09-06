@@ -1,9 +1,8 @@
-import fs from "fs";
-import path from "path";
+import platformJson from "../content/config/platform.json";
+import coursesJson from "../content/config/courses.json";
+import seriesJson from "../content/config/series.json";
 import * as vis from "./visibility-core";
 import type { LifecycleStatus, PlatformCatalog, Surface } from "./visibility-core";
-
-const configDir = path.join(process.cwd(), "content", "config");
 
 export type ContentStatus =
   | "published"
@@ -303,15 +302,9 @@ let _seriesConfig: SeriesConfig[] | null = null;
 
 export function loadPlatformConfig(): PlatformConfig {
   if (_platformConfig) return _platformConfig;
-  const filePath = path.join(configDir, "platform.json");
-  if (!fs.existsSync(filePath)) {
-    throw new Error(
-      `[config] Platform config not found: ${filePath}. Create content/config/platform.json`
-    );
-  }
+  const filePath = "content/config/platform.json";
   try {
-    const raw = JSON.parse(fs.readFileSync(filePath, "utf8")) as unknown;
-    _platformConfig = validatePlatformConfig(raw, filePath);
+    _platformConfig = validatePlatformConfig(platformJson as unknown, filePath);
     return _platformConfig;
   } catch (err) {
     throw new Error(
@@ -322,15 +315,9 @@ export function loadPlatformConfig(): PlatformConfig {
 
 function loadCoursesConfig(): CourseConfig[] {
   if (_coursesConfig) return _coursesConfig;
-  const filePath = path.join(configDir, "courses.json");
-  if (!fs.existsSync(filePath)) {
-    throw new Error(
-      `[config] Courses config not found: ${filePath}. Create content/config/courses.json`
-    );
-  }
+  const filePath = "content/config/courses.json";
   try {
-    const raw = JSON.parse(fs.readFileSync(filePath, "utf8")) as unknown;
-    _coursesConfig = validateCoursesConfig(raw, filePath);
+    _coursesConfig = validateCoursesConfig(coursesJson as unknown, filePath);
     return _coursesConfig;
   } catch (err) {
     throw new Error(
@@ -341,14 +328,8 @@ function loadCoursesConfig(): CourseConfig[] {
 
 function loadSeriesConfig(): SeriesConfig[] {
   if (_seriesConfig) return _seriesConfig;
-  const filePath = path.join(configDir, "series.json");
-  if (!fs.existsSync(filePath)) {
-    _seriesConfig = [];
-    return _seriesConfig;
-  }
   try {
-    const raw = JSON.parse(fs.readFileSync(filePath, "utf8")) as unknown;
-    _seriesConfig = validateSeriesConfig(raw);
+    _seriesConfig = validateSeriesConfig(seriesJson as unknown);
     return _seriesConfig;
   } catch (err) {
     console.warn(`[config] Warning loading series.json:`, err);

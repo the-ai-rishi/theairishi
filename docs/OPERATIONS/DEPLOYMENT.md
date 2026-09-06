@@ -75,3 +75,7 @@ Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not r
 
 
 Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+
+## Workers deployment
+
+See the dedicated deployment guide at [CLOUDFLARE.md](../deployment/CLOUDFLARE.md) for OpenNext packaging, Wrangler commands, validation, and troubleshooting.

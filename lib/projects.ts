@@ -1,9 +1,7 @@
-import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { renderMarkdownToHtml } from "./markdown";
-
-const projectsDirectory = path.join(process.cwd(), "content", "projects");
+import { listContentFiles, readContentFile } from "./content-runtime";
 
 export interface ProjectMetadata {
   title: string;
@@ -51,14 +49,7 @@ function isUsableExternalUrl(url: unknown): url is string {
 }
 
 function getProjectFiles(): string[] {
-  if (!fs.existsSync(projectsDirectory)) {
-    return [];
-  }
-
-  return fs
-    .readdirSync(projectsDirectory)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => path.join(projectsDirectory, f));
+  return listContentFiles("content/projects", ".md");
 }
 
 export function getAllProjectSummaries(): ProjectSummary[] {
@@ -67,7 +58,7 @@ export function getAllProjectSummaries(): ProjectSummary[] {
 
   for (const filePath of files) {
     try {
-      const fileContents = fs.readFileSync(filePath, "utf8");
+      const fileContents = readContentFile(filePath) ?? "";
       const parsed = matter(fileContents);
       const data = parsed.data as Record<string, unknown>;
 
@@ -158,7 +149,7 @@ export async function getProject(slug: string): Promise<Project | null> {
     }
 
     try {
-      const content = fs.readFileSync(file, "utf8");
+      const content = readContentFile(file) ?? "";
       const parsed = matter(content);
       if (parsed.data.slug === slug) {
         targetFile = file;
@@ -173,7 +164,7 @@ export async function getProject(slug: string): Promise<Project | null> {
     return null;
   }
 
-  const fileContents = fs.readFileSync(/*turbopackIgnore: true*/ targetFile, "utf8");
+  const fileContents = readContentFile(targetFile) ?? "";
   const parsed = matter(fileContents);
   const enhancedContent = await renderMarkdownToHtml(parsed.content);
 
