@@ -15,6 +15,7 @@
     "test:platform": "node scripts/scenario-test.js",
     "content:index": "node scripts/content-index.js",
     "content:generate": "node scripts/generate-content-data.js",
+    "precf:build": "node scripts/generate-content-data.js",
     "cf:build": "opennextjs-cloudflare build",
     "postcf:build": "node scripts/check-worker-bundle.js",
     "cf:preview": "opennextjs-cloudflare preview",
