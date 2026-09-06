@@ -5,6 +5,7 @@ const path = require("path");
 const vis = require("../lib/visibility-core");
 const { runScenarioTests } = require("./scenario-test");
 const matter = require("gray-matter");
+const { checkWorkerBundle } = require("./check-worker-bundle");
 
 const rootDir = process.cwd();
 const configDir = path.join(rootDir, "content", "config");
@@ -37,15 +38,43 @@ console.log("Running platform validation...\n");
 
 const platformPath = path.join(configDir, "platform.json");
 check(fs.existsSync(platformPath), "Missing content/config/platform.json");
+if (fs.existsSync(platformPath)) {
+  try {
+    JSON.parse(fs.readFileSync(platformPath, "utf8"));
+  } catch (err) {
+    errors.push("Error parsing platform.json: " + err.message);
+  }
+}
+
+const configSourcePath = path.join(rootDir, "lib", "config.ts");
+check(fs.existsSync(configSourcePath), "Missing lib/config.ts");
+if (fs.existsSync(configSourcePath)) {
+  const configSource = fs.readFileSync(configSourcePath, "utf8");
+  check(
+    /import\s+platformJson\s+from\s+["']\.\.\/content\/config\/platform\.json["']/.test(configSource),
+    "lib/config.ts must statically import platform.json"
+  );
+  check(!configSource.includes("Platform config not found"), "lib/config.ts contains the obsolete platform config error");
+  check(!/\breadFileSync\s*\(/.test(configSource), "lib/config.ts must not use readFileSync for platform loading");
+}
+
 const embeddedContentPath = path.join(rootDir, "lib", "content-data.generated.ts");
 check(fs.existsSync(embeddedContentPath), "Missing generated content catalog. Run content:generate");
 if (fs.existsSync(embeddedContentPath)) {
   const embeddedSource = fs.readFileSync(embeddedContentPath, "utf8");
-  check(embeddedSource.includes("content/config/platform.json"), "Generated catalog does not embed platform.json");
+  check(
+    embeddedSource.includes("content/config/platform.json") || embeddedSource.includes("The AI Rishi"),
+    "Generated catalog does not embed platform.json or the platform brand"
+  );
   check(embeddedSource.includes("content/config/courses.json"), "Generated catalog does not embed courses.json");
   check(embeddedSource.includes("content/lessons/"), "Generated catalog does not embed lesson markdown");
   check(embeddedSource.includes("content/guides/"), "Generated catalog does not embed guide markdown");
   check(embeddedSource.includes("content/projects/"), "Generated catalog does not embed project markdown");
+}
+
+const workerBundle = checkWorkerBundle({ rootDir, allowMissing: true, logger: null });
+if (!workerBundle.skipped) {
+  check(workerBundle.ok, workerBundle.errors.join("; "));
 }
 
 let platform = null;
