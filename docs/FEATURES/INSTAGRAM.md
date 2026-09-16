@@ -1,73 +1,29 @@
-# INSTAGRAM
+# Enable Instagram
 
-## PURPOSE
+Same kernel as YouTube. Today Instagram is `coming-soon` with `content/media/instagram.json` = `[]`. `/instagram` 404s.
 
+## Files
 
-instagram.json is an empty array and the channel is coming-soon. /instagram 404s until active with real items.
+| File | Change |
+| --- | --- |
+| `content/media/instagram.json` | Real posts |
+| `platform.json` `social` id `instagram` | `status: "active"` only after items exist |
+| `platform.json` `contentTypes` id `instagram` | same |
 
-## WHEN TO USE
+## Item shape
 
+```json
+{
+  "id": "attention-carousel",
+  "title": "Attention in one carousel",
+  "caption": "What attention actually computes.",
+  "publishedAt": "2026-09-01",
+  "url": "https://www.instagram.com/p/REAL_ID/",
+  "featured": false,
+  "tags": ["ai"]
+}
+```
 
-Use this when changing this area of The AI Rishi.
+Do not use `https://instagram.com` with no path. Validate will fail.
 
-## PREREQUISITES
-
-
-Repo cloned.
-
-## WHERE
-
-
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
-
-## STEP-BY-STEP
-
-
-# YouTube and Instagram
-
-
-Both channels exist in platform.json social[] and as contentTypes with status coming-soon. media JSON files are empty arrays. Direct /youtube and /instagram 404. They are not in nav, homepage, search, or sitemap.
-
-After the first real YouTube video: add a real object to content/media/youtube.json with id, title, publishedAt, and url. Set social id youtube status to active. Set contentTypes id youtube status to active. Optionally add a channel-grid section or a nav source.kind channel item. Then validate, lint, and build.
-
-Only then does getRouteChannels emit /youtube. Instagram is the same pattern with instagram.json.
-
-Do not invent videos or posts. JSON snippets live in OPERATIONS.md.
-
-## COMPLETE EXAMPLE
-
-
-# YouTube and Instagram
-
-
-Both channels exist in platform.json social[] and as contentTypes with status coming-soon. media JSON files are empty arrays. Direct /youtube and /instagram 404. They are not in nav, homepage, search, or sitemap.
-
-After the first real YouTube video: add a real object to content/media/youtube.json with id, title, publishedAt, and url. Set social id youtube status to active. Set contentTypes id youtube status to active. Optionally add a channel-grid section or a nav source.kind channel item. Then validate, lint, and build.
-
-Only then does getRouteChannels emit /youtube. Instagram is the same pattern with instagram.json.
-
-Do not invent videos or posts. JSON snippets live in OPERATIONS.md.
-
-## VALIDATION
-
-
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
-
-## COMMON MISTAKES
-
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
-
-## TROUBLESHOOTING
-
-
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
-
-## HOW TO UNDO
-
-
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+Do not invent posts. Follow [ENABLE-FEATURE.md](./ENABLE-FEATURE.md) and [YOUTUBE.md](./YOUTUBE.md).

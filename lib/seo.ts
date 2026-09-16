@@ -27,10 +27,39 @@ export function websiteJsonLd() {
       "@type": "Organization",
       name: brand.name,
     },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteConfig.url}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
+  };
+}
+
+export function articleJsonLd(input: {
+  title: string;
+  description: string;
+  url: string;
+  datePublished?: string;
+  dateModified?: string;
+  image?: string;
+}) {
+  const brand = getBrandConfig();
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.title,
+    description: input.description,
+    url: input.url,
+    datePublished: input.datePublished,
+    dateModified: input.dateModified || input.datePublished,
+    image: input.image ? `${siteConfig.url}${input.image}` : `${siteConfig.url}${brand.ogImage}`,
+    author: {
+      "@type": "Organization",
+      name: brand.name,
     },
+    publisher: {
+      "@type": "Organization",
+      name: brand.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}${brand.logoMark || brand.logo}`,
+      },
+    },
+    mainEntityOfPage: input.url,
   };
 }

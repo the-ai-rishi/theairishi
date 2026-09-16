@@ -30,15 +30,14 @@ export async function generateMetadata({
 }: TopicPageProps): Promise<Metadata> {
   const { topic } = await params;
   const state = topicRouteState(loadPlatformConfig(), topic, getLiveCatalog());
-  const brand = getBrandConfig();
 
   if (state.state !== "active" || !state.topic) {
-    return { title: `Topic Not Found | ${brand.name}` };
+    return { title: "Topic not found" };
   }
 
   const config = state.topic as unknown as TopicConfig;
   return {
-    title: `${config.name} | ${brand.name}`,
+    title: config.name,
     description: config.description,
   };
 }

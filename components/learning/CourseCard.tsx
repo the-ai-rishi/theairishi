@@ -181,7 +181,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                             <span
                               className={`shrink-0 ${
                                 completed
-                                  ? "text-emerald-400"
+                                  ? "text-gold"
                                   : "text-cream/20"
                               }`}
                             >

@@ -39,14 +39,13 @@ export async function generateMetadata({
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
-  const brand = getBrandConfig();
 
   if (!project) {
-    return { title: `Project Not Found | ${brand.name}` };
+    return { title: "Project not found" };
   }
 
   return {
-    title: `${project.metadata.title} | Projects | ${brand.name}`,
+    title: project.metadata.title,
     description: project.metadata.description,
   };
 }
@@ -66,16 +65,16 @@ export default async function ProjectSinglePage({ params }: ProjectPageProps) {
   const copy = getPlatformCopy();
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-24">
+    <main id="main-content" className="min-h-screen bg-ink pb-24 text-cream selection:bg-gold/25 selection:text-ink">
       <Header navItems={mainNav} brand={brand} copy={copy} />
 
       {/* Project Header */}
       <article className="mx-auto max-w-3xl px-4 pt-16 sm:px-6 sm:pt-24 lg:px-8">
         <div className="flex flex-wrap items-center gap-3 text-xs text-cream/40 mb-6">
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-circuit-bright">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
             {project.metadata.category}
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-signal">
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-gold/70">
             {project.metadata.status}
           </span>
         </div>

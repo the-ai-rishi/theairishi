@@ -1,10 +1,10 @@
 # The AI Rishi
 
-A premium technology knowledge platform.
+A first-principles knowledge studio for AI systems and the infrastructure that runs them.
 
-Learn. Build. Read. Stay Ahead.
+Learn. Build. Stay Ahead.
 
-Today that means real AI and DevOps lessons, one guide, and one public lab. Watch, Follow, Cloud, Career, and other future surfaces stay hidden until they are enabled and have real content.
+Today that means real AI and DevOps lessons, one essay, and one public lab. Watch, Follow, Cloud, Career, and other future surfaces stay hidden until they are enabled and have real content.
 
 ## Operator start
 
@@ -22,3 +22,7 @@ npm run build
 ```
 
 JSON and Markdown drive the public UI. A new homepage **type** still needs a developer.
+
+## Runtime
+
+Content is compiled at build time (`scripts/generate-content-data.js`). Production on Vercel and Cloudflare Workers never reads `content/` from disk. That is what makes `/bundle/content/config/platform.json` a non-issue on this branch.

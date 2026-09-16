@@ -37,21 +37,28 @@ export default function ContinueLearning({ courses }: { courses: Course[] }) {
   const targetHref = targetLessonSlug ? `/learn/${targetLessonSlug}` : "/learn";
 
   return (
-    <section id="continue" className="py-2 sm:py-3">
+    <section id="continue" className="py-2 sm:py-3" aria-label="Continue learning">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 border-y border-hairline py-4 sm:flex-row sm:items-center sm:gap-6">
-          <span className="kicker shrink-0 text-signal/80">Continue</span>
-          <h3 className="min-w-0 flex-1 font-serif text-xl tracking-[0.01em] text-cream sm:text-2xl">
+          <span className="kicker shrink-0 text-gold/80">Continue</span>
+          <h2 className="min-w-0 flex-1 font-serif text-xl tracking-[0.01em] text-cream sm:text-2xl">
             {activeCourse?.title || "Start learning"}
-          </h3>
+          </h2>
           <div className="flex items-center gap-3 sm:w-40">
-            <div className="h-px flex-1 bg-hairline">
+            <div
+              className="h-px flex-1 bg-hairline"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progressPercent}
+              aria-label="Path progress"
+            >
               <div
                 className="h-px bg-gold"
                 style={{ width: `${Math.max(6, progressPercent)}%` }}
               />
             </div>
-            <span className="font-mono text-[12px] text-cream/40">
+            <span className="font-mono text-[12px] tabular-nums text-cream/40">
               {progressPercent}%
             </span>
           </div>

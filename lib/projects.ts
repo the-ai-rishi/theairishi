@@ -63,8 +63,17 @@ export function getAllProjectSummaries(): ProjectSummary[] {
       const data = parsed.data as Record<string, unknown>;
 
       if (data.enabled === false) continue;
-      const visibility = typeof data.status === "string" ? data.status.toLowerCase() : "";
-      if (["draft", "archived", "disabled"].includes(visibility)) continue;
+      const lifecycleRaw =
+        typeof data.visibility === "string"
+          ? data.visibility
+          : typeof data.visibilityStatus === "string"
+            ? data.visibilityStatus
+            : "";
+      const lifecycle = lifecycleRaw.toLowerCase();
+      if (["draft", "archived", "disabled", "coming-soon", "paused"].includes(lifecycle)) continue;
+      const badgeRaw = typeof data.status === "string" ? data.status.toLowerCase() : "";
+      // A draft lifecycle stored in `status` still hides the lab.
+      if (["draft", "archived", "disabled"].includes(badgeRaw)) continue;
 
       const slug =
         typeof data.slug === "string"
@@ -120,7 +129,7 @@ export function getAllProjectSummaries(): ProjectSummary[] {
           topic: typeof data.topic === "string" ? data.topic : undefined,
           topicSlug: typeof data.topicSlug === "string" ? data.topicSlug : undefined,
           enabled: data.enabled !== false,
-          visibilityStatus: visibility || undefined,
+          visibilityStatus: lifecycle || "published",
         },
       });
     } catch (err) {

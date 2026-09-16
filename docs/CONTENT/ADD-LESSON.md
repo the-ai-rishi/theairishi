@@ -1,142 +1,88 @@
-# ADD LESSON
+# Add a lesson
 
-## PURPOSE
+## 1. What this system does
 
+Adds one published lesson to a learning path. The lesson appears on `/learn`, inside its path, in search, and in the sitemap after the next build.
 
-Add a published lesson markdown file that the live catalog will count.
+## 2. When I need it
 
-## WHEN TO USE
+You have a real lesson ready to publish. Do not add placeholder lessons.
 
+## 3. Exact file to create
 
-Use this when changing this area of The AI Rishi.
+`content/lessons/YOUR-SLUG.md`
 
-## PREREQUISITES
+For a course that already uses a nested folder (DevOps):
 
+`content/courses/devops/YOUR-SLUG.md`
 
-Repo cloned.
+Copy `templates/lesson-template.md`.
 
-## WHERE
+## 4. Fields to set
 
+| Field | Allowed values | Required |
+| --- | --- | --- |
+| `title` | Plain text | yes |
+| `course` | An `id` from `content/config/courses.json` (`ai`, `devops`, …) | yes |
+| `courseTitle` | Display name of the path | yes |
+| `courseOrder` | Number, path order | recommended |
+| `stage` | Stage title | yes |
+| `stageOrder` | Number | yes |
+| `lesson` | Number inside the stage | yes |
+| `topic` | A `topics[].id` in `platform.json` (`ai`, `devops`) | yes |
+| `status` | `published` / `draft` / `archived` | yes |
+| `description` | One short paragraph | yes |
+| `enabled` | `true` / `false` | optional, default true |
+| `tags` | List of strings | optional |
+| `duration` | e.g. `12 min` | optional |
 
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
+## 5. Example
 
-## STEP-BY-STEP
-
-
-# Adding content
-
-
-YAML frontmatter between triple dashes.
-
-## Lesson (content/lessons or content/courses/COURSE_ID)
-
-
-title: What is Python
-course: python
-courseTitle: Python
-courseOrder: 1
-stage: Basics
-stageOrder: 1
-lesson: 1
-topic: python
-status: published
-description: One short paragraph.
-
-Optional: tags, duration, enabled.
-
-## Guide (content/guides)
-
-
-title: First-principles debugging
-description: A short stand-alone essay.
-slug: first-principles-debugging
-date: 2026-09-01
-category: Engineering
-tags: [Debugging]
-readTime: 6
-author: The AI Rishi
-featured: true
-topic: ai
-status: published
-
-## Project (content/projects)
-
-
-title: Research agent
-description: A lab write-up.
-slug: research-agent
-date: 2026-09-01
-category: Artificial Intelligence
-technologies: [TypeScript, LLMs]
-difficulty: Intermediate
-status: Completed
-featured: true
-topic: ai
-enabled: true
-
-Do not use placeholder github.com or instagram.com site-root URLs. Hide with enabled false, not the Completed badge.
-
-## Future media item (content/media/youtube.json)
-
-
-[ { "id": "yt-1", "title": "Attention from scratch", "publishedAt": "2026-09-01", "url": "https://www.youtube.com/watch?v=REAL_ID", "duration": "12:04" } ]
-
-Empty array means the channel must stay coming-soon. See YOUTUBE_AND_INSTAGRAM.md.
-
-## COMPLETE EXAMPLE
-
+```yaml
 ---
-title: "What is this lesson about?"
+title: "What is Artificial Intelligence?"
 course: "ai"
 courseTitle: "Artificial Intelligence & LLMs"
 courseOrder: 1
 stage: "AI Fundamentals"
 stageOrder: 1
-lesson: 16
+lesson: 1
 topic: "ai"
 status: "published"
-description: "One short paragraph that appears in listings and search."
+description: "Understand what artificial intelligence actually means."
 ---
+```
 
-# What is this lesson about?
+## 6. What NOT to change
 
-Write the lesson body in GitHub-flavored markdown. The H1 can match `title`.
+- Do not edit `lib/` or `app/` to add a lesson.
+- Do not reuse an existing slug.
+- Do not set `topic` to a planned topic (`cloud`, `career`, …) unless that topic is `active` and you intend it to go public.
 
-## Why this matters
+## 7. Commands
 
-Explain the idea from first principles.
+```bash
+npm run validate
+npm run dev
+```
 
-## Practice
+## 8. How to validate
 
-<details class="practice-card">
-<summary>A question the reader should be able to answer</summary>
-<div class="practice-body">
+Open `/learn/YOUR-SLUG`. Confirm the lesson is in the path sidebar and that search finds the title.
 
-The answer, with the reasoning.
+## 9. Expected result
 
-</div>
-</details>
+The lesson is on the path, in search, and in `/sitemap.xml`.
 
-## VALIDATION
+## 10. Common errors
 
+| Error | Fix |
+| --- | --- |
+| Validate: missing course | `course` must match `courses.json` `id` |
+| Validate: missing topic | `topic` must match `platform.json` topics[].id |
+| Duplicate slug | Rename the file and the slug |
+| Lesson missing from site | `status` is not `published`, or `enabled: false` |
 
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
+## 11. Troubleshooting
 
-## COMMON MISTAKES
-
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
-
-## TROUBLESHOOTING
-
-
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
-
-## HOW TO UNDO
-
-
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+If local shows it but production does not, you skipped `npm run validate` / `npm run build`, or the generated catalog did not run (`prebuild` must run `content:generate`).

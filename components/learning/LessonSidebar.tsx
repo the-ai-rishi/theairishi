@@ -102,7 +102,7 @@ export default function LessonSidebar({
                           <span
                             className={`mt-0.5 shrink-0 transition-colors ${
                               completed
-                                ? "text-emerald-400"
+                                ? "text-gold"
                                 : isCurrent
                                   ? "text-gold"
                                   : "text-cream/20 group-hover:text-cream/40"

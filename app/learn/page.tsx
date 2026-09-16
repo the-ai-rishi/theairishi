@@ -17,7 +17,7 @@ import { notFound } from "next/navigation";
 export async function generateMetadata(): Promise<Metadata> {
   const brand = getBrandConfig();
   return {
-    title: `Learning paths | ${brand.name}`,
+    title: "Learning paths",
     description: `First-principles courses that are actually published on this site.`,
     keywords: [brand.name, brand.tagline, "courses"],
     openGraph: {

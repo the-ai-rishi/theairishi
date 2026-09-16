@@ -35,8 +35,8 @@ The AI Rishi is a living field for understanding technology: learn from first pr
 - Courses: the same two paths in content/config/courses.json.
 - Guides: 1 published markdown file in content/guides.
 - Projects: 1 published lab in content/projects.
-- Navigation: Home, Learn, Guides, Projects, About (5 items, so no Explore overflow).
-- Homepage order: hero, continue-learning, topic-grid (The field), recent (From the desk), guides (Writing), projects (Labs), course-list (Learning paths), cta.
+- Navigation: Learn, Read, Build, About.
+- Homepage order: hero, continue-learning, topic-grid (The field), course-list (Learning paths), guides (Writing), projects (Labs), cta. Recent ("From the desk") is disabled until there is a real desk feed.
 - Search indexes topics, courses, lessons, guides, and projects that are public.
 
 ## Planned / coming-soon (hidden)
@@ -69,8 +69,8 @@ The AI Rishi is a living field for understanding technology: learn from first pr
 - Courses: the same two paths in content/config/courses.json.
 - Guides: 1 published markdown file in content/guides.
 - Projects: 1 published lab in content/projects.
-- Navigation: Home, Learn, Guides, Projects, About (5 items, so no Explore overflow).
-- Homepage order: hero, continue-learning, topic-grid (The field), recent (From the desk), guides (Writing), projects (Labs), course-list (Learning paths), cta.
+- Navigation: Learn, Read, Build, About.
+- Homepage order: hero, continue-learning, topic-grid (The field), course-list (Learning paths), guides (Writing), projects (Labs), cta. Recent ("From the desk") is disabled until there is a real desk feed.
 - Search indexes topics, courses, lessons, guides, and projects that are public.
 
 ## Planned / coming-soon (hidden)

@@ -1,26 +1,78 @@
-# Cloudflare Workers deployment
+# Cloudflare
 
-This Next.js site uses the OpenNext adapter for Cloudflare Workers.
+## 1. What this system does
 
-## Workers Builds settings
+The site can run on Cloudflare Workers via OpenNext. Content is **compiled into the Worker** at build time. The Worker does not read `content/` from disk.
 
-In the Cloudflare Workers Builds settings, use:
-- Build command (preferred): OpenNext build
-- Deploy command (preferred): Wrangler deploy or the OpenNext deploy script
+## 2. When I need it
 
-The recommended alternative deploy script runs the OpenNext build followed by the OpenNext deployment.
+Local works, Cloudflare logs show missing files, or you are deploying with Wrangler / Workers Builds.
 
-The OpenNext build must run before deployment. The old plain Next.js build did not produce the compiled OpenNext configuration, so Wrangler failed during deployment.
-The smart build detects Cloudflare Workers Builds through the Cloudflare environment markers or `/opt/buildhome` and runs the OpenNext package build. Existing dashboard settings using the smart build should therefore start producing the required output automatically, while the explicit settings above remain preferred.
+## 3. The error this repo used to throw
 
-## Vercel
+```
+[config] Platform config not found: /bundle/content/config/platform.json
+```
 
-Vercel does not expose the Cloudflare build markers, so the smart build takes the local Next.js-only path there. This preserves the existing Vercel build. The prebuild lifecycle still generates the content catalog before either target-specific build path runs.
-## Local checks and commands
+**Root cause:** old code did `path.join(process.cwd(), "content/config/platform.json")`. On Workers, `process.cwd()` is `/bundle`. That directory does not contain the git source tree.
 
-Run validation and lint before a production deploy. The explicit Worker package command is the preferred Cloudflare build; use the Wrangler or OpenNext deploy command after it.
+**Fix (do not regress):**
 
-The deploy commands require an authenticated Cloudflare account. Rebuild after JSON or Markdown content changes so the generated catalog and Worker bundle include the latest content.
-Use the following explicit settings:
-Build command: cf:build
-Deploy command: npx wrangler deploy or cf:deploy
+- `lib/config.ts` statically imports `content/config/platform.json`.
+- Markdown and JSON under `content/` are embedded by `scripts/generate-content-data.js` into `lib/content-data.generated.ts`.
+- `lib/content-runtime.ts` uses that catalog in production. Disk overlay is **development only**. It never probes `/bundle`.
+
+## 4. Files involved
+
+| File | Role |
+| --- | --- |
+| `scripts/generate-content-data.js` | Embeds `content/**/*.md,json` |
+| `lib/content-data.generated.ts` | Generated. Gitignored. Created by `prebuild` / `precf:build` |
+| `lib/config.ts` | Static JSON import |
+| `lib/content-runtime.ts` | Catalog + dev overlay |
+| `open-next.config.ts` | `buildCommand: "npx next build"` |
+| `wrangler.jsonc` | Worker name, `nodejs_compat`, assets |
+| `scripts/check-worker-bundle.js` | Fails the CF build if brand/content are missing from the Worker |
+
+## 5. Commands
+
+```bash
+npm run validate
+npm run cf:build
+npm run cf:preview
+npm run cf:deploy
+```
+
+`prebuild` / `precf:build` must run. Never skip lifecycle scripts.
+
+## 6. How to validate
+
+- `npm run validate` — includes a worker-bundle check when `.open-next` exists.
+- After `cf:build`, the artifact must contain `The AI Rishi` and `EMBEDDED_CONTENT`.
+- Refresh `/` several times. No recurring `[config] Platform config not found`.
+- `/learn`, `/guides`, `/projects`, `/topics/ai` still render.
+- `/youtube` still 404 while coming-soon.
+
+## 7. What NOT to change
+
+- Do not add `fs.readFileSync` for `platform.json`.
+- Do not commit `lib/content-data.generated.ts` as a hand-edit.
+- Do not set `buildCommand` back to `npm run build` (that re-enters `postbuild` → `cf:build` and loops).
+
+## 8. Vercel vs Cloudflare
+
+| | Vercel | Cloudflare |
+| --- | --- | --- |
+| Build | `next build` | `opennextjs-cloudflare build` |
+| Content | Static import + embedded catalog | Same catalog inside the Worker |
+| Disk | Not used in production | Not used |
+
+Portable by design. No vendor-only content loader.
+
+## 9. Common errors
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Platform config not found `/bundle/...` | Old Worker still deployed | Redeploy this branch |
+| Missing module `content-data.generated` | generate step skipped | Run `npm run content:generate` before the OpenNext build |
+| Empty lessons on CF, full locally | Disk overlay in dev, empty catalog in Worker | Confirm `prebuild` ran |

@@ -10,23 +10,25 @@ interface FooterProps {
 
 export default function Footer({ navItems, brand, copy }: FooterProps) {
   const copyright = copy?.footerCopyright || brand?.name || "";
+  const lineage = brand?.lineage;
 
   return (
     <footer className="border-t border-hairline bg-ink">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <div className="flex items-center gap-4">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-16">
+        <div className="flex items-start gap-4 lg:col-span-5">
           <Logo brand={brand} variant="mark" />
           <div>
-            <p className="font-serif text-lg tracking-[0.02em] text-cream/80">
-              {brand?.name}
-            </p>
-            <p className="font-mono text-[12px] tracking-[0.08em] text-cream/35">
-              © {new Date().getFullYear()} {copyright}
+            <p className="font-serif text-xl tracking-[0.02em] text-cream">{brand?.name}</p>
+            {lineage ? (
+              <p className="mt-1 font-serif italic text-[15px] text-cream/45">{lineage}</p>
+            ) : null}
+            <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-cream/40">
+              {brand?.tagline}
             </p>
           </div>
         </div>
 
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <nav className="flex flex-wrap items-start gap-x-6 gap-y-3 lg:col-span-4 lg:justify-center" aria-label="Footer">
           {navItems.map((item) => (
             <Link
               key={item.id}
@@ -37,6 +39,20 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
             </Link>
           ))}
         </nav>
+
+        <div className="lg:col-span-3 lg:text-right">
+          {brand?.email ? (
+            <a
+              href={`mailto:${brand.email}`}
+              className="link-editorial font-mono text-[12px] tracking-[0.12em] text-cream/50 hover:text-gold"
+            >
+              {brand.email}
+            </a>
+          ) : null}
+          <p className="mt-4 font-mono text-[11px] tracking-[0.08em] text-cream/30">
+            © {new Date().getFullYear()} {copyright}
+          </p>
+        </div>
       </div>
     </footer>
   );

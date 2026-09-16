@@ -1,11 +1,11 @@
 # Start here
 
-The AI Rishi is a **technology knowledge and media platform**, not only a course site.
+The AI Rishi is a **technology knowledge studio**, not a course marketplace.
 
 Public verbs today:
 
 - **Learn** — structured paths (`/learn`)
-- **Read** — guides and essays (`/guides`)
+- **Read** — essays and guides (`/guides`)
 - **Build** — public labs (`/projects`)
 - **Explore** — topics that already have published work (`/topics/ai`, `/topics/devops`)
 
@@ -43,18 +43,28 @@ If validate fails, do not deploy.
 
 ## Common jobs
 
-- Add a lesson → [content/ADD-LESSON.md](./content/ADD-LESSON.md)
-- Add a topic → [content/ADD-TOPIC.md](./content/ADD-TOPIC.md)
-- Enable YouTube → [features/YOUTUBE.md](./features/YOUTUBE.md)
-- Disable a feature → [features/DISABLE-FEATURE.md](./features/DISABLE-FEATURE.md)
-- Change homepage order → edit `homepage.sections` in `platform.json`, then read [architecture/SECTION-ENGINE.md](./architecture/SECTION-ENGINE.md)
-- Deploy → [operations/DEPLOYMENT.md](./operations/DEPLOYMENT.md)
-- Local works, Cloudflare does not → [operations/CLOUDFLARE.md](./operations/CLOUDFLARE.md)
+| I want to… | Open this |
+| --- | --- |
+| Add a lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
+| Add an essay | [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md) |
+| Add a lab | [CONTENT/ADD-PROJECT.md](./CONTENT/ADD-PROJECT.md) |
+| Add a topic | [CONTENT/ADD-TOPIC.md](./CONTENT/ADD-TOPIC.md) |
+| Enable YouTube | [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md) |
+| Enable Instagram | [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md) |
+| Enable any feature | [FEATURES/ENABLE-FEATURE.md](./FEATURES/ENABLE-FEATURE.md) |
+| Disable a feature | [FEATURES/DISABLE-FEATURE.md](./FEATURES/DISABLE-FEATURE.md) |
+| Change homepage order | [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md) |
+| Change navigation labels | `content/config/platform.json` → `navigation.main` |
+| Run locally | [OPERATIONS/LOCAL-DEVELOPMENT.md](./OPERATIONS/LOCAL-DEVELOPMENT.md) |
+| Validate | [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md) |
+| Deploy | [OPERATIONS/DEPLOYMENT.md](./OPERATIONS/DEPLOYMENT.md) |
+| Cloudflare errors | [deployment/CLOUDFLARE.md](./deployment/CLOUDFLARE.md) |
 
 ## Rules that protect the product
 
 1. Do not invent YouTube videos, Instagram posts, or career articles to fill space.
 2. Do not set a planned topic to `active` unless published content exists.
-3. Do not crop or replace brand images in `public/brand/`.
+3. Do not crop or replace brand images in `public/brand/` unless you intend a brand change.
 4. Do not change URLs of existing lessons, guides, or projects.
 5. Do not edit `lib/content-data.generated.ts`. It is generated.
+6. Project frontmatter `status` is a badge (`Completed` / `In Progress` / `Planned`). Hide a lab with `enabled: false`, not by changing the badge.

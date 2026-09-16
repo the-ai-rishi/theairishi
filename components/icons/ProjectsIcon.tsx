@@ -8,7 +8,7 @@ export default function ProjectsIcon({ className }: { className?: string }) {
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className || "h-6 w-6 text-violet-400"}
+      className={className || "h-6 w-6 text-gold"}
     >
       <rect width="20" height="16" x="2" y="4" rx="3" ry="3" />
       <path d="m8 10-2 2 2 2" />

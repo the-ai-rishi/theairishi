@@ -8,7 +8,7 @@ export default function LearnIcon({ className }: { className?: string }) {
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className || "h-6 w-6 text-violet-400"}
+      className={className || "h-6 w-6 text-gold"}
     >
       <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
       <path d="M6 12v5c3 3 9 3 12 0v-5" />

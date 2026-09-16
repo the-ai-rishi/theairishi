@@ -8,22 +8,23 @@
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
     "tagline": "Learn. Build. Stay Ahead.",
-    "description": "A long-term technology and knowledge platform. Today you can learn AI and DevOps from first principles, read essays, and study a public lab.",
+    "description": "A first-principles knowledge studio for AI systems and the infrastructure that runs them. Read essays, follow learning paths, and study a public lab.",
     "url": "https://theairishi.com",
     "email": "contact@theairishi.com",
-    "shortName": "Rishi"
+    "shortName": "Rishi",
+    "lineage": "Ancient patience. Modern systems."
   },
   "copy": {
-    "heroBadge": "Knowledge · Systems · Building",
+    "heroBadge": "First principles · AI · Infrastructure",
     "heroTitle": "The AI Rishi",
     "heroTagline": "Learn. Build. Stay Ahead.",
-    "heroDescription": "A long-term technology and knowledge platform. Today you can learn AI and DevOps from first principles, read essays, and study a public lab.",
+    "heroDescription": "Writing and curricula on artificial intelligence and the systems that run it — taught from first principles, not from the tool of the week.",
     "heroPrimaryCta": "Start learning",
     "heroPrimaryCtaHref": "/learn",
-    "heroSecondaryCta": "Read a guide",
+    "heroSecondaryCta": "Read an essay",
     "heroSecondaryCtaHref": "/guides",
-    "headerCta": "Explore",
-    "headerCtaHref": "/#explore",
+    "headerCta": "Start",
+    "headerCtaHref": "/learn",
     "footerCopyright": "The AI Rishi"
   },
   "defaults": {
@@ -278,18 +279,10 @@
   "navigation": {
     "main": [
       {
-        "id": "home",
-        "label": "Home",
-        "href": "/",
-        "enabled": true,
-        "order": 1,
-        "status": "active"
-      },
-      {
         "id": "learn",
         "label": "Learn",
         "enabled": true,
-        "order": 2,
+        "order": 1,
         "status": "active",
         "source": {
           "kind": "contentType",
@@ -298,9 +291,9 @@
       },
       {
         "id": "guides",
-        "label": "Guides",
+        "label": "Read",
         "enabled": true,
-        "order": 3,
+        "order": 2,
         "status": "active",
         "source": {
           "kind": "contentType",
@@ -309,9 +302,9 @@
       },
       {
         "id": "projects",
-        "label": "Projects",
+        "label": "Build",
         "enabled": true,
-        "order": 4,
+        "order": 3,
         "status": "active",
         "source": {
           "kind": "contentType",
@@ -323,24 +316,16 @@
         "label": "About",
         "href": "/about",
         "enabled": true,
-        "order": 5,
+        "order": 4,
         "status": "active"
       }
     ],
     "footer": [
       {
-        "id": "home",
-        "label": "Home",
-        "href": "/",
-        "enabled": true,
-        "order": 1,
-        "status": "active"
-      },
-      {
         "id": "learn",
         "label": "Learn",
         "enabled": true,
-        "order": 2,
+        "order": 1,
         "status": "active",
         "source": {
           "kind": "contentType",
@@ -349,9 +334,9 @@
       },
       {
         "id": "guides",
-        "label": "Guides",
+        "label": "Read",
         "enabled": true,
-        "order": 3,
+        "order": 2,
         "status": "active",
         "source": {
           "kind": "contentType",
@@ -360,9 +345,9 @@
       },
       {
         "id": "projects",
-        "label": "Projects",
+        "label": "Build",
         "enabled": true,
-        "order": 4,
+        "order": 3,
         "status": "active",
         "source": {
           "kind": "contentType",
@@ -374,7 +359,7 @@
         "label": "About",
         "href": "/about",
         "enabled": true,
-        "order": 5,
+        "order": 4,
         "status": "active"
       }
     ]
@@ -408,7 +393,7 @@
       {
         "id": "recent",
         "type": "content-list",
-        "enabled": true,
+        "enabled": false,
         "order": 4,
         "title": "From the desk",
         "subtitle": "What is live today",
@@ -422,7 +407,7 @@
         "id": "guides",
         "type": "content-list",
         "enabled": true,
-        "order": 5,
+        "order": 6,
         "title": "Writing",
         "subtitle": "Essays",
         "source": {
@@ -438,7 +423,7 @@
         "id": "projects-list",
         "type": "content-list",
         "enabled": true,
-        "order": 6,
+        "order": 7,
         "title": "Labs",
         "subtitle": "Built in public",
         "source": {
@@ -454,7 +439,7 @@
         "id": "courses",
         "type": "course-list",
         "enabled": true,
-        "order": 7,
+        "order": 5,
         "title": "Learning paths",
         "subtitle": "First principles",
         "ctaLabel": "All paths",
@@ -465,7 +450,11 @@
         "id": "cta",
         "type": "cta",
         "enabled": true,
-        "order": 8
+        "order": 8,
+        "title": "Learn. Build. Stay Ahead.",
+        "subtitle": "Lineage",
+        "ctaLabel": "Read the philosophy",
+        "ctaHref": "/about"
       }
     ]
   },

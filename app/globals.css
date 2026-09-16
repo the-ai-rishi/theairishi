@@ -2,7 +2,8 @@
 
 @theme {
   --color-ink: #08080b;
-  --color-field: #0c0c10;
+  --color-field: #0e0e13;
+  --color-raised: #14141b;
   --color-gold: #d4b46a;
   --color-gold-bright: #f0d090;
   --color-circuit: #8b7cff;
@@ -10,25 +11,42 @@
   --color-lotus: #c084fc;
   --color-signal: #67e8f9;
   --color-cream: #f3eee4;
+  --color-muted: rgba(243, 238, 228, 0.58);
+  --color-subtle: rgba(243, 238, 228, 0.4);
   --color-hairline: rgba(244, 239, 228, 0.1);
+  --color-ok: #b7d5b0;
+  --color-danger: #e8a0a0;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), "Iowan Old Style", Palatino, Georgia, serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "IBM Plex Mono", monospace;
+
+  --radius-none: 0px;
+  --shadow-none: none;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
 }
 
 @layer base {
   html {
-    background-color: #08080b;
+    background-color: var(--color-ink);
+    color-scheme: dark;
   }
 
   body {
-    background-color: #08080b;
+    background-color: var(--color-ink);
     color: rgba(243, 238, 228, 0.92);
-    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
-    font-size: 18px;
+    font-size: 1.0625rem;
     line-height: 1.65;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 
   ::selection {
@@ -43,7 +61,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #08080b;
+  background: var(--color-ink);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -54,11 +72,36 @@
   background: rgba(212, 180, 106, 0.35);
 }
 
+.site-wrap {
+  width: min(100% - 2rem, 80rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .site-wrap {
+    width: min(100% - 3rem, 80rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-wrap {
+    width: min(100% - 4rem, 80rem);
+  }
+}
+
+.display {
+  font-family: var(--font-serif);
+  font-size: clamp(2.75rem, 8vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--color-cream);
+}
+
 .kicker {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
   font-weight: 400;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -67,12 +110,34 @@
   background-position: 0 100%;
   background-repeat: no-repeat;
   background-size: 0 1px;
-  transition: background-size 0.45s ease;
+  transition: background-size var(--duration-fast) var(--ease-out);
 }
 
 .link-editorial:hover,
 .link-editorial:focus-visible {
   background-size: 100% 1px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.4rem;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-quick) var(--ease-out);
+}
+
+.btn-primary:hover {
+  background: var(--color-gold-bright);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .dual-rule {
@@ -93,25 +158,17 @@
 }
 
 .dual-rule::after {
-  background: linear-gradient(90deg, rgba(139, 124, 255, 0.55), transparent);
+  background: linear-gradient(90deg, rgba(139, 124, 255, 0.4), transparent);
 }
 
 @keyframes spinSlow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes spinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
 .animate-spin-slow {
@@ -135,9 +192,12 @@
     transition: none;
     background-size: 100% 1px;
   }
+
+  .btn-primary {
+    transition: none;
+  }
 }
 
-/* Callout Box Styles */
 .callout {
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
@@ -145,7 +205,7 @@
   border-radius: 0;
   border-left-width: 2px;
   background-color: rgba(243, 238, 228, 0.02);
-  border: 1px solid rgba(244, 239, 228, 0.1);
+  border: 1px solid var(--color-hairline);
 }
 
 .callout .callout-header {
@@ -160,7 +220,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-mono);
   padding: 0.15rem 0;
 }
 
@@ -172,58 +232,51 @@
 }
 
 .callout-note {
-  border-left-color: #8b7cff;
+  border-left-color: var(--color-circuit);
   background-color: rgba(139, 124, 255, 0.04);
 }
 .callout-note .callout-badge {
-  color: #8b7cff;
-}
-.callout-note .callout-content {
-  color: rgba(238, 242, 255, 0.8);
+  color: var(--color-circuit);
 }
 
 .callout-tip {
-  border-left-color: #67e8f9;
-  background-color: rgba(103, 232, 249, 0.04);
+  border-left-color: var(--color-gold);
+  background-color: rgba(212, 180, 106, 0.04);
 }
 .callout-tip .callout-badge {
-  color: #67e8f9;
+  color: var(--color-gold-bright);
 }
 
 .callout-important {
-  border-left-color: #6ea8ff;
+  border-left-color: var(--color-circuit-bright);
   background-color: rgba(110, 168, 255, 0.04);
 }
 .callout-important .callout-badge {
-  color: #6ea8ff;
+  color: var(--color-circuit-bright);
 }
 
 .callout-warning {
-  border-left-color: #d4b46a;
+  border-left-color: var(--color-gold);
   background-color: rgba(212, 180, 106, 0.04);
 }
 .callout-warning .callout-badge {
-  color: #f0d090;
+  color: var(--color-gold-bright);
 }
 
 .callout-caution {
-  border-left-color: #f87171;
-  background-color: rgba(248, 113, 113, 0.03);
+  border-left-color: var(--color-danger);
+  background-color: rgba(232, 160, 160, 0.04);
 }
 .callout-caution .callout-badge {
-  color: #fca5a5;
+  color: var(--color-danger);
 }
 
 .callout-key-idea {
-  border-left-color: #d4b46a;
-  background: linear-gradient(
-    90deg,
-    rgba(212, 180, 106, 0.08) 0%,
-    rgba(8, 8, 11, 0.2) 100%
-  );
+  border-left-color: var(--color-gold);
+  background: linear-gradient(90deg, rgba(212, 180, 106, 0.08) 0%, rgba(8, 8, 11, 0.2) 100%);
 }
 .callout-key-idea .callout-badge {
-  color: #f0d090;
+  color: var(--color-gold-bright);
 }
 .callout-key-idea .callout-content {
   color: rgba(243, 238, 228, 0.85);
@@ -239,11 +292,12 @@
   font-weight: 400;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
-.group:hover .anchor-link {
+.group:hover .anchor-link,
+.anchor-link:focus-visible {
   opacity: 1;
 }
 .anchor-link:hover {
-  color: #f0d090;
+  color: var(--color-gold-bright);
 }
 
 .table-container table {
@@ -255,9 +309,9 @@
 .table-container th {
   padding: 0.875rem 1.25rem;
   font-weight: 600;
-  color: #f3eee4;
+  color: var(--color-cream);
   background-color: rgba(243, 238, 228, 0.04);
-  border-bottom: 1px solid rgba(244, 239, 228, 0.1);
+  border-bottom: 1px solid var(--color-hairline);
   letter-spacing: -0.01em;
 }
 .table-container td {
@@ -292,7 +346,7 @@ details.practice-card summary {
   cursor: pointer;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: #f3eee4;
+  color: var(--color-cream);
   outline: none;
   user-select: none;
   list-style: none;
@@ -300,6 +354,7 @@ details.practice-card summary {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-height: 2.75rem;
 }
 
 details.practice-card summary::-webkit-details-marker {
@@ -312,27 +367,32 @@ details.practice-card summary::after {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  color: #d4b46a;
+  font-family: var(--font-mono);
+  color: var(--color-gold);
   background: transparent;
   border: 1px solid rgba(244, 239, 228, 0.12);
   padding: 0.25rem 0.75rem;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
 }
 
 details.practice-card[open] summary::after {
   content: "Hide Answer ↑";
-  color: #f0d090;
+  color: var(--color-gold-bright);
 }
 
 details.practice-card .practice-body {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(244, 239, 228, 0.1);
+  border-top: 1px solid var(--color-hairline);
   font-size: 0.9375rem;
   line-height: 1.7;
   color: rgba(243, 238, 228, 0.75);
+}
+
+.plate {
+  border: 1px solid var(--color-hairline);
+  background: var(--color-field);
 }
 
 .skip-link {
@@ -340,10 +400,10 @@ details.practice-card .practice-body {
   left: 1rem;
   top: -120%;
   z-index: 100;
-  background: #d4b46a;
-  color: #08080b;
+  background: var(--color-gold);
+  color: var(--color-ink);
   padding: 0.5rem 0.9rem;
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -361,6 +421,6 @@ button:focus-visible,
 summary:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #d4b46a;
+  outline: 2px solid var(--color-gold);
   outline-offset: 3px;
 }

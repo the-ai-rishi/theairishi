@@ -16,6 +16,7 @@ export default function FeaturedPath({ course }: { course: Course }) {
   const total = lessons.length || course.totalLessons || 0;
   const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
   const href = next ? `/learn/${next.slug}` : "/learn";
+  const stageCount = course.stages?.length || 0;
 
   return (
     <article className="grid gap-8 border-b border-hairline py-10 lg:grid-cols-12 lg:py-14">
@@ -29,12 +30,11 @@ export default function FeaturedPath({ course }: { course: Course }) {
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[13px] tracking-[0.08em] text-cream/45">
           <span>
-            {total} lesson{total === 1 ? "" : "s"}
+            {total} {total === 1 ? "lesson" : "lessons"}
           </span>
           <span aria-hidden="true">·</span>
           <span>
-            {course.stages?.length || 0} stage
-            {(course.stages?.length || 0) === 1 ? "" : "s"}
+            {stageCount} {stageCount === 1 ? "stage" : "stages"}
           </span>
           {course.badge ? (
             <>
@@ -48,18 +48,22 @@ export default function FeaturedPath({ course }: { course: Course }) {
         <div className="w-full max-w-xs">
           <div className="flex items-center justify-between font-mono text-[12px] text-cream/40">
             <span>Progress</span>
-            <span>
+            <span className="tabular-nums">
               {completed}/{total}
             </span>
           </div>
-          <div className="mt-2 h-px bg-hairline">
-            <div className="h-px bg-gradient-to-r from-gold to-circuit" style={{ width: `${progress}%` }} />
+          <div
+            className="mt-2 h-px bg-hairline"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={total}
+            aria-valuenow={completed}
+            aria-label={`${completed} of ${total} lessons complete`}
+          >
+            <div className="h-px bg-gold" style={{ width: `${progress}%` }} />
           </div>
         </div>
-        <Link
-          href={href}
-          className="inline-flex items-center bg-cream px-6 py-3 text-[14px] font-medium tracking-[0.04em] text-ink transition hover:bg-gold-bright"
-        >
+        <Link href={href} className="btn-primary">
           {completed > 0 ? "Continue path" : "Begin path"}
         </Link>
       </div>

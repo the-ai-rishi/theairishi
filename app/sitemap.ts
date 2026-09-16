@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllLessonSlugs } from "@/lib/lessons";
 import { getAllGuideSlugs } from "@/lib/guides";
 import { getAllProjectSlugs } from "@/lib/projects";
-import { loadPlatformConfig, getContentTypeRecord } from "@/lib/config";
+import { loadPlatformConfig, getContentTypeRecord, getDefaultsConfig } from "@/lib/config";
 import { getLiveCatalog } from "@/lib/catalog";
 import { getSitemapInputs, isVisibleOnSurface, formatCount } from "@/lib/visibility-core";
 import { siteConfig } from "@/lib/site";
@@ -12,10 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const platform = loadPlatformConfig();
   const catalog = getLiveCatalog();
   const inputs = getSitemapInputs(platform, catalog);
+  const stamp = new Date(getDefaultsConfig().contentDate || "2026-08-20");
 
   const routes: MetadataRoute.Sitemap = inputs.corePaths.map((route) => ({
     url: `${baseUrl}${route === "/" ? "" : route}`,
-    lastModified: new Date(),
+    lastModified: stamp,
     changeFrequency: "weekly" as const,
     priority: route === "/" ? 1.0 : 0.8,
   }));
@@ -23,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const path of inputs.topicPaths) {
     routes.push({
       url: `${baseUrl}${path}`,
-      lastModified: new Date(),
+      lastModified: stamp,
       changeFrequency: "weekly",
       priority: 0.8,
     });
@@ -32,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const path of inputs.channelPaths) {
     routes.push({
       url: `${baseUrl}${path}`,
-      lastModified: new Date(),
+      lastModified: stamp,
       changeFrequency: "weekly",
       priority: 0.6,
     });
@@ -43,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const slug of getAllLessonSlugs()) {
       routes.push({
         url: `${baseUrl}/learn/${slug}`,
-        lastModified: new Date(),
+        lastModified: stamp,
         changeFrequency: "monthly",
         priority: 0.7,
       });
@@ -55,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const slug of getAllGuideSlugs()) {
       routes.push({
         url: `${baseUrl}/guides/${slug}`,
-        lastModified: new Date(),
+        lastModified: stamp,
         changeFrequency: "monthly",
         priority: 0.7,
       });
@@ -67,7 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const slug of getAllProjectSlugs()) {
       routes.push({
         url: `${baseUrl}/projects/${slug}`,
-        lastModified: new Date(),
+        lastModified: stamp,
         changeFrequency: "monthly",
         priority: 0.7,
       });

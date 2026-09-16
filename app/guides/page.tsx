@@ -6,9 +6,8 @@ import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const brand = getBrandConfig();
   return {
-    title: `Writing | ${brand.name}`,
+    title: "Writing",
     description:
       "In-depth technical essays, architecture deep-dives, and practical engineering writing.",
   };

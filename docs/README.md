@@ -9,25 +9,21 @@ If you are not a developer, start at [START-HERE.md](./START-HERE.md).
 | Goal | Go here |
 | --- | --- |
 | Understand the product | [START-HERE.md](./START-HERE.md) |
-| Add a lesson | [content/ADD-LESSON.md](./content/ADD-LESSON.md) |
-| Add a guide / essay | [content/ADD-GUIDE.md](./content/ADD-GUIDE.md) |
-| Add writing (same as a guide) | [content/ADD-WRITING.md](./content/ADD-WRITING.md) |
-| Add a project / lab | [content/ADD-PROJECT.md](./content/ADD-PROJECT.md) |
-| Add a topic | [content/ADD-TOPIC.md](./content/ADD-TOPIC.md) |
-| Add another format later | [content/ADD-OTHER-CONTENT.md](./content/ADD-OTHER-CONTENT.md) |
-| Enable a feature | [features/ENABLE-FEATURE.md](./features/ENABLE-FEATURE.md) |
-| Disable a feature | [features/DISABLE-FEATURE.md](./features/DISABLE-FEATURE.md) |
-| Enable YouTube | [features/YOUTUBE.md](./features/YOUTUBE.md) |
-| Enable Instagram | [features/INSTAGRAM.md](./features/INSTAGRAM.md) |
-| Understand future areas | [features/FUTURE-FEATURES.md](./features/FUTURE-FEATURES.md) |
-| Change homepage order | [architecture/SECTION-ENGINE.md](./architecture/SECTION-ENGINE.md) |
-| Change navigation labels | [operations/CONFIGURATION.md](./operations/CONFIGURATION.md) |
-| Run the site locally | [operations/LOCAL-DEVELOPMENT.md](./operations/LOCAL-DEVELOPMENT.md) |
-| Validate before publish | [operations/VALIDATION.md](./operations/VALIDATION.md) |
-| Deploy | [operations/DEPLOYMENT.md](./operations/DEPLOYMENT.md) |
-| Deploy to Vercel | [operations/VERCEL.md](./operations/VERCEL.md) |
-| Deploy to Cloudflare | [operations/CLOUDFLARE.md](./operations/CLOUDFLARE.md) |
-| Roll back | [operations/ROLLBACK.md](./operations/ROLLBACK.md) |
+| Add a lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
+| Add a guide / essay | [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md) |
+| Add a project / lab | [CONTENT/ADD-PROJECT.md](./CONTENT/ADD-PROJECT.md) |
+| Add a topic | [CONTENT/ADD-TOPIC.md](./CONTENT/ADD-TOPIC.md) |
+| Enable a feature | [FEATURES/ENABLE-FEATURE.md](./FEATURES/ENABLE-FEATURE.md) |
+| Disable a feature | [FEATURES/DISABLE-FEATURE.md](./FEATURES/DISABLE-FEATURE.md) |
+| Enable YouTube | [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md) |
+| Enable Instagram | [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md) |
+| Understand future areas | [FEATURES/FUTURE-FEATURES.md](./FEATURES/FUTURE-FEATURES.md) |
+| Change homepage order | [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md) |
+| Change navigation | [CONFIGURATION/NAVIGATION-CONFIGURATION.md](./CONFIGURATION/NAVIGATION-CONFIGURATION.md) |
+| Run the site locally | [OPERATIONS/LOCAL-DEVELOPMENT.md](./OPERATIONS/LOCAL-DEVELOPMENT.md) |
+| Validate before publish | [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md) |
+| Deploy | [OPERATIONS/DEPLOYMENT.md](./OPERATIONS/DEPLOYMENT.md) |
+| Cloudflare | [deployment/CLOUDFLARE.md](./deployment/CLOUDFLARE.md) |
 | Something broke | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) |
 
-Older docs under PLATFORM, CONTENT, OPERATIONS remain so previous links do not break. Prefer this index.
+Older files under PLATFORM, CONTENT, OPERATIONS remain so previous links do not break. Prefer this index.

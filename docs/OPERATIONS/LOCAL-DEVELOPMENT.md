@@ -34,9 +34,9 @@ Whenever you need a local http://localhost:3000 session for The AI Rishi.
 5. Open that URL.
 6. What to click:
    - Hero **Start learning** goes to /learn (`copy.heroPrimaryCta` / `copy.heroPrimaryCtaHref`).
-   - Hero **Read a guide** goes to /guides (`copy.heroSecondaryCta` / `copy.heroSecondaryCtaHref`).
-   - Header links: Home /, Learn /learn, Guides /guides, Projects /projects, About /about.
-   - Header CTA **Explore** goes to /#explore (`copy.headerCta` / `copy.headerCtaHref`), the topic-grid titled **The field**.
+   - Hero **Read an essay** goes to /guides (`copy.heroSecondaryCta` / `copy.heroSecondaryCtaHref`).
+   - Header links: Learn /learn, Read /guides, Build /projects, About /about.
+   - Header CTA **Start** goes to /learn (`copy.headerCta` / `copy.headerCtaHref`).
    - The field cards: **AI / LLM** -> /topics/ai and **DevOps** -> /topics/devops only.
    - /youtube and /instagram must 404.
 7. After JSON or markdown edits, refresh. If copy does not update, stop and start npm run dev again. There is no runtime CMS.
@@ -52,9 +52,9 @@ npm run dev
 
 Then open http://localhost:3000
 
-- Confirm hero title The AI Rishi and CTAs Start learning + Read a guide.
-- Click Start learning, then the browser back button, then Read a guide.
-- Click Explore in the header; the page should land on The field.
+- Confirm hero title The AI Rishi and CTAs Start learning + Read an essay.
+- Click Start learning, then the browser back button, then Read an essay.
+- Click Start in the header; the page should go to /learn.
 - Visit http://localhost:3000/youtube and confirm not-found.
 - Press Ctrl+C to stop.
 

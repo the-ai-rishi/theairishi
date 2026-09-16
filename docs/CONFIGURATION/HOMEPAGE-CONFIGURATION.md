@@ -49,11 +49,11 @@ Adding another Writing-like block: another content-list instance. Adding a prici
 ## Live order
 
 
-1 hero, 2 continue-learning, 3 topic-grid The field, 4 recent From the desk, 5 guides Writing, 6 projects Labs, 7 course-list Learning paths, 8 cta.
+1 hero, 2 continue-learning, 3 topic-grid The field, 4 recent From the desk (disabled), 5 course-list Learning paths, 6 guides Writing, 7 projects Labs, 8 cta.
 
 Do not add empty youtube, instagram, updates, or interview instances. showWhenEmpty defaults to false.
 
-Header CTA: copy.headerCta Explore, copy.headerCtaHref /#explore (works from inner pages). Overflow disclosure is More, not Explore. Hero primary CTA stays Start with AI / /learn.
+Header CTA: copy.headerCta Start, copy.headerCtaHref /learn. Overflow disclosure is More, not Explore. Hero primary CTA stays Start learning / /learn.
 
 ## COMPLETE EXAMPLE
 
@@ -84,11 +84,11 @@ Adding another Writing-like block: another content-list instance. Adding a prici
 ## Live order
 
 
-1 hero, 2 continue-learning, 3 topic-grid The field, 4 recent From the desk, 5 guides Writing, 6 projects Labs, 7 course-list Learning paths, 8 cta.
+1 hero, 2 continue-learning, 3 topic-grid The field, 4 recent From the desk (disabled), 5 course-list Learning paths, 6 guides Writing, 7 projects Labs, 8 cta.
 
 Do not add empty youtube, instagram, updates, or interview instances. showWhenEmpty defaults to false.
 
-Header CTA: copy.headerCta Explore, copy.headerCtaHref /#explore (works from inner pages). Overflow disclosure is More, not Explore. Hero primary CTA stays Start with AI / /learn.
+Header CTA: copy.headerCta Start, copy.headerCtaHref /learn. Overflow disclosure is More, not Explore. Hero primary CTA stays Start learning / /learn.
 
 ## VALIDATION
 

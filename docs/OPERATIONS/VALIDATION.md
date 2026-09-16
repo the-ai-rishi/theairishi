@@ -1,101 +1,47 @@
-# VALIDATION
+# Validation
 
-## PURPOSE
+## 1. What this system does
 
+`npm run validate` is the safety net before a publish. It fails the build-prep when configuration or content is invalid.
 
-Operator guide for this repository, not a generic CMS.
+## 2. When I need it
 
-## WHEN TO USE
+Before every deploy. After any JSON or markdown change.
 
+## 3. Command
 
-Use this when changing this area of The AI Rishi.
+```bash
+npm run validate
+```
 
-## PREREQUISITES
+This runs `content:generate` first (`prevalidate`), then `scripts/validate.js`, which also runs the 13 visibility scenario tests.
 
+## 4. What it checks
 
-Repo cloned.
+- `platform.json` parses and has brand, topics, nav, homepage
+- `lib/config.ts` statically imports platform JSON (never `readFileSync`, never “Platform config not found”)
+- `lib/content-runtime.ts` uses the embedded catalog and gates disk reads
+- Generated catalog contains platform, courses, lessons, guides, projects
+- Unique slugs
+- Active topics/courses have content
+- Coming-soon YouTube/Instagram do not leak into nav, search, sitemap, or routes
+- Placeholder GitHub/Instagram/YouTube root URLs
+- Brand files exist on disk
+- Worker bundle (if `.open-next` exists) contains the brand and embedded lessons
 
-## WHERE
+## 5. Expected result
 
+```
+ALL CHECKS PASSED
+```
 
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
+If it prints `FAIL`, do not deploy. Read the message: it names the file and the field.
 
-## STEP-BY-STEP
+## 6. Common errors
 
-
-# Validation and testing
-
-
-Scripts: validate (scripts/validate.js plus scenarios), test:platform, content:index, lint, build, dev, start.
-
-validate checks platform.json, courses, brand files on disk, unknown homepage types, dead nav sources, empty active topics/courses, placeholder URLs, and frozen ids in app/components/lib.
-
-Scenario tests are in-memory and do not mutate platform.json.
-
-1. Only one active topic with content
-2. Disable a topic that had content
-3. Remove a topic object (must not throw)
-4. Rename topic name and slug
-5. Add python as active with content
-6. Disable YouTube
-7. Enable YouTube as active with items (route /youtube appears)
-8. Disable guides content type
-9. Planned empty area is not a large homepage section
-10. Planned/coming-soon YouTube is not a channelPath
-11. Nav split: 8 items => 5 primary + 3 Explore
-12. Active YouTube with zero items is not-found
-13. Listing file routes 404 when the content type is disabled, coming-soon, or enabled false
-
-splitPrimaryNav is exported from visibility-core. Header cap is 5. Overflow label is More.
-
-## COMPLETE EXAMPLE
-
-
-# Validation and testing
-
-
-Scripts: validate (scripts/validate.js plus scenarios), test:platform, content:index, lint, build, dev, start.
-
-validate checks platform.json, courses, brand files on disk, unknown homepage types, dead nav sources, empty active topics/courses, placeholder URLs, and frozen ids in app/components/lib.
-
-Scenario tests are in-memory and do not mutate platform.json.
-
-1. Only one active topic with content
-2. Disable a topic that had content
-3. Remove a topic object (must not throw)
-4. Rename topic name and slug
-5. Add python as active with content
-6. Disable YouTube
-7. Enable YouTube as active with items (route /youtube appears)
-8. Disable guides content type
-9. Planned empty area is not a large homepage section
-10. Planned/coming-soon YouTube is not a channelPath
-11. Nav split: 8 items => 5 primary + 3 Explore
-12. Active YouTube with zero items is not-found
-13. Listing file routes 404 when the content type is disabled, coming-soon, or enabled false
-
-splitPrimaryNav is exported from visibility-core. Header cap is 5. Overflow label is More.
-
-## VALIDATION
-
-
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
-
-## COMMON MISTAKES
-
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
-
-## TROUBLESHOOTING
-
-
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
-
-## HOW TO UNDO
-
-
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+| Message | Fix |
+| --- | --- |
+| active topic has zero content | Set the topic to `planned` or add published markdown |
+| duplicate slug | Rename one file |
+| obsolete platform config error | You reintroduced a filesystem loader. Use the static import. |
+| placeholder URL | Remove the empty GitHub/YouTube/Instagram URL |

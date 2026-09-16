@@ -6,6 +6,7 @@ const vis = require("../lib/visibility-core");
 const { runScenarioTests } = require("./scenario-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
+const { execFileSync } = require("child_process");
 
 const rootDir = process.cwd();
 const configDir = path.join(rootDir, "content", "config");
@@ -36,6 +37,11 @@ function scanFiles(dir, predicate) {
 
 console.log("Running platform validation...\n");
 
+const generatedPath = path.join(rootDir, "lib", "content-data.generated.ts");
+if (!fs.existsSync(generatedPath)) {
+  execFileSync(process.execPath, [path.join(__dirname, "generate-content-data.js")], { stdio: "inherit" });
+}
+
 const platformPath = path.join(configDir, "platform.json");
 check(fs.existsSync(platformPath), "Missing content/config/platform.json");
 if (fs.existsSync(platformPath)) {
@@ -56,6 +62,15 @@ if (fs.existsSync(configSourcePath)) {
   );
   check(!configSource.includes("Platform config not found"), "lib/config.ts contains the obsolete platform config error");
   check(!/\breadFileSync\s*\(/.test(configSource), "lib/config.ts must not use readFileSync for platform loading");
+}
+
+const runtimeSourcePath = path.join(rootDir, "lib", "content-runtime.ts");
+check(fs.existsSync(runtimeSourcePath), "Missing lib/content-runtime.ts");
+if (fs.existsSync(runtimeSourcePath)) {
+  const runtimeSource = fs.readFileSync(runtimeSourcePath, "utf8");
+  check(runtimeSource.includes("EMBEDDED_CONTENT"), "content-runtime must use the embedded catalog");
+  check(runtimeSource.includes("canReadDisk") || runtimeSource.includes("NODE_ENV"), "content-runtime must gate filesystem reads");
+  check(!runtimeSource.includes("Platform config not found"), "content-runtime contains the obsolete platform config error");
 }
 
 const embeddedContentPath = path.join(rootDir, "lib", "content-data.generated.ts");

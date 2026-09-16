@@ -36,11 +36,11 @@ export async function generateMetadata({
   const state = channelRouteState(loadPlatformConfig(), channel, getLiveCatalog());
   const brand = getBrandConfig();
   if (state.state !== "active" || !state.channel) {
-    return { title: `Not found | ${brand.name}` };
+    return { title: "Not found" };
   }
   const platform = state.channel as unknown as SocialPlatform;
   return {
-    title: `${platform.displayName || platform.label} | ${brand.name}`,
+    title: platform.displayName || platform.label,
     description: platform.description || brand.description,
   };
 }
@@ -61,7 +61,7 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
   const externalUrl = platform.status === "active" ? platform.externalUrl : undefined;
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-24">
+    <main id="main-content" className="min-h-screen bg-ink pb-24 text-cream selection:bg-gold/25 selection:text-ink">
       <Header navItems={mainNav} brand={brand} copy={copy} />
 
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24 lg:px-8">

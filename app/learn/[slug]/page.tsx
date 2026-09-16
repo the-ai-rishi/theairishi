@@ -40,12 +40,12 @@ export async function generateMetadata({
 
   if (!lesson) {
     return {
-      title: `Lesson Not Found | ${brand.name}`,
+      title: "Lesson not found",
     };
   }
 
   const courseTitle = lesson.metadata.courseTitle || "Course";
-  const title = `${lesson.metadata.title} · ${lesson.metadata.stage} | ${courseTitle} | ${brand.name}`;
+  const title = `${lesson.metadata.title} · ${lesson.metadata.stage}`;
   const description = lesson.metadata.description;
 
   return {
@@ -109,7 +109,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-20">
+    <main id="main-content" className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-20">
       {/* Structured data */}
       <script
         type="application/ld+json"
