@@ -1,9 +1,24 @@
 # The AI Rishi
 
-A Next.js site. JSON and markdown drive the public UI. Today that means real AI and DevOps lessons, one guide, and one project. Empty future areas stay hidden and have no public URL.
+A premium technology knowledge platform.
 
-New topic or content: edit JSON and markdown. New homepage section TYPE: needs a developer.
+Learn. Build. Read. Stay Ahead.
 
-Start at docs/START_HERE.md.
-Map: docs/DOCUMENTATION-MAP.md.
-Tasks: docs/COMMON-TASKS.md.
+Today that means real AI and DevOps lessons, one guide, and one public lab. Watch, Follow, Cloud, Career, and other future surfaces stay hidden until they are enabled and have real content.
+
+## Operator start
+
+- [docs/START-HERE.md](docs/START-HERE.md)
+- [docs/README.md](docs/README.md)
+
+## Commands
+
+```bash
+npm install
+npm run dev
+npm run validate
+npm run lint
+npm run build
+```
+
+JSON and Markdown drive the public UI. A new homepage **type** still needs a developer.
