@@ -72,7 +72,7 @@ export function searchSite(query: string): SearchResultItem[] {
         title: String(c.title || ""),
         description: String(c.description || ""),
         type: "Course",
-        url: "/learn",
+        url: String(c.href || "/learn"),
         category: c.category ? String(c.category) : undefined,
         badge: c.lessonCount ? `${c.lessonCount} lessons` : undefined,
       });

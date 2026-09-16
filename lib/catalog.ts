@@ -45,9 +45,11 @@ export function buildLiveCatalog(): PlatformCatalog {
   const liveCourses = getAllCourses();
   const courses = getRawCourseConfigs().map((course) => {
     const live = liveCourses.find((c) => c.id === course.id || c.slug === course.slug);
+    const firstLesson = live?.stages?.[0]?.lessons?.[0];
     return {
       ...course,
       lessonCount: live?.totalLessons ?? 0,
+      href: firstLesson ? `/learn/${firstLesson.slug}` : "/learn",
     };
   });
 
