@@ -32,3 +32,17 @@ export interface BrandConfig {
   /** Editorial lockup under the name. Not a feature flag. */
   lineage?: string;
 }
+
+export interface CopyConfig {
+  heroBadge: string;
+  heroTitle: string;
+  heroTagline: string;
+  heroDescription: string;
+  heroPrimaryCta: string;
+  heroPrimaryCtaHref: string;
+  heroSecondaryCta: string;
+  heroSecondaryCtaHref: string;
+  headerCta: string;
+  headerCtaHref: string;
+  footerCopyright: string;
+}
