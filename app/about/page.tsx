@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "@/components/brand/PageShell";
-import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy } from "@/lib/config";
+import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, getPlatformStory } from "@/lib/config";
+import { getProgram } from "@/lib/programs";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const brand = getBrandConfig();
   return {
-    title: `About`,
-    description: `${brand.name} is a first-principles knowledge studio for AI systems and the infrastructure that runs them.`,
+    title: "About",
+    description:
+      "Why The AI Rishi exists: a public DevOps learning journey, written while I am still doing the work.",
   };
 }
 
@@ -15,40 +17,55 @@ export default function AboutPage() {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
+  const story = getPlatformStory();
+  const program = getProgram();
 
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
-        <p className="kicker text-gold/80">Colophon</p>
+        <p className="kicker text-gold/80">About</p>
         <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">
-          A studio for understanding systems
+          I am learning in public
         </h1>
-        {brand.lineage ? (
-          <p className="mt-5 font-serif italic text-xl text-cream/50">{brand.lineage}</p>
-        ) : null}
         <p className="mt-6 max-w-2xl text-[18px] leading-relaxed text-cream/60">
-          {brand.name} publishes first-principles writing and curricula on artificial intelligence
-          and the infrastructure that runs it. The work is for engineers who want to understand
-          systems, not collect certificates.
+          I wanted to get better at engineering without hopping randomly between tools.
+          I wanted to understand systems well enough to debug them, review them, and
+          explain them. Writing it down is part of the work. Teaching it is how I find
+          the holes.
         </p>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 lg:px-8">
         <div className="dual-rule mb-12" />
-        <div className="grid gap-10 md:grid-cols-3">
-          {[
-            ["Learn", "From first principles", "Skip surface tutorials. Start with the mechanisms — then the tools make sense."],
-            ["Build", "In public", "Labs and working systems. The engineering half of the mark."],
-            ["Stay ahead", "Without the mill", "Follow what actually changes. No invented media. Nothing ships empty."],
-          ].map(([kicker, title, body], i) => (
-            <div key={title} className="border-t border-hairline pt-6">
-              <p className={`font-mono text-[12px] tracking-[0.18em] uppercase ${i === 1 ? "text-circuit-bright" : "text-gold"}`}>
-                {kicker}
-              </p>
-              <h2 className="mt-3 font-serif text-2xl text-cream">{title}</h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-cream/50">{body}</p>
-            </div>
-          ))}
+        <div className="space-y-10">
+          <article>
+            <h2 className="font-serif text-3xl text-cream">The current work</h2>
+            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-cream/55">
+              {story.whatBody} The program on this site right now is {program.title}: {program.durationLabel}.
+            </p>
+          </article>
+          <article>
+            <h2 className="font-serif text-3xl text-cream">The order</h2>
+            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-cream/55">
+              {story.whyBody}
+            </p>
+          </article>
+          <article>
+            <h2 className="font-serif text-3xl text-cream">What I am not claiming</h2>
+            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-cream/55">
+              I am not a finished expert. I do not have a student count to flash. I will
+              not sell a certificate or a job. Content here is free. If that later becomes
+              a paid group, it will be because the material has been proven in public first.
+            </p>
+          </article>
+        </div>
+        <div className="mt-12 flex flex-wrap gap-6">
+          <Link href="/learn/day-01" className="btn-primary">
+            Start Day 1
+          </Link>
+          <Link href="/learn" className="link-editorial font-mono text-[14px] text-gold">
+            See the 120-day journey →
+          </Link>
         </div>
       </section>
     </PageShell>

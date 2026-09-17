@@ -2,7 +2,7 @@
 
 ## 1. What this system does
 
-`npm run validate` is the safety net before a publish. It fails the build-prep when configuration or content is invalid.
+`npm run validate` is the safety net before a publish. It fails when configuration or content is invalid.
 
 ## 2. When I need it
 
@@ -14,20 +14,32 @@ Before every deploy. After any JSON or markdown change.
 npm run validate
 ```
 
-This runs `content:generate` first (`prevalidate`), then `scripts/validate.js`, which also runs the 13 visibility scenario tests.
+This runs `content:generate` first (`prevalidate`), then `scripts/validate.js`, which also runs the visibility scenario tests.
 
 ## 4. What it checks
 
 - `platform.json` parses and has brand, topics, nav, homepage
-- `lib/config.ts` statically imports platform JSON (never `readFileSync`, never “Platform config not found”)
+- `programs.json` exists, has 11 phases and 120 unique days, and every `phaseId` is real
+- Daily lessons with `day` / `phase` / `program` match `programs.json`
+- Duplicate slugs and duplicate day numbers
+- The phrase “Ancient patience. Modern systems.” is absent from config and UI code
+- `lib/config.ts` and `lib/programs.ts` statically import JSON (never `readFileSync`)
 - `lib/content-runtime.ts` uses the embedded catalog and gates disk reads
-- Generated catalog contains platform, courses, lessons, guides, projects
-- Unique slugs
-- Active topics/courses have content
+- Generated catalog contains platform, courses, programs, lessons, guides, projects
+- Active topics/courses that are shown on the homepage have content
 - Coming-soon YouTube/Instagram do not leak into nav, search, sitemap, or routes
-- Placeholder GitHub/Instagram/YouTube root URLs
 - Brand files exist on disk
 - Worker bundle (if `.open-next` exists) contains the brand and embedded lessons
+
+Errors look like this:
+
+```
+ERROR:
+Lesson "day-07" references phase "phase-99".
+
+Fix:
+Edit content/lessons/day-07.md. Set FIELD phase to VALUE phase-01.
+```
 
 ## 5. Expected result
 
@@ -35,13 +47,8 @@ This runs `content:generate` first (`prevalidate`), then `scripts/validate.js`, 
 ALL CHECKS PASSED
 ```
 
-If it prints `FAIL`, do not deploy. Read the message: it names the file and the field.
+If it prints `Validation failed`, do not deploy.
 
-## 6. Common errors
+## 6. Scenario tests
 
-| Message | Fix |
-| --- | --- |
-| active topic has zero content | Set the topic to `planned` or add published markdown |
-| duplicate slug | Rename one file |
-| obsolete platform config error | You reintroduced a filesystem loader. Use the static import. |
-| placeholder URL | Remove the empty GitHub/YouTube/Instagram URL |
+The validator also runs `scripts/scenario-test.js`. Those tests clone `platform.json` and check that disabling a topic, a channel, or a content type actually removes it from homepage, nav, search, sitemap, and routes. They do **not** require the live homepage to show a topic grid. The live homepage is DevOps-first (hero / program / journey / method / path).

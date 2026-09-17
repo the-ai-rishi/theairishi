@@ -36,7 +36,7 @@ export interface BrandConfig {
 export interface CopyConfig {
   heroBadge: string;
   heroTitle: string;
-  heroTagline: string;
+  heroTagline?: string;
   heroDescription: string;
   heroPrimaryCta: string;
   heroPrimaryCtaHref: string;
@@ -45,6 +45,27 @@ export interface CopyConfig {
   headerCta: string;
   headerCtaHref: string;
   footerCopyright: string;
+}
+
+export interface StoryConfig {
+  whatTitle?: string;
+  whatBody?: string;
+  whyTitle?: string;
+  whyBody?: string;
+  methodTitle?: string;
+  methodBody?: string;
+  pathTitle?: string;
+  pathBody?: string;
+  communityTitle?: string;
+  communityBody?: string;
+}
+
+export interface FuturePathItem {
+  id: string;
+  label: string;
+  note?: string;
+  status: PlatformStatus;
+  href?: string;
 }
 
 export interface DefaultsConfig {
@@ -95,7 +116,12 @@ export type HomepageSectionType =
   | "content-list"
   | "channel-grid"
   | "continue-learning"
-  | "cta";
+  | "cta"
+  | "prose"
+  | "program"
+  | "journey"
+  | "method"
+  | "path";
 
 export type ContentSource =
   | { kind: "recent" }
@@ -115,6 +141,8 @@ export interface HomepageSection {
   source?: ContentSource;
   maxItems?: number;
   showWhenEmpty?: boolean;
+  bodyKey?: string;
+  body?: string;
   /** @deprecated Use source.kind = topic. Kept so old JSON does not explode the parser. */
   topicId?: string;
 }
@@ -188,6 +216,8 @@ export interface PlatformConfig {
   brand: BrandConfig;
   copy: CopyConfig;
   defaults: DefaultsConfig;
+  story?: StoryConfig;
+  futurePath?: FuturePathItem[];
   topics: TopicConfig[];
   contentTypes: ContentTypeConfig[];
   navigation: {
@@ -374,6 +404,14 @@ export function getBrandConfig(): BrandConfig {
 
 export function getPlatformCopy(): CopyConfig {
   return loadPlatformConfig().copy;
+}
+
+export function getPlatformStory(): StoryConfig {
+  return loadPlatformConfig().story || {};
+}
+
+export function getFuturePath(): FuturePathItem[] {
+  return loadPlatformConfig().futurePath || [];
 }
 
 export function getDefaultsConfig(): DefaultsConfig {

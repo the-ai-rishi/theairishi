@@ -27,6 +27,9 @@ export interface LessonMetadata {
   duration?: string;
   enabled?: boolean;
   status?: string;
+  day?: number;
+  phase?: string;
+  program?: string;
 }
 
 export interface LessonSummary {
@@ -141,6 +144,9 @@ function getLessonMetadata(
     : undefined;
 
   const duration = getString(data.duration) || undefined;
+  const day = getPositiveNumber(data.day) || undefined;
+  const phase = getString(data.phase) || undefined;
+  const program = getString(data.program) || undefined;
 
   return {
     title,
@@ -156,10 +162,11 @@ function getLessonMetadata(
     duration,
     enabled,
     status,
+    day,
+    phase,
+    program,
   };
 }
-
-
 
 function getAllLessonFiles(): string[] {
   return Array.from(new Set([
@@ -187,6 +194,10 @@ function getLessonSourceFromFile(filePath: string): LessonSource | null {
 }
 
 function compareLessons(first: LessonSummary, second: LessonSummary): number {
+  const firstDay = first.metadata.day;
+  const secondDay = second.metadata.day;
+  if (firstDay && secondDay && firstDay !== secondDay) return firstDay - secondDay;
+
   const firstCourseOrder = first.metadata.courseOrder ?? 99;
   const secondCourseOrder = second.metadata.courseOrder ?? 99;
   if (firstCourseOrder !== secondCourseOrder) return firstCourseOrder - secondCourseOrder;

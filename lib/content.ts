@@ -182,7 +182,19 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       featured: l.metadata.lesson === 1,
       readTime: 8,
       url: `/learn/${l.slug}`,
-      tags: l.metadata.tags || [l.metadata.course, l.metadata.stage],
+      tags: [
+        ...(l.metadata.tags || [l.metadata.course, l.metadata.stage]),
+        ...(typeof l.metadata.day === "number"
+          ? [`day-${String(l.metadata.day).padStart(2, "0")}`, `day ${l.metadata.day}`]
+          : []),
+        l.metadata.phase,
+        l.metadata.program,
+      ].filter((value): value is string => Boolean(value)),
+      metadata: {
+        day: l.metadata.day,
+        phase: l.metadata.phase,
+        program: l.metadata.program,
+      },
       status: (l.metadata.status as ContentStatus) || "published",
       enabled: l.metadata.enabled !== false,
     });

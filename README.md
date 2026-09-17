@@ -1,15 +1,18 @@
 # The AI Rishi
 
-A first-principles knowledge studio for AI systems and the infrastructure that runs them.
+A public technology learning journey. Right now that means **DevOps Engineer Mastery**: 120 days, starting at the shell. AI and Agentic AI come later.
 
-Learn. Build. Stay Ahead.
+This is not a guru course and not an AI-first landing page.
 
-Today that means real AI and DevOps lessons, one essay, and one public lab. Watch, Follow, Cloud, Career, and other future surfaces stay hidden until they are enabled and have real content.
+Start: `/learn/day-01`. Journey: `/learn`. About: `/about`.
+
+The locked plan lives in [devops-engineer-mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). This site publishes the days that are ready.
 
 ## Operator start
 
-- [docs/START-HERE.md](docs/START-HERE.md)
-- [docs/README.md](docs/README.md)
+- [docs/START-HERE.md](docs/START-HERE.md) — the index
+- [docs/CONTENT/ADD-DAILY-LESSON.md](docs/CONTENT/ADD-DAILY-LESSON.md) — add Day N
+- [docs/DEVOPS-ENGINEER-MASTERY.md](docs/DEVOPS-ENGINEER-MASTERY.md) — the 120-day map
 
 ## Commands
 
@@ -21,7 +24,7 @@ npm run lint
 npm run build
 ```
 
-JSON and Markdown drive the public UI. A new homepage **type** still needs a developer.
+JSON and Markdown drive the public UI. Adding Day 4 is a markdown file. A new homepage **type** still needs a developer.
 
 ## Runtime
 

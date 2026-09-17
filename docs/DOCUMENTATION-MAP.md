@@ -27,6 +27,7 @@ Use the I want to table, then the What file do I edit table.
 | Add an article (this repo: a guide) | CONTENT/ADD-ARTICLE.md | content/guides/*.md, templates/guide-template.md |
 | Add a guide / essay | CONTENT/ADD-GUIDE.md | content/guides/*.md, lib/guides.ts, app/guides |
 | Add a lesson | CONTENT/ADD-LESSON.md | content/lessons or content/courses/ID, templates/lesson-template.md |
+| Add tomorrow’s DevOps day | CONTENT/ADD-DAILY-LESSON.md | content/lessons/day-NN.md, content/config/programs.json |
 | Add a learning path | CONTENT/ADD-LEARNING-PATH.md | content/config/courses.json, lesson markdown |
 | Add a project / lab | FEATURES/PROJECTS.md | content/projects, templates/project-template.md |
 | Edit published copy | CONTENT/EDIT-CONTENT.md | the markdown file, then validate |
@@ -39,7 +40,7 @@ Use the I want to table, then the What file do I edit table.
 | Enable or disable a feature / type | CONFIGURATION/FEATURE-FLAGS.md | contentTypes[].enabled and status |
 | Enable or disable a topic | PLATFORM/DOMAIN-SYSTEM.md | topics[].enabled, status, showOnHomepage, showInNavigation |
 | Change homepage title / hero | CONFIGURATION/HOMEPAGE-CONFIGURATION.md | platform.json copy.hero* and brand.description |
-| Change navigation | CONFIGURATION/NAVIGATION-CONFIGURATION.md | navigation.main / footer, copy.headerCta /#explore, cap 5, overflow More |
+| Change navigation | CONFIGURATION/NAVIGATION-CONFIGURATION.md | navigation.main / footer, copy.headerCta /learn/day-01, cap 5, overflow More |
 | Change SEO | CONFIGURATION/SEO-CONFIGURATION.md | app/layout.tsx metadata, generateMetadata, brand.description |
 | Add a domain / topic | ADVANCED/ADDING-A-NEW-DOMAIN.md | topics[] JSON. Planned python topic is OK. Do not invent Python lessons. |
 | Add a new homepage TYPE | ADVANCED/ADDING-A-NEW-FEATURE.md | visibility-core SECTION_TYPES plus React. Developer required. |
@@ -58,7 +59,7 @@ Use the I want to table, then the What file do I edit table.
 | Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |
 | Add domain | `content/config/platform.json` | `topics[]` object. Start `planned`, `showOnHomepage` false, `showInNavigation` false. Planned python topic is OK. Do not invent Python lessons. |
 | SEO | `content/config/platform.json` `brand.description`, `brand.tagline`, `brand.url`; `app/layout.tsx` `metadata` | layout reads `siteConfig` from `lib/site.ts` (brand name/tagline/description). Per-page `generateMetadata` on listing/slug pages. Sitemap `app/sitemap.ts`, robots `app/robots.ts` |
-| Header CTA | `content/config/platform.json` | `copy.headerCta` (live: Explore), `copy.headerCtaHref` (live: /#explore). Overflow label More is code, cap 5 |
+| Header CTA | `content/config/platform.json` | `copy.headerCta` (live: Start Day 1), `copy.headerCtaHref` (live: /learn/day-01). Overflow label More is code, cap 5 |
 
 ## COMPLETE EXAMPLE
 

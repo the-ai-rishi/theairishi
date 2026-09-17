@@ -1,31 +1,45 @@
 [
   {
-    "id": "ai",
-    "slug": "ai",
-    "title": "Artificial Intelligence & LLMs",
-    "description": "A first-principles curriculum covering AI fundamentals, machine learning models, transformers, large language models, RAG, and autonomous agents.",
-    "topic": "ai",
-    "category": "Artificial Intelligence",
+    "id": "devops-engineer-mastery",
+    "slug": "devops-engineer-mastery",
+    "title": "DevOps Engineer Mastery",
+    "description": "120-day production-shaped DevOps journey. Phase 01 is foundations: shell, Git, permissions, processes, logs, TCP, HTTP, DNS, TLS.",
+    "topic": "devops",
+    "category": "Infrastructure & DevOps",
     "order": 1,
     "enabled": true,
     "status": "active",
     "featured": true,
     "showOnHomepage": true,
-    "badge": "Core Path"
+    "badge": "Current program"
   },
   {
     "id": "devops",
     "slug": "devops",
-    "title": "DevOps & Cloud Engineering",
-    "description": "Master modern infrastructure automation, CI/CD pipelines, containerization, Kubernetes, infrastructure-as-code, and cloud deployment.",
+    "title": "DevOps notes",
+    "description": "Earlier DevOps notes. The current program is DevOps Engineer Mastery.",
     "topic": "devops",
     "category": "Infrastructure & DevOps",
     "order": 2,
     "enabled": true,
     "status": "active",
-    "featured": true,
-    "showOnHomepage": true,
-    "badge": "Engineering"
+    "featured": false,
+    "showOnHomepage": false,
+    "badge": "Notes"
+  },
+  {
+    "id": "ai",
+    "slug": "ai",
+    "title": "Artificial Intelligence & LLMs",
+    "description": "Existing first-principles notes on AI and LLMs. Not the current public program.",
+    "topic": "ai",
+    "category": "Artificial Intelligence",
+    "order": 3,
+    "enabled": true,
+    "status": "active",
+    "featured": false,
+    "showOnHomepage": false,
+    "badge": "Archive notes"
   },
   {
     "id": "cloud",
@@ -34,18 +48,12 @@
     "description": "Deep dive into multi-cloud architecture, Azure, AWS, Google Cloud, distributed systems, and scalable backend infrastructure.",
     "topic": "cloud",
     "category": "Cloud Computing",
-    "order": 3,
+    "order": 10,
     "enabled": true,
     "status": "coming-soon",
     "featured": false,
-    "showOnHomepage": true,
-    "badge": "Upcoming Course",
-    "upcomingTopics": [
-      "AWS",
-      "Azure",
-      "GCP",
-      "Distributed Systems"
-    ]
+    "showOnHomepage": false,
+    "badge": "Upcoming Course"
   },
   {
     "id": "programming",
@@ -54,97 +62,67 @@
     "description": "High-performance programming in Python, TypeScript, Rust, database design with SQL, and modern system architectures.",
     "topic": "software-engineering",
     "category": "Software Development",
-    "order": 4,
+    "order": 11,
     "enabled": true,
     "status": "coming-soon",
     "featured": false,
-    "showOnHomepage": true,
-    "badge": "Upcoming Course",
-    "upcomingTopics": [
-      "Python",
-      "TypeScript",
-      "SQL",
-      "System Design"
-    ]
+    "showOnHomepage": false,
+    "badge": "Upcoming Course"
   },
   {
     "id": "cloud-upcoming",
     "slug": "cloud-upcoming",
     "title": "Cloud Architecture & Platforms",
-    "description": "Multi-cloud design patterns across AWS, Azure, and GCP, resilient microservices, serverless compute, and enterprise networking.",
+    "description": "Multi-cloud design patterns across AWS, Azure, and GCP.",
     "topic": "cloud",
     "category": "Cloud Computing",
-    "order": 10,
+    "order": 12,
     "enabled": false,
     "status": "coming-soon",
     "featured": false,
-    "showOnHomepage": true,
-    "badge": "Upcoming Course",
-    "upcomingTopics": [
-      "AWS",
-      "Azure",
-      "GCP",
-      "Distributed Systems"
-    ]
+    "showOnHomepage": false,
+    "badge": "Upcoming Course"
   },
   {
     "id": "software-engineering-upcoming",
     "slug": "software-engineering-upcoming",
     "title": "Software Engineering & Systems",
-    "description": "High-performance programming in Python, TypeScript, and Rust, relational and vector databases, and scalable backend design.",
+    "description": "High-performance programming and scalable backend design.",
     "topic": "software-engineering",
     "category": "Software Development",
-    "order": 11,
+    "order": 13,
     "enabled": false,
     "status": "coming-soon",
     "featured": false,
-    "showOnHomepage": true,
-    "badge": "Upcoming Course",
-    "upcomingTopics": [
-      "Python",
-      "TypeScript",
-      "SQL",
-      "System Design"
-    ]
+    "showOnHomepage": false,
+    "badge": "Upcoming Course"
   },
   {
     "id": "data-engineering",
     "slug": "data-engineering",
     "title": "Data Engineering & Pipelines",
-    "description": "Batch and real-time streaming architectures, Apache Kafka, Apache Spark, data lakes, dbt, and modern analytical warehouses.",
+    "description": "Batch and real-time streaming architectures.",
     "topic": "software-engineering",
     "category": "Data Platforms",
-    "order": 12,
+    "order": 14,
     "enabled": true,
     "status": "coming-soon",
     "featured": false,
-    "showOnHomepage": true,
-    "badge": "Upcoming Course",
-    "upcomingTopics": [
-      "Kafka",
-      "Spark",
-      "PostgreSQL",
-      "dbt"
-    ]
+    "showOnHomepage": false,
+    "badge": "Upcoming Course"
   },
   {
     "id": "ai-agents",
     "slug": "ai-agents",
     "title": "Autonomous AI Agents & Multi-Agent Systems",
-    "description": "Planning architectures, function calling, tool execution loops, self-reflection, and production multi-agent orchestration.",
+    "description": "Planning architectures, tool execution loops, and production multi-agent orchestration.",
     "topic": "ai",
     "category": "Advanced AI",
-    "order": 13,
+    "order": 15,
     "enabled": true,
     "status": "coming-soon",
     "featured": false,
-    "showOnHomepage": true,
-    "badge": "Upcoming Course",
-    "upcomingTopics": [
-      "Tool Calling",
-      "ReAct Loops",
-      "Multi-Agent",
-      "MCP"
-    ]
+    "showOnHomepage": false,
+    "badge": "Upcoming Course"
   }
 ]

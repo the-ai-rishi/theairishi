@@ -35,67 +35,86 @@ function labelForSearchType(raw: unknown): string {
     .replace(/\b\w/g, (ch) => ch.toUpperCase());
 }
 
+function normalizeHay(value: unknown): string {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\bday[\s-]*0*(\d+)\b/g, "day $1")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function blobOf(parts: unknown[]): string {
+  return normalizeHay(parts.filter(Boolean).join(" "));
+}
+
+function matchesQuery(query: string, blob: string): boolean {
+  const tokens = normalizeHay(query).split(/\s+/).filter(Boolean);
+  if (!tokens.length) return false;
+  const hay = ` ${blob} `;
+  return tokens.every((token) => hay.includes(` ${token} `));
+}
+
 export function searchSite(query: string): SearchResultItem[] {
-  const q = query.trim().toLowerCase();
+  const q = query.trim();
   if (!q) return [];
 
   const results: SearchResultItem[] = [];
   const index = getSearchIndexInputs(loadPlatformConfig(), getLiveCatalog());
 
   for (const t of index.topics) {
-    if (
-      String(t.name || "").toLowerCase().includes(q) ||
-      String(t.shortName || "").toLowerCase().includes(q) ||
-      String(t.description || "").toLowerCase().includes(q) ||
-      String(t.slug || "").toLowerCase().includes(q)
-    ) {
-      results.push({
-        id: `topic-${String(t.id || "")}`,
-        title: String(t.name || ""),
-        description: String(t.description || ""),
-        type: "Topic",
-        url: `/topics/${String(t.slug || "")}`,
-        category: t.category ? String(t.category) : undefined,
-        badge: t.badge ? String(t.badge) : undefined,
-      });
-    }
+    const blob = blobOf([t.name, t.shortName, t.description, t.slug, t.badge, t.category]);
+    if (!matchesQuery(q, blob)) continue;
+    results.push({
+      id: `topic-${String(t.id || "")}`,
+      title: String(t.name || ""),
+      description: String(t.description || ""),
+      type: "Topic",
+      url: `/topics/${String(t.slug || "")}`,
+      category: t.category ? String(t.category) : undefined,
+      badge: t.badge ? String(t.badge) : undefined,
+    });
   }
 
   for (const c of index.courses) {
-    if (
-      String(c.title || "").toLowerCase().includes(q) ||
-      String(c.description || "").toLowerCase().includes(q) ||
-      String(c.category || "").toLowerCase().includes(q)
-    ) {
-      results.push({
-        id: `course-${String(c.id || "")}`,
-        title: String(c.title || ""),
-        description: String(c.description || ""),
-        type: "Course",
-        url: String(c.href || "/learn"),
-        category: c.category ? String(c.category) : undefined,
-        badge: c.lessonCount ? `${c.lessonCount} lessons` : undefined,
-      });
-    }
+    const blob = blobOf([c.title, c.description, c.category, c.slug, c.id]);
+    if (!matchesQuery(q, blob)) continue;
+    results.push({
+      id: `course-${String(c.id || "")}`,
+      title: String(c.title || ""),
+      description: String(c.description || ""),
+      type: "Course",
+      url: String(c.href || "/learn"),
+      category: c.category ? String(c.category) : undefined,
+      badge: c.lessonCount ? `${c.lessonCount} lessons` : undefined,
+    });
   }
 
   for (const item of index.items) {
-    if (
-      String(item.title || "").toLowerCase().includes(q) ||
-      String(item.description || "").toLowerCase().includes(q) ||
-      String(item.category || "").toLowerCase().includes(q) ||
-      (Array.isArray(item.tags) && item.tags.some((t: string) => String(t).toLowerCase().includes(q)))
-    ) {
-      results.push({
-        id: String(item.id),
-        title: String(item.title),
-        description: String(item.description || ""),
-        type: labelForSearchType(item.type),
-        url: String(item.url || "/"),
-        category: item.category as string | undefined,
-        badge: item.topicSlug as string | undefined,
-      });
-    }
+    const blob = blobOf([
+      item.title,
+      item.description,
+      item.category,
+      item.type,
+      item.url,
+      item.topicSlug,
+      ...(Array.isArray(item.tags) ? item.tags : []),
+      item.day,
+      item.phase,
+      item.program,
+      item.metadata && typeof item.metadata === "object"
+        ? Object.values(item.metadata as Record<string, unknown>).join(" ")
+        : "",
+    ]);
+    if (!matchesQuery(q, blob)) continue;
+    results.push({
+      id: String(item.id),
+      title: String(item.title),
+      description: String(item.description || ""),
+      type: labelForSearchType(item.type),
+      url: String(item.url || "/"),
+      category: item.category as string | undefined,
+      badge: item.topicSlug as string | undefined,
+    });
   }
 
   const map = new Map<string, SearchResultItem>();

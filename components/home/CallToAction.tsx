@@ -5,11 +5,9 @@ import type { ResolvedHomepageSection } from "@/lib/homepage";
 export default function CallToAction({ section }: { section?: ResolvedHomepageSection }) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
-  const title = section?.title || brand.tagline;
+  const title = section?.title || "Start at Day 1";
   const kicker = section?.subtitle || brand.shortName || "Rishi";
-  const body = brand.lineage
-    ? `${brand.lineage} ${brand.description}`
-    : brand.description;
+  const body = brand.description;
 
   return (
     <section id="close" className="py-16 sm:py-20">
@@ -24,11 +22,14 @@ export default function CallToAction({ section }: { section?: ResolvedHomepageSe
             {body}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
-            <Link href={section?.ctaHref || "/about"} className="link-editorial font-mono text-[14px] tracking-[0.14em] text-gold hover:text-gold-bright">
-              {section?.ctaLabel || "Read the philosophy"}
+            <Link href={section?.ctaHref || copy.heroPrimaryCtaHref || "/learn/day-01"} className="btn-primary">
+              {section?.ctaLabel || copy.heroPrimaryCta || "Start Day 1"}
             </Link>
-            <Link href={copy.heroPrimaryCtaHref || "/learn"} className="btn-primary">
-              {copy.heroPrimaryCta || "Start learning"}
+            <Link
+              href={copy.heroSecondaryCtaHref || "/learn"}
+              className="link-editorial font-mono text-[14px] tracking-[0.14em] text-gold hover:text-gold-bright"
+            >
+              {copy.heroSecondaryCta || "See the journey"}
             </Link>
           </div>
         </div>

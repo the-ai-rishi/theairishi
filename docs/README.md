@@ -9,7 +9,9 @@ If you are not a developer, start at [START-HERE.md](./START-HERE.md).
 | Goal | Go here |
 | --- | --- |
 | Understand the product | [START-HERE.md](./START-HERE.md) |
-| Add a lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
+| Understand DevOps Engineer Mastery | [DEVOPS-ENGINEER-MASTERY.md](./DEVOPS-ENGINEER-MASTERY.md) |
+| Add tomorrow’s daily lesson | [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md) |
+| Add a non-daily lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
 | Add a guide / essay | [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md) |
 | Add a project / lab | [CONTENT/ADD-PROJECT.md](./CONTENT/ADD-PROJECT.md) |
 | Add a topic | [CONTENT/ADD-TOPIC.md](./CONTENT/ADD-TOPIC.md) |
@@ -24,6 +26,7 @@ If you are not a developer, start at [START-HERE.md](./START-HERE.md).
 | Validate before publish | [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md) |
 | Deploy | [OPERATIONS/DEPLOYMENT.md](./OPERATIONS/DEPLOYMENT.md) |
 | Cloudflare | [deployment/CLOUDFLARE.md](./deployment/CLOUDFLARE.md) |
+| Search | [PLATFORM/SEARCH.md](./PLATFORM/SEARCH.md) |
 | Something broke | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) |
 
 Older files under PLATFORM, CONTENT, OPERATIONS remain so previous links do not break. Prefer this index.

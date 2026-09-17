@@ -10,7 +10,6 @@ interface FooterProps {
 
 export default function Footer({ navItems, brand, copy }: FooterProps) {
   const copyright = copy?.footerCopyright || brand?.name || "";
-  const lineage = brand?.lineage;
 
   return (
     <footer className="border-t border-hairline bg-ink">
@@ -19,11 +18,11 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
           <Logo brand={brand} variant="mark" />
           <div>
             <p className="font-serif text-xl tracking-[0.02em] text-cream">{brand?.name}</p>
-            {lineage ? (
-              <p className="mt-1 font-serif italic text-[15px] text-cream/45">{lineage}</p>
-            ) : null}
-            <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-cream/40">
+            <p className="mt-1 font-mono text-[12px] tracking-[0.08em] text-cream/40">
               {brand?.tagline}
+            </p>
+            <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-cream/40">
+              {brand?.description}
             </p>
           </div>
         </div>

@@ -24,8 +24,8 @@ export default function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [exploreOpen, setExploreOpen] = useState(false);
   const exploreRef = useRef<HTMLDivElement>(null);
-  const headerCta = copy?.headerCta || "Start";
-  const headerCtaHref = copy?.headerCtaHref || "/learn";
+  const headerCta = copy?.headerCta || "Start Day 1";
+  const headerCtaHref = copy?.headerCtaHref || "/learn/day-01";
   const visible = navItems.filter((item) => item.href !== "/");
   const { primary, explore } = splitPrimaryNav(visible, PRIMARY_NAV_LIMIT);
 

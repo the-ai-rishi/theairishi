@@ -117,6 +117,22 @@ function enableChannelGrid(platform) {
   });
 }
 
+function enableTopicGrid(platform) {
+  const existing = (platform.homepage.sections || []).find((section) => section.type === "topic-grid");
+  if (existing) {
+    existing.enabled = true;
+    return;
+  }
+  platform.homepage.sections.push({
+    id: "topics-test",
+    type: "topic-grid",
+    enabled: true,
+    order: 50,
+    title: "The field",
+    showWhenEmpty: false,
+  });
+}
+
 function runScenarioTests() {
   const originalRaw = fs.readFileSync(platformPath, "utf8");
   const live = JSON.parse(originalRaw);
@@ -129,8 +145,14 @@ function runScenarioTests() {
   try {
     // ── Test 1: only one active topic with content ──────────────────────────
     const t1 = clone(live);
+    enableTopicGrid(t1);
     for (const topic of t1.topics) {
-      if (topic.id === "ai") continue;
+      if (topic.id === "ai") {
+        topic.enabled = true;
+        topic.status = "active";
+        topic.showOnHomepage = true;
+        continue;
+      }
       topic.enabled = false;
       topic.status = "disabled";
       topic.showOnHomepage = false;
@@ -173,6 +195,7 @@ function runScenarioTests() {
 
     // ── Test 2: disable a topic that had content ────────────────────────────
     const t2 = clone(live);
+    enableTopicGrid(t2);
     const devops2 = t2.topics.find((t) => t.id === "devops");
     devops2.enabled = false;
     devops2.status = "disabled";
@@ -221,6 +244,7 @@ function runScenarioTests() {
 
     // ── Test 4: rename topic name and slug ──────────────────────────────────
     const t4 = clone(live);
+    enableTopicGrid(t4);
     const devops4 = t4.topics.find((t) => t.id === "devops");
     devops4.slug = "full-stack-engineering";
     devops4.name = "Full Stack Engineering";
@@ -245,6 +269,7 @@ function runScenarioTests() {
 
     // ── Test 5: add python as active with content ───────────────────────────
     const t5 = clone(live);
+    enableTopicGrid(t5);
     t5.topics.push({
       id: "python",
       slug: "python",
@@ -421,13 +446,42 @@ function runScenarioTests() {
     const liveHome = vis.resolveHomepageSections(live, liveCat).sections;
     const liveNav = vis.resolveNavItems(live, liveCat, "main");
     const liveGrid = topicGrid(liveHome);
+    const liveHomeTopics = vis.publicTopics(live, liveCat, "homepage");
+    const liveHomeTypes = liveHome.map((section) => section.type);
     check(
-      liveGrid.some((t) => t.id === "ai") && liveGrid.some((t) => t.id === "devops"),
-      "Production: topic-grid includes AI and DevOps"
+      liveHomeTypes.includes("hero") &&
+        liveHomeTypes.includes("program") &&
+        liveHomeTypes.includes("journey") &&
+        liveHomeTypes.includes("method") &&
+        liveHomeTypes.includes("path"),
+      "Production: homepage tells the DevOps-first story (hero/program/journey/method/path)"
     );
     check(
-      liveGrid.every((t) => t.id === "ai" || t.id === "devops"),
-      "Production: topic-grid does not include empty planned topics"
+      !liveHome.some((s) => s.type === "topic-grid"),
+      "Production: topic-grid stays off the live homepage"
+    );
+    check(liveGrid.length === 0, "Production: resolved topic-grid is empty because it is disabled");
+    check(
+      liveHomeTopics.some((t) => t.id === "devops"),
+      "Production: DevOps is a homepage topic"
+    );
+    check(
+      !liveHomeTopics.some((t) => t.id === "ai"),
+      "Production: AI is not a homepage topic"
+    );
+    check(
+      liveHomeTopics.every((t) => t.id === "devops"),
+      "Production: homepage topics do not include empty planned areas"
+    );
+    check(
+      liveNav.some((item) => item.href === "/learn/day-01") &&
+        liveNav.some((item) => item.href === "/learn") &&
+        liveNav.some((item) => item.href === "/about"),
+      "Production: nav is Start / Journey / About"
+    );
+    check(
+      liveNav.every((item) => !["/guides", "/projects", "/topics/ai"].includes(String(item.href))),
+      "Production: guides, labs, and AI topic are not primary nav"
     );
     check(
       liveNav.every((item) => !String(item.href).includes("/topics/updates")),

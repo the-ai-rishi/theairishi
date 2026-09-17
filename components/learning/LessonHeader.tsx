@@ -13,6 +13,7 @@ interface LessonHeaderProps {
   lessonNumber: number;
   totalLessons: number;
   readingTime?: number;
+  day?: number;
 }
 
 export default function LessonHeader({
@@ -24,6 +25,7 @@ export default function LessonHeader({
   lessonNumber,
   totalLessons,
   readingTime = 4,
+  day,
 }: LessonHeaderProps) {
   const [copied, setCopied] = useState(false);
   const progress =
@@ -56,7 +58,7 @@ export default function LessonHeader({
             href="/learn"
             className="transition hover:text-cream hover:underline underline-offset-4"
           >
-            Learning Hub
+            Journey
           </Link>
           {courseTitle && (
             <>
@@ -66,7 +68,9 @@ export default function LessonHeader({
           )}
           <ChevronRight className="h-3 w-3 text-cream/25 shrink-0" />
           <span className="text-cream/80 font-medium">
-            Stage {String(stageNumber).padStart(2, "0")} · {stage}
+            {day
+              ? `Day ${String(day).padStart(2, "0")} · ${stage}`
+              : `Stage ${String(stageNumber).padStart(2, "0")} · ${stage}`}
           </span>
         </nav>
 

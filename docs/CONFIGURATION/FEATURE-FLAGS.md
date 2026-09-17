@@ -49,7 +49,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start learning, heroPrimaryCtaHref /learn, heroSecondaryCta Read a guide, heroSecondaryCtaHref /guides. Overflow disclosure is More.
+Live: headerCta Start Day 1, headerCtaHref /learn/day-01, heroPrimaryCta Start Day 1, heroPrimaryCtaHref /learn/day-01, heroSecondaryCta See the 120-day journey, heroSecondaryCtaHref /learn. Overflow disclosure is More. Nav is Start / Journey / About.
 
 ## defaults
 
@@ -143,7 +143,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Explore, headerCtaHref /#explore, heroPrimaryCta Start learning, heroPrimaryCtaHref /learn, heroSecondaryCta Read a guide, heroSecondaryCtaHref /guides. Overflow disclosure is More.
+Live: headerCta Start Day 1, headerCtaHref /learn/day-01, heroPrimaryCta Start Day 1, heroPrimaryCtaHref /learn/day-01, heroSecondaryCta See the 120-day journey, heroSecondaryCtaHref /learn. Overflow disclosure is More. Nav is Start / Journey / About.
 
 ## defaults
 

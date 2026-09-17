@@ -123,7 +123,7 @@ export default function SearchModal() {
                   setIsLoading(Boolean(value.trim()));
                   if (!value.trim()) setResults([]);
                 }}
-                placeholder="Lessons, essays, labs, topics…"
+                placeholder="Day 1, shell, Git, DNS…"
                 className="w-full bg-transparent px-3 text-[15px] text-cream placeholder-cream/35 outline-none"
                 autoComplete="off"
                 autoCorrect="off"
@@ -141,7 +141,7 @@ export default function SearchModal() {
             <div className="max-h-[60vh] overflow-y-auto p-3" role="listbox" aria-label="Search results">
               {query.trim().length === 0 ? (
                 <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Search published lessons, essays, labs, and topics.
+                  Search published days, lessons, and the 120-day journey.
                 </p>
               ) : isLoading && results.length === 0 ? (
                 <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">

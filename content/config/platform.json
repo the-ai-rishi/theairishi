@@ -7,30 +7,62 @@
     "ogImage": "/brand/og-image.jpg",
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
-    "tagline": "Learn. Build. Stay Ahead.",
-    "description": "A first-principles knowledge studio for AI systems and the infrastructure that runs them. Read essays, follow learning paths, and study a public lab.",
+    "tagline": "DevOps first. Then AI.",
+    "description": "A public 120-day DevOps engineering journey. Linux, Git, networking, CI, containers, Kubernetes. AI comes after you can review, debug, and run what it generates.",
     "url": "https://theairishi.com",
     "email": "contact@theairishi.com",
-    "shortName": "Rishi",
-    "lineage": "Ancient patience. Modern systems."
+    "shortName": "Rishi"
   },
   "copy": {
-    "heroBadge": "First principles · AI · Infrastructure",
+    "heroBadge": "Public learning journey · currently DevOps",
     "heroTitle": "The AI Rishi",
-    "heroTagline": "Learn. Build. Stay Ahead.",
-    "heroDescription": "Writing and curricula on artificial intelligence and the systems that run it — taught from first principles, not from the tool of the week.",
-    "heroPrimaryCta": "Start learning",
-    "heroPrimaryCtaHref": "/learn",
-    "heroSecondaryCta": "Read an essay",
-    "heroSecondaryCtaHref": "/guides",
-    "headerCta": "Start",
-    "headerCtaHref": "/learn",
+    "heroTagline": "",
+    "heroDescription": "I am learning production-shaped DevOps in public and writing it down as I go. The current program is DevOps Engineer Mastery — 120 days, starting at the shell. AI and Agentic AI come later. Nothing here is a guru course.",
+    "heroPrimaryCta": "Start Day 1",
+    "heroPrimaryCtaHref": "/learn/day-01",
+    "heroSecondaryCta": "See the 120-day journey",
+    "heroSecondaryCtaHref": "/learn",
+    "headerCta": "Start Day 1",
+    "headerCtaHref": "/learn/day-01",
     "footerCopyright": "The AI Rishi"
   },
+  "story": {
+    "whatTitle": "What this is",
+    "whatBody": "The AI Rishi is my public learning system. I learn, practice, debug, write it down, and teach from that. Teaching is how I check whether I actually understood the thing. The brand name is the long-term direction. The work on this site today is DevOps.",
+    "whyTitle": "Why DevOps before AI",
+    "whyBody": "AI can generate code, YAML, and commands. Someone still has to read the output, catch the lie, run it, and live with the failure. That someone needs Linux, Git, networking, DNS, HTTP, TLS, processes, logs, CI, containers, Kubernetes, identity, and the habit of proving claims with evidence. The goal is not to hide from AI. The goal is to use it from a position of understanding. I will not promise that this makes anyone unreplaceable, and I will not sell a job.",
+    "methodTitle": "What you actually do",
+    "methodBody": "A day is not a video. Read the lesson, predict, try without AI first, run it, break one thing safely, write the evidence, then review. If you cannot answer what fails, how you troubleshoot it, the trade-offs, and how it would land on this capstone, you covered the topic — you do not own it.",
+    "pathTitle": "Where this is going",
+    "pathBody": "DevOps is the current program. AI is next, after the foundation. Agentic AI comes after that. Those later stages stay off this site until there is real material to publish.",
+    "communityTitle": "If you want to learn with me",
+    "communityBody": "I am doing the hours too. If you are willing to practice, break things, and write evidence, you are welcome. I may help with doubts and debugging when the question shows real work. I am not running a certificate mill. Content on this site is free."
+  },
+  "futurePath": [
+    {
+      "id": "devops",
+      "label": "DevOps",
+      "note": "Now",
+      "status": "active",
+      "href": "/learn"
+    },
+    {
+      "id": "ai",
+      "label": "AI",
+      "note": "After the foundation",
+      "status": "planned"
+    },
+    {
+      "id": "agents",
+      "label": "Agentic AI",
+      "note": "After AI",
+      "status": "planned"
+    }
+  ],
   "defaults": {
-    "topicSlug": "ai",
+    "topicSlug": "devops",
     "authorName": "The AI Rishi",
-    "contentDate": "2026-08-20"
+    "contentDate": "2026-09-18"
   },
   "topics": [
     {
@@ -38,27 +70,27 @@
       "slug": "ai",
       "name": "Artificial Intelligence & LLMs",
       "shortName": "AI / LLM",
-      "description": "Neural networks, attention, vector search, RAG, and working with large language models — from first principles.",
+      "description": "Existing notes on neural networks, attention, RAG, and working with language models. Not the current public program.",
       "badge": "AI / LLM",
       "category": "AI & Data",
       "color": "purple",
-      "order": 1,
+      "order": 2,
       "enabled": true,
-      "featured": true,
-      "showOnHomepage": true,
+      "featured": false,
+      "showOnHomepage": false,
       "showInNavigation": false,
       "status": "active"
     },
     {
       "id": "devops",
       "slug": "devops",
-      "name": "DevOps & Kubernetes",
+      "name": "DevOps Engineer Mastery",
       "shortName": "DevOps",
-      "description": "Containers, Kubernetes, infrastructure-as-code, and CI/CD — how software actually ships.",
+      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure — a 120-day production-shaped journey.",
       "badge": "DevOps",
       "category": "Cloud & DevOps",
       "color": "emerald",
-      "order": 2,
+      "order": 1,
       "enabled": true,
       "featured": true,
       "showOnHomepage": true,
@@ -165,15 +197,15 @@
   "contentTypes": [
     {
       "id": "learn",
-      "title": "Structured Courses",
-      "description": "Step-by-step first-principles curriculums with progress tracking.",
-      "badge": "Learning",
+      "title": "DevOps Engineer Mastery",
+      "description": "The current 120-day program.",
+      "badge": "Learn",
       "url": "/learn",
       "iconName": "LearnIcon",
       "category": "Learning",
       "enabled": true,
       "status": "active",
-      "showOnHomepage": false,
+      "showOnHomepage": true,
       "showInNavigation": true,
       "order": 1
     },
@@ -188,7 +220,7 @@
       "enabled": true,
       "status": "active",
       "showOnHomepage": false,
-      "showInNavigation": true,
+      "showInNavigation": false,
       "order": 2
     },
     {
@@ -202,7 +234,7 @@
       "enabled": true,
       "status": "active",
       "showOnHomepage": false,
-      "showInNavigation": true,
+      "showInNavigation": false,
       "order": 3
     },
     {
@@ -279,87 +311,53 @@
   "navigation": {
     "main": [
       {
-        "id": "learn",
-        "label": "Learn",
+        "id": "start",
+        "label": "Start",
+        "href": "/learn/day-01",
         "enabled": true,
         "order": 1,
-        "status": "active",
-        "source": {
-          "kind": "contentType",
-          "id": "learn"
-        }
+        "status": "active"
       },
       {
-        "id": "guides",
-        "label": "Read",
+        "id": "journey",
+        "label": "Journey",
+        "href": "/learn",
         "enabled": true,
         "order": 2,
-        "status": "active",
-        "source": {
-          "kind": "contentType",
-          "id": "guides"
-        }
-      },
-      {
-        "id": "projects",
-        "label": "Build",
-        "enabled": true,
-        "order": 3,
-        "status": "active",
-        "source": {
-          "kind": "contentType",
-          "id": "projects"
-        }
+        "status": "active"
       },
       {
         "id": "about",
         "label": "About",
         "href": "/about",
         "enabled": true,
-        "order": 4,
+        "order": 3,
         "status": "active"
       }
     ],
     "footer": [
       {
-        "id": "learn",
-        "label": "Learn",
+        "id": "start",
+        "label": "Start",
+        "href": "/learn/day-01",
         "enabled": true,
         "order": 1,
-        "status": "active",
-        "source": {
-          "kind": "contentType",
-          "id": "learn"
-        }
+        "status": "active"
       },
       {
-        "id": "guides",
-        "label": "Read",
+        "id": "journey",
+        "label": "Journey",
+        "href": "/learn",
         "enabled": true,
         "order": 2,
-        "status": "active",
-        "source": {
-          "kind": "contentType",
-          "id": "guides"
-        }
-      },
-      {
-        "id": "projects",
-        "label": "Build",
-        "enabled": true,
-        "order": 3,
-        "status": "active",
-        "source": {
-          "kind": "contentType",
-          "id": "projects"
-        }
+        "status": "active"
       },
       {
         "id": "about",
         "label": "About",
         "href": "/about",
         "enabled": true,
-        "order": 4,
+        "order": 3,
         "status": "active"
       }
     ]
@@ -380,81 +378,123 @@
         "showWhenEmpty": false
       },
       {
-        "id": "topics",
-        "type": "topic-grid",
+        "id": "what",
+        "type": "prose",
         "enabled": true,
         "order": 3,
+        "title": "What this is",
+        "subtitle": "A public journey",
+        "bodyKey": "what"
+      },
+      {
+        "id": "program",
+        "type": "program",
+        "enabled": true,
+        "order": 4,
+        "title": "DevOps Engineer Mastery",
+        "subtitle": "The current program",
+        "ctaLabel": "Open the journey",
+        "ctaHref": "/learn"
+      },
+      {
+        "id": "why",
+        "type": "prose",
+        "enabled": true,
+        "order": 5,
+        "title": "Why DevOps before AI",
+        "subtitle": "The order is the point",
+        "bodyKey": "why"
+      },
+      {
+        "id": "journey",
+        "type": "journey",
+        "enabled": true,
+        "order": 6,
+        "title": "120 days",
+        "subtitle": "Eleven phases",
+        "ctaLabel": "Full journey",
+        "ctaHref": "/learn"
+      },
+      {
+        "id": "method",
+        "type": "method",
+        "enabled": true,
+        "order": 7,
+        "title": "What a day looks like",
+        "subtitle": "Practice, not playback"
+      },
+      {
+        "id": "path",
+        "type": "path",
+        "enabled": true,
+        "order": 8,
+        "title": "Where this is going",
+        "subtitle": "Later stages stay dark until they are real"
+      },
+      {
+        "id": "community",
+        "type": "prose",
+        "enabled": true,
+        "order": 9,
+        "title": "If you want to learn with me",
+        "subtitle": "No fake community",
+        "bodyKey": "community"
+      },
+      {
+        "id": "cta",
+        "type": "cta",
+        "enabled": true,
+        "order": 10,
+        "title": "Start at Day 1",
+        "subtitle": "Shell, PATH, exit codes",
+        "ctaLabel": "Open Day 1",
+        "ctaHref": "/learn/day-01"
+      },
+      {
+        "id": "topics",
+        "type": "topic-grid",
+        "enabled": false,
+        "order": 20,
         "title": "The field",
-        "subtitle": "Where we work",
-        "ctaLabel": "View paths",
-        "ctaHref": "/learn",
         "showWhenEmpty": false
       },
       {
         "id": "recent",
         "type": "content-list",
         "enabled": false,
-        "order": 4,
+        "order": 21,
         "title": "From the desk",
-        "subtitle": "What is live today",
-        "source": {
-          "kind": "recent"
-        },
+        "source": { "kind": "recent" },
         "maxItems": 6,
         "showWhenEmpty": false
       },
       {
         "id": "guides",
         "type": "content-list",
-        "enabled": true,
-        "order": 6,
+        "enabled": false,
+        "order": 22,
         "title": "Writing",
-        "subtitle": "Essays",
-        "source": {
-          "kind": "format",
-          "format": "guide"
-        },
+        "source": { "kind": "format", "format": "guide" },
         "maxItems": 4,
-        "ctaLabel": "All writing",
-        "ctaHref": "/guides",
         "showWhenEmpty": false
       },
       {
         "id": "projects-list",
         "type": "content-list",
-        "enabled": true,
-        "order": 7,
+        "enabled": false,
+        "order": 23,
         "title": "Labs",
-        "subtitle": "Built in public",
-        "source": {
-          "kind": "format",
-          "format": "project"
-        },
+        "source": { "kind": "format", "format": "project" },
         "maxItems": 4,
-        "ctaLabel": "All labs",
-        "ctaHref": "/projects",
         "showWhenEmpty": false
       },
       {
         "id": "courses",
         "type": "course-list",
-        "enabled": true,
-        "order": 5,
+        "enabled": false,
+        "order": 24,
         "title": "Learning paths",
-        "subtitle": "First principles",
-        "ctaLabel": "All paths",
-        "ctaHref": "/learn",
         "showWhenEmpty": false
-      },
-      {
-        "id": "cta",
-        "type": "cta",
-        "enabled": true,
-        "order": 8,
-        "title": "Learn. Build. Stay Ahead.",
-        "subtitle": "Lineage",
-        "ctaLabel": "Read the philosophy",
-        "ctaHref": "/about"
       }
     ]
   },
@@ -470,7 +510,7 @@
       "showInNavigation": false,
       "order": 1,
       "displayName": "YouTube",
-      "description": "Long-form walk-throughs and first-principles build sessions. Nothing published yet.",
+      "description": "Long-form walk-throughs. Nothing published yet.",
       "badge": "Coming soon"
     },
     {

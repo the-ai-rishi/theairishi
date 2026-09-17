@@ -26,6 +26,8 @@ interface LessonPageProps {
   }>;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   if (!isContentTypeRoutable("learn")) return [];
   return getAllLessonSlugs().map((slug) => ({ slug }));
@@ -116,10 +118,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-12%] top-[-18%] h-[520px] w-[520px] rounded-full bg-gold/[0.05] blur-[140px]" />
-        <div className="absolute right-[-16%] top-[30%] h-[480px] w-[480px] rounded-full bg-circuit/[0.06] blur-[140px]" />
-      </div>
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true" />
 
       {/* Header */}
       <header className="sticky top-0 z-30 border-b border-hairline bg-ink/85 backdrop-blur-md">
@@ -133,7 +132,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
               className="inline-flex items-center gap-2 border border-hairline px-4 py-2 font-mono text-xs text-cream/60 transition hover:text-cream"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              <span>Learning Hub</span>
+              <span>Journey</span>
             </Link>
           </div>
         </nav>
@@ -149,6 +148,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
         lessonNumber={lessonContext.lessonIndex + 1}
         totalLessons={lessonContext.totalLessonsInStage}
         readingTime={lesson.readingTime}
+        day={lesson.metadata.day}
       />
 
       {/* Lesson Content Area & Sidebar */}

@@ -1,115 +1,86 @@
-# HOMEPAGE CONFIGURATION
+# Homepage configuration
 
-## PURPOSE
+## Purpose
 
+The homepage is `content/config/platform.json` → `homepage.sections`. Code switches on TYPE. JSON chooses order, titles, and which blocks are on.
 
-Operator guide for this repository, not a generic CMS.
+You do not edit React to hide a section. Set `"enabled": false`.
 
-## WHEN TO USE
+## Live story (this branch)
 
+A visitor should understand, in about ten seconds:
 
-Use this when changing this area of The AI Rishi.
+- this is a public engineering learning journey
+- the current program is DevOps Engineer Mastery
+- start at Day 1
+- AI comes later
 
-## PREREQUISITES
+## Types the code understands
 
-
-Repo cloned.
-
-## WHERE
-
-
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
-
-## STEP-BY-STEP
-
-
-# Homepage composition
-
-
-The homepage is platform.json homepage.sections. Code switches on TYPE. JSON chooses instances.
-
-## Types (code, once)
-
-
-- hero: brand copy. Focused CTA if exactly one public topic. Discovery otherwise. Modes only for formats that have content.
-- topic-grid: public topics with content. Anchor id explore.
-- course-list: active courses with lessons. Anchor id learn.
-- content-list: source.kind recent, or topic plus topicId, or format, or channel. Presentations: journal, magazine, lab, timeline, conversation, media.
-- channel-grid: public channels with content. Not on the live homepage.
-- continue-learning: hidden without progress / public courses (showWhenEmpty false).
-- cta: closing call from copy config.
-
-Unknown type is skipped. validate.js errors.
-
-## Instance vs type
-
-
-Adding another Writing-like block: another content-list instance. Adding a pricing table: new TYPE, needs a developer.
-
-## Live order
-
-
-1 hero, 2 continue-learning, 3 topic-grid The field, 4 recent From the desk (disabled), 5 course-list Learning paths, 6 guides Writing, 7 projects Labs, 8 cta.
-
-Do not add empty youtube, instagram, updates, or interview instances. showWhenEmpty defaults to false.
-
-Header CTA: copy.headerCta Start, copy.headerCtaHref /learn. Overflow disclosure is More, not Explore. Hero primary CTA stays Start learning / /learn.
-
-## COMPLETE EXAMPLE
-
-
-# Homepage composition
-
-
-The homepage is platform.json homepage.sections. Code switches on TYPE. JSON chooses instances.
-
-## Types (code, once)
-
-
-- hero: brand copy. Focused CTA if exactly one public topic. Discovery otherwise. Modes only for formats that have content.
-- topic-grid: public topics with content. Anchor id explore.
-- course-list: active courses with lessons. Anchor id learn.
-- content-list: source.kind recent, or topic plus topicId, or format, or channel. Presentations: journal, magazine, lab, timeline, conversation, media.
-- channel-grid: public channels with content. Not on the live homepage.
-- continue-learning: hidden without progress / public courses (showWhenEmpty false).
-- cta: closing call from copy config.
-
-Unknown type is skipped. validate.js errors.
-
-## Instance vs type
-
-
-Adding another Writing-like block: another content-list instance. Adding a pricing table: new TYPE, needs a developer.
-
-## Live order
-
-
-1 hero, 2 continue-learning, 3 topic-grid The field, 4 recent From the desk (disabled), 5 course-list Learning paths, 6 guides Writing, 7 projects Labs, 8 cta.
-
-Do not add empty youtube, instagram, updates, or interview instances. showWhenEmpty defaults to false.
-
-Header CTA: copy.headerCta Start, copy.headerCtaHref /learn. Overflow disclosure is More, not Explore. Hero primary CTA stays Start learning / /learn.
-
-## VALIDATION
-
-
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
-
-## COMMON MISTAKES
-
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
-
-## TROUBLESHOOTING
-
-
-| Symptom | Cause | Fix |
+| Type | What it renders | Empty behaviour |
 | --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
+| `hero` | Brand, mission, Start Day 1 | Always shown |
+| `continue-learning` | Resume banner when the visitor has progress | Hidden when empty (`showWhenEmpty: false`) |
+| `prose` | A titled paragraph from `story.*` via `bodyKey` | Always shown if enabled |
+| `program` | DevOps Engineer Mastery summary + current phase | Always shown if enabled |
+| `journey` | The 11 phases | Always shown if enabled |
+| `method` | What a day actually looks like | Always shown if enabled |
+| `path` | DevOps → AI → Agentic AI | Always shown if enabled |
+| `cta` | Closing start button | Always shown if enabled |
+| `topic-grid` | Public topics with content | Hidden when empty. **Disabled** on the live homepage |
+| `course-list` | Featured courses | Hidden when empty. **Disabled** live |
+| `content-list` | Guides / labs / recent | Hidden when empty. **Disabled** live |
+| `channel-grid` | YouTube / Instagram | Hidden when empty. Not on the live homepage |
 
-## HOW TO UNDO
+Unknown type is skipped. `npm run validate` errors.
 
+`bodyKey` for `prose`: `what` | `why` | `method` | `path` | `community` — mapped to `story.whatBody` etc.
 
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+## Live order
+
+1. hero
+2. continue-learning (only if the visitor has progress)
+3. prose `what` — What this is
+4. program — DevOps Engineer Mastery
+5. prose `why` — Why DevOps before AI
+6. journey — 120 days / eleven phases
+7. method — What a day looks like
+8. path — Where this is going
+9. prose `community`
+10. cta — Start at Day 1
+
+Disabled (kept in JSON so you can turn them on later): topic-grid, recent, guides, projects-list, courses.
+
+## How to change copy
+
+Edit `content/config/platform.json`:
+
+- Hero strings: `copy.heroBadge`, `copy.heroTitle`, `copy.heroDescription`, `copy.heroPrimaryCta`, `copy.heroPrimaryCtaHref`
+- Supporting brand line: `brand.tagline` (currently `DevOps first. Then AI.`)
+- Story paragraphs: `story.whatBody`, `story.whyBody`, `story.methodBody`, `story.pathBody`, `story.communityBody`
+- Later stages: `futurePath`
+- Header button: `copy.headerCta`, `copy.headerCtaHref` (Start Day 1 → `/learn/day-01`)
+
+Leave `copy.heroTagline` empty. Do not stack slogans. Do not restore “Ancient patience. Modern systems.”
+
+## How to reorder
+
+Change `homepage.sections[].order`. Lower number is higher on the page.
+
+## How to hide a block
+
+`"enabled": false` on that section. It disappears from the homepage. It does not 404 the underlying route.
+
+## Adding a new kind of block
+
+Adding another prose block: another `prose` instance with a new `bodyKey` and a matching `story.*` field.
+
+Adding a pricing table or a testimonial wall: that is a new TYPE. It needs a developer (component + `SECTION_TYPES` + validate). Do not add fake testimonials.
+
+## Validation
+
+```bash
+npm run validate
+```
+
+Then open `/` and confirm Start Day 1 still goes to `/learn/day-01`.

@@ -38,9 +38,7 @@ function scanFiles(dir, predicate) {
 console.log("Running platform validation...\n");
 
 const generatedPath = path.join(rootDir, "lib", "content-data.generated.ts");
-if (!fs.existsSync(generatedPath)) {
-  execFileSync(process.execPath, [path.join(__dirname, "generate-content-data.js")], { stdio: "inherit" });
-}
+execFileSync(process.execPath, [path.join(__dirname, "generate-content-data.js")], { stdio: "inherit" });
 
 const platformPath = path.join(configDir, "platform.json");
 check(fs.existsSync(platformPath), "Missing content/config/platform.json");
@@ -64,6 +62,17 @@ if (fs.existsSync(configSourcePath)) {
   check(!/\breadFileSync\s*\(/.test(configSource), "lib/config.ts must not use readFileSync for platform loading");
 }
 
+const programsSourcePath = path.join(rootDir, "lib", "programs.ts");
+check(fs.existsSync(programsSourcePath), "Missing lib/programs.ts");
+if (fs.existsSync(programsSourcePath)) {
+  const programsSource = fs.readFileSync(programsSourcePath, "utf8");
+  check(
+    /import\s+programsJson\s+from\s+["']\.\.\/content\/config\/programs\.json["']/.test(programsSource),
+    "lib/programs.ts must statically import programs.json"
+  );
+  check(!/\breadFileSync\s*\(/.test(programsSource), "lib/programs.ts must not use readFileSync for program loading");
+}
+
 const runtimeSourcePath = path.join(rootDir, "lib", "content-runtime.ts");
 check(fs.existsSync(runtimeSourcePath), "Missing lib/content-runtime.ts");
 if (fs.existsSync(runtimeSourcePath)) {
@@ -82,6 +91,7 @@ if (fs.existsSync(embeddedContentPath)) {
     "Generated catalog does not embed platform.json or the platform brand"
   );
   check(embeddedSource.includes("content/config/courses.json"), "Generated catalog does not embed courses.json");
+  check(embeddedSource.includes("content/config/programs.json"), "Generated catalog does not embed programs.json");
   check(embeddedSource.includes("content/lessons/"), "Generated catalog does not embed lesson markdown");
   check(embeddedSource.includes("content/guides/"), "Generated catalog does not embed guide markdown");
   check(embeddedSource.includes("content/projects/"), "Generated catalog does not embed project markdown");
@@ -363,7 +373,6 @@ const skipNames = new Set(["visibility-core.js", "visibility-core.d.ts", "scenar
 const frozenPatterns = [
   /getTopicBySlug\(\s*["']updates["']\s*\)/,
   /getTopicBySlug\(\s*["']interview["']\s*\)/,
-  /getTopicBySlug\(\s*["']devops["']\s*\)/,
   /getContentForTopic\(\s*["']updates["']\s*\)/,
   /getContentForTopic\(\s*["']interview["']\s*\)/,
   /function getTechnologyUpdates/,
@@ -518,6 +527,292 @@ for (const item of [...lessonMarkdown, ...guideMarkdown, ...projectMarkdown]) {
           "markdown image is missing on disk"
         )
       );
+    }
+  }
+}
+
+const FORBIDDEN_LINEAGE = "Ancient patience. Modern systems.";
+function scanForbiddenPhrase(dir, predicate) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      scanForbiddenPhrase(full, predicate);
+      continue;
+    }
+    if (!predicate(entry.name, full)) continue;
+    const src = fs.readFileSync(full, "utf8");
+    if (src.includes(FORBIDDEN_LINEAGE)) {
+      errors.push(
+        "ERROR:\nThe phrase \"" +
+          FORBIDDEN_LINEAGE +
+          "\" appears in " +
+          path.relative(rootDir, full) +
+          ".\n\nFix:\nRemove that lineage/tagline completely. Do not replace it with another philosophical slogan."
+      );
+    }
+  }
+}
+scanForbiddenPhrase(configDir, (name) => name.endsWith(".json"));
+scanForbiddenPhrase(path.join(rootDir, "app"), (name) => /\.(ts|tsx|js|jsx)$/.test(name));
+scanForbiddenPhrase(path.join(rootDir, "components"), (name) => /\.(ts|tsx|js|jsx)$/.test(name));
+scanForbiddenPhrase(path.join(rootDir, "lib"), (name, full) => {
+  if (path.basename(full) === "content-data.generated.ts") return false;
+  return /\.(ts|tsx|js|jsx)$/.test(name);
+});
+scanForbiddenPhrase(path.join(rootDir, "templates"), (name) => true);
+if (platform && platform.brand && platform.brand.lineage) {
+  errors.push(
+    "ERROR:\nplatform.json brand.lineage is set.\n\nFix:\nDelete brand.lineage from content/config/platform.json. The brand stands on its own."
+  );
+}
+
+function operatorFix(issue, file, field, value) {
+  return (
+    "ERROR:\n" +
+    issue +
+    "\n\nFix:\nEdit " +
+    file +
+    ". Set FIELD " +
+    field +
+    " to VALUE " +
+    value +
+    "."
+  );
+}
+
+const programsPath = path.join(configDir, "programs.json");
+check(fs.existsSync(programsPath), operatorFix(
+  "Missing DevOps Engineer Mastery program file.",
+  "content/config/programs.json",
+  "(file)",
+  "a JSON program with 120 days and 11 phases"
+));
+
+let programConfig = null;
+if (fs.existsSync(programsPath)) {
+  try {
+    programConfig = JSON.parse(fs.readFileSync(programsPath, "utf8"));
+  } catch (err) {
+    errors.push(operatorFix(
+      "programs.json is not valid JSON (" + err.message + ")",
+      "content/config/programs.json",
+      "JSON",
+      "valid JSON"
+    ));
+  }
+}
+
+if (programConfig) {
+  const programFile = "content/config/programs.json";
+  check(programConfig.id && programConfig.title, operatorFix(
+    "The program is missing id or title.",
+    programFile,
+    "id and title",
+    '"devops-engineer-mastery" and "DevOps Engineer Mastery"'
+  ));
+  check(Array.isArray(programConfig.phases) && programConfig.phases.length > 0, operatorFix(
+    "The program has no phases.",
+    programFile,
+    "phases",
+    "the 11 phases from the mastery repo"
+  ));
+  check(Array.isArray(programConfig.days) && programConfig.days.length > 0, operatorFix(
+    "The program has no days.",
+    programFile,
+    "days",
+    "exactly 120 day objects from the execution plan"
+  ));
+
+  const phaseIds = new Set();
+  for (const phase of programConfig.phases || []) {
+    if (!phase || !phase.id || !phase.name) {
+      errors.push(operatorFix(
+        "A program phase is missing id or name.",
+        programFile,
+        "phases[].id / phases[].name",
+        "a unique phase id such as phase-01"
+      ));
+      continue;
+    }
+    if (phaseIds.has(phase.id)) {
+      errors.push(operatorFix(
+        "Duplicate phase id \"" + phase.id + "\".",
+        programFile,
+        "phases[].id",
+        "a unique phase id"
+      ));
+    }
+    phaseIds.add(phase.id);
+    if (typeof phase.startDay !== "number" || typeof phase.endDay !== "number") {
+      errors.push(operatorFix(
+        "Phase \"" + phase.id + "\" is missing startDay or endDay.",
+        programFile,
+        "phases[].startDay and phases[].endDay",
+        "numbers from the 120-day plan"
+      ));
+    }
+  }
+
+  if (programConfig.currentPhaseId && !phaseIds.has(programConfig.currentPhaseId)) {
+    errors.push(operatorFix(
+      "currentPhaseId \"" + programConfig.currentPhaseId + "\" does not exist.",
+      programFile,
+      "currentPhaseId",
+      "an existing phases[].id such as phase-01"
+    ));
+  }
+
+  const dayNumbers = new Set();
+  const dayByNumber = new Map();
+  for (const day of programConfig.days || []) {
+    if (!day || typeof day.day !== "number" || !day.slug || !day.title) {
+      errors.push(operatorFix(
+        "A program day is missing day, slug, or title.",
+        programFile,
+        "days[].day / days[].slug / days[].title",
+        "a number, a slug like day-01, and the real title from the execution plan"
+      ));
+      continue;
+    }
+    if (dayNumbers.has(day.day)) {
+      errors.push(operatorFix(
+        "Duplicate day number " + day.day + ".",
+        programFile,
+        "days[].day",
+        "a unique number from 1 to 120"
+      ));
+    }
+    dayNumbers.add(day.day);
+    dayByNumber.set(day.day, day);
+    if (!day.phaseId || !phaseIds.has(day.phaseId)) {
+      errors.push(operatorFix(
+        "Day " + day.day + " (\"" + (day.slug || "") + "\") references phase \"" + (day.phaseId || "") + "\".",
+        programFile,
+        "days[].phaseId",
+        "an existing phase id from phases[]"
+      ));
+    } else {
+      const phase = (programConfig.phases || []).find((item) => item.id === day.phaseId);
+      if (
+        phase &&
+        typeof phase.startDay === "number" &&
+        typeof phase.endDay === "number" &&
+        (day.day < phase.startDay || day.day > phase.endDay)
+      ) {
+        errors.push(operatorFix(
+          "Day " + day.day + " is listed under phase \"" + day.phaseId + "\" which only covers days " + phase.startDay + "–" + phase.endDay + ".",
+          programFile,
+          "days[].phaseId",
+          "the phase whose startDay/endDay include this day"
+        ));
+      }
+    }
+  }
+
+  if (Array.isArray(programConfig.days)) {
+    if (programConfig.days.length !== 120) {
+      errors.push(operatorFix(
+        "The program has " + programConfig.days.length + " days. The locked execution plan is 120 days.",
+        programFile,
+        "days",
+        "exactly 120 day objects, titles copied from the mastery repo, not invented"
+      ));
+    }
+    for (let n = 1; n <= 120; n += 1) {
+      if (!dayNumbers.has(n)) {
+        errors.push(operatorFix(
+          "Day " + n + " is missing from the 120-day map.",
+          programFile,
+          "days",
+          "a day object with day: " + n
+        ));
+        break;
+      }
+    }
+  }
+
+  const publishedDayNumbers = new Set();
+  for (const item of lessonMarkdown) {
+    if (item.parseError) continue;
+    const data = item.data || {};
+    const dayNumber =
+      typeof data.day === "number"
+        ? data.day
+        : typeof data.day === "string" && data.day.trim()
+          ? Number(data.day)
+          : NaN;
+    const phase = typeof data.phase === "string" ? data.phase.trim() : "";
+    const programId = typeof data.program === "string" ? data.program.trim() : "";
+
+    if (Number.isFinite(dayNumber)) {
+      if (publishedDayNumbers.has(dayNumber)) {
+        errors.push(operatorFix(
+          "Two lessons both claim day " + dayNumber + ". The second file is \"" + item.rel + "\".",
+          item.rel,
+          "day",
+          "a unique day number that is not already used"
+        ));
+      }
+      publishedDayNumbers.add(dayNumber);
+      const planned = dayByNumber.get(dayNumber);
+      if (!planned) {
+        errors.push(operatorFix(
+          "Lesson \"" + item.slug + "\" uses day " + dayNumber + ", which is not in the 120-day program map.",
+          item.rel,
+          "day",
+          "a day number that exists in content/config/programs.json"
+        ));
+      } else {
+        if (phase && planned.phaseId && phase !== planned.phaseId) {
+          errors.push(operatorFix(
+            "Lesson \"" + item.slug + "\" references phase \"" + phase + "\" but day " + dayNumber + " belongs to \"" + planned.phaseId + "\".",
+            item.rel,
+            "phase",
+            planned.phaseId
+          ));
+        }
+        if (item.slug !== planned.slug && planned.slug) {
+          warnings.push(
+            "Lesson file slug \"" +
+              item.slug +
+              "\" does not match programs.json slug \"" +
+              planned.slug +
+              "\" for day " +
+              dayNumber +
+              ". That is allowed only if you intend a stable URL different from the day slug."
+          );
+        }
+      }
+    }
+
+    if (phase && phaseIds.size && !phaseIds.has(phase)) {
+      errors.push(operatorFix(
+        "Lesson \"" + item.slug + "\" references phase \"" + phase + "\".",
+        item.rel,
+        "phase",
+        "an existing phase ID from content/config/programs.json (example: phase-01)"
+      ));
+    }
+
+    if (programId && programConfig.id && programId !== programConfig.id) {
+      errors.push(operatorFix(
+        "Lesson \"" + item.slug + "\" references program \"" + programId + "\".",
+        item.rel,
+        "program",
+        programConfig.id
+      ));
+    }
+
+    if ((phase || Number.isFinite(dayNumber) || programId) && data.course && programConfig.id) {
+      if (data.course !== programConfig.id && Number.isFinite(dayNumber)) {
+        errors.push(operatorFix(
+          "Lesson \"" + item.slug + "\" is day " + dayNumber + " but course is \"" + data.course + "\".",
+          item.rel,
+          "course",
+          programConfig.id
+        ));
+      }
     }
   }
 }

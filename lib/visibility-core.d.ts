@@ -68,6 +68,8 @@ export interface ResolvedHomepageSection {
   subtitle?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  bodyKey?: string;
+  body?: string;
   source?: { kind: string; topicId?: string; format?: string; channelId?: string; id?: string };
   maxItems?: number;
   showWhenEmpty?: boolean;
