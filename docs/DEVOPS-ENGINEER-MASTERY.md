@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This site publishes the public face of the 120-day DevOps Engineer Mastery journey. The source of truth for the plan is the GitHub repository, not this website:
+This site publishes the 120-day DevOps Engineer Mastery plan. The source of truth for the plan is the GitHub repository, not this website:
 
 https://github.com/the-ai-rishi/devops-engineer-mastery
 

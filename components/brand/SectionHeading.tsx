@@ -18,7 +18,7 @@ export default function SectionHeading({
       <div>
         {kicker ? <p className="kicker text-gold/80">{kicker}</p> : null}
         {title ? (
-          <h2 className="mt-2 font-serif text-[2.25rem] leading-[1.05] tracking-[0.012em] text-cream sm:text-5xl">
+          <h2 className="mt-2 font-serif text-3xl leading-[1.05] tracking-[0.012em] text-cream sm:text-5xl">
             {title}
           </h2>
         ) : null}

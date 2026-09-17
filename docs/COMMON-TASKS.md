@@ -122,13 +122,13 @@ File: `content/config/platform.json` `copy`. Live values:
 
 ```json
 {
-  "heroBadge": "Public learning journey · currently DevOps",
+  "heroBadge": "The AI Rishi",
   "heroTitle": "The AI Rishi",
   "heroTagline": "",
-  "heroDescription": "I am learning production-shaped DevOps in public and writing it down as I go. The current program is DevOps Engineer Mastery — 120 days, starting at the shell. AI and Agentic AI come later. Nothing here is a guru course.",
+  "heroDescription": "A 120-day DevOps path from the shell toward production-shaped work. Practise, debug, and review — including code that AI generates. AI and Agentic AI come after this foundation. Content is free.",
   "heroPrimaryCta": "Start Day 1",
   "heroPrimaryCtaHref": "/learn/day-01",
-  "heroSecondaryCta": "See the 120-day journey",
+  "heroSecondaryCta": "Explore the 120-day plan",
   "heroSecondaryCtaHref": "/learn"
 }
 ```

@@ -31,6 +31,7 @@ export interface ProgramConfig {
   description: string;
   startHref: string;
   capstone: string;
+  outcome?: string;
   phases: ProgramPhase[];
   days: ProgramDay[];
 }

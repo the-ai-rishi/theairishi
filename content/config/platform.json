@@ -7,20 +7,20 @@
     "ogImage": "/brand/og-image.jpg",
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
-    "tagline": "DevOps first. Then AI.",
-    "description": "A public 120-day DevOps engineering journey. Linux, Git, networking, CI, containers, Kubernetes. AI comes after you can review, debug, and run what it generates.",
+    "tagline": "Technology learning, starting with DevOps.",
+    "description": "DevOps Engineer Mastery: 120 days, about four months, from Linux and Git toward Kubernetes and production work. Designed to help you build the skills to start attempting DevOps roles. AI comes later. Content is free.",
     "url": "https://theairishi.com",
     "email": "contact@theairishi.com",
     "shortName": "Rishi"
   },
   "copy": {
-    "heroBadge": "Public learning journey · currently DevOps",
+    "heroBadge": "The AI Rishi",
     "heroTitle": "The AI Rishi",
     "heroTagline": "",
-    "heroDescription": "I am learning production-shaped DevOps in public and writing it down as I go. The current program is DevOps Engineer Mastery — 120 days, starting at the shell. AI and Agentic AI come later. Nothing here is a guru course.",
+    "heroDescription": "A 120-day DevOps path from the shell toward production-shaped work. Practise, debug, and review \u2014 including code that AI generates. AI and Agentic AI come after this foundation. Content is free.",
     "heroPrimaryCta": "Start Day 1",
     "heroPrimaryCtaHref": "/learn/day-01",
-    "heroSecondaryCta": "See the 120-day journey",
+    "heroSecondaryCta": "Explore the 120-day plan",
     "heroSecondaryCtaHref": "/learn",
     "headerCta": "Start Day 1",
     "headerCtaHref": "/learn/day-01",
@@ -28,15 +28,105 @@
   },
   "story": {
     "whatTitle": "What this is",
-    "whatBody": "The AI Rishi is my public learning system. I learn, practice, debug, write it down, and teach from that. Teaching is how I check whether I actually understood the thing. The brand name is the long-term direction. The work on this site today is DevOps.",
+    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is DevOps Engineer Mastery. AI and Agentic AI come later, after the engineering foundation.",
     "whyTitle": "Why DevOps before AI",
-    "whyBody": "AI can generate code, YAML, and commands. Someone still has to read the output, catch the lie, run it, and live with the failure. That someone needs Linux, Git, networking, DNS, HTTP, TLS, processes, logs, CI, containers, Kubernetes, identity, and the habit of proving claims with evidence. The goal is not to hide from AI. The goal is to use it from a position of understanding. I will not promise that this makes anyone unreplaceable, and I will not sell a job.",
-    "methodTitle": "What you actually do",
-    "methodBody": "A day is not a video. Read the lesson, predict, try without AI first, run it, break one thing safely, write the evidence, then review. If you cannot answer what fails, how you troubleshoot it, the trade-offs, and how it would land on this capstone, you covered the topic — you do not own it.",
-    "pathTitle": "Where this is going",
-    "pathBody": "DevOps is the current program. AI is next, after the foundation. Agentic AI comes after that. Those later stages stay off this site until there is real material to publish.",
+    "whyBody": "AI can generate code, YAML, scripts, commands, and configs. You still have to understand that output, catch what is wrong, run it, and live with the failure. That is why this path starts with Linux, Git, networking, and the rest of the engineering system \u2014 then AI, then agents.",
+    "whyGenerate": [
+      "Code",
+      "YAML",
+      "Scripts",
+      "Commands",
+      "Configs"
+    ],
+    "whyStillNeed": [
+      "Understand",
+      "Review",
+      "Debug",
+      "Test",
+      "Secure",
+      "Deploy",
+      "Operate"
+    ],
+    "methodTitle": "How a day works",
+    "methodBody": "This is not a watch-and-copy course. Read the day, try it yourself, break one thing safely, debug what you see, then practise the questions. I will share exercises and interview questions. You still have to do the work.",
+    "methodSteps": [
+      {
+        "n": "01",
+        "title": "Read",
+        "body": "Understand the words. Predict what should happen before you run anything."
+      },
+      {
+        "n": "02",
+        "title": "Try",
+        "body": "Do the core task. On write days, your first version is yours \u2014 not AI's."
+      },
+      {
+        "n": "03",
+        "title": "Break",
+        "body": "Break one thing safely. Write down what you actually saw."
+      },
+      {
+        "n": "04",
+        "title": "Debug",
+        "body": "Logs, exit codes, and evidence. Chat is not a substitute for looking."
+      },
+      {
+        "n": "05",
+        "title": "Practise",
+        "body": "Answer the questions out loud. What fails, and how do you troubleshoot it?"
+      },
+      {
+        "n": "06",
+        "title": "Review",
+        "body": "Check whether you can explain it. If you cannot, you do not own it yet."
+      }
+    ],
+    "pathTitle": "Where this goes next",
+    "pathBody": "DevOps is the current program. AI is next, after the foundation. Agentic AI comes after that, because agents run on real systems. Those later stages stay off this site until there is real material.",
     "communityTitle": "If you want to learn with me",
-    "communityBody": "I am doing the hours too. If you are willing to practice, break things, and write evidence, you are welcome. I may help with doubts and debugging when the question shows real work. I am not running a certificate mill. Content on this site is free."
+    "communityBody": "If you are serious and willing to put in the hours, you can learn along with me. I may help with doubts and debugging when the question shows real work. I am not selling a certificate or a job. Content on this site is free."
+  },
+  "about": {
+    "kicker": "About",
+    "title": "Why I built this",
+    "intro": "I wanted to get better at engineering. Not by hopping between tools, but by following one structured path until I could debug, review, and explain the work. Teaching what I understand is how I check whether I actually understood it.",
+    "sections": [
+      {
+        "id": "started",
+        "title": "Why I started",
+        "body": "I did not want another pile of bookmarks. I wanted a path I could finish: understand the tool, use it, break it, and be able to talk about what failed. Writing it down is part of that. If I cannot explain something clearly, I still need to learn it."
+      },
+      {
+        "id": "order",
+        "title": "Why this order",
+        "body": "DevOps is where I am starting. The first plan is about four months \u2014 120 days \u2014 of focused practice. After that I want to move into AI, then AI agents. AI can generate code and configs. Someone still has to review them, debug them, secure them, and run them. That someone needs the engineering underneath."
+      },
+      {
+        "id": "teach",
+        "title": "How I want to learn and teach",
+        "body": "I am learning these technologies too, and I want to share what I understand along the way. I will try to help with doubts and debugging when the question shows real work. This is not a daily video course. I want people who will practise, analyse, and grow on their own \u2014 not people looking for a shortcut."
+      },
+      {
+        "id": "share",
+        "title": "What I will share",
+        "body": "Practical explanations. Exercises. Debugging situations. Practice questions. Interview questions. Things I think are worth understanding. Daily material, added as it is ready. You still have to do your own analysis."
+      },
+      {
+        "id": "expect",
+        "title": "What you can expect",
+        "body": "A clear 120-day DevOps plan, starting from the shell. Content that is free. Honesty about what is ready and what is still a title on the map. If you are willing to spend real hours, you are welcome to learn along with me. I am not going to pretend I can help everyone."
+      },
+      {
+        "id": "not",
+        "title": "What this is not",
+        "body": "Not a certificate mill. Not a job guarantee. Not a \u201cwatch this and you are an engineer\u201d course. Not a place to copy commands without thinking. Later, if the material is genuinely strong, I may offer paid group training. That is not this site today."
+      },
+      {
+        "id": "next",
+        "title": "Where the platform is going",
+        "body": "DevOps first. Then AI. Then Agentic AI. Then further engineering. I will not put empty AI courses on the homepage to match the brand name. When those stages have real material, they will appear."
+      }
+    ]
   },
   "futurePath": [
     {
@@ -70,7 +160,7 @@
       "slug": "ai",
       "name": "Artificial Intelligence & LLMs",
       "shortName": "AI / LLM",
-      "description": "Existing notes on neural networks, attention, RAG, and working with language models. Not the current public program.",
+      "description": "Existing notes on neural networks, attention, RAG, and working with language models. Not the current program.",
       "badge": "AI / LLM",
       "category": "AI & Data",
       "color": "purple",
@@ -86,7 +176,7 @@
       "slug": "devops",
       "name": "DevOps Engineer Mastery",
       "shortName": "DevOps",
-      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure — a 120-day production-shaped journey.",
+      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure \u2014 a 120-day production-shaped journey.",
       "badge": "DevOps",
       "category": "Cloud & DevOps",
       "color": "emerald",
@@ -378,41 +468,41 @@
         "showWhenEmpty": false
       },
       {
-        "id": "what",
-        "type": "prose",
-        "enabled": true,
-        "order": 3,
-        "title": "What this is",
-        "subtitle": "A public journey",
-        "bodyKey": "what"
-      },
-      {
         "id": "program",
         "type": "program",
         "enabled": true,
-        "order": 4,
+        "order": 3,
         "title": "DevOps Engineer Mastery",
         "subtitle": "The current program",
-        "ctaLabel": "Open the journey",
+        "ctaLabel": "Full plan",
         "ctaHref": "/learn"
-      },
-      {
-        "id": "why",
-        "type": "prose",
-        "enabled": true,
-        "order": 5,
-        "title": "Why DevOps before AI",
-        "subtitle": "The order is the point",
-        "bodyKey": "why"
       },
       {
         "id": "journey",
         "type": "journey",
         "enabled": true,
+        "order": 4,
+        "title": "What you will work through",
+        "subtitle": "Eleven phases \u00b7 120 days",
+        "ctaLabel": "Open the full plan",
+        "ctaHref": "/learn"
+      },
+      {
+        "id": "why",
+        "type": "why",
+        "enabled": true,
+        "order": 5,
+        "title": "Why DevOps before AI",
+        "subtitle": "Generated output still needs an engineer"
+      },
+      {
+        "id": "today",
+        "type": "today",
+        "enabled": true,
         "order": 6,
-        "title": "120 days",
-        "subtitle": "Eleven phases",
-        "ctaLabel": "Full journey",
+        "title": "Ready to start",
+        "subtitle": "Published days",
+        "ctaLabel": "All days",
         "ctaHref": "/learn"
       },
       {
@@ -420,7 +510,7 @@
         "type": "method",
         "enabled": true,
         "order": 7,
-        "title": "What a day looks like",
+        "title": "How a day works",
         "subtitle": "Practice, not playback"
       },
       {
@@ -428,8 +518,8 @@
         "type": "path",
         "enabled": true,
         "order": 8,
-        "title": "Where this is going",
-        "subtitle": "Later stages stay dark until they are real"
+        "title": "Where this goes next",
+        "subtitle": "Later stages stay off the site until they are real"
       },
       {
         "id": "community",
@@ -437,7 +527,7 @@
         "enabled": true,
         "order": 9,
         "title": "If you want to learn with me",
-        "subtitle": "No fake community",
+        "subtitle": "Serious learners only",
         "bodyKey": "community"
       },
       {
@@ -449,6 +539,14 @@
         "subtitle": "Shell, PATH, exit codes",
         "ctaLabel": "Open Day 1",
         "ctaHref": "/learn/day-01"
+      },
+      {
+        "id": "what",
+        "type": "prose",
+        "enabled": false,
+        "order": 19,
+        "title": "What this is",
+        "bodyKey": "what"
       },
       {
         "id": "topics",
@@ -464,7 +562,9 @@
         "enabled": false,
         "order": 21,
         "title": "From the desk",
-        "source": { "kind": "recent" },
+        "source": {
+          "kind": "recent"
+        },
         "maxItems": 6,
         "showWhenEmpty": false
       },
@@ -474,7 +574,10 @@
         "enabled": false,
         "order": 22,
         "title": "Writing",
-        "source": { "kind": "format", "format": "guide" },
+        "source": {
+          "kind": "format",
+          "format": "guide"
+        },
         "maxItems": 4,
         "showWhenEmpty": false
       },
@@ -484,7 +587,10 @@
         "enabled": false,
         "order": 23,
         "title": "Labs",
-        "source": { "kind": "format", "format": "project" },
+        "source": {
+          "kind": "format",
+          "format": "project"
+        },
         "maxItems": 4,
         "showWhenEmpty": false
       },

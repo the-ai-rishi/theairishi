@@ -532,6 +532,20 @@ for (const item of [...lessonMarkdown, ...guideMarkdown, ...projectMarkdown]) {
 }
 
 const FORBIDDEN_LINEAGE = "Ancient patience. Modern systems.";
+const FORBIDDEN_DIARY = [
+  FORBIDDEN_LINEAGE,
+  "public learning journey",
+  "public learning system",
+  "learning in public",
+  "I am learning in public",
+  "I learn in public",
+  "build in public",
+  "public program",
+  "creator journey",
+  "my public journey",
+  "Learn. Build. Stay Ahead.",
+];
+
 function scanForbiddenPhrase(dir, predicate) {
   if (!fs.existsSync(dir)) return;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -542,14 +556,16 @@ function scanForbiddenPhrase(dir, predicate) {
     }
     if (!predicate(entry.name, full)) continue;
     const src = fs.readFileSync(full, "utf8");
-    if (src.includes(FORBIDDEN_LINEAGE)) {
-      errors.push(
-        "ERROR:\nThe phrase \"" +
-          FORBIDDEN_LINEAGE +
-          "\" appears in " +
-          path.relative(rootDir, full) +
-          ".\n\nFix:\nRemove that lineage/tagline completely. Do not replace it with another philosophical slogan."
-      );
+    for (const phrase of FORBIDDEN_DIARY) {
+      if (src.includes(phrase)) {
+        errors.push(
+          "ERROR:\nThe phrase \"" +
+            phrase +
+            "\" appears in " +
+            path.relative(rootDir, full) +
+            ".\n\nFix:\nRemove that framing. The site is a technology learning platform, not a diary or a slogan brand."
+        );
+      }
     }
   }
 }

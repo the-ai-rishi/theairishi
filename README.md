@@ -1,10 +1,10 @@
 # The AI Rishi
 
-A public technology learning journey. Right now that means **DevOps Engineer Mastery**: 120 days, starting at the shell. AI and Agentic AI come later.
+A technology learning and teaching platform. The current program is **DevOps Engineer Mastery**: 120 days, about four months, starting at the shell. AI and Agentic AI come later.
 
-This is not a guru course and not an AI-first landing page.
+This is not a guru course, not a diary, and not an AI-first landing page.
 
-Start: `/learn/day-01`. Journey: `/learn`. About: `/about`.
+Start: `/learn/day-01`. Plan: `/learn`. About: `/about`.
 
 The locked plan lives in [devops-engineer-mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). This site publishes the days that are ready.
 

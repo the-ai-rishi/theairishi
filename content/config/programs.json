@@ -7,7 +7,8 @@
   "repoUrl": "https://github.com/the-ai-rishi/devops-engineer-mastery",
   "status": "active",
   "enabled": true,
-  "description": "A production-shaped DevOps journey: understand the system, write the files, break them safely, debug from evidence, and defend the work. The GitHub repo is the source of truth for the plan. This site publishes the days that are ready to learn.",
+  "description": "120 days of practical DevOps: understand the system, write the files, break them safely, debug from evidence, and defend the work. Designed to help you build the skills to start attempting DevOps roles. The GitHub repo is the source of truth for the plan. This site publishes the days that are ready.",
+  "outcome": "Designed to help you build the skills and practical foundation needed to start attempting DevOps roles.",
   "startHref": "/learn/day-01",
   "capstone": "One system the whole way: FastAPI + Postgres → Docker → CI → ACR → Terraform → AKS → Helm → identity → monitor → rollback.",
   "phases": [

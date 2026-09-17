@@ -1,6 +1,6 @@
 # Start here
 
-The AI Rishi is a public technology learning journey.
+The AI Rishi is a technology learning and teaching platform.
 
 Right now the work is **DevOps Engineer Mastery**: 120 days, starting at the shell. AI and Agentic AI come later, after the engineering foundation. They stay off the homepage and the navigation until there is real material.
 
@@ -12,6 +12,8 @@ Public verbs today:
 - **Journey** — the 120-day map (`/learn`)
 - **About** — why this exists (`/about`)
 
+The homepage is for the learner (what to learn, where to start). The About page is the personal story.
+
 Hidden until you enable them **and** add real content:
 
 - YouTube, Instagram
@@ -19,6 +21,10 @@ Hidden until you enable them **and** add real content:
 - An AI course as the main experience (existing AI notes stay at their URLs; they are not featured)
 
 A feature with code is not a public feature. Planned / coming-soon areas have **no public URL**.
+
+Do not describe this product as a “public learning journey” or “learning in public.” Do not restore “Ancient patience. Modern systems.”
+
+## How the site is operated
 
 ## How the site is operated
 

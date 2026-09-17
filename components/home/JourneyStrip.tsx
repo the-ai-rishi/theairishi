@@ -8,47 +8,44 @@ export default function JourneyStrip({ section }: { section: ResolvedHomepageSec
   if (!phases.length) return null;
 
   return (
-    <section className="scroll-mt-24 py-12 sm:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="scroll-mt-24 py-10 sm:py-14">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           kicker={section.subtitle || "Eleven phases"}
-          title={section.title || "120 days"}
+          title={section.title || "What you will work through"}
           actionLabel={section.ctaLabel}
           actionHref={section.ctaHref || "/learn"}
         />
-        <ol className="mt-10 divide-y divide-hairline border-y border-hairline">
+        <ol className="mt-8 divide-y divide-hairline border-y border-hairline">
           {phases.map((phase) => (
-            <li key={phase.id} className="grid gap-2 py-5 sm:grid-cols-[4.5rem_8rem_1fr_auto] sm:items-baseline sm:gap-6">
-              <span className="font-mono text-[13px] text-gold/80">
+            <li
+              key={phase.id}
+              className="grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-3 sm:grid-cols-[3rem_8rem_1fr_auto] sm:gap-6 sm:py-3.5"
+            >
+              <span className="font-mono text-[12px] text-gold/80">
                 {String(phase.number).padStart(2, "0")}
               </span>
-              <span className="font-mono text-[12px] tracking-[0.14em] text-cream/40">
-                Days {phase.daysLabel}
+              <span className="hidden font-mono text-[11px] tracking-[0.12em] text-cream/35 sm:block">
+                {phase.daysLabel}
               </span>
-              <div>
-                <p className="font-serif text-2xl text-cream">{phase.name}</p>
-                <p className="mt-1 max-w-2xl text-[15px] leading-relaxed text-cream/45">
-                  {phase.summary}
-                </p>
-              </div>
-              <span className="font-mono text-[12px] text-cream/35">
-                {phase.current
-                  ? phase.publishedCount > 0
-                    ? `${phase.publishedCount} live`
-                    : "current"
-                  : phase.publishedCount > 0
-                    ? `${phase.publishedCount} live`
-                    : "later"}
+              <span className="min-w-0">
+                <span className="block font-serif text-lg text-cream sm:text-xl">{phase.name}</span>
+                <span className="mt-0.5 block font-mono text-[11px] text-cream/35 sm:hidden">
+                  Days {phase.daysLabel}
+                </span>
+              </span>
+              <span className="font-mono text-[11px] tracking-[0.08em] text-cream/40">
+                {phase.current ? "now" : phase.publishedCount > 0 ? `${phase.publishedCount} ready` : ""}
               </span>
             </li>
           ))}
         </ol>
-        <div className="mt-8">
+        <div className="mt-6">
           <Link
             href={section.ctaHref || "/learn"}
             className="link-editorial font-mono text-[14px] tracking-[0.12em] text-gold hover:text-gold-bright"
           >
-            Open the full journey →
+            {section.ctaLabel || "Open the full plan"} →
           </Link>
         </div>
       </div>

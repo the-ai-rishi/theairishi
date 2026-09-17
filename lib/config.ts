@@ -47,17 +47,39 @@ export interface CopyConfig {
   footerCopyright: string;
 }
 
+export interface MethodStep {
+  n: string;
+  title: string;
+  body: string;
+}
+
 export interface StoryConfig {
   whatTitle?: string;
   whatBody?: string;
   whyTitle?: string;
   whyBody?: string;
+  whyGenerate?: string[];
+  whyStillNeed?: string[];
   methodTitle?: string;
   methodBody?: string;
+  methodSteps?: MethodStep[];
   pathTitle?: string;
   pathBody?: string;
   communityTitle?: string;
   communityBody?: string;
+}
+
+export interface AboutSectionConfig {
+  id: string;
+  title: string;
+  body: string;
+}
+
+export interface AboutConfig {
+  kicker?: string;
+  title: string;
+  intro: string;
+  sections: AboutSectionConfig[];
 }
 
 export interface FuturePathItem {
@@ -121,7 +143,9 @@ export type HomepageSectionType =
   | "program"
   | "journey"
   | "method"
-  | "path";
+  | "path"
+  | "why"
+  | "today";
 
 export type ContentSource =
   | { kind: "recent" }
@@ -217,6 +241,7 @@ export interface PlatformConfig {
   copy: CopyConfig;
   defaults: DefaultsConfig;
   story?: StoryConfig;
+  about?: AboutConfig;
   futurePath?: FuturePathItem[];
   topics: TopicConfig[];
   contentTypes: ContentTypeConfig[];
@@ -408,6 +433,10 @@ export function getPlatformCopy(): CopyConfig {
 
 export function getPlatformStory(): StoryConfig {
   return loadPlatformConfig().story || {};
+}
+
+export function getAboutConfig(): AboutConfig | null {
+  return loadPlatformConfig().about || null;
 }
 
 export function getFuturePath(): FuturePathItem[] {

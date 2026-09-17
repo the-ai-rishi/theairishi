@@ -452,9 +452,11 @@ function runScenarioTests() {
       liveHomeTypes.includes("hero") &&
         liveHomeTypes.includes("program") &&
         liveHomeTypes.includes("journey") &&
+        liveHomeTypes.includes("why") &&
+        liveHomeTypes.includes("today") &&
         liveHomeTypes.includes("method") &&
         liveHomeTypes.includes("path"),
-      "Production: homepage tells the DevOps-first story (hero/program/journey/method/path)"
+      "Production: homepage is learner-first (hero/program/journey/why/today/method/path)"
     );
     check(
       !liveHome.some((s) => s.type === "topic-grid"),

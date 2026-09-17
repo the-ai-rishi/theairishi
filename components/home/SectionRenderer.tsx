@@ -11,6 +11,8 @@ import ProgramHighlight from "./ProgramHighlight";
 import JourneyStrip from "./JourneyStrip";
 import MethodSection from "./MethodSection";
 import PathAhead from "./PathAhead";
+import WhySection from "./WhySection";
+import TodaySection from "./TodaySection";
 import type { Course } from "@/lib/lessons";
 import type { TopicConfig, SocialPlatform } from "@/lib/config";
 import type { UniversalContentItem } from "@/lib/content";
@@ -72,6 +74,10 @@ export default function SectionRenderer({
       return <MethodSection section={section} />;
     case "path":
       return <PathAhead section={section} />;
+    case "why":
+      return <WhySection section={section} />;
+    case "today":
+      return <TodaySection section={section} />;
     default:
       return null;
   }

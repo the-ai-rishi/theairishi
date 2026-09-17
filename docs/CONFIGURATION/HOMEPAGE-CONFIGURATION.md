@@ -10,24 +10,29 @@ You do not edit React to hide a section. Set `"enabled": false`.
 
 A visitor should understand, in about ten seconds:
 
-- this is a public engineering learning journey
+- this is a technology learning platform
 - the current program is DevOps Engineer Mastery
+- it is 120 days / about four months
 - start at Day 1
 - AI comes later
+
+The homepage is learner-first. Personal story lives on `/about`.
 
 ## Types the code understands
 
 | Type | What it renders | Empty behaviour |
 | --- | --- | --- |
-| `hero` | Brand, mission, Start Day 1 | Always shown |
+| `hero` | Program name, 120 days, Start Day 1 | Always shown |
 | `continue-learning` | Resume banner when the visitor has progress | Hidden when empty (`showWhenEmpty: false`) |
-| `prose` | A titled paragraph from `story.*` via `bodyKey` | Always shown if enabled |
-| `program` | DevOps Engineer Mastery summary + current phase | Always shown if enabled |
-| `journey` | The 11 phases | Always shown if enabled |
-| `method` | What a day actually looks like | Always shown if enabled |
+| `program` | Length / phases / current / ready facts | Always shown if enabled |
+| `journey` | Compact 11-phase map | Always shown if enabled |
+| `why` | Why DevOps before AI (generate vs still-need) | Always shown if enabled |
+| `today` | Published days (1–3 today) | Component hides itself if none are published |
+| `method` | How a day works | Always shown if enabled |
 | `path` | DevOps → AI → Agentic AI | Always shown if enabled |
+| `prose` | A titled paragraph from `story.*` via `bodyKey` | Always shown if enabled |
 | `cta` | Closing start button | Always shown if enabled |
-| `topic-grid` | Public topics with content | Hidden when empty. **Disabled** on the live homepage |
+| `topic-grid` | Public topics with content | Hidden when empty. **Disabled** live |
 | `course-list` | Featured courses | Hidden when empty. **Disabled** live |
 | `content-list` | Guides / labs / recent | Hidden when empty. **Disabled** live |
 | `channel-grid` | YouTube / Instagram | Hidden when empty. Not on the live homepage |
@@ -36,32 +41,37 @@ Unknown type is skipped. `npm run validate` errors.
 
 `bodyKey` for `prose`: `what` | `why` | `method` | `path` | `community` — mapped to `story.whatBody` etc.
 
+`why` also reads `story.whyGenerate` and `story.whyStillNeed`.
+`method` also reads `story.methodSteps`.
+
 ## Live order
 
-1. hero
+1. hero — DevOps Engineer Mastery, 120 days, Start Day 1
 2. continue-learning (only if the visitor has progress)
-3. prose `what` — What this is
-4. program — DevOps Engineer Mastery
-5. prose `why` — Why DevOps before AI
-6. journey — 120 days / eleven phases
-7. method — What a day looks like
-8. path — Where this is going
+3. program — facts strip
+4. journey — what you will work through
+5. why — Why DevOps before AI
+6. today — published days
+7. method — how a day works
+8. path — where this goes next
 9. prose `community`
 10. cta — Start at Day 1
 
-Disabled (kept in JSON so you can turn them on later): topic-grid, recent, guides, projects-list, courses.
+Disabled (kept in JSON so you can turn them on later): what, topic-grid, recent, guides, projects-list, courses.
 
 ## How to change copy
 
 Edit `content/config/platform.json`:
 
-- Hero strings: `copy.heroBadge`, `copy.heroTitle`, `copy.heroDescription`, `copy.heroPrimaryCta`, `copy.heroPrimaryCtaHref`
-- Supporting brand line: `brand.tagline` (currently `DevOps first. Then AI.`)
-- Story paragraphs: `story.whatBody`, `story.whyBody`, `story.methodBody`, `story.pathBody`, `story.communityBody`
+- Hero strings: `copy.heroBadge`, `copy.heroDescription`, `copy.heroPrimaryCta`, `copy.heroPrimaryCtaHref`
+- Program headline comes from `content/config/programs.json` `title` / `durationLabel` / `outcome`
+- Supporting site line: `brand.tagline` (functional, not a slogan). Currently `Technology learning, starting with DevOps.`
+- Story: `story.whyBody`, `story.whyGenerate`, `story.whyStillNeed`, `story.methodBody`, `story.methodSteps`, `story.pathBody`, `story.communityBody`
+- About page: `about.title`, `about.intro`, `about.sections`
 - Later stages: `futurePath`
 - Header button: `copy.headerCta`, `copy.headerCtaHref` (Start Day 1 → `/learn/day-01`)
 
-Leave `copy.heroTagline` empty. Do not stack slogans. Do not restore “Ancient patience. Modern systems.”
+Leave `copy.heroTagline` empty. Do not stack slogans. Do not restore “Ancient patience. Modern systems.” Do not describe the product as a public journey or learning in public.
 
 ## How to reorder
 
@@ -79,8 +89,4 @@ Adding a pricing table or a testimonial wall: that is a new TYPE. It needs a dev
 
 ## Validation
 
-```bash
-npm run validate
-```
-
-Then open `/` and confirm Start Day 1 still goes to `/learn/day-01`.
+`npm run validate` checks section types, including `why` and `today`.
