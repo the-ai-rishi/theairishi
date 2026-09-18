@@ -210,6 +210,8 @@ export interface SocialPlatform {
   showInHeader?: boolean;
   showOnAbout?: boolean;
   includeInSameAs?: boolean;
+  /** Optional. Telegram may use the documented placeholder URL; inferred from url if omitted. */
+  temporary?: boolean;
 }
 
 export type ContentTypeCategory = string;

@@ -2,7 +2,9 @@
 
 One list: `content/config/platform.json` → `social[]`.
 
-Header, Footer, About, the homepage destinations block, and Person JSON-LD `sameAs` all read this list. Do not paste Instagram or Telegram URLs into React.
+Header, Footer, About, the homepage destinations block, and Person JSON-LD `sameAs` all read this list. Do not paste Instagram, Telegram, GitHub, or YouTube URLs into React.
+
+A new `social[]` row with a real https URL appears as a **text link** automatically. Adding a custom icon is optional and is the only code change.
 
 ## Fields
 
@@ -19,7 +21,7 @@ Header, Footer, About, the homepage destinations block, and Person JSON-LD `same
 | `showInFooter` | Default true for public external destinations |
 | `showOnHomepage` | Homepage destinations block |
 | `showOnAbout` | About page |
-| `includeInSameAs` | Person JSON-LD. Disabled/empty channels are never added |
+| `includeInSameAs` | Person JSON-LD. Disabled, empty, and temporary placeholder URLs are never added |
 | `ctaLabel` | Short phrase next to the name (`Daily posts`) |
 | `role` | `discovery` / `community` / `media` / `code` — documentation only |
 
@@ -28,11 +30,13 @@ Header, Footer, About, the homepage destinations block, and Person JSON-LD `same
 | Channel | State | What visitors see |
 | --- | --- | --- |
 | Instagram | `kind: external`, `enabled: true`, `status: active`, `url: https://www.instagram.com/theairishi/` | Footer, About, homepage destinations, `sameAs` |
-| Telegram | `enabled: false`, `url: ""` | Nothing. Do not invent a `t.me` URL |
-| GitHub | external, active, `https://github.com/the-ai-rishi` | Footer, About, `sameAs` |
-| YouTube | internal `/youtube`, `coming-soon`, no videos | 404 until real items exist |
+| Telegram | external, enabled, documented placeholder `https://example.com/the-ai-rishi-telegram` | Footer, About, homepage destinations. **Not** `sameAs`. Label shows Placeholder |
+| GitHub | external, `enabled: false`, `status: planned`, URL kept in config | Nothing public. Enable later from this row |
+| YouTube | internal `/youtube`, `coming-soon`, no videos | 404 until real items exist. No on-site Instagram feed either |
 
-The site does **not** import Instagram posts, follower counts, or reels. `content/media/instagram.json` stays `[]`.
+The site does **not** import Instagram posts, follower counts, or reels. `content/media/instagram.json` stays `[]`. `/instagram` is not a public product page.
+
+JSON-LD `sameAs` today: **Instagram only**.
 
 ## Change the Instagram URL later
 
@@ -45,19 +49,23 @@ Edit one field:
 
 Then `npm run validate`.
 
-## Enable Telegram later
+## Replace the Telegram placeholder
 
-1. Create the real community.
-2. Set `url` to `https://t.me/your-actual-community` (not a placeholder).
-3. Set `enabled: true` and `status: "active"`.
-4. `npm run validate`
-5. Preview, then deploy.
+See [TELEGRAM.md](../FEATURES/TELEGRAM.md). Edit `url` to the real `https://t.me/...`. Set `includeInSameAs: true` only when the real community should appear in structured data.
 
-No React edit. Empty URL + `enabled: true` fails validation. `https://t.me/your-real-community` fails validation.
+## Enable GitHub later
+
+The URL is already in config.
+
+1. `social` id `github`: `enabled: true`, `status: "active"`
+2. Set `showInFooter` / `showOnAbout` / `includeInSameAs` as you want
+3. `npm run validate`
+
+No React edit.
 
 ## Enable YouTube later
 
-See [FEATURES/YOUTUBE.md](../FEATURES/YOUTUBE.md). That is an on-site listing. It needs real items in `content/media/youtube.json`. It is not a Header profile link until you also add an external `url` and `includeInSameAs`.
+See [FEATURES/YOUTUBE.md](../FEATURES/YOUTUBE.md). That is an on-site listing. It needs real items in `content/media/youtube.json`.
 
 ## Add another social channel
 

@@ -8,6 +8,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const matter = require("gray-matter");
 const vis = require("../lib/visibility-core");
 const social = require("../lib/social");
 const publish = require("../lib/lesson-publish");
@@ -220,9 +221,20 @@ function runFutureOperationsTests(livePlatform) {
   ig2.url = "https://www.instagram.com/theairishi/";
   check(social.destinationUrl(ig2).includes("instagram.com/theairishi"), "Op H: changing Instagram is one url field");
 
-  // I. Replace Telegram placeholder with a real URL
+  // I. Telegram: live documented placeholder; replace later with a real t.me URL
   const telegram = (livePlatform.social || []).find((ch) => ch.id === "telegram");
-  check(telegram && telegram.enabled === false && telegram.url === "", "Op I live: Telegram is disabled with empty url");
+  check(telegram && telegram.enabled !== false, "Op I live: Telegram is enabled");
+  check(
+    social.isTelegramTemporaryUrl(telegram && telegram.url),
+    "Op I live: Telegram uses the documented example.com placeholder, not a fake t.me group"
+  );
+  check(social.isPublicDestination(telegram), "Op I live: Telegram placeholder is a public destination");
+  check(social.includeInSameAs(telegram) === false, "Op I live: Telegram placeholder is not in sameAs");
+  check(
+    social.publicDestinations(livePlatform).some((ch) => ch.id === "telegram"),
+    "Op I live: Telegram appears in destinations"
+  );
+
   const tIbad = clone(livePlatform);
   const tgBad = tIbad.social.find((ch) => ch.id === "telegram");
   tgBad.enabled = true;
@@ -238,22 +250,82 @@ function runFutureOperationsTests(livePlatform) {
   tgPh.status = "active";
   tgPh.url = "https://t.me/your-real-community";
   check(
-    social.collectSocialErrors(tIph.social).some((err) => /placeholder/i.test(err)),
-    "Op I: a placeholder Telegram URL is rejected"
+    social.collectSocialErrors(tIph.social).some((err) => /telegram/i.test(err)),
+    "Op I: an invented t.me placeholder is rejected"
+  );
+  const tIseo = clone(livePlatform);
+  const tgSeo = tIseo.social.find((ch) => ch.id === "telegram");
+  tgSeo.includeInSameAs = true;
+  check(
+    social.collectSocialErrors(tIseo.social).some((err) => /sameAs|placeholder/i.test(err)),
+    "Op I: placeholder Telegram cannot set includeInSameAs true"
   );
   const tIok = clone(livePlatform);
   const tgOk = tIok.social.find((ch) => ch.id === "telegram");
   tgOk.enabled = true;
   tgOk.status = "active";
   tgOk.url = "https://t.me/theairishi";
-  check(social.collectSocialErrors(tIok.social).length === 0, "Op I: a real Telegram URL enables the channel with no React edit");
+  tgOk.includeInSameAs = true;
   check(
-    social.publicDestinations(tIok).some((ch) => ch.id === "telegram"),
-    "Op I: enabled Telegram appears in destinations"
+    social.collectSocialErrors(tIok.social).length === 0,
+    "Op I: replacing the placeholder with a real t.me URL is one config change"
+  );
+  check(social.isPublicDestination(tgOk), "Op I: real Telegram stays a public destination");
+  check(social.isTemporaryDestination(tgOk) === false, "Op I: real Telegram is not temporary");
+  check(social.includeInSameAs(tgOk) === true, "Op I: real Telegram may enter sameAs when includeInSameAs is true");
+  check(
+    social.sameAsUrls(tIok).some((url) => /t\.me\/theairishi/i.test(url)),
+    "Op I: sameAs includes Telegram only after a real community URL"
   );
   check(
-    !social.publicDestinations(livePlatform).some((ch) => ch.id === "telegram"),
-    "Op I live: Telegram does not appear while disabled"
+    !social.sameAsUrls(livePlatform).some((url) => /example\.com/i.test(url) || /t\.me\//i.test(url)),
+    "Op I live: sameAs does not include the Telegram placeholder"
+  );
+
+  // GitHub: hidden now, restorable later from the same row
+  const github = (livePlatform.social || []).find((ch) => ch.id === "github");
+  check(github && github.enabled === false, "GitHub live: enabled false");
+  check(!social.isPublicDestination(github), "GitHub live: not a public destination");
+  check(
+    !social.publicDestinations(livePlatform).some((ch) => ch.id === "github"),
+    "GitHub live: absent from destinations"
+  );
+  check(
+    !social.sameAsUrls(livePlatform).some((url) => /github\.com/i.test(url)),
+    "GitHub live: absent from sameAs"
+  );
+  const tGh = clone(livePlatform);
+  const ghOn = tGh.social.find((ch) => ch.id === "github");
+  ghOn.enabled = true;
+  ghOn.status = "active";
+  ghOn.showInFooter = true;
+  ghOn.showOnAbout = true;
+  ghOn.includeInSameAs = true;
+  check(social.collectSocialErrors(tGh.social).length === 0, "GitHub restore: enabling the existing URL is valid");
+  check(social.isPublicDestination(ghOn), "GitHub restore: becomes a public destination");
+  check(
+    social.sameAsUrls(tGh).some((url) => /github\.com\/the-ai-rishi/i.test(url)),
+    "GitHub restore: may enter sameAs when includeInSameAs is true"
+  );
+
+  // A new external channel without an icon is still config-only
+  const tNew = clone(livePlatform);
+  tNew.social.push({
+    id: "mastodon",
+    label: "Mastodon",
+    kind: "external",
+    url: "https://mastodon.social/@theairishi",
+    enabled: true,
+    status: "active",
+    order: 9,
+    showInFooter: true,
+    showOnHomepage: true,
+    includeInSameAs: false,
+  });
+  check(social.collectSocialErrors(tNew.social).length === 0, "New social id is valid configuration");
+  check(
+    social.publicDestinations(tNew).some((ch) => ch.id === "mastodon"),
+    "New social id appears as a text destination without an icon registry change"
   );
 
   // J. Enable YouTube later — config + real items, still an internal listing
@@ -337,6 +409,62 @@ function runFutureOperationsTests(livePlatform) {
   tGuides.contentTypes.find((ct) => ct.id === "guides").enabled = false;
   const navGuides = vis.resolveNavItems(tGuides, emptyCat(), "main");
   check(!navGuides.some((item) => item.id === "guides"), "Hiding Guides drops the nav item");
+
+  // Featured program counts must not mix archive DevOps notes
+  const lessonsDir = path.join(__dirname, "..", "content", "lessons");
+  const publicLessons = fs
+    .readdirSync(lessonsDir)
+    .filter((name) => name.endsWith(".md"))
+    .map((name) => {
+      const raw = fs.readFileSync(path.join(lessonsDir, name), "utf8");
+      const parsed = matter(raw);
+      return {
+        slug: name.replace(/\.md$/, ""),
+        data: parsed.data || {},
+        public: publish.isPublicLessonMarkdown(raw),
+      };
+    })
+    .filter((item) => item.public);
+  const masteryDays = publicLessons.filter(
+    (item) => item.data.program === "devops-engineer-mastery" || /^day-\d+$/.test(item.slug)
+  );
+  const archiveDevops = publicLessons.filter((item) => item.data.course === "devops");
+  check(masteryDays.length === 3, "Featured program has three published days (1–3)");
+  check(
+    masteryDays.every((item) => item.data.course === "devops-engineer-mastery"),
+    "Published day-* lessons belong to devops-engineer-mastery, not the archive course"
+  );
+  check(
+    archiveDevops.every((item) => item.slug.startsWith("devops-fundamentals")),
+    "Archive devops notes stay on their own slugs"
+  );
+  check(
+    !archiveDevops.some((item) => item.data.program === "devops-engineer-mastery"),
+    "Archive devops notes are not in the Mastery program"
+  );
+
+  // Adjacent lesson nav stays inside one course
+  function courseSequence(courseId) {
+    return publicLessons
+      .filter((item) => item.data.course === courseId)
+      .slice()
+      .sort((a, b) => Number(a.data.lesson || 0) - Number(b.data.lesson || 0))
+      .map((item) => item.slug);
+  }
+  const masterySeq = courseSequence("devops-engineer-mastery");
+  const archiveSeq = courseSequence("devops");
+  check(masterySeq[0] === "day-01" && masterySeq[1] === "day-02", "Day 1 next is Day 2 inside Mastery");
+  check(masterySeq[1] === "day-02" && masterySeq[0] === "day-01", "Day 2 previous is Day 1 inside Mastery");
+  check(
+    !masterySeq.includes("devops-fundamentals-01") && !masterySeq.includes("devops-fundamentals-02"),
+    "Mastery adjacent nav never crosses into archive devops notes"
+  );
+  check(
+    archiveSeq.includes("devops-fundamentals-01") &&
+      archiveSeq.includes("devops-fundamentals-02") &&
+      !archiveSeq.some((slug) => slug.startsWith("day-")),
+    "Archive devops adjacent nav stays inside the archive course"
+  );
 
   if (failures.length) {
     return { ok: false, failures };

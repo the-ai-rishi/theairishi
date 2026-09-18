@@ -1,6 +1,6 @@
 # Telegram
 
-Telegram is reserved for a real learning community. There is no URL yet. Do not invent one.
+Telegram is a community destination. It is **enabled now** with a documented temporary URL. That URL is **not** a real group. Do not invent a `t.me` community.
 
 ## Live config
 
@@ -10,29 +10,31 @@ Telegram is reserved for a real learning community. There is no URL yet. Do not 
 {
   "id": "telegram",
   "label": "Telegram",
-  "url": "",
+  "url": "https://example.com/the-ai-rishi-telegram",
   "kind": "external",
-  "enabled": false,
-  "status": "planned",
+  "enabled": true,
+  "status": "active",
   "showInFooter": true,
   "showOnHomepage": true,
-  "includeInSameAs": true,
+  "showOnAbout": true,
+  "includeInSameAs": false,
   "ctaLabel": "Discussion"
 }
 ```
 
-While `enabled` is false and `url` is empty:
+The URL `https://example.com/the-ai-rishi-telegram` is the only allowed stand-in. Visitors can see Telegram in Footer, About, and the homepage destinations block. The link is marked as a placeholder. It is **not** added to JSON-LD `sameAs`.
 
-- it does not appear in Footer, About, homepage, or nav
-- it is not added to JSON-LD `sameAs`
-- validation passes
+## Replace with the real community (one URL field)
 
-## When the community exists
+When the real group exists:
 
-1. Paste the real `https://t.me/...` URL into `url`.
-2. Set `enabled: true`.
-3. Set `status: "active"`.
-4. Run `npm run validate`.
-5. Preview. Deploy.
+1. Open `content/config/platform.json`
+2. Find `social` id `telegram`
+3. Replace `url` with the real `https://t.me/...` community
+4. Keep `enabled: true` and `status: "active"`
+5. Set `includeInSameAs: true` only when you want that profile in structured data
+6. Run `npm run validate`
+7. Preview Footer / About / destinations
+8. Deploy
 
-No React/TSX edit. Placeholders such as `https://t.me/your-real-community` are rejected.
+No React/TSX edit. `https://t.me/your-real-community` is rejected. An empty URL while enabled is rejected. The placeholder cannot be listed in `sameAs`.

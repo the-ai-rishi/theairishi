@@ -145,7 +145,7 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** — the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
 15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.
 16. `lib/lesson-publish.js` is the only “is this a public /learn page?” rule. Generator, runtime, and validate all use it. Markdown under `content/courses/` is never a `/learn` route.
-17. Instagram is an external profile (`social[]`), not an `/instagram` page. Do not invent Telegram URLs or Instagram posts. A public lesson needs an explicit `status` (`published`).
+17. Instagram is an external profile (`social[]`), not an `/instagram` page. Telegram is enabled with a documented placeholder, not a real `t.me` group; it is not in `sameAs`. GitHub is configured but hidden. Do not invent Instagram posts. A public lesson needs an explicit `status` (`published`).
 18. `programs.json` is a catalog with `featuredProgramId`. Adding AI later is a new object in `programs[]`, not a homepage rewrite.
 
 ## Generated catalogs (do not let them go stale)

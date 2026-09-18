@@ -533,8 +533,17 @@ function runScenarioTests() {
       "Production: Instagram is a public external destination"
     );
     check(
-      !social.publicDestinations(live).some((ch) => ch.id === "telegram"),
-      "Production: Telegram stays off while unconfigured"
+      social.publicDestinations(live).some((ch) => ch.id === "telegram"),
+      "Production: Telegram placeholder is a public destination"
+    );
+    check(
+      !social.publicDestinations(live).some((ch) => ch.id === "github"),
+      "Production: GitHub is hidden while disabled"
+    );
+    check(
+      social.sameAsUrls(live).length === 1 &&
+        social.INSTAGRAM_PROFILE_RE.test(social.sameAsUrls(live)[0]),
+      "Production: JSON-LD sameAs is Instagram only"
     );
     check(
       liveHome.some((s) => s.type === "destinations"),

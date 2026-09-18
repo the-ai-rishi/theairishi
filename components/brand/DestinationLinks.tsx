@@ -6,6 +6,7 @@ import {
   getPublicDestinations,
   type SocialPlatform,
 } from "@/lib/config";
+import { isTemporaryDestination } from "@/lib/social";
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -52,17 +53,23 @@ export default function DestinationLinks({
         const href = getDestinationUrl(channel);
         if (!href) return null;
         const Icon = ICONS[channel.id];
-        const label = channel.ctaLabel ? `${channel.label} · ${channel.ctaLabel}` : channel.label;
+        const temporary = isTemporaryDestination(channel);
+        const label = temporary
+          ? `${channel.label} · Placeholder`
+          : channel.ctaLabel
+            ? `${channel.label} · ${channel.ctaLabel}`
+            : channel.label;
+        const shown = compact && !temporary ? channel.label : label;
         return (
           <li key={channel.id}>
             <a
               href={href}
               target="_blank"
-              rel="noopener noreferrer"
+              rel={temporary ? "noopener noreferrer nofollow" : "noopener noreferrer"}
               className="link-editorial inline-flex min-h-11 items-center gap-2 font-mono text-[12px] tracking-[0.14em] text-cream/55 hover:text-gold"
             >
               {Icon ? <Icon className="h-3.5 w-3.5 text-gold/80" /> : null}
-              <span>{compact ? channel.label : label}</span>
+              <span>{shown}</span>
             </a>
           </li>
         );

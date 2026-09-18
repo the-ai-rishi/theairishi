@@ -226,11 +226,17 @@ Full doc: [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md).
 
 ### Telegram
 
-Reserved. `social[]` id `telegram`, `"enabled": false`, `"url": ""`. Do not invent a `t.me` link.
+Enabled now with a documented temporary URL: `https://example.com/the-ai-rishi-telegram`. That is **not** a real community. Footer / About / destinations show it as a placeholder. It is not in JSON-LD `sameAs`.
 
-When the community exists: paste the real https URL, set `enabled: true`, `status: "active"`, then `npm run validate`.
+When the real group exists: paste `https://t.me/...` into `social[]` id `telegram` `url`, keep `enabled: true`, optionally set `includeInSameAs: true`, then `npm run validate`. No React.
 
 Full doc: [FEATURES/TELEGRAM.md](./FEATURES/TELEGRAM.md).
+
+### GitHub
+
+Hidden. `social[]` id `github` is `enabled: false`. The URL stays in config so you can turn it on later without a rewrite.
+
+Full doc: [CONFIGURATION/SOCIAL-CONFIGURATION.md](./CONFIGURATION/SOCIAL-CONFIGURATION.md).
 
 ### Change nav
 

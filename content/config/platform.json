@@ -640,9 +640,10 @@
         "type": "destinations",
         "enabled": true,
         "order": 10,
-        "title": "Daily posts",
-        "subtitle": "On Instagram",
-        "showWhenEmpty": false
+        "title": "Around the work",
+        "subtitle": "Instagram and Telegram",
+        "showWhenEmpty": false,
+        "body": "Daily posts go on Instagram. Telegram is a temporary placeholder until the real community URL is set. The 120-day plan stays here."
       }
     ]
   },
@@ -668,20 +669,20 @@
     {
       "id": "telegram",
       "label": "Telegram",
-      "url": "",
+      "url": "https://example.com/the-ai-rishi-telegram",
       "kind": "external",
       "role": "community",
-      "enabled": false,
-      "status": "planned",
+      "enabled": true,
+      "status": "active",
       "order": 2,
       "showInFooter": true,
       "showOnHomepage": true,
       "showOnAbout": true,
       "showInHeader": false,
-      "includeInSameAs": true,
+      "includeInSameAs": false,
       "ctaLabel": "Discussion",
       "displayName": "Telegram",
-      "description": "Reserved for a real community link. Do not invent a URL."
+      "description": "Temporary placeholder. Replace url with the real https://t.me/... community. Not a real group."
     },
     {
       "id": "github",
@@ -689,17 +690,17 @@
       "url": "https://github.com/the-ai-rishi",
       "kind": "external",
       "role": "code",
-      "enabled": true,
-      "status": "active",
+      "enabled": false,
+      "status": "planned",
       "order": 3,
-      "showInFooter": true,
+      "showInFooter": false,
       "showOnHomepage": false,
-      "showOnAbout": true,
+      "showOnAbout": false,
       "showInHeader": false,
-      "includeInSameAs": true,
+      "includeInSameAs": false,
       "ctaLabel": "Source",
       "displayName": "GitHub",
-      "description": "The AI Rishi on GitHub, including the locked 120-day plan."
+      "description": "Reserved. Enable later from this row; keep it off the public site for now."
     },
     {
       "id": "youtube",

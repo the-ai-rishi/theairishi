@@ -271,12 +271,21 @@ if (platform) {
       "Instagram must not be an on-site /instagram surface");
   }
   const telegram = (platform.social || []).find((ch) => ch.id === "telegram");
-  check(telegram, "social is missing telegram (keep enabled: false and url empty until the real community exists)");
+  check(telegram, "social is missing telegram");
   if (telegram) {
-    check(telegram.enabled === false, "Telegram must stay disabled until a real URL is pasted");
-    check(!social.isPublicDestination(telegram), "Telegram must not appear as a public destination while disabled");
-    const telegramUrl = typeof telegram.url === "string" ? telegram.url.trim() : "";
-    check(telegramUrl === "", "Telegram url must be empty until the real https://t.me/... community exists");
+    check(telegram.enabled !== false, "Telegram should be enabled with the documented temporary URL");
+    check(social.isPublicDestination(telegram), "Telegram must be a public destination while the placeholder is active");
+    check(
+      social.isTelegramTemporaryUrl(telegram.url),
+      "Telegram must use the documented placeholder " + social.TELEGRAM_TEMPORARY_URL + " until the real t.me URL is pasted"
+    );
+    check(telegram.includeInSameAs !== true, "Telegram placeholder must not set includeInSameAs true");
+  }
+  const github = (platform.social || []).find((ch) => ch.id === "github");
+  check(github, "social is missing github (keep the architecture; hide it from the public site)");
+  if (github) {
+    check(github.enabled === false, "GitHub must be disabled on the public site");
+    check(!social.isPublicDestination(github), "GitHub must not be a public destination while disabled");
   }
   const liveDestinations = social.publicDestinations(platform);
   check(
@@ -284,17 +293,27 @@ if (platform) {
     "public destinations must include Instagram"
   );
   check(
-    !liveDestinations.some((ch) => ch.id === "telegram"),
-    "public destinations must not include Telegram while it is disabled"
+    liveDestinations.some((ch) => ch.id === "telegram"),
+    "public destinations must include Telegram (temporary placeholder)"
+  );
+  check(
+    !liveDestinations.some((ch) => ch.id === "github"),
+    "public destinations must not include GitHub while it is disabled"
+  );
+  check(
+    !liveDestinations.some((ch) => ch.id === "youtube"),
+    "public destinations must not include YouTube while coming-soon"
   );
   check(
     !vis.getRouteChannels(platform, vis.emptyCatalog()).some((ch) => ch.id === "instagram"),
     "Instagram must not be a site route"
   );
   const sameAs = social.sameAsUrls(platform, (platform.defaults && platform.defaults.sameAs) || []);
-  check(sameAs.some((url) => /github\.com\/the-ai-rishi/i.test(url)), "sameAs must include GitHub from social config");
+  check(sameAs.length === 1, "sameAs must currently be Instagram only");
   check(sameAs.some((url) => social.INSTAGRAM_PROFILE_RE.test(url)), "sameAs must include Instagram from social config");
-  check(!sameAs.some((url) => /t\.me\//i.test(url)), "sameAs must not include Telegram while it is unconfigured");
+  check(!sameAs.some((url) => /github\.com/i.test(url)), "sameAs must not include GitHub while GitHub is disabled");
+  check(!sameAs.some((url) => /t\.me\//i.test(url)), "sameAs must not include a Telegram community URL yet");
+  check(!sameAs.some((url) => /example\.com/i.test(url)), "sameAs must not include the Telegram placeholder");
 }
 
 const coursesPath = path.join(configDir, "courses.json");
