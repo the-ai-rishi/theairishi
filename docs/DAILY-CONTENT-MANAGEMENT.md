@@ -17,7 +17,8 @@ Any day you add, edit, hide, or ship markdown/JSON on this site.
 ## WHERE
 
 - AI lessons: `content/lessons/ai-fundamentals-01.md` through `ai-fundamentals-07.md`, `llm-fundamentals-01.md` through `llm-fundamentals-08.md`
-- DevOps lessons: `content/courses/devops/devops-fundamentals-01.md`, `content/courses/devops/devops-fundamentals-02.md`
+- DevOps archive notes: `content/lessons/devops-fundamentals-01.md`, `content/lessons/devops-fundamentals-02.md`
+- Daily program days: `content/lessons/day-01.md`, `day-02.md`, `day-03.md`
 - Guide: `content/guides/first-principles-ai-learning.md`
 - Project: `content/projects/autonomous-research-agent.md`
 - New lesson template: `templates/lesson-template.md` (next AI lesson number in that template is 16)

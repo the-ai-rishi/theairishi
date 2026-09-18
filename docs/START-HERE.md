@@ -6,7 +6,7 @@ Right now the work is **DevOps Engineer Mastery**: 120 days, starting at the she
 
 This is not a guru course, not a marketplace, and not an AI-first landing page.
 
-Public verbs today:
+Primary navigation today:
 
 - **Start** — Day 1 (`/learn/day-01`)
 - **120 Days** — the plan (`/learn`)
@@ -31,7 +31,7 @@ DevOps Engineer Mastery is a **program**. That is its canonical meaning.
 | --- | --- | --- | --- |
 | **Program** | The 120-day curriculum map (phases + day titles) | `content/config/programs.json` | `/learn`, homepage, Start Day 1 |
 | **Course** | A lesson grouping for the syllabus UI. The featured course is a pointer to the program, not a second map. Archive courses group older notes. | `content/config/courses.json` | Not primary nav. AI course is not featured. |
-| **Lesson** | A published markdown page | `content/lessons/*.md` | `/learn/[slug]` only when the file exists |
+| **Lesson** | A published markdown page | `content/lessons/*.md` only | `/learn/[slug]` only when `lib/lesson-publish.js` says it is public |
 | **Topic** | Subject-area tag for visibility | `platform.json` `topics[]` | Homepage/nav/search/sitemap flags |
 | **Content type** | A route family (`learn`, `guides`, `projects`) | `platform.json` `contentTypes[]` | URLs and Explore |
 | **Series** | Reserved multi-format grouping | `content/config/series.json` | Unused. Keep `enabled: false`. |
@@ -46,7 +46,7 @@ Example: Day 1 is a **lesson** in the **program** `devops-engineer-mastery`, tag
 | Brand, homepage, nav, About, future path | `content/config/platform.json` |
 | 120-day roadmap titles | `content/config/programs.json` (copy from the mastery repo; this file does **not** auto-sync) |
 | Daily lesson | `content/lessons/day-NN.md` |
-| Archive / older notes | `content/lessons/*.md`, `content/courses/devops/*.md` |
+| Archive / older notes | `content/lessons/<slug>.md` (same `/learn/<slug>` URL). Not `content/courses/`. |
 | Guides / writing | `content/guides/*.md` |
 | Projects / labs | `content/projects/*.md` |
 | Learning-path grouping | `content/config/courses.json` |
@@ -138,28 +138,35 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 11. Content on this site is free. Do not add pricing pages.
 12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected. Same for `copy.heroTitle` and `copy.heroTagline` — omit them; the hero uses the program title.
 13. `brand.lineage` must not exist.
-14. `defaults.authorName` is the public Person in structured data. Set it on purpose. Do not infer a private legal name or fall back to the brand name.
+14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** — the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
 15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.
+16. `lib/lesson-publish.js` is the only “is this a public /learn page?” rule. Generator, runtime, and validate all use it. Markdown under `content/courses/` is never a `/learn` route.
 
 ## Generated catalogs (do not let them go stale)
 
 `scripts/generate-content-data.js` writes:
 
 - `lib/content-data.generated.ts` — markdown/JSON embed
-- `lib/published-lesson-slugs.generated.ts` — published `/learn/[slug]` allow-list plus static `app/learn/*` folders
+- `lib/published-lesson-slugs.generated.ts` — published `/learn/[slug]` allow-list (from `content/lessons/*.md` via `lib/lesson-publish.js`) plus static `app/learn/<name>/page.*` folders
 
-It runs from:
+`next.config.ts` calls `generateContentData()` at module load. That is an **intentional build contract**: OpenNext runs `npx next build`, which skips npm `prebuild`. Do not duplicate that generation in other config files. Do not remove it.
 
-1. `next.config.ts` on every `next dev` / `next build` (so `npx next build` cannot skip it)
+It also runs from:
+
+1. `next.config.ts` on every `next dev` / `next build`
 2. npm `predev` / `prebuild` / `prevalidate` / `precf:build`
 3. OpenNext `buildCommand`
 
-Adding `content/lessons/day-04.md` and running a production build regenerates the allow-list. Middleware will then let Day 4 through. You cannot ship a new day while middleware still thinks it is unpublished, unless you bypass Next entirely.
+Adding `content/lessons/day-04.md` with complete published frontmatter and running a production build regenerates the allow-list. Middleware will then let Day 4 through.
+
+A directory under `app/learn` is an allowed `/learn/<name>` only when it contains a Next.js `page.*` file (today: `ai-fundamentals`, a redirect). A utility folder without a page is ignored.
 
 Unpublished `/learn/day-N` 404s via middleware rewrite to `/missing-lesson` with HTTP 404. That is the mechanism on Cloudflare Workers. `app/learn/[slug]/not-found.tsx` is only a fallback if a listed slug is missing at runtime.
+
+The `what` homepage section stays disabled. `story.whatTitle` / `story.whatBody` are reserved copy for that section — not live homepage text.
 
 ## Compatibility docs
 
 Root files such as `ARCHITECTURE.md`, `AUTHORING.md`, `PLATFORM_MANUAL.md`, `CONFIGURATION_GUIDE.md`, `CONTENT_GUIDE.md`, and `PRODUCTION_GUIDE.md` are **one-line redirects**. They are not canonical. Start at [docs/START-HERE.md](./START-HERE.md) or [docs/DOCUMENTATION-MAP.md](./DOCUMENTATION-MAP.md).
 
-`lib/program-schema.js` is the only program validator. Runtime and `scripts/validate.js` both use it. `lib/course-href.js` is the only course-card href rule.
+`lib/program-schema.js` is the only program validator. Runtime and `scripts/validate.js` both use it. `lib/course-href.js` is the only course-card href rule. `lib/lesson-publish.js` is the only public-lesson predicate.

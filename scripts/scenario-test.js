@@ -835,6 +835,64 @@ function runScenarioTests() {
       "Test 16: live course id must match the catalog course"
     );
 
+    // ── Test 17: one publication predicate (gray-matter, not regex) ────────
+    const publish = require("../lib/lesson-publish");
+    const completeLesson =
+      "---\ntitle: Probe\ncourse: devops-engineer-mastery\nstage: Foundations\nlesson: 4\nstatus: published\n---\nbody\n";
+    check(
+      publish.isPublicLessonMarkdown(completeLesson) === true,
+      "Test 17: a complete published lesson is public"
+    );
+    check(
+      publish.isPublicLessonMarkdown("---\nstatus: published\n---\nstatus: published in the body\n") === false,
+      "Test 17: a regex-only status match is not a public lesson"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published", "status: draft")) === false,
+      "Test 17: draft is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published", "enabled: false\nstatus: published")) ===
+        false,
+      "Test 17: enabled false is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published", "status: coming-soon")) === false,
+      "Test 17: coming-soon is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("\ncourse: devops-engineer-mastery", "")) === false,
+      "Test 17: missing course is not public"
+    );
+    check(
+      publish.isLessonSourcePath("content/lessons/day-01.md") === true &&
+        publish.isLessonSourcePath("content/courses/devops/secret.md") === false,
+      "Test 17: only content/lessons/ is a lesson source path"
+    );
+
+    const mixedCatalog = {
+      "content/lessons/day-01.md": completeLesson.replace("lesson: 4", "lesson: 1"),
+      "content/courses/devops/secret-syllabus.md": completeLesson.replace("lesson: 4", "lesson: 99"),
+      "content/lessons/notes.md": "# just a note\nstatus: published\n",
+    };
+    const mixedSlugs = publish.collectPublishedLessonSlugs(mixedCatalog);
+    check(
+      mixedSlugs.includes("day-01") && !mixedSlugs.includes("secret-syllabus") && !mixedSlugs.includes("notes"),
+      "Test 17: generator slugs ignore content/courses and incomplete markdown"
+    );
+
+    // ── Test 18: static /learn segments require a real page file ───────────
+    const { collectStaticLearnSegments } = require("./generate-content-data");
+    const static18 = collectStaticLearnSegments(path.join(__dirname, ".."));
+    check(
+      static18.includes("ai-fundamentals"),
+      "Test 18: existing ai-fundamentals redirect page is a static learn segment"
+    );
+    check(
+      !static18.includes("[slug]"),
+      "Test 18: the dynamic [slug] folder is not a static learn segment"
+    );
+
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -848,7 +906,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-16)");
+  console.log("SCENARIO TESTS PASSED (1-18)");
   return true;
 }
 

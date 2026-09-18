@@ -2,6 +2,7 @@ import path from "path";
 import matter from "gray-matter";
 import { renderMarkdownToHtml } from "./markdown";
 import { listContentFiles, readContentFile } from "./content-runtime";
+import { isPublicLessonFrontmatter } from "./lesson-publish";
 import {
   getCourseConfig,
   getTopicSlugForCourse,
@@ -98,35 +99,22 @@ function getPositiveNumber(value: unknown): number | null {
   return Number.isFinite(num) && num > 0 ? num : null;
 }
 
-function getLessonMetadata(
-  data: Record<string, unknown>,
-  slug: string
-): LessonMetadata | null {
+function getLessonMetadata(data: Record<string, unknown>): LessonMetadata | null {
+  if (!isPublicLessonFrontmatter(data)) {
+    return null;
+  }
+
   const title = getString(data.title);
   const stage = getString(data.stage);
   const lesson = getPositiveNumber(data.lesson);
   const description = getString(data.description) || "";
-
-  if (!title || !stage || !lesson) {
-    console.warn(
-      `[lessons] Skipping "${slug}": title, stage, and lesson number are required.`
-    );
-    return null;
-  }
-
-  // Check enabled/status — skip disabled or draft/archived lessons
-  const enabled = data.enabled !== false; // default true if not specified
-  const status = getString(data.status) || "published";
-
-  if (!enabled || status === "draft" || status === "archived") {
-    return null;
-  }
-
   const courseId = getString(data.course)?.toLowerCase();
-  if (!courseId) {
-    console.warn(`[lessons] Skipping "${slug}": course is required.`);
+  if (!title || !stage || !lesson || !courseId) {
     return null;
   }
+
+  const enabled = data.enabled !== false;
+  const status = getString(data.status) || "published";
 
   const courseConfig = getCourseConfig(courseId);
   const courseTitle =
@@ -169,10 +157,9 @@ function getLessonMetadata(
 }
 
 function getAllLessonFiles(): string[] {
-  return Array.from(new Set([
-    ...listContentFiles("content/courses", ".md"),
-    ...listContentFiles("content/lessons", ".md"),
-  ]));
+  // Public /learn pages come only from content/lessons/.
+  // content/courses/ is not a route source (Course lives in courses.json).
+  return listContentFiles("content/lessons", ".md");
 }
 
 function getLessonSourceFromFile(filePath: string): LessonSource | null {
@@ -181,10 +168,7 @@ function getLessonSourceFromFile(filePath: string): LessonSource | null {
   try {
     const fileContents = readContentFile(filePath) ?? "";
     const parsed = matter(fileContents);
-    const metadata = getLessonMetadata(
-      parsed.data as Record<string, unknown>,
-      slug
-    );
+    const metadata = getLessonMetadata(parsed.data as Record<string, unknown>);
     if (!metadata) return null;
     return { slug, metadata, markdown: parsed.content };
   } catch (error) {

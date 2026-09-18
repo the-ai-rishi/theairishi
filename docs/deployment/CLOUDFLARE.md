@@ -26,7 +26,8 @@ Local works, Cloudflare logs show missing files, or you are deploying with Wrang
 
 | File | Role |
 | --- | --- |
-| `scripts/generate-content-data.js` | Embeds `content/**/*.md,json` and writes the published `/learn` slug allow-list |
+| `scripts/generate-content-data.js` | Embeds `content/**/*.md,json` and writes the published `/learn` slug allow-list. Called from `next.config.ts` on purpose (OpenNext skips npm prebuild). |
+| `lib/lesson-publish.js` | Canonical public-lesson predicate (gray-matter). Only `content/lessons/*.md`. |
 | `lib/content-data.generated.ts` | Generated. Gitignored. Created before every Next compile |
 | `lib/published-lesson-slugs.generated.ts` | Generated allow-list for middleware 404s |
 | `middleware.ts` | Rewrites unknown `/learn/[slug]` to `/missing-lesson` with HTTP 404 |

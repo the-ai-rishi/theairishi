@@ -28,7 +28,7 @@ Use the I want to table, then the What file do I edit table.
 | --- | --- | --- |
 | Add an article (this repo: a guide) | CONTENT/ADD-ARTICLE.md | content/guides/*.md, templates/guide-template.md |
 | Add a guide / essay | CONTENT/ADD-GUIDE.md | content/guides/*.md, lib/guides.ts, app/guides |
-| Add a lesson | CONTENT/ADD-LESSON.md | content/lessons or content/courses/ID, templates/lesson-template.md |
+| Add a lesson | CONTENT/ADD-LESSON.md | content/lessons/*.md, templates/lesson-template.md |
 | Add tomorrow’s DevOps day | CONTENT/ADD-DAILY-LESSON.md | content/lessons/day-NN.md, content/config/programs.json |
 | Add a learning path | CONTENT/ADD-LEARNING-PATH.md | content/config/courses.json, lesson markdown |
 | Add a project / lab | FEATURES/PROJECTS.md | content/projects, templates/project-template.md |
@@ -46,7 +46,7 @@ Use the I want to table, then the What file do I edit table.
 | Change SEO | CONFIGURATION/SEO-CONFIGURATION.md | app/layout.tsx metadata, generateMetadata, brand.description |
 | Add a domain / topic | ADVANCED/ADDING-A-NEW-DOMAIN.md | topics[] JSON. Planned python topic is OK. Do not invent Python lessons. |
 | Add a new homepage TYPE | ADVANCED/ADDING-A-NEW-FEATURE.md | visibility-core SECTION_TYPES plus React. Developer required. |
-| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-16 |
+| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-18 |
 | Deploy | OPERATIONS/DEPLOYMENT.md | Vercel, theairishi.vercel.app. PR branch is not auto-main. |
 | Fix a missing route or block | OPERATIONS/TROUBLESHOOTING.md | visibility-core 404-until-active-plus-content |
 | Revert a mistake | OPERATIONS/BACKUP-AND-RECOVERY.md | git restore, git revert. No force-push. |

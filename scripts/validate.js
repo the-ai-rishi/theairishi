@@ -293,10 +293,14 @@ function scanMarkdown(dir) {
   return scanFiles(dir, (name) => name.endsWith(".md"));
 }
 
-const lessonFiles = [
-  ...scanMarkdown(path.join(contentDir, "lessons")),
-  ...scanMarkdown(path.join(contentDir, "courses")),
-];
+const lessonFiles = scanMarkdown(path.join(contentDir, "lessons"));
+const leftoverCourseLessons = scanMarkdown(path.join(contentDir, "courses"));
+if (leftoverCourseLessons.length) {
+  errors.push(
+    "ERROR:\nMarkdown under content/courses/ is not a public /learn source.\n\nFix:\nMove published lessons to content/lessons/<slug>.md. Course grouping lives in content/config/courses.json. Files found: " +
+      leftoverCourseLessons.map((file) => path.relative(rootDir, file)).join(", ")
+  );
+}
 const lessonCounts = {};
 for (const filePath of lessonFiles) {
   const content = fs.readFileSync(filePath, "utf8");
@@ -706,12 +710,36 @@ try {
   if (expectedSlugs.includes("day-04") === false && fs.existsSync(path.join(rootDir, "content/lessons/day-04.md"))) {
     errors.push("ERROR:\nday-04.md exists on disk but is not in the published slug catalog.");
   }
+  const completeDay4 =
+    "---\ntitle: Permissions as an incident\ncourse: devops-engineer-mastery\nstage: Foundations\nlesson: 4\nstatus: published\n---\n";
   const probeEmbedded = Object.assign({}, generated.embedded, {
-    "content/lessons/day-04.md": "---\ntitle: Permissions as an incident\nstatus: published\n---\n",
+    "content/lessons/day-04.md": completeDay4,
   });
   if (!collectPublishedLessonSlugs(probeEmbedded).includes("day-04")) {
     errors.push(
       "ERROR:\nAdding content/lessons/day-04.md would not enter the published slug catalog.\n\nFix:\nscripts/generate-content-data.js collectPublishedLessonSlugs must include new public lesson files so middleware cannot keep 404ing a newly published day."
+    );
+  }
+  const incompleteProbe = Object.assign({}, generated.embedded, {
+    "content/lessons/day-04.md": "---\nstatus: published\n---\nstatus: published in the body\n",
+  });
+  if (collectPublishedLessonSlugs(incompleteProbe).includes("day-04")) {
+    errors.push(
+      "ERROR:\nA markdown file with only a status regex match became a public /learn slug.\n\nFix:\nUse lib/lesson-publish.js (gray-matter + required title/stage/course/lesson + active lifecycle). Do not admit lessons from a regex."
+    );
+  }
+  const courseProbe = Object.assign({}, generated.embedded, {
+    "content/courses/devops/secret-syllabus.md": completeDay4.replace("lesson: 4", "lesson: 99"),
+  });
+  if (collectPublishedLessonSlugs(courseProbe).includes("secret-syllabus")) {
+    errors.push(
+      "ERROR:\nMarkdown under content/courses/ became a public /learn slug.\n\nFix:\nOnly content/lessons/*.md may enter the published-lesson allow-list. Course files are not routes."
+    );
+  }
+  const generateSource = fs.readFileSync(path.join(rootDir, "scripts", "generate-content-data.js"), "utf8");
+  if (!generateSource.includes("lib/lesson-publish")) {
+    errors.push(
+      "ERROR:\nscripts/generate-content-data.js no longer uses lib/lesson-publish.js.\n\nFix:\nKeep one publication predicate for generator, runtime, and validate."
     );
   }
 } catch (err) {

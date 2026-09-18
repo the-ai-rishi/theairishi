@@ -8,9 +8,7 @@ Use this page only for a lesson that is **not** one of the 120 program days (for
 
 `content/lessons/YOUR-SLUG.md`
 
-Older DevOps notes that are not daily program days:
-
-`content/courses/devops/YOUR-SLUG.md`
+That is the only public lesson folder. Course grouping lives in `content/config/courses.json`. Do not put lessons under `content/courses/` — those files are not `/learn` routes.
 
 Copy `templates/lesson-template.md` only if you are adding a daily day. For a non-daily note, you may omit `day` / `phase` / `program`.
 

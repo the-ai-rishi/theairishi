@@ -5,10 +5,18 @@
  *
  * Always run before Next compiles. next.config.ts, npm prebuild/predev/prevalidate,
  * and OpenNext buildCommand all call this so published-lesson slugs cannot go stale.
+ *
+ * Public /learn/[slug] membership is lib/lesson-publish.js — the same predicate
+ * the runtime catalog uses. Do not re-implement publication with a regex here.
  */
 
 const fs = require("fs");
 const path = require("path");
+const {
+  collectPublishedLessonSlugs,
+  isPublicLessonMarkdown,
+  isLessonSourcePath,
+} = require("../lib/lesson-publish");
 
 function defaultRoot() {
   return path.join(__dirname, "..");
@@ -25,36 +33,24 @@ function collectFiles(dir) {
   return files;
 }
 
-function isPublicLessonMarkdown(body) {
-  if (/\nenabled:\s*false\b/.test(body) || /^enabled:\s*false\b/m.test(body)) return false;
-  const status = /(?:^|\n)status:\s*["']?([A-Za-z-]+)/.exec(body);
-  if (!status) return true;
-  const value = status[1].toLowerCase();
-  return value !== "draft" && value !== "archived";
-}
-
-function collectPublishedLessonSlugs(embedded) {
-  return [
-    ...new Set(
-      Object.entries(embedded)
-        .filter(([filePath, body]) => {
-          if (!filePath.endsWith(".md")) return false;
-          if (!filePath.startsWith("content/lessons/") && !filePath.startsWith("content/courses/")) {
-            return false;
-          }
-          return isPublicLessonMarkdown(String(body));
-        })
-        .map(([filePath]) => path.basename(filePath, ".md"))
-    ),
-  ].sort();
-}
-
+/**
+ * Static /learn/<segment> allow-list.
+ * A directory under app/learn is routable only when it contains a Next.js page
+ * file (page.tsx/ts/jsx/js) and is not a dynamic segment. Utility folders
+ * without a page are ignored. Today: ai-fundamentals (existing URL redirect).
+ */
 function collectStaticLearnSegments(rootDir) {
   const learnDir = path.join(rootDir, "app", "learn");
   if (!fs.existsSync(learnDir)) return [];
+  const pageNames = new Set(["page.tsx", "page.ts", "page.jsx", "page.js"]);
   return fs
     .readdirSync(learnDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && !entry.name.startsWith("[") && !entry.name.startsWith("."))
+    .filter((entry) => {
+      if (!entry.isDirectory()) return false;
+      if (entry.name.startsWith("[") || entry.name.startsWith(".")) return false;
+      const names = fs.readdirSync(path.join(learnDir, entry.name));
+      return names.some((name) => pageNames.has(name));
+    })
     .map((entry) => entry.name)
     .sort();
 }
@@ -123,5 +119,6 @@ module.exports = {
   collectPublishedLessonSlugs,
   collectStaticLearnSegments,
   isPublicLessonMarkdown,
+  isLessonSourcePath,
   writeIfChanged,
 };

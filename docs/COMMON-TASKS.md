@@ -17,7 +17,7 @@ When you already know the job and need the snippet. For theory and edge cases, f
 ## WHERE
 
 - Config: `content/config/platform.json`, `content/config/courses.json`
-- Lessons: `content/lessons`, `content/courses/devops`
+- Lessons: `content/lessons` only (public `/learn` pages)
 - Guides: `content/guides`
 - Projects: `content/projects`
 - Media: `content/media/youtube.json`, `content/media/instagram.json`
@@ -52,7 +52,7 @@ Full doc: [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md). Article alias: [CONTEN
 
 ### Add a lesson
 
-AI path: new file under `content/lessons/`. DevOps path: new file under `content/courses/devops/`. Template: `templates/lesson-template.md`. `course` must match a `courses.json` id. `topic` must match a `topics[]` id. Live AI course id `ai`, DevOps course id `devops`. 15 AI lessons exist; the template uses lesson 16 for the next AI lesson.
+AI path and DevOps archive notes: new file under `content/lessons/`. Daily program days: `content/lessons/day-NN.md`. Template: `templates/lesson-template.md`. `course` must match a `courses.json` id. `topic` must match a `topics[]` id. Do not put lessons in `content/courses/`.
 
 ```yaml
 ---

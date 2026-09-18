@@ -13,9 +13,11 @@ import {
  * Why not `app/learn/[slug]/not-found.tsx`:
  * unknown slugs on Workers streamed the root Loading UI with HTTP 200.
  *
- * Allow-list is generated from published markdown + real `app/learn/*`
- * static segments (today: ai-fundamentals, a redirect for an existing URL).
- * `scripts/generate-content-data.js` runs before every Next compile.
+ * Allow-list is generated before every Next compile:
+ * - published slugs: content/lessons/*.md via lib/lesson-publish.js
+ *   (gray-matter + the same lifecycle rule as the runtime catalog)
+ * - static segments: app/learn/<name>/page.* only (today: ai-fundamentals)
+ * Markdown under content/courses/ is never a /learn route.
  */
 export function middleware(request: NextRequest) {
   const match = request.nextUrl.pathname.match(/^\/learn\/([^/]+)\/?$/);

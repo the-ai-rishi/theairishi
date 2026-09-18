@@ -23,7 +23,7 @@ content/lessons/day-04.md
 
 Filename format: `day-NN.md` with two digits. Copy `templates/lesson-template.md`.
 
-Do **not** put daily lessons under `content/courses/devops/`. That folder is older notes.
+Do **not** put daily lessons (or any public lesson) under `content/courses/`. That folder is not a `/learn` source. Course grouping lives in `content/config/courses.json`.
 
 ## 3. Required frontmatter
 
