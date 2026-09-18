@@ -44,9 +44,7 @@ export async function generateMetadata({
   const brand = getBrandConfig();
 
   if (!lesson) {
-    return {
-      title: "Lesson not found",
-    };
+    notFound();
   }
 
   const courseTitle = lesson.metadata.courseTitle || "Course";

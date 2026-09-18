@@ -16,7 +16,7 @@ export default function LessonNotFound() {
           This lesson does not exist or is not available yet.
         </p>
         <Link href="/learn" className="mt-8 bg-cream px-6 py-3 text-[13px] font-medium text-ink">
-          Back to paths
+          Back to 120 Days
         </Link>
       </div>
     </main>
