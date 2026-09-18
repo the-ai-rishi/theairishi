@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageShell from "@/components/brand/PageShell";
+import ExistingNotesNote from "@/components/content/ExistingNotesNote";
 import { getContentByTopic } from "@/lib/content";
 import {
   getMainNavigation,
@@ -14,6 +15,7 @@ import {
 import { getLiveCatalog } from "@/lib/catalog";
 import { getRouteTopics, topicRouteState } from "@/lib/visibility-core";
 import { topicTone } from "@/lib/palette";
+import { canonicalAlternates } from "@/lib/urls";
 
 interface TopicPageProps {
   params: Promise<{ topic: string }>;
@@ -30,16 +32,16 @@ export async function generateMetadata({
 }: TopicPageProps): Promise<Metadata> {
   const { topic } = await params;
   const state = topicRouteState(loadPlatformConfig(), topic, getLiveCatalog());
-  const brand = getBrandConfig();
 
   if (state.state !== "active" || !state.topic) {
-    return { title: `Topic Not Found | ${brand.name}` };
+    return { title: "Topic not found" };
   }
 
   const config = state.topic as unknown as TopicConfig;
   return {
-    title: `${config.name} | ${brand.name}`,
+    title: config.name,
     description: config.description,
+    alternates: canonicalAlternates(`/topics/${config.slug}`),
   };
 }
 
@@ -73,6 +75,9 @@ export default async function TopicPage({ params }: TopicPageProps) {
         <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-cream/55">
           {config.description}
         </p>
+        <div className="mt-6">
+          <ExistingNotesNote topicKey={config.id} />
+        </div>
       </section>
 
       <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">

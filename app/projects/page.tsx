@@ -4,13 +4,14 @@ import PageShell from "@/components/brand/PageShell";
 import { getAllProjectSummaries } from "@/lib/projects";
 import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { notFound } from "next/navigation";
+import { canonicalAlternates } from "@/lib/urls";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const brand = getBrandConfig();
   return {
-    title: `Labs | ${brand.name}`,
+    title: "Labs",
     description:
-      "Real-world labs, agent architectures, and infrastructure built in public.",
+      "Build write-ups and practical labs. Existing labs are earlier notes, not the current DevOps program.",
+    alternates: canonicalAlternates("/projects"),
   };
 }
 
@@ -25,7 +26,7 @@ export default function ProjectsPage() {
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
-        <p className="kicker text-circuit-bright">Build</p>
+        <p className="kicker text-gold/80">Build</p>
         <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">
           Labs
         </h1>

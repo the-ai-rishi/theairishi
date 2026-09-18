@@ -71,10 +71,24 @@ function resolveTopicSlug(opts: {
   return authoringDefault || "";
 }
 
+function lifecycleStatus(data: Record<string, unknown>): string {
+  if (data.enabled === false) return "disabled";
+  const explicit = data.visibility ?? data.visibilityStatus;
+  if (typeof explicit === "string" && explicit.trim()) {
+    return vis.normalizeStatus(explicit);
+  }
+  const raw = String(data.status || "published").trim().toLowerCase();
+  // Project "status" is a progress badge (Completed / In Progress / Planned),
+  // not a publishing lifecycle. Those labs are public unless enabled:false.
+  if (raw === "completed" || raw === "in progress" || raw === "in-progress") {
+    return "active";
+  }
+  return vis.normalizeStatus(raw);
+}
+
 function isPublished(data: Record<string, unknown>): boolean {
   if (data.enabled === false) return false;
-  const status = vis.normalizeStatus((data.status as string) || "published");
-  return status === "active";
+  return lifecycleStatus(data) === "active";
 }
 
 function isPublicUniversalItem(item: UniversalContentItem): boolean {
@@ -134,7 +148,7 @@ function loadMarkdownItemsFromDir(
         url: `/${subDir}/${slug}`,
         tags: (data.tags as string[]) || [],
         markdown: content,
-        status: ((data.status as string) || "published") as ContentStatus,
+        status: (lifecycleStatus(data) === "active" ? "published" : lifecycleStatus(data)) as ContentStatus,
         enabled: data.enabled !== false,
       });
     }
@@ -168,7 +182,19 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       featured: l.metadata.lesson === 1,
       readTime: 8,
       url: `/learn/${l.slug}`,
-      tags: l.metadata.tags || [l.metadata.course, l.metadata.stage],
+      tags: [
+        ...(l.metadata.tags || [l.metadata.course, l.metadata.stage]),
+        ...(typeof l.metadata.day === "number"
+          ? [`day-${String(l.metadata.day).padStart(2, "0")}`, `day ${l.metadata.day}`]
+          : []),
+        l.metadata.phase,
+        l.metadata.program,
+      ].filter((value): value is string => Boolean(value)),
+      metadata: {
+        day: l.metadata.day,
+        phase: l.metadata.phase,
+        program: l.metadata.program,
+      },
       status: (l.metadata.status as ContentStatus) || "published",
       enabled: l.metadata.enabled !== false,
     });
@@ -195,7 +221,9 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       readTime: g.metadata.readTime || 6,
       url: `/guides/${g.slug}`,
       tags: g.metadata.tags || [],
-      status: (meta.status as ContentStatus) || "published",
+      status: (lifecycleStatus(meta as unknown as Record<string, unknown>) === "active"
+        ? "published"
+        : (meta.status as ContentStatus) || "published") as ContentStatus,
       enabled: meta.enabled !== false,
     });
   }
@@ -221,7 +249,7 @@ export function getAllUniversalContent(): UniversalContentItem[] {
       readTime: 10,
       url: `/projects/${p.slug}`,
       tags: p.metadata.technologies || [],
-      status: (meta.visibilityStatus as ContentStatus) || "published",
+      status: "published",
       enabled: meta.enabled !== false,
     });
   }
@@ -355,7 +383,7 @@ export async function getSingleContentBySlug(
       tags: (data.tags as string[]) || [],
       markdown: content,
       contentHtml,
-      status: ((data.status as string) || "published") as ContentStatus,
+      status: (lifecycleStatus(data) === "active" ? "published" : lifecycleStatus(data)) as ContentStatus,
       enabled: data.enabled !== false,
       series: data.series as string | undefined,
     };

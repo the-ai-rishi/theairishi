@@ -140,7 +140,7 @@ theairishi/
     ROUTING_AND_SEO.md
     SEARCH.md
     START-HERE.md
-    START_HERE.md
+    START-HERE.md
     TOPICS_AND_AREAS.md
     TROUBLESHOOTING.md
     VALIDATION_AND_TESTING.md

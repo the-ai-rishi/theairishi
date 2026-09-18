@@ -36,7 +36,7 @@ Excluded: planned, paused, disabled, archived, coming-soon, draft, enabled false
 
 Coming-soon YouTube is not searchable. Active YouTube with items is.
 
-Shortcut: Cmd/Ctrl+K.
+Shortcut: Cmd/Ctrl+K. Placeholder: “Day 1, shell, Git, DNS…”. Queries are token AND. `day 1` and `day-01` match the same lesson.
 
 ## COMPLETE EXAMPLE
 

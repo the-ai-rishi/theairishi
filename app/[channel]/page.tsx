@@ -11,6 +11,7 @@ import {
   getBrandConfig,
   getPlatformCopy,
   loadPlatformConfig,
+  getDestinationUrl,
   type SocialPlatform,
 } from "@/lib/config";
 import { getLiveCatalog } from "@/lib/catalog";
@@ -36,11 +37,11 @@ export async function generateMetadata({
   const state = channelRouteState(loadPlatformConfig(), channel, getLiveCatalog());
   const brand = getBrandConfig();
   if (state.state !== "active" || !state.channel) {
-    return { title: `Not found | ${brand.name}` };
+    return { title: "Not found" };
   }
   const platform = state.channel as unknown as SocialPlatform;
   return {
-    title: `${platform.displayName || platform.label} | ${brand.name}`,
+    title: platform.displayName || platform.label,
     description: platform.description || brand.description,
   };
 }
@@ -58,10 +59,10 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
-  const externalUrl = platform.status === "active" ? platform.externalUrl : undefined;
+  const outboundUrl = platform.status === "active" ? getDestinationUrl(platform) : "";
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-24">
+    <main id="main-content" className="min-h-screen bg-ink pb-24 text-cream selection:bg-gold/25 selection:text-ink">
       <Header navItems={mainNav} brand={brand} copy={copy} />
 
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24 lg:px-8">
@@ -85,9 +86,9 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
               Nothing is published on this channel yet.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              {externalUrl ? (
+              {outboundUrl ? (
                 <a
-                  href={externalUrl}
+                  href={outboundUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-cream px-6 py-3 text-xs font-medium text-ink"

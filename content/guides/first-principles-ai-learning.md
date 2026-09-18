@@ -7,6 +7,8 @@ category: "Learning Strategies"
 tags: ["Mental Models", "AI Engineering", "Learning Path"]
 readTime: 6
 author: "The AI Rishi"
+topic: "ai"
+status: "published"
 featured: true
 ---
 

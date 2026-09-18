@@ -4,13 +4,14 @@ import PageShell from "@/components/brand/PageShell";
 import { getAllGuideSummaries } from "@/lib/guides";
 import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { notFound } from "next/navigation";
+import { canonicalAlternates } from "@/lib/urls";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const brand = getBrandConfig();
   return {
-    title: `Writing | ${brand.name}`,
+    title: "Writing",
     description:
-      "In-depth technical essays, architecture deep-dives, and practical engineering writing.",
+      "In-depth technical essays, architecture deep-dives, and practical engineering writing. Some notes predate the current DevOps program.",
+    alternates: canonicalAlternates("/guides"),
   };
 }
 

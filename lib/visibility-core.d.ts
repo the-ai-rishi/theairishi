@@ -20,6 +20,10 @@ export interface KernelEntity {
   order?: number;
   showOnHomepage?: boolean;
   showInNavigation?: boolean;
+  includeInSearch?: boolean;
+  includeInSitemap?: boolean;
+  searchBadge?: string;
+  discoveryNote?: string;
   [key: string]: unknown;
 }
 
@@ -68,6 +72,8 @@ export interface ResolvedHomepageSection {
   subtitle?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  bodyKey?: string;
+  body?: string;
   source?: { kind: string; topicId?: string; format?: string; channelId?: string; id?: string };
   maxItems?: number;
   showWhenEmpty?: boolean;
@@ -125,6 +131,7 @@ export function isChannelVisible(
 export function publicTopics(platform: unknown, catalog: PlatformCatalog | undefined, surface: Surface): KernelEntity[];
 export function publicContentTypes(platform: unknown, catalog: PlatformCatalog | undefined, surface: Surface): KernelEntity[];
 export function publicChannels(platform: unknown, catalog: PlatformCatalog | undefined, surface: Surface): KernelEntity[];
+export function publicDestinations(platform: unknown, surface?: string): KernelEntity[];
 export function publicCourses(platform: unknown, catalog: PlatformCatalog | undefined, forHomepage?: boolean): KernelEntity[];
 export function comingSoonCourses(platform: unknown, catalog: PlatformCatalog | undefined): KernelEntity[];
 export function resolveHomepageSections(

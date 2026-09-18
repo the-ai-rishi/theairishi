@@ -20,10 +20,10 @@ export default function NotFound() {
             Return home
           </Link>
           <Link
-            href="/learn"
+            href="/guides"
             className="bg-cream px-5 py-2.5 text-[13px] font-medium tracking-[0.04em] text-ink"
           >
-            Open paths
+            Read
           </Link>
         </div>
       </div>

@@ -1,73 +1,69 @@
-# YOUTUBE
+# Enable YouTube
 
-## PURPOSE
+## 1. What this system does
 
+YouTube is a **channel**. It is wired, but public only when it is `active` **and** `content/media/youtube.json` has real items.
 
-youtube.json is an empty array and the channel is coming-soon. /youtube 404s until active with real items.
+Today it is `coming-soon` with an empty array. `/youtube` 404s. It is not in nav, homepage, search, or sitemap.
 
-## WHEN TO USE
+## 2. When I need it
 
+You have real videos to list. Do not invent items.
 
-Use this when changing this area of The AI Rishi.
+## 3. Files
 
-## PREREQUISITES
+| File | What to change |
+| --- | --- |
+| `content/media/youtube.json` | Array of video objects |
+| `content/config/platform.json` → `social` id `youtube` | `status`, `kind: internal`, `href: /youtube`. Do not set `externalUrl`. |
+| `content/config/platform.json` → `contentTypes` id `youtube` | same `status` |
 
+## 4. Item fields
 
-Repo cloned.
+```json
+{
+  "id": "intro-transformers",
+  "title": "Transformers from first principles",
+  "description": "A walk-through of attention.",
+  "publishedAt": "2026-09-01",
+  "url": "https://www.youtube.com/watch?v=REAL_ID",
+  "featured": true,
+  "tags": ["ai"]
+}
+```
 
-## WHERE
+`url` must be a real video URL, not `https://youtube.com`.
 
+## 5. Enable
 
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
+1. Add at least one real item to `youtube.json`.
+2. Set both `social` and `contentTypes` youtube entries:
 
-## STEP-BY-STEP
+```json
+"enabled": true,
+"status": "active",
+"showOnHomepage": false,
+"showInNavigation": true
+```
 
+3. Keep `showOnHomepage` false unless you add a `channel-grid` homepage section.
 
-# YouTube and Instagram
+## 6. What NOT to change
 
+- Do not add `app/youtube/page.tsx`. `app/[channel]/page.tsx` is the route.
+- Do not set `active` with `[]`.
 
-Both channels exist in platform.json social[] and as contentTypes with status coming-soon. media JSON files are empty arrays. Direct /youtube and /instagram 404. They are not in nav, homepage, search, or sitemap.
+## 7. Commands
 
-After the first real YouTube video: add a real object to content/media/youtube.json with id, title, publishedAt, and url. Set social id youtube status to active. Set contentTypes id youtube status to active. Optionally add a channel-grid section or a nav source.kind channel item. Then validate, lint, and build.
+```bash
+npm run validate
+npm run build
+```
 
-Only then does getRouteChannels emit /youtube. Instagram is the same pattern with instagram.json.
+## 8. Expected result
 
-Do not invent videos or posts. JSON snippets live in OPERATIONS.md.
+`/youtube` returns 200. Search can find the titles. Sitemap includes `/youtube`. Instagram stays hidden.
 
-## COMPLETE EXAMPLE
+## 9. Common errors
 
-
-# YouTube and Instagram
-
-
-Both channels exist in platform.json social[] and as contentTypes with status coming-soon. media JSON files are empty arrays. Direct /youtube and /instagram 404. They are not in nav, homepage, search, or sitemap.
-
-After the first real YouTube video: add a real object to content/media/youtube.json with id, title, publishedAt, and url. Set social id youtube status to active. Set contentTypes id youtube status to active. Optionally add a channel-grid section or a nav source.kind channel item. Then validate, lint, and build.
-
-Only then does getRouteChannels emit /youtube. Instagram is the same pattern with instagram.json.
-
-Do not invent videos or posts. JSON snippets live in OPERATIONS.md.
-
-## VALIDATION
-
-
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
-
-## COMMON MISTAKES
-
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
-
-## TROUBLESHOOTING
-
-
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
-
-## HOW TO UNDO
-
-
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+Validate: placeholder URL or active-with-zero-content.

@@ -4,6 +4,8 @@ import { getPlatformConfig, getRawCourseConfigs } from "./config";
 import { getPublishedContent } from "./content";
 import { getAllCourses } from "./lessons";
 import { getChannelItems } from "./media";
+import { getProgram } from "./programs";
+import { hrefForCourse } from "./course-href";
 
 let _catalog: PlatformCatalog | null = null;
 
@@ -20,6 +22,7 @@ export function getLiveCatalog(): PlatformCatalog {
 
 export function buildLiveCatalog(): PlatformCatalog {
   const platform = getPlatformConfig();
+  const program = getProgram();
   const published = getPublishedContent();
   const topicContentCounts: Record<string, number> = {};
   const formatContentCounts: Record<string, number> = {};
@@ -44,10 +47,11 @@ export function buildLiveCatalog(): PlatformCatalog {
 
   const liveCourses = getAllCourses();
   const courses = getRawCourseConfigs().map((course) => {
-    const live = liveCourses.find((c) => c.id === course.id || c.slug === course.slug);
+    const live = liveCourses.find((item) => item.id === course.id);
     return {
       ...course,
       lessonCount: live?.totalLessons ?? 0,
+      href: hrefForCourse(course, live, program),
     };
   });
 

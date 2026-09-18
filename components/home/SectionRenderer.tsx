@@ -6,6 +6,14 @@ import ContentList from "./ContentList";
 import ChannelGrid from "./ChannelGrid";
 import ContinueLearning from "./ContinueLearning";
 import CallToAction from "./CallToAction";
+import ProseSection from "./ProseSection";
+import ProgramHighlight from "./ProgramHighlight";
+import PhaseStrip from "./PhaseStrip";
+import MethodSection from "./MethodSection";
+import PathAhead from "./PathAhead";
+import WhySection from "./WhySection";
+import TodaySection from "./TodaySection";
+import DestinationsSection from "./DestinationsSection";
 import type { Course } from "@/lib/lessons";
 import type { TopicConfig, SocialPlatform } from "@/lib/config";
 import type { UniversalContentItem } from "@/lib/content";
@@ -57,6 +65,27 @@ export default function SectionRenderer({
       return <ContinueLearning courses={(section.data.courses as Course[]) || []} />;
     case "cta":
       return <CallToAction section={section} />;
+    case "prose":
+      return <ProseSection section={section} />;
+    case "program":
+      return <ProgramHighlight section={section} />;
+    case "phases":
+      return <PhaseStrip section={section} />;
+    case "method":
+      return <MethodSection section={section} />;
+    case "path":
+      return <PathAhead section={section} />;
+    case "why":
+      return <WhySection section={section} />;
+    case "today":
+      return <TodaySection section={section} />;
+    case "destinations":
+      return (
+        <DestinationsSection
+          section={section}
+          destinations={(section.data.destinations as SocialPlatform[]) || []}
+        />
+      );
     default:
       return null;
   }

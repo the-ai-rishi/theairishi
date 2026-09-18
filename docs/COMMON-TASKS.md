@@ -17,7 +17,7 @@ When you already know the job and need the snippet. For theory and edge cases, f
 ## WHERE
 
 - Config: `content/config/platform.json`, `content/config/courses.json`
-- Lessons: `content/lessons`, `content/courses/devops`
+- Lessons: `content/lessons` only (public `/learn` pages)
 - Guides: `content/guides`
 - Projects: `content/projects`
 - Media: `content/media/youtube.json`, `content/media/instagram.json`
@@ -52,7 +52,7 @@ Full doc: [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md). Article alias: [CONTEN
 
 ### Add a lesson
 
-AI path: new file under `content/lessons/`. DevOps path: new file under `content/courses/devops/`. Template: `templates/lesson-template.md`. `course` must match a `courses.json` id. `topic` must match a `topics[]` id. Live AI course id `ai`, DevOps course id `devops`. 15 AI lessons exist; the template uses lesson 16 for the next AI lesson.
+AI path and DevOps archive notes: new file under `content/lessons/`. Daily program days: `content/lessons/day-NN.md`. Template: `templates/lesson-template.md`. `course` must match a `courses.json` id. `topic` must match a `topics[]` id. Do not put lessons in `content/courses/`.
 
 ```yaml
 ---
@@ -122,16 +122,16 @@ File: `content/config/platform.json` `copy`. Live values:
 
 ```json
 {
-  "heroBadge": "Knowledge · Systems · Building",
-  "heroTitle": "The AI Rishi",
-  "heroTagline": "Learn. Build. Stay Ahead.",
-  "heroDescription": "A long-term technology and knowledge platform. Today you can learn AI and DevOps from first principles, read essays, and study a public lab.",
-  "heroPrimaryCta": "Start learning",
-  "heroPrimaryCtaHref": "/learn",
-  "heroSecondaryCta": "Read a guide",
-  "heroSecondaryCtaHref": "/guides"
+  "heroBadge": "Current program",
+  "heroDescription": "A structured path from Linux and Git through cloud, CI/CD, containers, Kubernetes, and production engineering.",
+  "heroPrimaryCta": "Start Day 1",
+  "heroPrimaryCtaHref": "/learn/day-01",
+  "heroSecondaryCta": "Explore the 120-day plan",
+  "heroSecondaryCtaHref": "/learn"
 }
 ```
+
+The visible hero title is the current program name from `programs.json`. Omit `copy.heroTitle` and `copy.heroTagline`.
 
 Full doc: [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md).
 
@@ -214,35 +214,45 @@ Full doc: [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md).
 
 ### Instagram
 
-Same pattern as YouTube. Live: `content/media/instagram.json` is `[]`, ids `instagram`, href /instagram, /instagram 404s. Do not invent posts.
+Instagram is a live **external** profile, not an on-site feed.
 
-After a real post exists, add an object to instagram.json (`id`, `title`, `publishedAt`, `url` or `instagramUrl`), then set `social` id instagram and `contentTypes` id instagram to `status` `active`:
+File: `content/config/platform.json` `social[]` id `instagram`.
+URL: `https://www.instagram.com/theairishi/`.
+`/instagram` 404s on purpose. `content/media/instagram.json` stays `[]`. Do not invent posts.
 
-```json
-{
-  "id": "instagram",
-  "href": "/instagram",
-  "status": "active"
-}
-```
+To hide it: `"enabled": false`. To change the URL: edit `url` only.
 
 Full doc: [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md).
 
+### Telegram
+
+Enabled now with a documented temporary URL: `https://example.com/the-ai-rishi-telegram`. That is **not** a real community. Footer / About / destinations show it as a placeholder. It is not in JSON-LD `sameAs`.
+
+When the real group exists: paste `https://t.me/...` into `social[]` id `telegram` `url`, keep `enabled: true`, optionally set `includeInSameAs: true`, then `npm run validate`. No React.
+
+Full doc: [FEATURES/TELEGRAM.md](./FEATURES/TELEGRAM.md).
+
+### GitHub
+
+Hidden. `social[]` id `github` is `enabled: false`. The URL stays in config so you can turn it on later without a rewrite.
+
+Full doc: [CONFIGURATION/SOCIAL-CONFIGURATION.md](./CONFIGURATION/SOCIAL-CONFIGURATION.md).
+
 ### Change nav
 
-File: `content/config/platform.json` `navigation.main` and `navigation.footer`. Header cap 5; overflow disclosure is **More**. Header CTA is `copy.headerCta` Explore, `copy.headerCtaHref` /#explore (not a sixth nav item). Live main items:
+File: `content/config/platform.json` `navigation.main` and `navigation.footer`. Header shows the first 3 enabled items; overflow disclosure is **Explore**. Header CTA is `copy.headerCta` Start Day 1, `copy.headerCtaHref` /learn/day-01 (not a sixth nav item). Live main items:
 
 ```json
 [
-  { "id": "home", "label": "Home", "href": "/", "enabled": true, "order": 1, "status": "active" },
-  { "id": "learn", "label": "Learn", "enabled": true, "order": 2, "status": "active", "source": { "kind": "contentType", "id": "learn" } },
-  { "id": "guides", "label": "Guides", "enabled": true, "order": 3, "status": "active", "source": { "kind": "contentType", "id": "guides" } },
-  { "id": "projects", "label": "Projects", "enabled": true, "order": 4, "status": "active", "source": { "kind": "contentType", "id": "projects" } },
-  { "id": "about", "label": "About", "href": "/about", "enabled": true, "order": 5, "status": "active" }
+  { "id": "start", "label": "Start", "href": "/learn/day-01", "enabled": true, "order": 1, "status": "active", "placement": "primary" },
+  { "id": "plan", "label": "120 Days", "href": "/learn", "enabled": true, "order": 2, "status": "active" },
+  { "id": "about", "label": "About", "href": "/about", "enabled": true, "order": 3, "status": "active" },
+  { "id": "guides", "label": "Guides", "href": "/guides", "enabled": true, "order": 4, "status": "active", "source": { "kind": "contentType", "id": "guides" } },
+  { "id": "projects", "label": "Projects", "href": "/projects", "enabled": true, "order": 5, "status": "active", "source": { "kind": "contentType", "id": "projects" } }
 ]
 ```
 
-To drop Learn from the bar: set that object `enabled` false (or hide contentTypes id learn). A sixth enabled main item goes into More, not a sixth header slot.
+To drop Start from the bar: set that object `enabled` false. Guides and Projects sit in Explore, not a fourth header slot.
 
 Full doc: [CONFIGURATION/NAVIGATION-CONFIGURATION.md](./CONFIGURATION/NAVIGATION-CONFIGURATION.md).
 

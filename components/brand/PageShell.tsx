@@ -20,14 +20,12 @@ export default function PageShell({
   showSearch = true,
 }: PageShellProps) {
   return (
-    <main className="flex min-h-screen flex-col bg-ink text-cream/90 selection:bg-gold/25 selection:text-ink">
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-12%] top-[-18%] h-[620px] w-[620px] rounded-full bg-gold/[0.055] blur-[150px]" />
-        <div className="absolute right-[-16%] top-[28%] h-[540px] w-[540px] rounded-full bg-circuit/[0.07] blur-[150px]" />
-      </div>
+    <div className="flex min-h-screen flex-col bg-ink text-cream/90">
       <Header navItems={navItems} brand={brand} copy={copy} showSearch={showSearch} />
-      <div id="main-content" className="flex-1" tabIndex={-1}>{children}</div>
+      <main id="main-content" className="flex-1" tabIndex={-1}>
+        {children}
+      </main>
       <Footer navItems={footerNav} brand={brand} copy={copy} />
-    </main>
+    </div>
   );
 }

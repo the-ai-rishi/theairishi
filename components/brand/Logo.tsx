@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { BrandConfig } from "@/lib/config";
+import BrandMark from "./BrandMark";
 
 interface LogoProps {
   brand?: BrandConfig;
@@ -13,27 +13,14 @@ export default function Logo({
   brand,
   variant = "horizontal",
   className = "",
-  priority = false,
 }: LogoProps) {
   const name = brand?.name || "The AI Rishi";
   const label = brand?.logoAlt || name;
-  const lockup = brand?.logo || "/brand/logo-horizontal.png";
 
   if (variant === "mark") {
     return (
-      <Link
-        href="/"
-        aria-label={label}
-        className={`inline-flex items-center ${className}`}
-      >
-        <Image
-          src={lockup}
-          alt=""
-          width={1200}
-          height={630}
-          className="h-8 w-auto object-contain"
-          priority={priority}
-        />
+      <Link href="/" aria-label={`${label}, home`} className={`inline-flex items-center ${className}`}>
+        <BrandMark className="h-8 w-8 text-gold" />
       </Link>
     );
   }
@@ -41,10 +28,11 @@ export default function Logo({
   return (
     <Link
       href="/"
-      aria-label={label}
-      className={`inline-flex items-center ${className}`}
+      aria-label={`${label}, home`}
+      className={`inline-flex min-w-0 items-center gap-2 sm:gap-2.5 ${className}`}
     >
-      <span className="font-serif text-lg tracking-[0.02em] text-cream sm:text-xl">
+      <BrandMark className="h-6 w-6 shrink-0 text-gold sm:h-7 sm:w-7" />
+      <span className="truncate font-serif text-[15px] leading-none tracking-[0.02em] text-cream sm:text-xl">
         {name}
       </span>
     </Link>

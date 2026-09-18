@@ -127,7 +127,7 @@ export default function MobileLessonMenu({
                           <span
                             className={`mt-0.5 shrink-0 ${
                               completed
-                                ? "text-emerald-400"
+                                ? "text-gold"
                                 : isCurrent
                                   ? "text-gold"
                                   : "text-cream/20"

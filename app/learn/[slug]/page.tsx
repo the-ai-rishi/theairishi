@@ -6,7 +6,10 @@ import { notFound } from "next/navigation";
 import SearchModal from "@/components/search/SearchModal";
 import Footer from "@/components/layout/Footer";
 import Logo from "@/components/brand/Logo";
+import ExistingNotesNote from "@/components/content/ExistingNotesNote";
 import { getBrandConfig, getFooterNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
+import { articleJsonLd } from "@/lib/seo";
+import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 
 import LessonHeader from "@/components/learning/LessonHeader";
 import LessonNavigation from "@/components/learning/LessonNavigation";
@@ -26,6 +29,8 @@ interface LessonPageProps {
   }>;
 }
 
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   if (!isContentTypeRoutable("learn")) return [];
   return getAllLessonSlugs().map((slug) => ({ slug }));
@@ -39,13 +44,11 @@ export async function generateMetadata({
   const brand = getBrandConfig();
 
   if (!lesson) {
-    return {
-      title: `Lesson Not Found | ${brand.name}`,
-    };
+    notFound();
   }
 
   const courseTitle = lesson.metadata.courseTitle || "Course";
-  const title = `${lesson.metadata.title} · ${lesson.metadata.stage} | ${courseTitle} | ${brand.name}`;
+  const title = `${lesson.metadata.title} · ${lesson.metadata.stage}`;
   const description = lesson.metadata.description;
 
   return {
@@ -72,9 +75,7 @@ export async function generateMetadata({
       title,
       description,
     },
-    alternates: {
-      canonical: `/learn/${slug}`,
-    },
+    alternates: canonicalAlternates(`/learn/${slug}`),
   };
 }
 
@@ -91,37 +92,21 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
   const footerNav = getFooterNavigation();
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: lesson.metadata.title,
+  const jsonLd = articleJsonLd({
+    title: lesson.metadata.title,
     description: lesson.metadata.description,
-    author: {
-      "@type": "Person",
-      name: brand.name,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: brand.name,
-      description: brand.tagline,
-    },
-  };
+    url: canonicalUrl(`/learn/${slug}`),
+  });
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-20">
-      {/* Structured data */}
+    <main id="main-content" className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-12%] top-[-18%] h-[520px] w-[520px] rounded-full bg-gold/[0.05] blur-[140px]" />
-        <div className="absolute right-[-16%] top-[30%] h-[480px] w-[480px] rounded-full bg-circuit/[0.06] blur-[140px]" />
-      </div>
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true" />
 
-      {/* Header */}
       <header className="sticky top-0 z-30 border-b border-hairline bg-ink/85 backdrop-blur-md">
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo brand={brand} variant="horizontal" priority />
@@ -133,13 +118,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
               className="inline-flex items-center gap-2 border border-hairline px-4 py-2 font-mono text-xs text-cream/60 transition hover:text-cream"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              <span>Learning Hub</span>
+              <span>120 Days</span>
             </Link>
           </div>
         </nav>
       </header>
 
-      {/* Lesson Header Banner */}
       <LessonHeader
         courseTitle={lessonContext.course.title}
         stageNumber={lessonContext.stage.number}
@@ -149,21 +133,25 @@ export default async function LessonPage({ params }: LessonPageProps) {
         lessonNumber={lessonContext.lessonIndex + 1}
         totalLessons={lessonContext.totalLessonsInStage}
         readingTime={lesson.readingTime}
+        day={lesson.metadata.day}
       />
 
-      {/* Lesson Content Area & Sidebar */}
+      {lesson.metadata.topic ? (
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <ExistingNotesNote topicKey={lesson.metadata.topic} />
+        </div>
+      ) : null}
+
       <section className="border-y border-hairline">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-[1fr_280px] lg:px-8">
           <div className="space-y-12">
             <LessonContent content={lesson.content} />
 
-            {/* Interactive Completion Trigger */}
             <LessonCompletionButton
               slug={lesson.slug}
               nextSlug={lessonContext.next?.slug ?? null}
             />
 
-            {/* Previous & Next Navigation (Scoped to Course) */}
             <LessonNavigation
               previous={lessonContext.previous}
               next={lessonContext.next}
@@ -171,7 +159,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
             />
           </div>
 
-          {/* Desktop Sticky Sidebar (Scoped to Course) */}
           <LessonSidebar
             courseTitle={lessonContext.course.title}
             stage={lessonContext.stage.name}
@@ -183,7 +170,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
         </div>
       </section>
 
-      {/* Mobile Syllabus Menu */}
       <MobileLessonMenu
         courseTitle={lessonContext.course.title}
         stage={lessonContext.stage.name}
@@ -192,7 +178,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
         courseStages={lessonContext.course.stages}
       />
 
-      {/* Footer */}
       <Footer navItems={footerNav} brand={brand} copy={copy} />
     </main>
   );

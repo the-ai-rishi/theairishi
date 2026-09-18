@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 const vis = require("../lib/visibility-core");
+const social = require("../lib/social");
+const { runFutureOperationsTests } = require("./future-operations-test");
 
 const platformPath = path.join(__dirname, "..", "content", "config", "platform.json");
 
@@ -117,6 +119,22 @@ function enableChannelGrid(platform) {
   });
 }
 
+function enableTopicGrid(platform) {
+  const existing = (platform.homepage.sections || []).find((section) => section.type === "topic-grid");
+  if (existing) {
+    existing.enabled = true;
+    return;
+  }
+  platform.homepage.sections.push({
+    id: "topics-test",
+    type: "topic-grid",
+    enabled: true,
+    order: 50,
+    title: "The field",
+    showWhenEmpty: false,
+  });
+}
+
 function runScenarioTests() {
   const originalRaw = fs.readFileSync(platformPath, "utf8");
   const live = JSON.parse(originalRaw);
@@ -129,8 +147,14 @@ function runScenarioTests() {
   try {
     // ── Test 1: only one active topic with content ──────────────────────────
     const t1 = clone(live);
+    enableTopicGrid(t1);
     for (const topic of t1.topics) {
-      if (topic.id === "ai") continue;
+      if (topic.id === "ai") {
+        topic.enabled = true;
+        topic.status = "active";
+        topic.showOnHomepage = true;
+        continue;
+      }
       topic.enabled = false;
       topic.status = "disabled";
       topic.showOnHomepage = false;
@@ -173,6 +197,7 @@ function runScenarioTests() {
 
     // ── Test 2: disable a topic that had content ────────────────────────────
     const t2 = clone(live);
+    enableTopicGrid(t2);
     const devops2 = t2.topics.find((t) => t.id === "devops");
     devops2.enabled = false;
     devops2.status = "disabled";
@@ -221,6 +246,7 @@ function runScenarioTests() {
 
     // ── Test 4: rename topic name and slug ──────────────────────────────────
     const t4 = clone(live);
+    enableTopicGrid(t4);
     const devops4 = t4.topics.find((t) => t.id === "devops");
     devops4.slug = "full-stack-engineering";
     devops4.name = "Full Stack Engineering";
@@ -245,6 +271,7 @@ function runScenarioTests() {
 
     // ── Test 5: add python as active with content ───────────────────────────
     const t5 = clone(live);
+    enableTopicGrid(t5);
     t5.topics.push({
       id: "python",
       slug: "python",
@@ -421,13 +448,46 @@ function runScenarioTests() {
     const liveHome = vis.resolveHomepageSections(live, liveCat).sections;
     const liveNav = vis.resolveNavItems(live, liveCat, "main");
     const liveGrid = topicGrid(liveHome);
+    const liveHomeTopics = vis.publicTopics(live, liveCat, "homepage");
+    const liveHomeTypes = liveHome.map((section) => section.type);
     check(
-      liveGrid.some((t) => t.id === "ai") && liveGrid.some((t) => t.id === "devops"),
-      "Production: topic-grid includes AI and DevOps"
+      liveHomeTypes.includes("hero") &&
+        liveHomeTypes.includes("program") &&
+        liveHomeTypes.includes("phases") &&
+        liveHomeTypes.includes("why") &&
+        liveHomeTypes.includes("today") &&
+        liveHomeTypes.includes("method") &&
+        liveHomeTypes.includes("path"),
+      "Production: homepage is learner-first (hero/program/phases/why/today/method/path)"
     );
     check(
-      liveGrid.every((t) => t.id === "ai" || t.id === "devops"),
-      "Production: topic-grid does not include empty planned topics"
+      !liveHome.some((s) => s.type === "topic-grid"),
+      "Production: topic-grid stays off the live homepage"
+    );
+    check(liveGrid.length === 0, "Production: resolved topic-grid is empty because it is disabled");
+    check(
+      liveHomeTopics.some((t) => t.id === "devops"),
+      "Production: DevOps is a homepage topic"
+    );
+    check(
+      !liveHomeTopics.some((t) => t.id === "ai"),
+      "Production: AI is not a homepage topic"
+    );
+    check(
+      liveHomeTopics.every((t) => t.id === "devops"),
+      "Production: homepage topics do not include empty planned areas"
+    );
+    check(
+      liveNav.some((item) => item.href === "/learn/day-01") &&
+        liveNav.some((item) => item.href === "/learn") &&
+        liveNav.some((item) => item.href === "/about"),
+      "Production: nav is Start / 120 Days / About"
+    );
+    check(
+      liveNav.some((item) => item.href === "/guides") &&
+        liveNav.some((item) => item.href === "/projects") &&
+        liveNav.every((item) => item.href !== "/topics/ai"),
+      "Production: Guides and Projects are in nav; AI topic is not"
     );
     check(
       liveNav.every((item) => !String(item.href).includes("/topics/updates")),
@@ -463,6 +523,31 @@ function runScenarioTests() {
     check(
       vis.channelRouteState(live, "youtube", liveCat).state === "not-found",
       "Production: direct /youtube while coming-soon is not-found"
+    );
+    check(
+      vis.channelRouteState(live, "instagram", liveCat).state === "not-found",
+      "Production: Instagram is not a site route"
+    );
+    check(
+      social.publicDestinations(live).some((ch) => ch.id === "instagram"),
+      "Production: Instagram is a public external destination"
+    );
+    check(
+      social.publicDestinations(live).some((ch) => ch.id === "telegram"),
+      "Production: Telegram placeholder is a public destination"
+    );
+    check(
+      !social.publicDestinations(live).some((ch) => ch.id === "github"),
+      "Production: GitHub is hidden while disabled"
+    );
+    check(
+      social.sameAsUrls(live).length === 1 &&
+        social.INSTAGRAM_PROFILE_RE.test(social.sameAsUrls(live)[0]),
+      "Production: JSON-LD sameAs is Instagram only"
+    );
+    check(
+      liveHome.some((s) => s.type === "destinations"),
+      "Production: destinations section is on the homepage"
     );
 
     // ── Test 10: planned/coming-soon YouTube has no public route ────────────
@@ -591,6 +676,259 @@ function runScenarioTests() {
       vis.contentTypeRouteState(t13, "learn").state === "not-found",
       "Test 13: enabled-false learn is not-found"
     );
+
+    check(
+      liveNav.some((item) => item.label === "Start") &&
+        liveNav.some((item) => item.label === "120 Days") &&
+        liveNav.some((item) => item.label === "About") &&
+        liveNav.every((item) => item.label !== "Journey"),
+      "Production: nav labels are Start / 120 Days / About, not Journey"
+    );
+    check(
+      !Object.prototype.hasOwnProperty.call(live.copy, "heroTitle"),
+      "Production: unused copy.heroTitle is omitted; the hero uses the program title"
+    );
+    check(
+      !Object.prototype.hasOwnProperty.call(live.copy, "heroTagline"),
+      "Production: unused copy.heroTagline is omitted"
+    );
+    check(
+      live.copy.heroBadge !== live.brand.name,
+      "Production: hero does not repeat the brand name"
+    );
+    check(
+      !Object.prototype.hasOwnProperty.call(live.brand, "lineage"),
+      "Production: brand.lineage is absent"
+    );
+    check(
+      !Object.prototype.hasOwnProperty.call(live.brand, "tagline") ||
+        (typeof live.brand.tagline === "string" && live.brand.tagline.trim().length > 0),
+      "Production: brand.tagline is omitted unless it is a real slogan"
+    );
+    check(
+      vis.getSitemapInputs(live, liveCat).items.every((item) => item.topicSlug !== "ai"),
+      "Production: sitemap items exclude the AI topic"
+    );
+
+    const liveSearch = vis.getSearchIndexInputs(live, liveCat);
+    check(
+      !liveSearch.topics.some((topic) => topic.id === "ai"),
+      "Production: AI topic is excluded from search by includeInSearch: false"
+    );
+    check(
+      !liveSearch.items.some((item) => item.topicSlug === "ai"),
+      "Production: AI notes are excluded from search items"
+    );
+    check(
+      vis.topicRouteState(live, "ai", liveCat).state === "active",
+      "Production: AI notes remain routable at their URLs"
+    );
+    check(
+      !vis.getSitemapInputs(live, liveCat).topicPaths.includes("/topics/ai"),
+      "Production: /topics/ai is omitted from the sitemap"
+    );
+
+    // ── Test 14: includeInSearch false hides topic from search, not routes ──
+    const t14 = clone(live);
+    const ai14 = t14.topics.find((topic) => topic.id === "ai");
+    ai14.includeInSearch = true;
+    ai14.includeInSitemap = true;
+    const search14on = vis.getSearchIndexInputs(t14, liveCat);
+    check(
+      search14on.topics.some((topic) => topic.id === "ai"),
+      "Test 14: includeInSearch true puts AI back in search topics"
+    );
+    ai14.includeInSearch = false;
+    ai14.includeInSitemap = false;
+    const search14off = vis.getSearchIndexInputs(t14, liveCat);
+    check(
+      !search14off.topics.some((topic) => topic.id === "ai"),
+      "Test 14: includeInSearch false removes AI from search topics"
+    );
+    check(
+      !search14off.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: includeInSearch false removes AI items from search"
+    );
+    check(
+      vis.topicRouteState(t14, "ai", liveCat).state === "active",
+      "Test 14: route for AI stays active when search is off"
+    );
+
+    ai14.includeInSearch = true;
+    ai14.includeInSitemap = false;
+    const mixed14 = vis.getSearchIndexInputs(t14, liveCat);
+    const mixed14map = vis.getSitemapInputs(t14, liveCat);
+    check(
+      mixed14.topics.some((topic) => topic.id === "ai"),
+      "Test 14: search can include a topic that the sitemap omits"
+    );
+    check(
+      mixed14.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: search items include AI when search is on and sitemap is off"
+    );
+    check(
+      !mixed14map.topicPaths.includes("/topics/ai"),
+      "Test 14: includeInSitemap false omits /topics/ai even if search is on"
+    );
+    check(
+      mixed14map.items.every((item) => item.topicSlug !== "ai"),
+      "Test 14: includeInSitemap false omits AI item URLs from the sitemap"
+    );
+
+    ai14.includeInSearch = false;
+    ai14.includeInSitemap = true;
+    const mixed14bSearch = vis.getSearchIndexInputs(t14, liveCat);
+    const mixed14bMap = vis.getSitemapInputs(t14, liveCat);
+    check(
+      !mixed14bSearch.topics.some((topic) => topic.id === "ai"),
+      "Test 14: search can omit a topic that the sitemap includes"
+    );
+    check(
+      !mixed14bSearch.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: search items omit AI when search is off and sitemap is on"
+    );
+    check(
+      mixed14bMap.topicPaths.includes("/topics/ai"),
+      "Test 14: includeInSitemap true lists /topics/ai even if search is off"
+    );
+    check(
+      mixed14bMap.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: sitemap items include AI when sitemap is on and search is off"
+    );
+
+    // ── Test 15: planned topic cannot leak into search or sitemap ───────────
+    const t15 = clone(live);
+    const cloud15 = t15.topics.find((topic) => topic.id === "cloud");
+    cloud15.includeInSearch = true;
+    cloud15.includeInSitemap = true;
+    cloud15.showOnHomepage = true;
+    cloud15.showInNavigation = true;
+    const cat15 = productionCatalog({ topicContentCounts: { ai: 15, devops: 2, cloud: 0 } });
+    check(
+      vis.normalizeStatus(cloud15.status) === "planned",
+      "Test 15: cloud stays planned"
+    );
+    check(
+      !vis.getSearchIndexInputs(t15, cat15).topics.some((topic) => topic.id === "cloud"),
+      "Test 15: planned cloud is absent from search"
+    );
+    check(
+      !vis.getSitemapInputs(t15, cat15).topicPaths.includes("/topics/cloud"),
+      "Test 15: planned cloud is absent from sitemap"
+    );
+    check(
+      vis.topicRouteState(t15, "cloud", cat15).state === "not-found",
+      "Test 15: planned cloud has no public route"
+    );
+
+    // ── Test 16: course href cannot point at another course ────────────────
+    const { hrefForCourse } = require("../lib/course-href");
+    const program16 = {
+      id: "devops-engineer-mastery",
+      slug: "devops-engineer-mastery",
+      startHref: "/learn/day-01",
+    };
+    const foreignLive = {
+      id: "devops-engineer-mastery",
+      stages: [{ lessons: [{ slug: "ai-fundamentals-01", metadata: { course: "ai" } }] }],
+    };
+    check(
+      hrefForCourse({ id: "devops-engineer-mastery", slug: "devops-engineer-mastery" }, foreignLive, program16) ===
+        "/learn/day-01",
+      "Test 16: program course always uses startHref, even if live first lesson belongs elsewhere"
+    );
+    check(
+      hrefForCourse(
+        { id: "ai", slug: "ai" },
+        { id: "ai", stages: [{ lessons: [{ slug: "ai-fundamentals-01", metadata: { course: "ai" } }] }] },
+        program16
+      ) === "/learn/ai-fundamentals-01",
+      "Test 16: a matching course may link its own first lesson"
+    );
+    check(
+      hrefForCourse(
+        { id: "ai", slug: "ai" },
+        { id: "ai", stages: [{ lessons: [{ slug: "day-01", metadata: { course: "devops-engineer-mastery" } }] }] },
+        program16
+      ) === "/learn",
+      "Test 16: a course cannot inherit another course's first lesson"
+    );
+    check(
+      hrefForCourse(
+        { id: "ai", slug: "ai" },
+        { id: "someone-else", stages: [{ lessons: [{ slug: "day-01", metadata: { course: "ai" } }] }] },
+        program16
+      ) === "/learn",
+      "Test 16: live course id must match the catalog course"
+    );
+
+    // ── Test 17: one publication predicate (gray-matter, not regex) ────────
+    const publish = require("../lib/lesson-publish");
+    const completeLesson =
+      "---\ntitle: Probe\ncourse: devops-engineer-mastery\nstage: Foundations\nlesson: 4\nstatus: published\n---\nbody\n";
+    check(
+      publish.isPublicLessonMarkdown(completeLesson) === true,
+      "Test 17: a complete published lesson is public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published\n", "")) === false,
+      "Test 17: omitted status is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown("---\nstatus: published\n---\nstatus: published in the body\n") === false,
+      "Test 17: a regex-only status match is not a public lesson"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published", "status: draft")) === false,
+      "Test 17: draft is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published", "enabled: false\nstatus: published")) ===
+        false,
+      "Test 17: enabled false is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published", "status: coming-soon")) === false,
+      "Test 17: coming-soon is not public"
+    );
+    check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("\ncourse: devops-engineer-mastery", "")) === false,
+      "Test 17: missing course is not public"
+    );
+    check(
+      publish.isLessonSourcePath("content/lessons/day-01.md") === true &&
+        publish.isLessonSourcePath("content/courses/devops/secret.md") === false,
+      "Test 17: only content/lessons/ is a lesson source path"
+    );
+
+    const mixedCatalog = {
+      "content/lessons/day-01.md": completeLesson.replace("lesson: 4", "lesson: 1"),
+      "content/courses/devops/secret-syllabus.md": completeLesson.replace("lesson: 4", "lesson: 99"),
+      "content/lessons/notes.md": "# just a note\nstatus: published\n",
+    };
+    const mixedSlugs = publish.collectPublishedLessonSlugs(mixedCatalog);
+    check(
+      mixedSlugs.includes("day-01") && !mixedSlugs.includes("secret-syllabus") && !mixedSlugs.includes("notes"),
+      "Test 17: generator slugs ignore content/courses and incomplete markdown"
+    );
+
+    // ── Test 18: static /learn segments require a real page file ───────────
+    const { collectStaticLearnSegments } = require("./generate-content-data");
+    const static18 = collectStaticLearnSegments(path.join(__dirname, ".."));
+    check(
+      static18.includes("ai-fundamentals"),
+      "Test 18: existing ai-fundamentals redirect page is a static learn segment"
+    );
+    check(
+      !static18.includes("[slug]"),
+      "Test 18: the dynamic [slug] folder is not a static learn segment"
+    );
+
+    const future = runFutureOperationsTests(live);
+    if (!future.ok) {
+      future.failures.forEach((f) => failures.push(f));
+    }
+
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -604,7 +942,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-13)");
+  console.log("SCENARIO TESTS PASSED (1-18 + future operations A-N)");
   return true;
 }
 

@@ -1,3 +1,3 @@
 # PROJECTS
 
-Moved. See FEATURES/PROJECTS.md. Start at START_HERE.md.
+Moved. See FEATURES/PROJECTS.md. Start at START-HERE.md.

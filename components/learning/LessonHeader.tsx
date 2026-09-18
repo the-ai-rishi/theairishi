@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { BookOpen, Check, ChevronRight, Clock, Share2 } from "lucide-react";
+import { formatDayLabel } from "@/lib/labels";
 
 interface LessonHeaderProps {
   courseTitle?: string;
@@ -13,6 +14,7 @@ interface LessonHeaderProps {
   lessonNumber: number;
   totalLessons: number;
   readingTime?: number;
+  day?: number;
 }
 
 export default function LessonHeader({
@@ -24,6 +26,7 @@ export default function LessonHeader({
   lessonNumber,
   totalLessons,
   readingTime = 4,
+  day,
 }: LessonHeaderProps) {
   const [copied, setCopied] = useState(false);
   const progress =
@@ -56,7 +59,7 @@ export default function LessonHeader({
             href="/learn"
             className="transition hover:text-cream hover:underline underline-offset-4"
           >
-            Learning Hub
+            120 Days
           </Link>
           {courseTitle && (
             <>
@@ -66,19 +69,21 @@ export default function LessonHeader({
           )}
           <ChevronRight className="h-3 w-3 text-cream/25 shrink-0" />
           <span className="text-cream/80 font-medium">
-            Stage {String(stageNumber).padStart(2, "0")} · {stage}
+            {day
+              ? `${formatDayLabel(day)} · ${stage}`
+              : `Stage ${stageNumber} · ${stage}`}
           </span>
         </nav>
 
         <button
           type="button"
           onClick={handleShare}
-          className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/45 hover:bg-white/[0.08] hover:text-cream transition cursor-pointer"
+          className="inline-flex items-center gap-1.5 border border-hairline bg-cream/[0.03] px-3 py-1 text-xs text-cream/45 hover:bg-cream/[0.08] hover:text-cream transition cursor-pointer"
         >
           {copied ? (
             <>
-              <Check className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-emerald-300">Link Copied!</span>
+              <Check className="h-3.5 w-3.5 text-gold" />
+              <span className="text-gold-bright">Link copied</span>
             </>
           ) : (
             <>
@@ -97,12 +102,12 @@ export default function LessonHeader({
         </div>
 
         <div className="inline-flex items-center gap-1.5 font-mono text-xs text-cream/45">
-          <Clock className="h-3.5 w-3.5 text-white/30" />
+          <Clock className="h-3.5 w-3.5 text-cream/30" />
           <span>{readingTime} min read</span>
         </div>
 
         <div className="inline-flex items-center gap-1.5 font-mono text-xs text-cream/45">
-          <BookOpen className="h-3.5 w-3.5 text-white/30" />
+          <BookOpen className="h-3.5 w-3.5 text-cream/30" />
           <span>Lesson {lessonNumber} of {totalLessons}</span>
         </div>
       </div>

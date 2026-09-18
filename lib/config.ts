@@ -2,6 +2,8 @@ import platformJson from "../content/config/platform.json";
 import coursesJson from "../content/config/courses.json";
 import seriesJson from "../content/config/series.json";
 import * as vis from "./visibility-core";
+import { collectPlatformConfigErrors } from "./platform-schema";
+import * as social from "./social";
 import type { LifecycleStatus, PlatformCatalog, Surface } from "./visibility-core";
 
 export type ContentStatus =
@@ -25,7 +27,8 @@ export interface BrandConfig {
   ogImage: string;
   faviconUrl: string;
   appleTouchIcon: string;
-  tagline: string;
+  /** Optional. The brand does not require a slogan. */
+  tagline?: string;
   description: string;
   url: string;
   email: string;
@@ -33,8 +36,10 @@ export interface BrandConfig {
 
 export interface CopyConfig {
   heroBadge: string;
-  heroTitle: string;
-  heroTagline: string;
+  /** Optional override. Omit it; the hero uses the current program title. */
+  heroTitle?: string;
+  /** Optional. Omit unless there is a real slogan. */
+  heroTagline?: string;
   heroDescription: string;
   heroPrimaryCta: string;
   heroPrimaryCtaHref: string;
@@ -45,9 +50,55 @@ export interface CopyConfig {
   footerCopyright: string;
 }
 
+export interface MethodStep {
+  n: string;
+  title: string;
+  body: string;
+}
+
+export interface StoryConfig {
+  whatTitle?: string;
+  whatBody?: string;
+  whyTitle?: string;
+  whyBody?: string;
+  whyGenerate?: string[];
+  whyStillNeed?: string[];
+  methodTitle?: string;
+  methodBody?: string;
+  methodSteps?: MethodStep[];
+  pathTitle?: string;
+  pathBody?: string;
+  communityTitle?: string;
+  communityBody?: string;
+}
+
+export interface AboutSectionConfig {
+  id: string;
+  title: string;
+  body: string;
+}
+
+export interface AboutConfig {
+  kicker?: string;
+  title: string;
+  intro: string;
+  sections: AboutSectionConfig[];
+}
+
+export interface FuturePathItem {
+  id: string;
+  label: string;
+  note?: string;
+  status: PlatformStatus;
+  href?: string;
+}
+
 export interface DefaultsConfig {
   topicSlug: string;
+  /** Public Person name for schema.org. Explicit operator choice — do not infer a private legal name. */
   authorName: string;
+  authorUrl?: string;
+  sameAs?: string[];
   contentDate: string;
 }
 
@@ -66,6 +117,12 @@ export interface TopicConfig {
   showOnHomepage: boolean;
   showInNavigation: boolean;
   status: PlatformStatus;
+  /** When false, published URLs stay live but the topic is omitted from search. Default true. */
+  includeInSearch?: boolean;
+  /** When false, published URLs stay live but the topic is omitted from the sitemap. Default true. */
+  includeInSitemap?: boolean;
+  searchBadge?: string;
+  discoveryNote?: string;
   /** Hydrated at homepage resolve from catalog.topicContentCounts. Not a JSON field. */
   contentCount?: number;
 }
@@ -84,6 +141,8 @@ export interface NavItem {
   status?: PlatformStatus;
   source?: NavSource;
   showInNavigation?: boolean;
+  placement?: "primary" | "explore";
+  external?: boolean;
 }
 
 export type HomepageSectionType =
@@ -93,7 +152,15 @@ export type HomepageSectionType =
   | "content-list"
   | "channel-grid"
   | "continue-learning"
-  | "cta";
+  | "cta"
+  | "prose"
+  | "program"
+  | "phases"
+  | "method"
+  | "path"
+  | "why"
+  | "today"
+  | "destinations";
 
 export type ContentSource =
   | { kind: "recent" }
@@ -103,7 +170,7 @@ export type ContentSource =
 
 export interface HomepageSection {
   id: string;
-  type: HomepageSectionType | string;
+  type: HomepageSectionType;
   enabled: boolean;
   order: number;
   title?: string;
@@ -113,6 +180,8 @@ export interface HomepageSection {
   source?: ContentSource;
   maxItems?: number;
   showWhenEmpty?: boolean;
+  bodyKey?: string;
+  body?: string;
   /** @deprecated Use source.kind = topic. Kept so old JSON does not explode the parser. */
   topicId?: string;
 }
@@ -120,16 +189,29 @@ export interface HomepageSection {
 export interface SocialPlatform {
   id: string;
   label: string;
-  href: string;
+  /** Internal site path for media listings. Omit for external destinations. */
+  href?: string;
+  /** @deprecated Not a live field. Validation rejects a non-empty value — use `url`. */
   externalUrl?: string;
+  /** Outbound https URL. Empty string is allowed while the channel is disabled. */
+  url?: string;
+  kind?: "external" | "internal";
+  role?: "discovery" | "community" | "media" | "code";
   enabled: boolean;
   status: PlatformStatus;
   order: number;
   displayName?: string;
   description?: string;
   badge?: string;
+  ctaLabel?: string;
   showOnHomepage?: boolean;
   showInNavigation?: boolean;
+  showInFooter?: boolean;
+  showInHeader?: boolean;
+  showOnAbout?: boolean;
+  includeInSameAs?: boolean;
+  /** Optional. Telegram may use the documented placeholder URL; inferred from url if omitted. */
+  temporary?: boolean;
 }
 
 export type ContentTypeCategory = string;
@@ -186,6 +268,9 @@ export interface PlatformConfig {
   brand: BrandConfig;
   copy: CopyConfig;
   defaults: DefaultsConfig;
+  story?: StoryConfig;
+  about?: AboutConfig;
+  futurePath?: FuturePathItem[];
   topics: TopicConfig[];
   contentTypes: ContentTypeConfig[];
   navigation: {
@@ -199,62 +284,10 @@ export interface PlatformConfig {
 }
 
 function validatePlatformConfig(raw: unknown, filePath: string): PlatformConfig {
-  if (!raw || typeof raw !== "object") {
-    throw new Error(`[config] ${filePath}: must be a JSON object`);
+  const errors = collectPlatformConfigErrors(raw, vis);
+  if (errors.length) {
+    throw new Error(`[config] ${filePath}: ${errors[0]}`);
   }
-  const cfg = raw as Record<string, unknown>;
-
-  if (!cfg.brand || typeof cfg.brand !== "object") {
-    throw new Error(`[config] ${filePath}: "brand" section is required`);
-  }
-  const brand = cfg.brand as Record<string, unknown>;
-  if (!brand.name || !brand.logo || !brand.tagline) {
-    throw new Error(`[config] ${filePath}: brand requires name, logo, and tagline`);
-  }
-
-  if (!Array.isArray(cfg.topics)) {
-    throw new Error(`[config] ${filePath}: "topics" must be an array`);
-  }
-
-  const topicIds = new Set<string>();
-  const topicSlugs = new Set<string>();
-  for (const t of cfg.topics as TopicConfig[]) {
-    if (!t.id || !t.slug || !t.name) {
-      throw new Error(
-        `[config] Topic missing required fields (id, slug, name): ${JSON.stringify(t)}`
-      );
-    }
-    if (topicIds.has(t.id)) {
-      throw new Error(`[config] Duplicate topic id: "${t.id}"`);
-    }
-    if (topicSlugs.has(t.slug)) {
-      throw new Error(`[config] Duplicate topic slug: "${t.slug}"`);
-    }
-    topicIds.add(t.id);
-    topicSlugs.add(t.slug);
-    if (t.status && !vis.isValidLifecycle(t.status)) {
-      throw new Error(`[config] Topic "${t.id}" has invalid status: "${t.status}"`);
-    }
-  }
-
-  const nav = cfg.navigation as PlatformConfig["navigation"];
-  if (!nav?.main || !Array.isArray(nav.main)) {
-    throw new Error(`[config] ${filePath}: "navigation.main" must be an array`);
-  }
-
-  const homepage = cfg.homepage as PlatformConfig["homepage"];
-  if (!homepage?.sections || !Array.isArray(homepage.sections)) {
-    throw new Error(`[config] ${filePath}: "homepage.sections" must be an array`);
-  }
-  const sectionIds = new Set<string>();
-  for (const s of homepage.sections as HomepageSection[]) {
-    if (!s.id) throw new Error(`[config] Homepage section missing id`);
-    if (sectionIds.has(s.id)) {
-      throw new Error(`[config] Duplicate homepage section id: "${s.id}"`);
-    }
-    sectionIds.add(s.id);
-  }
-
   return raw as PlatformConfig;
 }
 
@@ -263,6 +296,7 @@ function validateCoursesConfig(raw: unknown, filePath: string): CourseConfig[] {
     throw new Error(`[config] ${filePath}: must be a JSON array`);
   }
   const ids = new Set<string>();
+  const slugs = new Set<string>();
   for (const c of raw as CourseConfig[]) {
     if (!c.id || !c.slug || !c.title) {
       throw new Error(
@@ -272,7 +306,14 @@ function validateCoursesConfig(raw: unknown, filePath: string): CourseConfig[] {
     if (ids.has(c.id)) {
       throw new Error(`[config] Duplicate course id: "${c.id}"`);
     }
+    if (slugs.has(c.slug)) {
+      throw new Error(`[config] Duplicate course slug: "${c.slug}"`);
+    }
     ids.add(c.id);
+    slugs.add(c.slug);
+    if (c.status && !vis.isValidLifecycle(c.status)) {
+      throw new Error(`[config] Course "${c.id}" has invalid status: "${c.status}"`);
+    }
   }
   return raw as CourseConfig[];
 }
@@ -292,6 +333,11 @@ function validateSeriesConfig(raw: unknown): SeriesConfig[] {
       throw new Error(`[config] Duplicate series id: "${s.id}"`);
     }
     ids.add(s.id);
+    if (s.enabled === true) {
+      throw new Error(
+        `[config] Series "${s.id}" is enabled, but the site has no series UI. Keep series.json entries enabled: false until a series surface exists.`
+      );
+    }
   }
   return raw as SeriesConfig[];
 }
@@ -374,16 +420,27 @@ export function getPlatformCopy(): CopyConfig {
   return loadPlatformConfig().copy;
 }
 
+export function getPlatformStory(): StoryConfig {
+  return loadPlatformConfig().story || {};
+}
+
+export function getAboutConfig(): AboutConfig | null {
+  return loadPlatformConfig().about || null;
+}
+
+export function getFuturePath(): FuturePathItem[] {
+  return (loadPlatformConfig().futurePath || []).filter((item) => {
+    const status = vis.normalizeStatus(item.status);
+    return status !== "disabled" && status !== "archived" && status !== "paused";
+  });
+}
+
 export function getDefaultsConfig(): DefaultsConfig {
   const cfg = loadPlatformConfig();
-  const brand = cfg.brand;
-  return (
-    cfg.defaults ?? {
-      topicSlug: "",
-      authorName: brand?.name || "",
-      contentDate: "",
-    }
-  );
+  if (!cfg.defaults || !cfg.defaults.authorName) {
+    throw new Error("[config] defaults.authorName is required. It is an explicit Person name, not inferred from the brand.");
+  }
+  return cfg.defaults;
 }
 
 /**
@@ -403,7 +460,7 @@ export function getDefaultTopicSlug(): string | null {
 }
 
 export function getDefaultAuthorName(): string {
-  return getDefaultsConfig().authorName || getBrandConfig().name;
+  return getDefaultsConfig().authorName;
 }
 
 export function getConfiguredTopics(): TopicConfig[] {
@@ -450,7 +507,6 @@ export function getTopicBySlug(slug: string): TopicConfig | null {
   return state.topic as unknown as TopicConfig;
 }
 
-
 export function isContentTypeRoutable(id: string): boolean {
   return vis.contentTypeRouteState(loadPlatformConfig(), id).state === "active";
 }
@@ -481,7 +537,7 @@ export function getHomepageSections(): HomepageSection[] {
     .resolveHomepageSections(loadPlatformConfig(), liveCatalog())
     .sections.map((s) => ({
       id: s.id,
-      type: s.type,
+      type: s.type as HomepageSectionType,
       enabled: s.enabled,
       order: s.order ?? 99,
       title: s.title,
@@ -502,6 +558,21 @@ export function getSocialPlatform(id: string): SocialPlatform | null {
   const state = vis.channelRouteState(loadPlatformConfig(), id, liveCatalog());
   if (state.state === "not-found") return null;
   return state.channel as unknown as SocialPlatform;
+}
+
+/** Outbound profiles from social[]. Never a fake /instagram page. GitHub is config-only while disabled. */
+export function getPublicDestinations(
+  surface?: "footer" | "homepage" | "header" | "about"
+): SocialPlatform[] {
+  return social.publicDestinations(loadPlatformConfig(), surface) as unknown as SocialPlatform[];
+}
+
+export function getDestinationUrl(channel: SocialPlatform | null | undefined): string {
+  return social.destinationUrl(channel);
+}
+
+export function getSameAsUrls(): string[] {
+  return social.sameAsUrls(loadPlatformConfig(), getDefaultsConfig().sameAs);
 }
 
 export function getRawCourseConfigs(): CourseConfig[] {

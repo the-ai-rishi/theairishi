@@ -1,3 +1,3 @@
 # SEARCH
 
-Moved. See PLATFORM/SEARCH.md. Start at START_HERE.md.
+Moved. See PLATFORM/SEARCH.md. Start at START-HERE.md.

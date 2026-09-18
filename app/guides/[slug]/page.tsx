@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { getAllGuideSlugs, getGuide } from "@/lib/guides";
 import LessonContent from "@/components/learning/LessonContent";
 import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import PageShell from "@/components/brand/PageShell";
+import ExistingNotesNote from "@/components/content/ExistingNotesNote";
+import { articleJsonLd } from "@/lib/seo";
+import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -21,15 +23,20 @@ export async function generateMetadata({
 }: GuidePageProps): Promise<Metadata> {
   const { slug } = await params;
   const guide = await getGuide(slug);
-  const brand = getBrandConfig();
 
   if (!guide) {
-    return { title: `Guide Not Found | ${brand.name}` };
+    return { title: "Guide not found" };
   }
 
   return {
-    title: `${guide.metadata.title} | ${brand.name}`,
+    title: guide.metadata.title,
     description: guide.metadata.description,
+    openGraph: {
+      title: guide.metadata.title,
+      description: guide.metadata.description,
+      type: "article",
+    },
+    alternates: canonicalAlternates(`/guides/${slug}`),
   };
 }
 
@@ -46,14 +53,21 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();
   const copy = getPlatformCopy();
+  const jsonLd = articleJsonLd({
+    title: guide.metadata.title,
+    description: guide.metadata.description,
+    url: canonicalUrl(`/guides/${slug}`),
+    datePublished: guide.metadata.date,
+  });
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-24">
-      <Header navItems={mainNav} brand={brand} copy={copy} />
-
-      {/* Guide Header */}
-      <article className="mx-auto max-w-3xl px-4 pt-16 sm:px-6 sm:pt-24 lg:px-8">
-        <div className="flex items-center gap-3 font-mono text-xs text-cream/40 mb-6">
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <article className="mx-auto max-w-3xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24 lg:px-8">
+        <div className="mb-6 flex items-center gap-3 font-mono text-xs text-cream/40">
           <span className="uppercase tracking-[0.16em] text-gold">
             {guide.metadata.category}
           </span>
@@ -69,15 +83,17 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
           {guide.metadata.title}
         </h1>
 
-        <p className="mt-6 text-base sm:text-lg leading-relaxed text-cream/50 border-b border-hairline pb-10">
+        <p className="mt-6 border-b border-hairline pb-10 text-base leading-relaxed text-cream/50 sm:text-lg">
           {guide.metadata.description}
         </p>
+        <div className="pt-6">
+          <ExistingNotesNote topicKey={guide.metadata.topic || guide.metadata.topicSlug} />
+        </div>
 
         <div className="pt-10">
           <LessonContent content={guide.content} />
         </div>
       </article>
-      <Footer navItems={footerNav} brand={brand} copy={copy} />
-    </main>
+    </PageShell>
   );
 }

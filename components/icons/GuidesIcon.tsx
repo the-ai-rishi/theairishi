@@ -8,7 +8,7 @@ export default function GuidesIcon({ className }: { className?: string }) {
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className || "h-6 w-6 text-violet-400"}
+      className={className || "h-6 w-6 text-gold"}
     >
       <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
       <path d="M6 6h10" />

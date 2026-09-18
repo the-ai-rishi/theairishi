@@ -74,7 +74,7 @@ function LabShowcase({ items }: { items: UniversalContentItem[] }) {
           }`}
         >
           <div className={`lg:col-span-2 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-            <span className="font-mono text-[13px] text-circuit-bright">
+            <span className="font-mono text-[13px] text-gold">
               Lab {String(index + 1).padStart(2, "0")}
             </span>
           </div>
@@ -90,7 +90,7 @@ function LabShowcase({ items }: { items: UniversalContentItem[] }) {
             <div className="mt-6">
               <Link
                 href={item.url}
-                className="link-editorial font-mono text-[14px] tracking-[0.12em] text-circuit-bright hover:text-cream"
+                className="link-editorial font-mono text-[14px] tracking-[0.12em] text-gold hover:text-gold-bright"
               >
                 Open the lab →
               </Link>

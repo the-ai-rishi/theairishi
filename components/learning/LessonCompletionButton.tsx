@@ -44,7 +44,7 @@ export default function LessonCompletionButton({
           <div
             className={`flex h-10 w-10 shrink-0 items-center justify-center border transition-colors ${
               completed
-                ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-400"
+                ? "border-gold/30 bg-gold/10 text-gold"
                 : "border-hairline text-cream/30"
             }`}
           >
@@ -71,7 +71,7 @@ export default function LessonCompletionButton({
           onClick={() => toggleComplete(slug)}
           className={`inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold tracking-wide transition cursor-pointer ${
             completed
-              ? "border border-emerald-500/30 bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25"
+              ? "border border-gold/30 bg-gold/15 text-gold-bright hover:bg-gold/25"
               : "border border-hairline bg-cream text-ink hover:bg-gold-bright"
           }`}
         >

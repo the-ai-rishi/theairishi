@@ -1,3 +1,3 @@
 # AUTHORING
 
-Moved. See CONTENT/ADD-LESSON.md and START_HERE.md. Start at START_HERE.md.
+Moved. See CONTENT/ADD-LESSON.md and START-HERE.md. Start at START-HERE.md.

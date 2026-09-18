@@ -1,101 +1,56 @@
-# VALIDATION
+# Validation
 
-## PURPOSE
+## 1. What this system does
 
+`npm run validate` is the safety net before a publish. It fails when configuration or content is invalid.
 
-Operator guide for this repository, not a generic CMS.
+## 2. When I need it
 
-## WHEN TO USE
+Before every deploy. After any JSON or markdown change.
 
+## 3. Command
 
-Use this when changing this area of The AI Rishi.
+```bash
+npm run validate
+```
 
-## PREREQUISITES
+This runs `content:generate` first (`prevalidate`), then `scripts/validate.js`, which also runs the visibility scenario tests.
 
+## 4. What it checks
 
-Repo cloned.
+- `platform.json` parses and has brand, topics, nav, homepage
+- `programs.json` is a catalog with `featuredProgramId`; the featured program has contiguous phases and days
+- Daily lessons with `day` / `phase` / `program` match `programs.json`
+- Duplicate slugs and duplicate day numbers
+- The phrase “Ancient patience. Modern systems.” is absent from config and UI code
+- `lib/config.ts` and `lib/programs.ts` statically import JSON (never `readFileSync`)
+- `lib/content-runtime.ts` uses the embedded catalog and gates disk reads
+- Generated catalog contains platform, courses, programs, lessons, guides, projects
+- Active topics/courses that are shown on the homepage have content
+- Instagram is a public external destination; `/instagram` is not a site route
+- Telegram may be disabled with an empty URL; enabled Telegram requires a real https://t.me/... URL
+- Coming-soon YouTube does not leak into nav, search, sitemap, or routes
+- Brand files exist on disk
+- Worker bundle (if `.open-next` exists) contains the brand and embedded lessons
 
-## WHERE
+Errors look like this:
 
+```
+ERROR:
+Lesson "day-07" references phase "phase-99".
 
-Kernel: lib/visibility-core.js. Config: content/config/platform.json. Content: content/lessons, content/courses, content/guides, content/projects, content/media.
+Fix:
+Edit content/lessons/day-07.md. Set FIELD phase to VALUE phase-01.
+```
 
-## STEP-BY-STEP
+## 5. Expected result
 
+```
+ALL CHECKS PASSED
+```
 
-# Validation and testing
+If it prints `Validation failed`, do not deploy.
 
+## 6. Scenario tests
 
-Scripts: validate (scripts/validate.js plus scenarios), test:platform, content:index, lint, build, dev, start.
-
-validate checks platform.json, courses, brand files on disk, unknown homepage types, dead nav sources, empty active topics/courses, placeholder URLs, and frozen ids in app/components/lib.
-
-Scenario tests are in-memory and do not mutate platform.json.
-
-1. Only one active topic with content
-2. Disable a topic that had content
-3. Remove a topic object (must not throw)
-4. Rename topic name and slug
-5. Add python as active with content
-6. Disable YouTube
-7. Enable YouTube as active with items (route /youtube appears)
-8. Disable guides content type
-9. Planned empty area is not a large homepage section
-10. Planned/coming-soon YouTube is not a channelPath
-11. Nav split: 8 items => 5 primary + 3 Explore
-12. Active YouTube with zero items is not-found
-13. Listing file routes 404 when the content type is disabled, coming-soon, or enabled false
-
-splitPrimaryNav is exported from visibility-core. Header cap is 5. Overflow label is More.
-
-## COMPLETE EXAMPLE
-
-
-# Validation and testing
-
-
-Scripts: validate (scripts/validate.js plus scenarios), test:platform, content:index, lint, build, dev, start.
-
-validate checks platform.json, courses, brand files on disk, unknown homepage types, dead nav sources, empty active topics/courses, placeholder URLs, and frozen ids in app/components/lib.
-
-Scenario tests are in-memory and do not mutate platform.json.
-
-1. Only one active topic with content
-2. Disable a topic that had content
-3. Remove a topic object (must not throw)
-4. Rename topic name and slug
-5. Add python as active with content
-6. Disable YouTube
-7. Enable YouTube as active with items (route /youtube appears)
-8. Disable guides content type
-9. Planned empty area is not a large homepage section
-10. Planned/coming-soon YouTube is not a channelPath
-11. Nav split: 8 items => 5 primary + 3 Explore
-12. Active YouTube with zero items is not-found
-13. Listing file routes 404 when the content type is disabled, coming-soon, or enabled false
-
-splitPrimaryNav is exported from visibility-core. Header cap is 5. Overflow label is More.
-
-## VALIDATION
-
-
-See OPERATIONS/VALIDATION.md. Run the validate script, open the route, search if public.
-
-## COMMON MISTAKES
-
-
-Do not invent YouTube or Instagram items. Do not crop brand PNG or JPG. Do not reintroduce switch(section.id). Do not leak coming-soon in the public UI. There is no Python content.
-
-## TROUBLESHOOTING
-
-
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| Route 404 | type or topic not enabled+active with content | keep it hidden or add real content |
-| Missing homepage block | showWhenEmpty false and empty | add content or leave hidden |
-| validate fails | active course with 0 lessons | set status coming-soon or add lessons |
-
-## HOW TO UNDO
-
-
-Restore the JSON or markdown files with git restore, or git revert the commit. Do not force-push.
+The validator also runs `scripts/scenario-test.js` (tests 1–18 plus future operations A–N in `scripts/future-operations-test.js`). Those tests clone `platform.json` and check that disabling a topic, a channel, or a content type actually removes it from homepage, nav, search, sitemap, and routes. They do **not** require the live homepage to show a topic grid. The live homepage is learner-first (hero / program / phases / why / today / method / path). Search and sitemap are independent surfaces (Test 14 mixed both ways, including catalog items). Test 16 is the course-href contract. Test 17 is the single publication predicate. Test 18 requires static `/learn` segments to be real `page.*` files.

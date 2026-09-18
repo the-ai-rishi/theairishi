@@ -7,6 +7,8 @@ category: "Artificial Intelligence"
 technologies: ["TypeScript", "LLMs", "Vector DB", "ReAct", "Node.js"]
 difficulty: "Intermediate"
 status: "Completed"
+topic: "ai"
+enabled: true
 featured: true
 ---
 

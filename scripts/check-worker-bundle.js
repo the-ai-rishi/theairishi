@@ -47,13 +47,16 @@ function checkWorkerBundle({ rootDir = path.join(__dirname, ".."), allowMissing 
     catch (error) { errors.push(`Brand source is invalid JSON: ${error.message}`); }
   }
   if (source.includes(OLD_CONFIG_ERROR)) errors.push(`Worker bundle contains obsolete error text: ${OLD_CONFIG_ERROR}`);
+  if (!source.includes("/missing-lesson") && !source.includes("missing-lesson")) {
+    errors.push("Worker bundle is missing the unpublished-day 404 rewrite target /missing-lesson");
+  }
 
   const brandName = platform && platform.brand && platform.brand.name;
   if (!brandName || !source.includes(brandName)) errors.push(`Worker bundle is missing inlined brand marker: ${brandName || "platform.brand.name"}`);
 
-  const contentMarkers = ["EMBEDDED_CONTENT", "content/lessons/", "content/courses/", "content/guides/", "content/projects/"];
+  const contentMarkers = ["EMBEDDED_CONTENT", "content/lessons/", "content/lessons/day-01.md", "content/guides/", "content/projects/"];
   const embeddedMarker = contentMarkers.find((marker) => source.includes(marker));
-  if (!embeddedMarker || !(source.includes("content/lessons/") || source.includes("content/courses/"))) {
+  if (!embeddedMarker || !source.includes("content/lessons/")) {
     errors.push("Worker bundle is missing embedded content evidence (expected EMBEDDED_CONTENT or a lesson path such as content/lessons/)");
   }
   if (errors.length > 0) {

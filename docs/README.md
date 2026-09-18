@@ -1,15 +1,32 @@
-# Documentation
+# Documentation index
 
-Start at [START_HERE.md](./START_HERE.md). Then [DOCUMENTATION-MAP.md](./DOCUMENTATION-MAP.md) and [COMMON-TASKS.md](./COMMON-TASKS.md).
+This is the operator manual for The AI Rishi website.
 
-This tree matches this repository. It is not a generic CMS manual.
+If you are not a developer, start at [START-HERE.md](./START-HERE.md).
 
-- CONTENT/ — add, edit, unpublish lessons, guides (articles), paths, projects
-- PLATFORM/ — kernel, topics, types, routing, search
-- FEATURES/ — what is live vs coming-soon
-- CONFIGURATION/ — exact JSON fields
-- OPERATIONS/ — validate, build, deploy, revert
-- ADVANCED/ — new TYPE, new domain, design system
-- REFERENCE/ — file tree, glossary, commands
+## I want to…
 
-Honesty: a new topic, lesson, guide, project, or channel that uses an existing TYPE is JSON plus markdown. A new homepage section TYPE, route shape, or visibility rule is a developer change. There is no Python content. YouTube and Instagram stay empty and coming-soon until real items exist.
+| Goal | Go here |
+| --- | --- |
+| Understand the product | [START-HERE.md](./START-HERE.md) |
+| Understand DevOps Engineer Mastery | [DEVOPS-ENGINEER-MASTERY.md](./DEVOPS-ENGINEER-MASTERY.md) |
+| Add tomorrow’s daily lesson | [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md) |
+| Add a non-daily lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
+| Add a guide / essay | [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md) |
+| Add a project / lab | [CONTENT/ADD-PROJECT.md](./CONTENT/ADD-PROJECT.md) |
+| Add a topic | [CONTENT/ADD-TOPIC.md](./CONTENT/ADD-TOPIC.md) |
+| Enable a feature | [FEATURES/ENABLE-FEATURE.md](./FEATURES/ENABLE-FEATURE.md) |
+| Disable a feature | [FEATURES/DISABLE-FEATURE.md](./FEATURES/DISABLE-FEATURE.md) |
+| Enable YouTube | [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md) |
+| Enable Instagram | [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md) |
+| Understand future areas | [FEATURES/FUTURE-FEATURES.md](./FEATURES/FUTURE-FEATURES.md) |
+| Change homepage order | [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md) |
+| Change navigation | [CONFIGURATION/NAVIGATION-CONFIGURATION.md](./CONFIGURATION/NAVIGATION-CONFIGURATION.md) |
+| Run the site locally | [OPERATIONS/LOCAL-DEVELOPMENT.md](./OPERATIONS/LOCAL-DEVELOPMENT.md) |
+| Validate before publish | [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md) |
+| Deploy | [OPERATIONS/DEPLOYMENT.md](./OPERATIONS/DEPLOYMENT.md) |
+| Cloudflare | [deployment/CLOUDFLARE.md](./deployment/CLOUDFLARE.md) |
+| Search | [PLATFORM/SEARCH.md](./PLATFORM/SEARCH.md) |
+| Something broke | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) |
+
+Older files under PLATFORM, CONTENT, OPERATIONS remain so previous links do not break. Prefer this index.

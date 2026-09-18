@@ -41,4 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .open-next
+.wrangler
 lib/content-data.generated.ts
+lib/published-lesson-slugs.generated.ts

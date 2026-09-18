@@ -93,17 +93,17 @@ export default function LessonNavigation({
       ) : (
         <Link
           href="/learn"
-          className="group flex items-center justify-between gap-3 rounded-2xl border border-emerald-400/20 bg-emerald-950/20 p-4 text-right transition hover:border-emerald-400/40 hover:bg-emerald-900/25 sm:justify-self-end w-full"
+          className="group flex w-full items-center justify-between gap-3 border border-gold/20 bg-gold/[0.06] p-4 text-right transition hover:border-gold/40 hover:bg-gold/10 sm:justify-self-end"
         >
           <div className="text-left sm:text-right">
-            <span className="block text-[11px] uppercase tracking-[0.16em] text-emerald-300/60">
+            <span className="block text-[11px] uppercase tracking-[0.16em] text-gold/70">
               Course Completed!
             </span>
             <span className="mt-0.5 block text-sm font-medium text-cream">
               Return to Learning Hub
             </span>
           </div>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/20 text-emerald-200">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold/30 bg-gold/20 text-gold-bright">
             <BookCheck className="h-4 w-4" />
           </div>
         </Link>

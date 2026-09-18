@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 import { getBrandConfig, getSearchTopics } from "@/lib/config";
+import { creatorJsonLd, websiteJsonLd } from "@/lib/seo";
+import { canonicalUrl, getSiteOrigin } from "@/lib/urls";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,13 +27,13 @@ const brand = getBrandConfig();
 const topicKeywords = getSearchTopics().flatMap((topic) =>
   [topic.name, topic.shortName, topic.badge].filter(Boolean)
 );
-const keywords = Array.from(new Set([brand.name, brand.tagline, ...topicKeywords]));
+const keywords = Array.from(new Set([brand.name, ...topicKeywords]));
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(getSiteOrigin()),
 
   title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
 
@@ -57,22 +59,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    title: siteConfig.name,
     description: siteConfig.description,
-    url: siteConfig.url,
+    url: getSiteOrigin(),
     images: [
       {
         url: brand.ogImage || "/brand/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: `${siteConfig.name} — ${siteConfig.tagline}`,
+        alt: siteConfig.name,
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    title: siteConfig.name,
     description: siteConfig.description,
     images: [brand.ogImage || "/brand/og-image.jpg"],
   },
@@ -88,6 +90,10 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+
+  alternates: {
+    canonical: canonicalUrl("/"),
+  },
 };
 
 export default function RootLayout({
@@ -95,12 +101,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = [creatorJsonLd(), websiteJsonLd()];
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased dark`}
     >
       <body className="flex min-h-full flex-col bg-ink font-sans text-cream/90">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>

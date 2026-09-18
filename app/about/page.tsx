@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "@/components/brand/PageShell";
-import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy } from "@/lib/config";
+import DestinationLinks from "@/components/brand/DestinationLinks";
+import {
+  getMainNavigation,
+  getFooterNavigation,
+  getBrandConfig,
+  getPlatformCopy,
+  getAboutConfig,
+} from "@/lib/config";
+import { getProgram } from "@/lib/programs";
+import { canonicalAlternates } from "@/lib/urls";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const brand = getBrandConfig();
   return {
-    title: `About & Philosophy | ${brand.name}`,
-    description:
-      `${brand.name} is a field for understanding technology — learning from first principles, building in public, and following what changes.`,
+    title: "About",
+    description: "Why I created The AI Rishi, why DevOps comes first, and how I want to learn and teach.",
+    alternates: canonicalAlternates("/about"),
   };
 }
 
@@ -16,35 +25,53 @@ export default function AboutPage() {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
+  const about = getAboutConfig();
+  const program = getProgram();
+
+  const title = about?.title || "Why I built this";
+  const intro =
+    about?.intro ||
+    "I wanted to get better at engineering without hopping randomly between tools.";
+  const sections = about?.sections || [];
 
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
-      <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
-        <p className="kicker text-gold/80">Colophon</p>
-        <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">
-          Demystifying technology from first principles
+      <section className="mx-auto max-w-3xl px-4 pt-16 pb-8 sm:px-6 sm:pt-24 lg:px-8">
+        <p className="kicker text-gold/80">{about?.kicker || "About"}</p>
+        <h1 className="mt-4 font-serif text-4xl leading-[0.95] tracking-[0.01em] text-cream sm:text-6xl">
+          {title}
         </h1>
-        <p className="mt-6 max-w-2xl text-[18px] leading-relaxed text-cream/60">
-          Built for engineers and architects who want to understand systems, not collect certificates.
+        <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-cream/65 sm:text-[18px]">
+          {intro}
         </p>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6 lg:px-8">
-        <div className="dual-rule mb-12" />
-        <div className="grid gap-10 md:grid-cols-3">
-          {[
-            ["Knowledge", "First-principles learning", "Skip surface-level tutorials. Learn how systems work underneath the abstraction."],
-            ["Systems", "Build in public", "Labs, agents, and infrastructure blueprints — the engineering half of the mark."],
-            ["Discovery", "Stay in the field", "Follow what is changing without turning the site into a content mill."],
-          ].map(([kicker, title, body], i) => (
-            <div key={title} className="border-t border-hairline pt-6">
-              <p className={`font-mono text-[12px] tracking-[0.18em] uppercase ${i === 0 ? "text-gold" : i === 1 ? "text-circuit-bright" : "text-lotus"}`}>
-                {kicker}
-              </p>
-              <h2 className="mt-3 font-serif text-2xl text-cream">{title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-cream/50">{body}</p>
-            </div>
+      <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="dual-rule mb-10" />
+        <div className="space-y-10">
+          {sections.map((block) => (
+            <article key={block.id}>
+              <h2 className="font-serif text-2xl text-cream sm:text-3xl">{block.title}</h2>
+              <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-cream/55">{block.body}</p>
+            </article>
           ))}
+        </div>
+        <p className="mt-10 max-w-2xl font-mono text-[13px] leading-relaxed text-cream/40">
+          The current program is {program.title}: {program.durationLabel}.
+        </p>
+        <div className="mt-10 flex flex-wrap gap-6">
+          <Link href="/learn/day-01" className="btn-primary">
+            Start Day 1
+          </Link>
+          <Link href="/learn" className="link-editorial font-mono text-[14px] text-gold">
+            Explore the 120-day plan →
+          </Link>
+        </div>
+        <div className="mt-10">
+          <p className="font-mono text-[12px] tracking-[0.16em] uppercase text-cream/35">Elsewhere</p>
+          <div className="mt-3">
+            <DestinationLinks surface="about" />
+          </div>
         </div>
       </section>
     </PageShell>

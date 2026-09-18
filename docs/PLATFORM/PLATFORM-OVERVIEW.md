@@ -35,8 +35,8 @@ The AI Rishi is a living field for understanding technology: learn from first pr
 - Courses: the same two paths in content/config/courses.json.
 - Guides: 1 published markdown file in content/guides.
 - Projects: 1 published lab in content/projects.
-- Navigation: Home, Learn, Guides, Projects, About (5 items, so no Explore overflow).
-- Homepage order: hero, continue-learning, topic-grid (The field), recent (From the desk), guides (Writing), projects (Labs), course-list (Learning paths), cta.
+- Navigation: Learn, Read, Build, About.
+- Homepage order: hero, continue-learning, topic-grid (The field), course-list (Learning paths), guides (Writing), projects (Labs), cta. Recent ("From the desk") is disabled until there is a real desk feed.
 - Search indexes topics, courses, lessons, guides, and projects that are public.
 
 ## Planned / coming-soon (hidden)
@@ -52,7 +52,7 @@ The AI Rishi is a living field for understanding technology: learn from first pr
 
 We do not advertise unlaunched products via a public URL. Empty areas stay in config so they can be turned on later. They do not get routes, nav, search, or sitemap.
 
-See START_HERE.md, VISIBILITY_AND_LIFECYCLE.md, and OPERATIONS.md.
+See START-HERE.md, VISIBILITY_AND_LIFECYCLE.md, and OPERATIONS.md.
 
 ## COMPLETE EXAMPLE
 
@@ -69,8 +69,8 @@ The AI Rishi is a living field for understanding technology: learn from first pr
 - Courses: the same two paths in content/config/courses.json.
 - Guides: 1 published markdown file in content/guides.
 - Projects: 1 published lab in content/projects.
-- Navigation: Home, Learn, Guides, Projects, About (5 items, so no Explore overflow).
-- Homepage order: hero, continue-learning, topic-grid (The field), recent (From the desk), guides (Writing), projects (Labs), course-list (Learning paths), cta.
+- Navigation: Learn, Read, Build, About.
+- Homepage order: hero, continue-learning, topic-grid (The field), course-list (Learning paths), guides (Writing), projects (Labs), cta. Recent ("From the desk") is disabled until there is a real desk feed.
 - Search indexes topics, courses, lessons, guides, and projects that are public.
 
 ## Planned / coming-soon (hidden)
@@ -86,7 +86,7 @@ The AI Rishi is a living field for understanding technology: learn from first pr
 
 We do not advertise unlaunched products via a public URL. Empty areas stay in config so they can be turned on later. They do not get routes, nav, search, or sitemap.
 
-See START_HERE.md, VISIBILITY_AND_LIFECYCLE.md, and OPERATIONS.md.
+See START-HERE.md, VISIBILITY_AND_LIFECYCLE.md, and OPERATIONS.md.
 
 ## VALIDATION
 
