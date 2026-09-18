@@ -13,7 +13,7 @@ export default function PathAhead({ section }: { section: ResolvedHomepageSectio
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           kicker={section.subtitle || "Later stages stay dark"}
-          title={section.title || story.pathTitle || "Where this goes next"}
+          title={section.title || story.pathTitle || "After this program"}
         />
         {story.pathBody ? (
           <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-cream/55 sm:text-[17px]">

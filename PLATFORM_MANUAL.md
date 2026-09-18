@@ -1,3 +1,3 @@
 # Moved
 
-See docs/START_HERE.md.
+See docs/START-HERE.md.

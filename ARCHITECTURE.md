@@ -1,3 +1,3 @@
 # Moved
 
-See docs/PLATFORM/ARCHITECTURE.md and docs/START_HERE.md.
+See docs/PLATFORM/ARCHITECTURE.md and docs/START-HERE.md.

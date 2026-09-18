@@ -30,7 +30,7 @@ Local works, Cloudflare logs show missing files, or you are deploying with Wrang
 | `lib/content-data.generated.ts` | Generated. Gitignored. Created by `prebuild` / `precf:build` |
 | `lib/config.ts` | Static JSON import |
 | `lib/content-runtime.ts` | Catalog + dev overlay |
-| `open-next.config.ts` | `buildCommand: "npx next build"` |
+| `open-next.config.ts` | `buildCommand: "node scripts/generate-content-data.js && npx next build"` |
 | `wrangler.jsonc` | Worker name, `nodejs_compat`, assets |
 | `scripts/check-worker-bundle.js` | Fails the CF build if brand/content are missing from the Worker |
 
@@ -50,8 +50,9 @@ npm run cf:deploy
 - `npm run validate` — includes a worker-bundle check when `.open-next` exists.
 - After `cf:build`, the artifact must contain `The AI Rishi` and `EMBEDDED_CONTENT`.
 - Refresh `/` several times. No recurring `[config] Platform config not found`.
-- `/learn`, `/guides`, `/projects`, `/topics/ai` still render.
-- `/youtube` still 404 while coming-soon.
+- `/learn`, `/learn/day-01`, `/guides`, `/projects`, `/topics/ai` still render.
+- `/learn/day-04` and `/youtube` still 404 while unpublished / coming-soon.
+- Do not set `dynamicParams = false` on `/learn/[slug]`. OpenNext then 404s every published day even when the HTML was prerendered.
 
 ## 7. What NOT to change
 

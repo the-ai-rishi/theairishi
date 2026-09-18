@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 const vis = require("../lib/visibility-core");
+const { collectPlatformConfigErrors } = require("../lib/platform-schema");
+const { collectProgramErrors } = require("../lib/program-schema");
 const { runScenarioTests } = require("./scenario-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
@@ -116,11 +118,13 @@ if (fs.existsSync(platformPath)) {
 }
 
 if (platform) {
+  for (const err of collectPlatformConfigErrors(platform, vis)) {
+    errors.push(err);
+  }
   check(platform.brand, "platform.json missing brand");
   if (platform.brand) {
     check(platform.brand.name, "brand missing name");
     check(platform.brand.logo, "brand missing logo");
-    check(platform.brand.tagline, "brand missing tagline");
     check(platform.brand.logoMark, "brand missing logoMark");
     check(platform.brand.ogImage, "brand missing ogImage");
     for (const field of ["logo", "logoMark", "ogImage"]) {
@@ -577,10 +581,94 @@ scanForbiddenPhrase(path.join(rootDir, "lib"), (name, full) => {
   return /\.(ts|tsx|js|jsx)$/.test(name);
 });
 scanForbiddenPhrase(path.join(rootDir, "templates"), (name) => true);
-if (platform && platform.brand && platform.brand.lineage) {
+if (platform && platform.brand && Object.prototype.hasOwnProperty.call(platform.brand, "lineage")) {
   errors.push(
-    "ERROR:\nplatform.json brand.lineage is set.\n\nFix:\nDelete brand.lineage from content/config/platform.json. The brand stands on its own."
+    "ERROR:\nplatform.json brand.lineage must not exist.\n\nFix:\nDelete brand.lineage from content/config/platform.json. The brand stands on its own."
   );
+}
+
+const startUnderscore = path.join(rootDir, "docs", "START_HERE.md");
+if (fs.existsSync(startUnderscore)) {
+  errors.push(
+    "ERROR:\nDuplicate documentation entry docs/START_HERE.md.\n\nFix:\nKeep only docs/START-HERE.md and delete docs/START_HERE.md."
+  );
+}
+
+const STALE_DOC_PHRASES = [
+  "Start / Journey / About",
+  "Overflow disclosure is More",
+  "See the 120-day journey",
+];
+function scanStaleDocs(dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      scanStaleDocs(full);
+      continue;
+    }
+    if (!entry.name.endsWith(".md")) continue;
+    const src = fs.readFileSync(full, "utf8");
+    for (const phrase of STALE_DOC_PHRASES) {
+      if (src.includes(phrase)) {
+        errors.push(
+          "ERROR:\nStale documentation phrase \"" +
+            phrase +
+            "\" in " +
+            path.relative(rootDir, full) +
+            ".\n\nFix:\nNav is Start / 120 Days / About. Overflow is Explore. Update the doc to match platform.json."
+        );
+      }
+    }
+  }
+}
+scanStaleDocs(path.join(rootDir, "docs"));
+
+if (platform && platform.navigation && Array.isArray(platform.navigation.main)) {
+  for (const item of platform.navigation.main) {
+    if (item && /journey/i.test(String(item.label || ""))) {
+      errors.push(
+        "ERROR:\nnavigation.main item '" +
+          item.id +
+          "' is still labelled Journey.\n\nFix:\nUse a learner-centric label such as 120 Days."
+      );
+    }
+  }
+}
+
+if (platform && platform.copy && platform.brand) {
+  if (platform.copy.heroTitle && platform.copy.heroTitle === platform.brand.name) {
+    errors.push(
+      "ERROR:\ncopy.heroTitle repeats the brand name.\n\nFix:\nLeave heroTitle empty so the hero uses the current program title."
+    );
+  }
+  if (platform.copy.heroBadge && platform.copy.heroBadge === platform.brand.name) {
+    errors.push(
+      "ERROR:\ncopy.heroBadge repeats the brand name.\n\nFix:\nUse a kicker such as Current program."
+    );
+  }
+}
+
+const seriesPath = path.join(configDir, "series.json");
+if (fs.existsSync(seriesPath)) {
+  try {
+    const series = JSON.parse(fs.readFileSync(seriesPath, "utf8"));
+    if (!Array.isArray(series)) {
+      errors.push("series.json must be an array");
+    } else {
+      for (const item of series) {
+        if (item && item.enabled === true) {
+          errors.push(
+            "series.json entry '" +
+              (item.id || "?") +
+              "' is enabled, but the site has no series UI. Keep enabled: false until a series surface exists."
+          );
+        }
+      }
+    }
+  } catch (err) {
+    errors.push("Error parsing series.json: " + err.message);
+  }
 }
 
 function operatorFix(issue, file, field, value) {
@@ -620,132 +708,16 @@ if (fs.existsSync(programsPath)) {
 }
 
 if (programConfig) {
-  const programFile = "content/config/programs.json";
-  check(programConfig.id && programConfig.title, operatorFix(
-    "The program is missing id or title.",
-    programFile,
-    "id and title",
-    '"devops-engineer-mastery" and "DevOps Engineer Mastery"'
-  ));
-  check(Array.isArray(programConfig.phases) && programConfig.phases.length > 0, operatorFix(
-    "The program has no phases.",
-    programFile,
-    "phases",
-    "the 11 phases from the mastery repo"
-  ));
-  check(Array.isArray(programConfig.days) && programConfig.days.length > 0, operatorFix(
-    "The program has no days.",
-    programFile,
-    "days",
-    "exactly 120 day objects from the execution plan"
-  ));
-
-  const phaseIds = new Set();
-  for (const phase of programConfig.phases || []) {
-    if (!phase || !phase.id || !phase.name) {
-      errors.push(operatorFix(
-        "A program phase is missing id or name.",
-        programFile,
-        "phases[].id / phases[].name",
-        "a unique phase id such as phase-01"
-      ));
-      continue;
-    }
-    if (phaseIds.has(phase.id)) {
-      errors.push(operatorFix(
-        "Duplicate phase id \"" + phase.id + "\".",
-        programFile,
-        "phases[].id",
-        "a unique phase id"
-      ));
-    }
-    phaseIds.add(phase.id);
-    if (typeof phase.startDay !== "number" || typeof phase.endDay !== "number") {
-      errors.push(operatorFix(
-        "Phase \"" + phase.id + "\" is missing startDay or endDay.",
-        programFile,
-        "phases[].startDay and phases[].endDay",
-        "numbers from the 120-day plan"
-      ));
-    }
+  for (const err of collectProgramErrors(programConfig)) {
+    errors.push(err);
   }
 
-  if (programConfig.currentPhaseId && !phaseIds.has(programConfig.currentPhaseId)) {
-    errors.push(operatorFix(
-      "currentPhaseId \"" + programConfig.currentPhaseId + "\" does not exist.",
-      programFile,
-      "currentPhaseId",
-      "an existing phases[].id such as phase-01"
-    ));
-  }
-
-  const dayNumbers = new Set();
+  const phaseIds = new Set(
+    (programConfig.phases || []).map((phase) => phase && phase.id).filter(Boolean)
+  );
   const dayByNumber = new Map();
   for (const day of programConfig.days || []) {
-    if (!day || typeof day.day !== "number" || !day.slug || !day.title) {
-      errors.push(operatorFix(
-        "A program day is missing day, slug, or title.",
-        programFile,
-        "days[].day / days[].slug / days[].title",
-        "a number, a slug like day-01, and the real title from the execution plan"
-      ));
-      continue;
-    }
-    if (dayNumbers.has(day.day)) {
-      errors.push(operatorFix(
-        "Duplicate day number " + day.day + ".",
-        programFile,
-        "days[].day",
-        "a unique number from 1 to 120"
-      ));
-    }
-    dayNumbers.add(day.day);
-    dayByNumber.set(day.day, day);
-    if (!day.phaseId || !phaseIds.has(day.phaseId)) {
-      errors.push(operatorFix(
-        "Day " + day.day + " (\"" + (day.slug || "") + "\") references phase \"" + (day.phaseId || "") + "\".",
-        programFile,
-        "days[].phaseId",
-        "an existing phase id from phases[]"
-      ));
-    } else {
-      const phase = (programConfig.phases || []).find((item) => item.id === day.phaseId);
-      if (
-        phase &&
-        typeof phase.startDay === "number" &&
-        typeof phase.endDay === "number" &&
-        (day.day < phase.startDay || day.day > phase.endDay)
-      ) {
-        errors.push(operatorFix(
-          "Day " + day.day + " is listed under phase \"" + day.phaseId + "\" which only covers days " + phase.startDay + "–" + phase.endDay + ".",
-          programFile,
-          "days[].phaseId",
-          "the phase whose startDay/endDay include this day"
-        ));
-      }
-    }
-  }
-
-  if (Array.isArray(programConfig.days)) {
-    if (programConfig.days.length !== 120) {
-      errors.push(operatorFix(
-        "The program has " + programConfig.days.length + " days. The locked execution plan is 120 days.",
-        programFile,
-        "days",
-        "exactly 120 day objects, titles copied from the mastery repo, not invented"
-      ));
-    }
-    for (let n = 1; n <= 120; n += 1) {
-      if (!dayNumbers.has(n)) {
-        errors.push(operatorFix(
-          "Day " + n + " is missing from the 120-day map.",
-          programFile,
-          "days",
-          "a day object with day: " + n
-        ));
-        break;
-      }
-    }
+    if (day && typeof day.day === "number") dayByNumber.set(day.day, day);
   }
 
   const publishedDayNumbers = new Set();

@@ -9,12 +9,13 @@ import {
   getAboutConfig,
 } from "@/lib/config";
 import { getProgram } from "@/lib/programs";
+import { canonicalAlternates } from "@/lib/urls";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "About",
-    description:
-      "Why The AI Rishi exists: a structured DevOps path first, then AI, taught while I am still doing the work.",
+    description: "Why I created The AI Rishi, why DevOps comes first, and how I want to learn and teach.",
+    alternates: canonicalAlternates("/about"),
   };
 }
 

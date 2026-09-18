@@ -1,4 +1,5 @@
 import programsJson from "../content/config/programs.json";
+import { parseProgramConfig } from "./program-schema";
 import { getAllLessonSummaries, type LessonSummary } from "./lessons";
 
 export interface ProgramPhase {
@@ -48,16 +49,8 @@ export interface HydratedPhase extends ProgramPhase {
   publishedCount: number;
 }
 
-function asProgram(raw: unknown): ProgramConfig {
-  const cfg = raw as ProgramConfig;
-  if (!cfg?.id || !cfg.title || !Array.isArray(cfg.phases) || !Array.isArray(cfg.days)) {
-    throw new Error("[programs] content/config/programs.json is missing id, title, phases, or days");
-  }
-  return cfg;
-}
-
 export function getProgram(): ProgramConfig {
-  return asProgram(programsJson);
+  return parseProgramConfig(programsJson) as ProgramConfig;
 }
 
 export function getPhase(phaseId: string): ProgramPhase | null {

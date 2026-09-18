@@ -4,7 +4,7 @@ A technology learning and teaching platform. The current program is **DevOps Eng
 
 This is not a guru course, not a diary, and not an AI-first landing page.
 
-Start: `/learn/day-01`. Plan: `/learn`. About: `/about`.
+Start: `/learn/day-01`. 120 Days: `/learn`. About: `/about`.
 
 The locked plan lives in [devops-engineer-mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). This site publishes the days that are ready.
 

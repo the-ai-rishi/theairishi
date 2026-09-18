@@ -6,6 +6,7 @@ import LessonContent from "@/components/learning/LessonContent";
 import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { canonicalAlternates } from "@/lib/urls";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -47,6 +48,7 @@ export async function generateMetadata({
   return {
     title: project.metadata.title,
     description: project.metadata.description,
+    alternates: canonicalAlternates(`/projects/${slug}`),
   };
 }
 

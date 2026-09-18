@@ -2,6 +2,7 @@ import platformJson from "../content/config/platform.json";
 import coursesJson from "../content/config/courses.json";
 import seriesJson from "../content/config/series.json";
 import * as vis from "./visibility-core";
+import { collectPlatformConfigErrors } from "./platform-schema";
 import type { LifecycleStatus, PlatformCatalog, Surface } from "./visibility-core";
 
 export type ContentStatus =
@@ -25,12 +26,11 @@ export interface BrandConfig {
   ogImage: string;
   faviconUrl: string;
   appleTouchIcon: string;
-  tagline: string;
+  /** Optional. The brand does not require a slogan. */
+  tagline?: string;
   description: string;
   url: string;
   email: string;
-  /** Editorial lockup under the name. Not a feature flag. */
-  lineage?: string;
 }
 
 export interface CopyConfig {
@@ -111,6 +111,12 @@ export interface TopicConfig {
   showOnHomepage: boolean;
   showInNavigation: boolean;
   status: PlatformStatus;
+  /** When false, published URLs stay live but the topic is omitted from search. Default true. */
+  includeInSearch?: boolean;
+  /** When false, published URLs stay live but the topic is omitted from the sitemap. Default true. */
+  includeInSitemap?: boolean;
+  searchBadge?: string;
+  discoveryNote?: string;
   /** Hydrated at homepage resolve from catalog.topicContentCounts. Not a JSON field. */
   contentCount?: number;
 }
@@ -141,7 +147,7 @@ export type HomepageSectionType =
   | "cta"
   | "prose"
   | "program"
-  | "journey"
+  | "phases"
   | "method"
   | "path"
   | "why"
@@ -155,7 +161,7 @@ export type ContentSource =
 
 export interface HomepageSection {
   id: string;
-  type: HomepageSectionType | string;
+  type: HomepageSectionType;
   enabled: boolean;
   order: number;
   title?: string;
@@ -256,62 +262,10 @@ export interface PlatformConfig {
 }
 
 function validatePlatformConfig(raw: unknown, filePath: string): PlatformConfig {
-  if (!raw || typeof raw !== "object") {
-    throw new Error(`[config] ${filePath}: must be a JSON object`);
+  const errors = collectPlatformConfigErrors(raw, vis);
+  if (errors.length) {
+    throw new Error(`[config] ${filePath}: ${errors[0]}`);
   }
-  const cfg = raw as Record<string, unknown>;
-
-  if (!cfg.brand || typeof cfg.brand !== "object") {
-    throw new Error(`[config] ${filePath}: "brand" section is required`);
-  }
-  const brand = cfg.brand as Record<string, unknown>;
-  if (!brand.name || !brand.logo || !brand.tagline) {
-    throw new Error(`[config] ${filePath}: brand requires name, logo, and tagline`);
-  }
-
-  if (!Array.isArray(cfg.topics)) {
-    throw new Error(`[config] ${filePath}: "topics" must be an array`);
-  }
-
-  const topicIds = new Set<string>();
-  const topicSlugs = new Set<string>();
-  for (const t of cfg.topics as TopicConfig[]) {
-    if (!t.id || !t.slug || !t.name) {
-      throw new Error(
-        `[config] Topic missing required fields (id, slug, name): ${JSON.stringify(t)}`
-      );
-    }
-    if (topicIds.has(t.id)) {
-      throw new Error(`[config] Duplicate topic id: "${t.id}"`);
-    }
-    if (topicSlugs.has(t.slug)) {
-      throw new Error(`[config] Duplicate topic slug: "${t.slug}"`);
-    }
-    topicIds.add(t.id);
-    topicSlugs.add(t.slug);
-    if (t.status && !vis.isValidLifecycle(t.status)) {
-      throw new Error(`[config] Topic "${t.id}" has invalid status: "${t.status}"`);
-    }
-  }
-
-  const nav = cfg.navigation as PlatformConfig["navigation"];
-  if (!nav?.main || !Array.isArray(nav.main)) {
-    throw new Error(`[config] ${filePath}: "navigation.main" must be an array`);
-  }
-
-  const homepage = cfg.homepage as PlatformConfig["homepage"];
-  if (!homepage?.sections || !Array.isArray(homepage.sections)) {
-    throw new Error(`[config] ${filePath}: "homepage.sections" must be an array`);
-  }
-  const sectionIds = new Set<string>();
-  for (const s of homepage.sections as HomepageSection[]) {
-    if (!s.id) throw new Error(`[config] Homepage section missing id`);
-    if (sectionIds.has(s.id)) {
-      throw new Error(`[config] Duplicate homepage section id: "${s.id}"`);
-    }
-    sectionIds.add(s.id);
-  }
-
   return raw as PlatformConfig;
 }
 
@@ -320,6 +274,7 @@ function validateCoursesConfig(raw: unknown, filePath: string): CourseConfig[] {
     throw new Error(`[config] ${filePath}: must be a JSON array`);
   }
   const ids = new Set<string>();
+  const slugs = new Set<string>();
   for (const c of raw as CourseConfig[]) {
     if (!c.id || !c.slug || !c.title) {
       throw new Error(
@@ -329,7 +284,14 @@ function validateCoursesConfig(raw: unknown, filePath: string): CourseConfig[] {
     if (ids.has(c.id)) {
       throw new Error(`[config] Duplicate course id: "${c.id}"`);
     }
+    if (slugs.has(c.slug)) {
+      throw new Error(`[config] Duplicate course slug: "${c.slug}"`);
+    }
     ids.add(c.id);
+    slugs.add(c.slug);
+    if (c.status && !vis.isValidLifecycle(c.status)) {
+      throw new Error(`[config] Course "${c.id}" has invalid status: "${c.status}"`);
+    }
   }
   return raw as CourseConfig[];
 }
@@ -349,6 +311,11 @@ function validateSeriesConfig(raw: unknown): SeriesConfig[] {
       throw new Error(`[config] Duplicate series id: "${s.id}"`);
     }
     ids.add(s.id);
+    if (s.enabled === true) {
+      throw new Error(
+        `[config] Series "${s.id}" is enabled, but the site has no series UI. Keep series.json entries enabled: false until a series surface exists.`
+      );
+    }
   }
   return raw as SeriesConfig[];
 }
@@ -440,7 +407,10 @@ export function getAboutConfig(): AboutConfig | null {
 }
 
 export function getFuturePath(): FuturePathItem[] {
-  return loadPlatformConfig().futurePath || [];
+  return (loadPlatformConfig().futurePath || []).filter((item) => {
+    const status = vis.normalizeStatus(item.status);
+    return status !== "disabled" && status !== "archived" && status !== "paused";
+  });
 }
 
 export function getDefaultsConfig(): DefaultsConfig {
@@ -549,7 +519,7 @@ export function getHomepageSections(): HomepageSection[] {
     .resolveHomepageSections(loadPlatformConfig(), liveCatalog())
     .sections.map((s) => ({
       id: s.id,
-      type: s.type,
+      type: s.type as HomepageSectionType,
       enabled: s.enabled,
       order: s.order ?? 99,
       title: s.title,

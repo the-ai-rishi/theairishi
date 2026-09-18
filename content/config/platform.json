@@ -7,17 +7,17 @@
     "ogImage": "/brand/og-image.jpg",
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
-    "tagline": "Technology learning, starting with DevOps.",
-    "description": "DevOps Engineer Mastery: 120 days, about four months, from Linux and Git toward Kubernetes and production work. Designed to help you build the skills to start attempting DevOps roles. AI comes later. Content is free.",
+    "tagline": "",
+    "description": "A technology learning platform. The current program is DevOps Engineer Mastery: 120 days of practical engineering, starting at the shell. Content is free.",
     "url": "https://theairishi.com",
     "email": "contact@theairishi.com",
     "shortName": "Rishi"
   },
   "copy": {
-    "heroBadge": "The AI Rishi",
-    "heroTitle": "The AI Rishi",
+    "heroBadge": "Current program",
+    "heroTitle": "",
     "heroTagline": "",
-    "heroDescription": "A 120-day DevOps path from the shell toward production-shaped work. Practise, debug, and review \u2014 including code that AI generates. AI and Agentic AI come after this foundation. Content is free.",
+    "heroDescription": "A structured path from Linux and Git through cloud, CI/CD, containers, Kubernetes, and production engineering.",
     "heroPrimaryCta": "Start Day 1",
     "heroPrimaryCtaHref": "/learn/day-01",
     "heroSecondaryCta": "Explore the 120-day plan",
@@ -28,9 +28,9 @@
   },
   "story": {
     "whatTitle": "What this is",
-    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is DevOps Engineer Mastery. AI and Agentic AI come later, after the engineering foundation.",
+    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is DevOps Engineer Mastery, a 120-day path from the shell toward production-shaped work. Content is free.",
     "whyTitle": "Why DevOps before AI",
-    "whyBody": "AI can generate code, YAML, scripts, commands, and configs. You still have to understand that output, catch what is wrong, run it, and live with the failure. That is why this path starts with Linux, Git, networking, and the rest of the engineering system \u2014 then AI, then agents.",
+    "whyBody": "AI can generate the files. You still have to understand them, catch what is wrong, run them, and live with the failure.",
     "whyGenerate": [
       "Code",
       "YAML",
@@ -58,7 +58,7 @@
       {
         "n": "02",
         "title": "Try",
-        "body": "Do the core task. On write days, your first version is yours \u2014 not AI's."
+        "body": "Do the core task. On write days, your first version is yours — not AI's."
       },
       {
         "n": "03",
@@ -81,10 +81,10 @@
         "body": "Check whether you can explain it. If you cannot, you do not own it yet."
       }
     ],
-    "pathTitle": "Where this goes next",
-    "pathBody": "DevOps is the current program. AI is next, after the foundation. Agentic AI comes after that, because agents run on real systems. Those later stages stay off this site until there is real material.",
+    "pathTitle": "After this program",
+    "pathBody": "DevOps is the current program. Later stages stay off this site until there is real material.",
     "communityTitle": "If you want to learn with me",
-    "communityBody": "If you are serious and willing to put in the hours, you can learn along with me. I may help with doubts and debugging when the question shows real work. I am not selling a certificate or a job. Content on this site is free."
+    "communityBody": "If you are willing to put in the hours, you can learn along with me. I may help with doubts and debugging when the question shows real work. Content on this site is free."
   },
   "about": {
     "kicker": "About",
@@ -99,12 +99,12 @@
       {
         "id": "order",
         "title": "Why this order",
-        "body": "DevOps is where I am starting. The first plan is about four months \u2014 120 days \u2014 of focused practice. After that I want to move into AI, then AI agents. AI can generate code and configs. Someone still has to review them, debug them, secure them, and run them. That someone needs the engineering underneath."
+        "body": "DevOps is where I am starting. The first plan is about four months — 120 days — of focused practice. AI can generate code and configs. Someone still has to review them, debug them, secure them, and run them. That someone needs the engineering underneath."
       },
       {
         "id": "teach",
         "title": "How I want to learn and teach",
-        "body": "I am learning these technologies too, and I want to share what I understand along the way. I will try to help with doubts and debugging when the question shows real work. This is not a daily video course. I want people who will practise, analyse, and grow on their own \u2014 not people looking for a shortcut."
+        "body": "I am learning these technologies too, and I want to share what I understand along the way. I will try to help with doubts and debugging when the question shows real work. This is not a daily video course. I want people who will practise, analyse, and grow on their own — not people looking for a shortcut."
       },
       {
         "id": "share",
@@ -114,17 +114,17 @@
       {
         "id": "expect",
         "title": "What you can expect",
-        "body": "A clear 120-day DevOps plan, starting from the shell. Content that is free. Honesty about what is ready and what is still a title on the map. If you are willing to spend real hours, you are welcome to learn along with me. I am not going to pretend I can help everyone."
+        "body": "A clear 120-day DevOps plan, starting from the shell. Content that is free. Honesty about what is ready and what is still a title on the map. I want to focus on people who are genuinely willing to put in the work."
       },
       {
         "id": "not",
         "title": "What this is not",
-        "body": "Not a certificate mill. Not a job guarantee. Not a \u201cwatch this and you are an engineer\u201d course. Not a place to copy commands without thinking. Later, if the material is genuinely strong, I may offer paid group training. That is not this site today."
+        "body": "Not a certificate mill, and not a job guarantee. Later, if the material is genuinely strong, I may offer paid group training. That is not this site today."
       },
       {
         "id": "next",
         "title": "Where the platform is going",
-        "body": "DevOps first. Then AI. Then Agentic AI. Then further engineering. I will not put empty AI courses on the homepage to match the brand name. When those stages have real material, they will appear."
+        "body": "After this DevOps foundation I want to teach AI, then AI agents. I will not put empty courses on the homepage to match the brand name. When those stages have real material, they will appear."
       }
     ]
   },
@@ -169,14 +169,18 @@
       "featured": false,
       "showOnHomepage": false,
       "showInNavigation": false,
-      "status": "active"
+      "status": "active",
+      "includeInSearch": false,
+      "includeInSitemap": false,
+      "searchBadge": "Existing notes",
+      "discoveryNote": "These notes are not part of the current DevOps program."
     },
     {
       "id": "devops",
       "slug": "devops",
       "name": "DevOps Engineer Mastery",
       "shortName": "DevOps",
-      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure \u2014 a 120-day production-shaped journey.",
+      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure — a 120-day production-shaped program.",
       "badge": "DevOps",
       "category": "Cloud & DevOps",
       "color": "emerald",
@@ -185,7 +189,9 @@
       "featured": true,
       "showOnHomepage": true,
       "showInNavigation": false,
-      "status": "active"
+      "status": "active",
+      "includeInSearch": true,
+      "includeInSitemap": true
     },
     {
       "id": "cloud",
@@ -310,7 +316,7 @@
       "enabled": true,
       "status": "active",
       "showOnHomepage": false,
-      "showInNavigation": false,
+      "showInNavigation": true,
       "order": 2
     },
     {
@@ -324,7 +330,7 @@
       "enabled": true,
       "status": "active",
       "showOnHomepage": false,
-      "showInNavigation": false,
+      "showInNavigation": true,
       "order": 3
     },
     {
@@ -409,8 +415,8 @@
         "status": "active"
       },
       {
-        "id": "journey",
-        "label": "Journey",
+        "id": "plan",
+        "label": "120 Days",
         "href": "/learn",
         "enabled": true,
         "order": 2,
@@ -423,6 +429,30 @@
         "enabled": true,
         "order": 3,
         "status": "active"
+      },
+      {
+        "id": "guides",
+        "label": "Guides",
+        "href": "/guides",
+        "enabled": true,
+        "order": 4,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "guides"
+        }
+      },
+      {
+        "id": "projects",
+        "label": "Projects",
+        "href": "/projects",
+        "enabled": true,
+        "order": 5,
+        "status": "active",
+        "source": {
+          "kind": "contentType",
+          "id": "projects"
+        }
       }
     ],
     "footer": [
@@ -435,8 +465,8 @@
         "status": "active"
       },
       {
-        "id": "journey",
-        "label": "Journey",
+        "id": "plan",
+        "label": "120 Days",
         "href": "/learn",
         "enabled": true,
         "order": 2,
@@ -478,12 +508,12 @@
         "ctaHref": "/learn"
       },
       {
-        "id": "journey",
-        "type": "journey",
+        "id": "phases",
+        "type": "phases",
         "enabled": true,
         "order": 4,
         "title": "What you will work through",
-        "subtitle": "Eleven phases \u00b7 120 days",
+        "subtitle": "Eleven phases · 120 days",
         "ctaLabel": "Open the full plan",
         "ctaHref": "/learn"
       },
@@ -518,7 +548,7 @@
         "type": "path",
         "enabled": true,
         "order": 8,
-        "title": "Where this goes next",
+        "title": "After this program",
         "subtitle": "Later stages stay off the site until they are real"
       },
       {
@@ -527,7 +557,7 @@
         "enabled": true,
         "order": 9,
         "title": "If you want to learn with me",
-        "subtitle": "Serious learners only",
+        "subtitle": "Willing to practise",
         "bodyKey": "community"
       },
       {

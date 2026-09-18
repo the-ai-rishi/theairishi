@@ -20,6 +20,10 @@ export interface KernelEntity {
   order?: number;
   showOnHomepage?: boolean;
   showInNavigation?: boolean;
+  includeInSearch?: boolean;
+  includeInSitemap?: boolean;
+  searchBadge?: string;
+  discoveryNote?: string;
   [key: string]: unknown;
 }
 

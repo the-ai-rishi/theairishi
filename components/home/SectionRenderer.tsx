@@ -8,7 +8,7 @@ import ContinueLearning from "./ContinueLearning";
 import CallToAction from "./CallToAction";
 import ProseSection from "./ProseSection";
 import ProgramHighlight from "./ProgramHighlight";
-import JourneyStrip from "./JourneyStrip";
+import PhaseStrip from "./PhaseStrip";
 import MethodSection from "./MethodSection";
 import PathAhead from "./PathAhead";
 import WhySection from "./WhySection";
@@ -68,8 +68,8 @@ export default function SectionRenderer({
       return <ProseSection section={section} />;
     case "program":
       return <ProgramHighlight section={section} />;
-    case "journey":
-      return <JourneyStrip section={section} />;
+    case "phases":
+      return <PhaseStrip section={section} />;
     case "method":
       return <MethodSection section={section} />;
     case "path":

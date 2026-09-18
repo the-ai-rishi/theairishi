@@ -5,8 +5,9 @@ import { getAllGuideSlugs, getGuide } from "@/lib/guides";
 import LessonContent from "@/components/learning/LessonContent";
 import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import PageShell from "@/components/brand/PageShell";
+import ExistingNotesNote from "@/components/content/ExistingNotesNote";
 import { articleJsonLd } from "@/lib/seo";
-import { siteConfig } from "@/lib/site";
+import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -35,9 +36,7 @@ export async function generateMetadata({
       description: guide.metadata.description,
       type: "article",
     },
-    alternates: {
-      canonical: `/guides/${slug}`,
-    },
+    alternates: canonicalAlternates(`/guides/${slug}`),
   };
 }
 
@@ -57,7 +56,7 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
   const jsonLd = articleJsonLd({
     title: guide.metadata.title,
     description: guide.metadata.description,
-    url: `${siteConfig.url}/guides/${slug}`,
+    url: canonicalUrl(`/guides/${slug}`),
     datePublished: guide.metadata.date,
   });
 
@@ -87,6 +86,9 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
         <p className="mt-6 border-b border-hairline pb-10 text-base leading-relaxed text-cream/50 sm:text-lg">
           {guide.metadata.description}
         </p>
+        <div className="pt-6">
+          <ExistingNotesNote topicKey={guide.metadata.topic || guide.metadata.topicSlug} />
+        </div>
 
         <div className="pt-10">
           <LessonContent content={guide.content} />

@@ -10,7 +10,7 @@ When you know the job (add a guide, change hero, enable YouTube) and need the fi
 
 ## PREREQUISITES
 
-Read [START_HERE.md](./START_HERE.md) first. Then this map. Then [COMMON-TASKS.md](./COMMON-TASKS.md).
+Read [START-HERE.md](./START-HERE.md) first. Then this map. Then [COMMON-TASKS.md](./COMMON-TASKS.md).
 
 ## WHERE
 
@@ -40,11 +40,11 @@ Use the I want to table, then the What file do I edit table.
 | Enable or disable a feature / type | CONFIGURATION/FEATURE-FLAGS.md | contentTypes[].enabled and status |
 | Enable or disable a topic | PLATFORM/DOMAIN-SYSTEM.md | topics[].enabled, status, showOnHomepage, showInNavigation |
 | Change homepage title / hero | CONFIGURATION/HOMEPAGE-CONFIGURATION.md | platform.json copy.hero* and brand.description |
-| Change navigation | CONFIGURATION/NAVIGATION-CONFIGURATION.md | navigation.main / footer, copy.headerCta /learn/day-01, cap 5, overflow More |
+| Change navigation | CONFIGURATION/NAVIGATION-CONFIGURATION.md | navigation.main / footer, copy.headerCta /learn/day-01, cap 3, overflow Explore |
 | Change SEO | CONFIGURATION/SEO-CONFIGURATION.md | app/layout.tsx metadata, generateMetadata, brand.description |
 | Add a domain / topic | ADVANCED/ADDING-A-NEW-DOMAIN.md | topics[] JSON. Planned python topic is OK. Do not invent Python lessons. |
 | Add a new homepage TYPE | ADVANCED/ADDING-A-NEW-FEATURE.md | visibility-core SECTION_TYPES plus React. Developer required. |
-| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-13 |
+| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-14 |
 | Deploy | OPERATIONS/DEPLOYMENT.md | Vercel, theairishi.vercel.app. PR branch is not auto-main. |
 | Fix a missing route or block | OPERATIONS/TROUBLESHOOTING.md | visibility-core 404-until-active-plus-content |
 | Revert a mistake | OPERATIONS/BACKUP-AND-RECOVERY.md | git restore, git revert. No force-push. |
@@ -53,17 +53,17 @@ Use the I want to table, then the What file do I edit table.
 
 | Job | File | Field / what to change |
 | --- | --- | --- |
-| Homepage title | `content/config/platform.json` | `copy.heroTitle` (live: The AI Rishi). Also `copy.heroBadge`, `copy.heroTagline` |
+| Homepage title | `content/config/platform.json` | `copy.heroTitle` (live: empty; visible title is the program name). Also `copy.heroBadge`, `copy.heroTagline` |
 | Hero description | `content/config/platform.json` | `copy.heroDescription` (and `brand.description` if the site description should match) |
 | Enable YouTube | `content/media/youtube.json` plus `content/config/platform.json` | Real items in youtube.json first. Then `social[]` id `youtube` and `contentTypes[]` id `youtube` `status` `active`. Do not invent items. Live files are empty and coming-soon. |
 | Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |
 | Add domain | `content/config/platform.json` | `topics[]` object. Start `planned`, `showOnHomepage` false, `showInNavigation` false. Planned python topic is OK. Do not invent Python lessons. |
 | SEO | `content/config/platform.json` `brand.description`, `brand.tagline`, `brand.url`; `app/layout.tsx` `metadata` | layout reads `siteConfig` from `lib/site.ts` (brand name/tagline/description). Per-page `generateMetadata` on listing/slug pages. Sitemap `app/sitemap.ts`, robots `app/robots.ts` |
-| Header CTA | `content/config/platform.json` | `copy.headerCta` (live: Start Day 1), `copy.headerCtaHref` (live: /learn/day-01). Overflow label More is code, cap 5 |
+| Header CTA | `content/config/platform.json` | `copy.headerCta` (live: Start Day 1), `copy.headerCtaHref` (live: /learn/day-01). Overflow label Explore is code, cap 3 |
 
 ## COMPLETE EXAMPLE
 
-Change the hero title: edit `content/config/platform.json` `copy.heroTitle`. Do not edit `components/home/HeroSection.tsx` for that string. Then npm run validate and refresh http://localhost:3000.
+Change the visible homepage title by editing `content/config/programs.json` `title` (live: DevOps Engineer Mastery). `copy.heroTitle` should stay empty so the brand is not repeated under the header. Then `npm run validate` and refresh the preview.
 
 Enable YouTube: only after a real video exists. Put an object with `id`, `title`, `publishedAt`, `url` in `content/media/youtube.json`. Set `social` id youtube and `contentTypes` id youtube to `status` `active`. Until then /youtube 404s. Full doc: [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md).
 

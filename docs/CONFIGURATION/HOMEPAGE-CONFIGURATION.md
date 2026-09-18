@@ -25,7 +25,7 @@ The homepage is learner-first. Personal story lives on `/about`.
 | `hero` | Program name, 120 days, Start Day 1 | Always shown |
 | `continue-learning` | Resume banner when the visitor has progress | Hidden when empty (`showWhenEmpty: false`) |
 | `program` | Length / phases / current / ready facts | Always shown if enabled |
-| `journey` | Compact 11-phase map | Always shown if enabled |
+| `phases` | Compact 11-phase map | Always shown if enabled |
 | `why` | Why DevOps before AI (generate vs still-need) | Always shown if enabled |
 | `today` | Published days (1–3 today) | Component hides itself if none are published |
 | `method` | How a day works | Always shown if enabled |
@@ -49,11 +49,11 @@ Unknown type is skipped. `npm run validate` errors.
 1. hero — DevOps Engineer Mastery, 120 days, Start Day 1
 2. continue-learning (only if the visitor has progress)
 3. program — facts strip
-4. journey — what you will work through
+4. phases — what you will work through
 5. why — Why DevOps before AI
 6. today — published days
 7. method — how a day works
-8. path — where this goes next
+8. path — after this program
 9. prose `community`
 10. cta — Start at Day 1
 
@@ -64,8 +64,8 @@ Disabled (kept in JSON so you can turn them on later): what, topic-grid, recent,
 Edit `content/config/platform.json`:
 
 - Hero strings: `copy.heroBadge`, `copy.heroDescription`, `copy.heroPrimaryCta`, `copy.heroPrimaryCtaHref`
-- Program headline comes from `content/config/programs.json` `title` / `durationLabel` / `outcome`
-- Supporting site line: `brand.tagline` (functional, not a slogan). Currently `Technology learning, starting with DevOps.`
+- Program headline comes from `content/config/programs.json` `title` / `durationLabel`. Outcome stays on `/learn`, not the hero.
+- Supporting site line: `brand.description`. `brand.tagline` is optional and currently empty. Do not invent a slogan.
 - Story: `story.whyBody`, `story.whyGenerate`, `story.whyStillNeed`, `story.methodBody`, `story.methodSteps`, `story.pathBody`, `story.communityBody`
 - About page: `about.title`, `about.intro`, `about.sections`
 - Later stages: `futurePath`

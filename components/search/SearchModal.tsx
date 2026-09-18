@@ -141,7 +141,7 @@ export default function SearchModal() {
             <div className="max-h-[60vh] overflow-y-auto p-3" role="listbox" aria-label="Search results">
               {query.trim().length === 0 ? (
                 <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Search published days, lessons, and the 120-day journey.
+                  Search published days, lessons, and the 120-day plan.
                 </p>
               ) : isLoading && results.length === 0 ? (
                 <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">

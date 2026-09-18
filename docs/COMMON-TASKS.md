@@ -122,16 +122,18 @@ File: `content/config/platform.json` `copy`. Live values:
 
 ```json
 {
-  "heroBadge": "The AI Rishi",
-  "heroTitle": "The AI Rishi",
+  "heroBadge": "Current program",
+  "heroTitle": "",
   "heroTagline": "",
-  "heroDescription": "A 120-day DevOps path from the shell toward production-shaped work. Practise, debug, and review — including code that AI generates. AI and Agentic AI come after this foundation. Content is free.",
+  "heroDescription": "A structured path from Linux and Git through cloud, CI/CD, containers, Kubernetes, and production engineering.",
   "heroPrimaryCta": "Start Day 1",
   "heroPrimaryCtaHref": "/learn/day-01",
   "heroSecondaryCta": "Explore the 120-day plan",
   "heroSecondaryCtaHref": "/learn"
 }
 ```
+
+The visible hero title is the current program name from `programs.json`, not `copy.heroTitle`. Keep `heroTitle` empty so the brand is not repeated under the header.
 
 Full doc: [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md).
 
@@ -230,17 +232,19 @@ Full doc: [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md).
 
 ### Change nav
 
-File: `content/config/platform.json` `navigation.main` and `navigation.footer`. Header cap 5; overflow disclosure is **More**. Header CTA is `copy.headerCta` Start Day 1, `copy.headerCtaHref` /learn/day-01 (not a sixth nav item). Live main items:
+File: `content/config/platform.json` `navigation.main` and `navigation.footer`. Header shows the first 3 enabled items; overflow disclosure is **Explore**. Header CTA is `copy.headerCta` Start Day 1, `copy.headerCtaHref` /learn/day-01 (not a sixth nav item). Live main items:
 
 ```json
 [
   { "id": "start", "label": "Start", "href": "/learn/day-01", "enabled": true, "order": 1, "status": "active" },
-  { "id": "journey", "label": "Journey", "href": "/learn", "enabled": true, "order": 2, "status": "active" },
-  { "id": "about", "label": "About", "href": "/about", "enabled": true, "order": 3, "status": "active" }
+  { "id": "plan", "label": "120 Days", "href": "/learn", "enabled": true, "order": 2, "status": "active" },
+  { "id": "about", "label": "About", "href": "/about", "enabled": true, "order": 3, "status": "active" },
+  { "id": "guides", "label": "Guides", "href": "/guides", "enabled": true, "order": 4, "status": "active", "source": { "kind": "contentType", "id": "guides" } },
+  { "id": "projects", "label": "Projects", "href": "/projects", "enabled": true, "order": 5, "status": "active", "source": { "kind": "contentType", "id": "projects" } }
 ]
 ```
 
-To drop Start from the bar: set that object `enabled` false. A sixth enabled main item goes into More, not a sixth header slot.
+To drop Start from the bar: set that object `enabled` false. Guides and Projects sit in Explore, not a fourth header slot.
 
 Full doc: [CONFIGURATION/NAVIGATION-CONFIGURATION.md](./CONFIGURATION/NAVIGATION-CONFIGURATION.md).
 

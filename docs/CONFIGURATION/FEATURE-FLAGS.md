@@ -49,7 +49,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Start Day 1, headerCtaHref /learn/day-01, heroPrimaryCta Start Day 1, heroPrimaryCtaHref /learn/day-01, heroSecondaryCta See the 120-day journey, heroSecondaryCtaHref /learn. Overflow disclosure is More. Nav is Start / Journey / About.
+Live: headerCta Start Day 1, headerCtaHref /learn/day-01, heroPrimaryCta Start Day 1, heroPrimaryCtaHref /learn/day-01, heroSecondaryCta Explore the 120-day plan, heroSecondaryCtaHref /learn. Overflow disclosure is Explore. Nav is Start / 120 Days / About.
 
 ## defaults
 
@@ -143,7 +143,7 @@ Example: logo /brand/logo-horizontal.png, logoMark /brand/logo-mark.png, ogImage
 
 heroBadge, heroTitle, heroTagline, heroDescription, heroPrimaryCta, heroPrimaryCtaHref, heroSecondaryCta, heroSecondaryCtaHref, headerCta, headerCtaHref, footerCopyright.
 
-Live: headerCta Start Day 1, headerCtaHref /learn/day-01, heroPrimaryCta Start Day 1, heroPrimaryCtaHref /learn/day-01, heroSecondaryCta See the 120-day journey, heroSecondaryCtaHref /learn. Overflow disclosure is More. Nav is Start / Journey / About.
+Live: headerCta Start Day 1, headerCtaHref /learn/day-01, heroPrimaryCta Start Day 1, heroPrimaryCtaHref /learn/day-01, heroSecondaryCta Explore the 120-day plan, heroSecondaryCtaHref /learn. Overflow disclosure is Explore. Nav is Start / 120 Days / About.
 
 ## defaults
 

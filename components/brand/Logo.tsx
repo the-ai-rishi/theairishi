@@ -29,10 +29,12 @@ export default function Logo({
     <Link
       href="/"
       aria-label={`${label}, home`}
-      className={`inline-flex items-center gap-2.5 ${className}`}
+      className={`inline-flex min-w-0 items-center gap-2 sm:gap-2.5 ${className}`}
     >
-      <BrandMark className="h-7 w-7 shrink-0 text-gold" />
-      <span className="font-serif text-lg tracking-[0.02em] text-cream sm:text-xl">{name}</span>
+      <BrandMark className="h-6 w-6 shrink-0 text-gold sm:h-7 sm:w-7" />
+      <span className="truncate font-serif text-[15px] leading-none tracking-[0.02em] text-cream sm:text-xl">
+        {name}
+      </span>
     </Link>
   );
 }

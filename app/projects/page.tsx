@@ -4,12 +4,14 @@ import PageShell from "@/components/brand/PageShell";
 import { getAllProjectSummaries } from "@/lib/projects";
 import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { notFound } from "next/navigation";
+import { canonicalAlternates } from "@/lib/urls";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Labs",
     description:
-      "Real-world labs, agent architectures, and infrastructure built in public.",
+      "Build write-ups and practical labs. Existing labs are earlier notes, not the current DevOps program.",
+    alternates: canonicalAlternates("/projects"),
   };
 }
 

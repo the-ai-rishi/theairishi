@@ -18,9 +18,11 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
           <Logo brand={brand} variant="mark" />
           <div>
             <p className="font-serif text-xl tracking-[0.02em] text-cream">{brand?.name}</p>
-            <p className="mt-1 font-mono text-[12px] tracking-[0.08em] text-cream/40">
-              {brand?.tagline}
-            </p>
+            {brand?.tagline ? (
+              <p className="mt-1 font-mono text-[12px] tracking-[0.08em] text-cream/40">
+                {brand.tagline}
+              </p>
+            ) : null}
             <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-cream/40">
               {brand?.description}
             </p>

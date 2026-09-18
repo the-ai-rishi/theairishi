@@ -1,5 +1,5 @@
 import { getSearchIndexInputs } from "./visibility-core";
-import { loadPlatformConfig } from "./config";
+import { loadPlatformConfig, getTopicRecord } from "./config";
 import { getLiveCatalog } from "./catalog";
 
 export interface SearchResultItem {
@@ -54,16 +54,24 @@ function matchesQuery(query: string, blob: string): boolean {
   return tokens.every((token) => hay.includes(` ${token} `));
 }
 
+function badgeForTopic(topicSlug: unknown): string | undefined {
+  if (!topicSlug) return undefined;
+  const topic = getTopicRecord(String(topicSlug));
+  return topic?.searchBadge || topic?.shortName || undefined;
+}
+
 export function searchSite(query: string): SearchResultItem[] {
   const q = query.trim();
   if (!q) return [];
 
   const results: SearchResultItem[] = [];
-  const index = getSearchIndexInputs(loadPlatformConfig(), getLiveCatalog());
+  const platform = loadPlatformConfig();
+  const index = getSearchIndexInputs(platform, getLiveCatalog());
 
   for (const t of index.topics) {
     const blob = blobOf([t.name, t.shortName, t.description, t.slug, t.badge, t.category]);
     if (!matchesQuery(q, blob)) continue;
+    const record = getTopicRecord(String(t.id || t.slug || ""));
     results.push({
       id: `topic-${String(t.id || "")}`,
       title: String(t.name || ""),
@@ -71,7 +79,7 @@ export function searchSite(query: string): SearchResultItem[] {
       type: "Topic",
       url: `/topics/${String(t.slug || "")}`,
       category: t.category ? String(t.category) : undefined,
-      badge: t.badge ? String(t.badge) : undefined,
+      badge: record?.searchBadge || (t.badge ? String(t.badge) : undefined),
     });
   }
 
@@ -113,7 +121,7 @@ export function searchSite(query: string): SearchResultItem[] {
       type: labelForSearchType(item.type),
       url: String(item.url || "/"),
       category: item.category as string | undefined,
-      badge: item.topicSlug as string | undefined,
+      badge: badgeForTopic(item.topicSlug) || (item.topicSlug as string | undefined),
     });
   }
 

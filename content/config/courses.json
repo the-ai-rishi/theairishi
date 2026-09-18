@@ -3,7 +3,7 @@
     "id": "devops-engineer-mastery",
     "slug": "devops-engineer-mastery",
     "title": "DevOps Engineer Mastery",
-    "description": "120-day production-shaped DevOps journey. Phase 01 is foundations: shell, Git, permissions, processes, logs, TCP, HTTP, DNS, TLS.",
+    "description": "120-day production-shaped DevOps program. Phase 01 is foundations: shell, Git, permissions, processes, logs, TCP, HTTP, DNS, TLS.",
     "topic": "devops",
     "category": "Infrastructure & DevOps",
     "order": 1,

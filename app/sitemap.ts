@@ -1,14 +1,11 @@
 import type { MetadataRoute } from "next";
-import { getAllLessonSlugs } from "@/lib/lessons";
-import { getAllGuideSlugs } from "@/lib/guides";
-import { getAllProjectSlugs } from "@/lib/projects";
-import { loadPlatformConfig, getContentTypeRecord, getDefaultsConfig } from "@/lib/config";
+import { loadPlatformConfig, getDefaultsConfig } from "@/lib/config";
 import { getLiveCatalog } from "@/lib/catalog";
-import { getSitemapInputs, isVisibleOnSurface, formatCount } from "@/lib/visibility-core";
-import { siteConfig } from "@/lib/site";
+import { getSitemapInputs } from "@/lib/visibility-core";
+import { getSiteOrigin } from "@/lib/urls";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.url;
+  const baseUrl = getSiteOrigin();
   const platform = loadPlatformConfig();
   const catalog = getLiveCatalog();
   const inputs = getSitemapInputs(platform, catalog);
@@ -39,40 +36,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  const learnType = getContentTypeRecord("learn");
-  if (learnType && isVisibleOnSurface({ ...learnType, contentCount: formatCount(catalog, "learn") }, "sitemap", { requireContent: true })) {
-    for (const slug of getAllLessonSlugs()) {
-      routes.push({
-        url: `${baseUrl}/learn/${slug}`,
-        lastModified: stamp,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      });
-    }
-  }
-
-  const guidesType = getContentTypeRecord("guides");
-  if (guidesType && isVisibleOnSurface({ ...guidesType, contentCount: formatCount(catalog, "guides") }, "sitemap", { requireContent: true })) {
-    for (const slug of getAllGuideSlugs()) {
-      routes.push({
-        url: `${baseUrl}/guides/${slug}`,
-        lastModified: stamp,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      });
-    }
-  }
-
-  const projectsType = getContentTypeRecord("projects");
-  if (projectsType && isVisibleOnSurface({ ...projectsType, contentCount: formatCount(catalog, "projects") }, "sitemap", { requireContent: true })) {
-    for (const slug of getAllProjectSlugs()) {
-      routes.push({
-        url: `${baseUrl}/projects/${slug}`,
-        lastModified: stamp,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      });
-    }
+  for (const item of inputs.items) {
+    const path = String(item.url || "");
+    if (!path || !path.startsWith("/")) continue;
+    routes.push({
+      url: `${baseUrl}${path}`,
+      lastModified: stamp,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
   }
 
   const seen = new Set<string>();

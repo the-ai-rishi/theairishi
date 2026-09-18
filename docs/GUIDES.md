@@ -1,3 +1,3 @@
 # GUIDES
 
-Moved. See FEATURES/GUIDES.md and FEATURES/ESSAYS.md. Start at START_HERE.md.
+Moved. See FEATURES/GUIDES.md and FEATURES/ESSAYS.md. Start at START-HERE.md.

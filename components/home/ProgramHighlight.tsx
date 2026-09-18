@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
 import { getHydratedPhases, getProgram, getPublishedProgramDays } from "@/lib/programs";
 
@@ -14,7 +13,7 @@ export default function ProgramHighlight({ section }: { section: ResolvedHomepag
     { label: "Phases", value: String(phases.length) },
     {
       label: "Current",
-      value: current ? `${String(current.number).padStart(2, "0")} · ${current.name}` : "—",
+      value: current ? `${current.number} · ${current.name}` : "—",
     },
     {
       label: "Ready",
@@ -25,11 +24,11 @@ export default function ProgramHighlight({ section }: { section: ResolvedHomepag
   ];
 
   return (
-    <section className="scroll-mt-24 py-8 sm:py-10">
+    <section className="scroll-mt-24 py-6 sm:py-8" aria-label="Program snapshot" data-section={section.id}>
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <dl className="grid grid-cols-2 gap-px bg-hairline sm:grid-cols-4">
           {facts.map((fact) => (
-            <div key={fact.label} className="bg-ink px-4 py-5 sm:px-5 sm:py-6">
+            <div key={fact.label} className="bg-ink px-4 py-4 sm:px-5 sm:py-5">
               <dt className="font-mono text-[11px] tracking-[0.16em] uppercase text-cream/40">
                 {fact.label}
               </dt>
@@ -37,14 +36,6 @@ export default function ProgramHighlight({ section }: { section: ResolvedHomepag
             </div>
           ))}
         </dl>
-        <div className="mt-6 flex flex-wrap items-center gap-5">
-          <Link
-            href={section.ctaHref || "/learn"}
-            className="link-editorial font-mono text-[13px] tracking-[0.12em] text-cream/55 hover:text-gold"
-          >
-            {section.ctaLabel || "Full plan"} →
-          </Link>
-        </div>
       </div>
     </section>
   );

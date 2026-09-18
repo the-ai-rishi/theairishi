@@ -451,12 +451,12 @@ function runScenarioTests() {
     check(
       liveHomeTypes.includes("hero") &&
         liveHomeTypes.includes("program") &&
-        liveHomeTypes.includes("journey") &&
+        liveHomeTypes.includes("phases") &&
         liveHomeTypes.includes("why") &&
         liveHomeTypes.includes("today") &&
         liveHomeTypes.includes("method") &&
         liveHomeTypes.includes("path"),
-      "Production: homepage is learner-first (hero/program/journey/why/today/method/path)"
+      "Production: homepage is learner-first (hero/program/phases/why/today/method/path)"
     );
     check(
       !liveHome.some((s) => s.type === "topic-grid"),
@@ -479,11 +479,13 @@ function runScenarioTests() {
       liveNav.some((item) => item.href === "/learn/day-01") &&
         liveNav.some((item) => item.href === "/learn") &&
         liveNav.some((item) => item.href === "/about"),
-      "Production: nav is Start / Journey / About"
+      "Production: nav is Start / 120 Days / About"
     );
     check(
-      liveNav.every((item) => !["/guides", "/projects", "/topics/ai"].includes(String(item.href))),
-      "Production: guides, labs, and AI topic are not primary nav"
+      liveNav.some((item) => item.href === "/guides") &&
+        liveNav.some((item) => item.href === "/projects") &&
+        liveNav.every((item) => item.href !== "/topics/ai"),
+      "Production: Guides and Projects are in nav; AI topic is not"
     );
     check(
       liveNav.every((item) => !String(item.href).includes("/topics/updates")),
@@ -647,6 +649,84 @@ function runScenarioTests() {
       vis.contentTypeRouteState(t13, "learn").state === "not-found",
       "Test 13: enabled-false learn is not-found"
     );
+
+    check(
+      liveNav.some((item) => item.label === "Start") &&
+        liveNav.some((item) => item.label === "120 Days") &&
+        liveNav.some((item) => item.label === "About") &&
+        liveNav.every((item) => item.label !== "Journey"),
+      "Production: nav labels are Start / 120 Days / About, not Journey"
+    );
+    check(
+      live.copy.heroTitle === "" && live.copy.heroBadge !== live.brand.name,
+      "Production: hero does not repeat the brand name"
+    );
+    check(
+      !Object.prototype.hasOwnProperty.call(live.brand, "lineage"),
+      "Production: brand.lineage is absent"
+    );
+    check(
+      vis.getSitemapInputs(live, liveCat).items.every((item) => item.topicSlug !== "ai"),
+      "Production: sitemap items exclude the AI topic"
+    );
+
+    const liveSearch = vis.getSearchIndexInputs(live, liveCat);
+    check(
+      !liveSearch.topics.some((topic) => topic.id === "ai"),
+      "Production: AI topic is excluded from search by includeInSearch: false"
+    );
+    check(
+      !liveSearch.items.some((item) => item.topicSlug === "ai"),
+      "Production: AI notes are excluded from search items"
+    );
+    check(
+      vis.topicRouteState(live, "ai", liveCat).state === "active",
+      "Production: AI notes remain routable at their URLs"
+    );
+    check(
+      !vis.getSitemapInputs(live, liveCat).topicPaths.includes("/topics/ai"),
+      "Production: /topics/ai is omitted from the sitemap"
+    );
+
+    // ── Test 14: includeInSearch false hides topic from search, not routes ──
+    const t14 = clone(live);
+    const ai14 = t14.topics.find((topic) => topic.id === "ai");
+    ai14.includeInSearch = true;
+    ai14.includeInSitemap = true;
+    const search14on = vis.getSearchIndexInputs(t14, liveCat);
+    check(
+      search14on.topics.some((topic) => topic.id === "ai"),
+      "Test 14: includeInSearch true puts AI back in search topics"
+    );
+    ai14.includeInSearch = false;
+    ai14.includeInSitemap = false;
+    const search14off = vis.getSearchIndexInputs(t14, liveCat);
+    check(
+      !search14off.topics.some((topic) => topic.id === "ai"),
+      "Test 14: includeInSearch false removes AI from search topics"
+    );
+    check(
+      vis.topicRouteState(t14, "ai", liveCat).state === "active",
+      "Test 14: route for AI stays active when search is off"
+    );
+
+    ai14.includeInSearch = true;
+    ai14.includeInSitemap = false;
+    const mixed14 = vis.getSearchIndexInputs(t14, liveCat);
+    const mixed14map = vis.getSitemapInputs(t14, liveCat);
+    check(
+      mixed14.topics.some((topic) => topic.id === "ai"),
+      "Test 14: search can include a topic that the sitemap omits"
+    );
+    check(
+      !mixed14map.topicPaths.includes("/topics/ai"),
+      "Test 14: includeInSitemap false omits /topics/ai even if search is on"
+    );
+    check(
+      mixed14map.items.every((item) => item.topicSlug !== "ai"),
+      "Test 14: includeInSitemap false omits AI item URLs from the sitemap"
+    );
+
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -660,7 +740,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-13)");
+  console.log("SCENARIO TESTS PASSED (1-14)");
   return true;
 }
 

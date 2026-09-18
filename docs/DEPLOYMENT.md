@@ -1,3 +1,3 @@
 # DEPLOYMENT
 
-Moved. See OPERATIONS/DEPLOYMENT.md. Start at START_HERE.md.
+Moved. See OPERATIONS/DEPLOYMENT.md. Start at START-HERE.md.

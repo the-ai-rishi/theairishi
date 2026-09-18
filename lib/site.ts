@@ -1,7 +1,9 @@
-import { getBrandConfig, getMainNavigation, getFooterNavigation, getSocialPlatforms, getSearchTopics } from "./config";
+import { getBrandConfig, getMainNavigation, getFooterNavigation, getSocialPlatforms, getSearchTopics, getDefaultsConfig } from "./config";
+import { getSiteOrigin } from "./urls";
 
 function buildSiteConfig() {
   const brand = getBrandConfig();
+  const defaults = getDefaultsConfig();
   const socialPlatforms = getSocialPlatforms();
 
   const socialMap: Record<string, string> = {};
@@ -12,15 +14,16 @@ function buildSiteConfig() {
   }
 
   const publicTopics = getSearchTopics();
+  const tagline = brand.tagline?.trim() || "";
 
   return {
     name: brand.name,
-    tagline: brand.tagline,
+    tagline,
     description: brand.description,
-    url: process.env.NEXT_PUBLIC_SITE_URL || brand.url,
+    url: getSiteOrigin(),
     author: {
-      name: brand.name,
-      role: brand.tagline,
+      name: defaults.authorName || brand.name,
+      role: brand.description,
       bio: brand.description,
       email: brand.email,
     },
@@ -32,7 +35,7 @@ function buildSiteConfig() {
     },
     keywords: Array.from(
       new Set(
-        [brand.name, brand.tagline, ...publicTopics.flatMap((t) => [t.name, t.shortName, t.badge])].filter(
+        [brand.name, ...publicTopics.flatMap((t) => [t.name, t.shortName, t.badge])].filter(
           Boolean
         )
       )

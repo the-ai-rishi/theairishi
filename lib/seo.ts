@@ -1,32 +1,45 @@
-import { getBrandConfig } from "./config";
-import { siteConfig } from "./site";
+import { getBrandConfig, getDefaultsConfig } from "./config";
+import { canonicalUrl, getSiteOrigin } from "./urls";
+
+function personJsonLd() {
+  const brand = getBrandConfig();
+  const defaults = getDefaultsConfig();
+  const person: Record<string, unknown> = {
+    "@type": "Person",
+    name: defaults.authorName || brand.name,
+    url: getSiteOrigin(),
+  };
+  if (brand.email) person.email = brand.email;
+  if (brand.shortName) person.alternateName = brand.shortName;
+  person.sameAs = ["https://github.com/the-ai-rishi"];
+  return person;
+}
+
+export function publisherJsonLd() {
+  return personJsonLd();
+}
 
 export function organizationJsonLd() {
   const brand = getBrandConfig();
+  const person = personJsonLd();
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: brand.name,
-    url: siteConfig.url,
-    email: brand.email,
-    logo: `${siteConfig.url}${brand.logoMark || brand.logo}`,
+    ...person,
     description: brand.description,
-    slogan: brand.tagline,
   };
 }
 
 export function websiteJsonLd() {
   const brand = getBrandConfig();
+  const person = personJsonLd();
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: brand.name,
-    url: siteConfig.url,
+    url: getSiteOrigin(),
     description: brand.description,
-    publisher: {
-      "@type": "Organization",
-      name: brand.name,
-    },
+    publisher: person,
+    author: person,
   };
 }
 
@@ -39,27 +52,21 @@ export function articleJsonLd(input: {
   image?: string;
 }) {
   const brand = getBrandConfig();
+  const person = personJsonLd();
+  const pageUrl = input.url.startsWith("http") ? input.url : canonicalUrl(input.url);
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: input.title,
     description: input.description,
-    url: input.url,
+    url: pageUrl,
     datePublished: input.datePublished,
     dateModified: input.dateModified || input.datePublished,
-    image: input.image ? `${siteConfig.url}${input.image}` : `${siteConfig.url}${brand.ogImage}`,
-    author: {
-      "@type": "Organization",
-      name: brand.name,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: brand.name,
-      logo: {
-        "@type": "ImageObject",
-        url: `${siteConfig.url}${brand.logoMark || brand.logo}`,
-      },
-    },
-    mainEntityOfPage: input.url,
+    image: input.image
+      ? `${getSiteOrigin()}${input.image}`
+      : `${getSiteOrigin()}${brand.ogImage}`,
+    author: person,
+    publisher: person,
+    mainEntityOfPage: pageUrl,
   };
 }

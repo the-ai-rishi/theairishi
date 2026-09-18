@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { BookOpen, Check, ChevronRight, Clock, Share2 } from "lucide-react";
+import { formatDayLabel } from "@/lib/labels";
 
 interface LessonHeaderProps {
   courseTitle?: string;
@@ -58,7 +59,7 @@ export default function LessonHeader({
             href="/learn"
             className="transition hover:text-cream hover:underline underline-offset-4"
           >
-            Journey
+            120 Days
           </Link>
           {courseTitle && (
             <>
@@ -69,8 +70,8 @@ export default function LessonHeader({
           <ChevronRight className="h-3 w-3 text-cream/25 shrink-0" />
           <span className="text-cream/80 font-medium">
             {day
-              ? `Day ${String(day).padStart(2, "0")} · ${stage}`
-              : `Stage ${String(stageNumber).padStart(2, "0")} · ${stage}`}
+              ? `${formatDayLabel(day)} · ${stage}`
+              : `Stage ${stageNumber} · ${stage}`}
           </span>
         </nav>
 

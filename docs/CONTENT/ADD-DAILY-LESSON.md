@@ -84,7 +84,7 @@ After the next build:
 
 - `/learn/day-04` — the lesson
 - `/learn` — under Published days and under Phase 01
-- Homepage program/journey counts go up by one
+- Homepage program/phases counts go up by one
 - Search for `day 4` or `permissions`
 - Sitemap
 

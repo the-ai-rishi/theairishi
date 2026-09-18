@@ -8,11 +8,18 @@ import {
   getBrandConfig,
   getPlatformCopy,
 } from "@/lib/config";
-import { siteConfig } from "@/lib/site";
+import { getProgram } from "@/lib/programs";
+import { canonicalAlternates } from "@/lib/urls";
+
+const program = getProgram();
+const brand = getBrandConfig();
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — ${siteConfig.tagline}`,
-  description: siteConfig.description,
+  title: {
+    absolute: `${program.title} | ${brand.name}`,
+  },
+  description: brand.description,
+  alternates: canonicalAlternates("/"),
 };
 
 export default function Home() {
