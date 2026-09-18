@@ -400,6 +400,11 @@ details.phase-block > summary.phase-summary {
   list-style: none;
 }
 
+details.phase-block > summary.phase-summary:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
 details.phase-block > summary.phase-summary::-webkit-details-marker {
   display: none;
 }

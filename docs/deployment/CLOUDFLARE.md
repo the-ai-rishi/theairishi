@@ -26,8 +26,10 @@ Local works, Cloudflare logs show missing files, or you are deploying with Wrang
 
 | File | Role |
 | --- | --- |
-| `scripts/generate-content-data.js` | Embeds `content/**/*.md,json` |
-| `lib/content-data.generated.ts` | Generated. Gitignored. Created by `prebuild` / `precf:build` |
+| `scripts/generate-content-data.js` | Embeds `content/**/*.md,json` and writes the published `/learn` slug allow-list |
+| `lib/content-data.generated.ts` | Generated. Gitignored. Created before every Next compile |
+| `lib/published-lesson-slugs.generated.ts` | Generated allow-list for middleware 404s |
+| `middleware.ts` | Rewrites unknown `/learn/[slug]` to `/missing-lesson` with HTTP 404 |
 | `lib/config.ts` | Static JSON import |
 | `lib/content-runtime.ts` | Catalog + dev overlay |
 | `open-next.config.ts` | `buildCommand: "node scripts/generate-content-data.js && npx next build"` |
@@ -52,6 +54,7 @@ npm run cf:deploy
 - Refresh `/` several times. No recurring `[config] Platform config not found`.
 - `/learn`, `/learn/day-01`, `/guides`, `/projects`, `/topics/ai` still render.
 - `/learn/day-04` and `/youtube` still 404 while unpublished / coming-soon.
+- Unpublished days 404 because `middleware.ts` rewrites unknown `/learn/[slug]` to `/missing-lesson` with HTTP 404. The allow-list is `lib/published-lesson-slugs.generated.ts`, regenerated before every Next compile. `app/learn/[slug]/not-found.tsx` is not the unpublished-day mechanism.
 - Do not set `dynamicParams = false` on `/learn/[slug]`. OpenNext then 404s every published day even when the HTML was prerendered.
 
 ## 7. What NOT to change

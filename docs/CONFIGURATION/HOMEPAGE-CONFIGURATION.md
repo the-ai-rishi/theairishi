@@ -65,7 +65,7 @@ Edit `content/config/platform.json`:
 
 - Hero strings: `copy.heroBadge`, `copy.heroDescription`, `copy.heroPrimaryCta`, `copy.heroPrimaryCtaHref`
 - Program headline comes from `content/config/programs.json` `title` / `durationLabel`. Outcome stays on `/learn`, not the hero.
-- Supporting site line: `brand.description`. `brand.tagline` is optional and currently empty. Do not invent a slogan.
+- Supporting site line: `brand.description`. Omit `brand.tagline` unless you intend a slogan. An empty tagline field is rejected.
 - Story: `story.whyBody`, `story.whyGenerate`, `story.whyStillNeed`, `story.methodBody`, `story.methodSteps`, `story.pathBody`, `story.communityBody`
 - About page: `about.title`, `about.intro`, `about.sections`
 - Later stages: `futurePath`

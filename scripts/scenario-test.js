@@ -666,6 +666,11 @@ function runScenarioTests() {
       "Production: brand.lineage is absent"
     );
     check(
+      !Object.prototype.hasOwnProperty.call(live.brand, "tagline") ||
+        (typeof live.brand.tagline === "string" && live.brand.tagline.trim().length > 0),
+      "Production: brand.tagline is omitted unless it is a real slogan"
+    );
+    check(
       vis.getSitemapInputs(live, liveCat).items.every((item) => item.topicSlug !== "ai"),
       "Production: sitemap items exclude the AI topic"
     );
@@ -727,6 +732,44 @@ function runScenarioTests() {
       "Test 14: includeInSitemap false omits AI item URLs from the sitemap"
     );
 
+    ai14.includeInSearch = false;
+    ai14.includeInSitemap = true;
+    const mixed14bSearch = vis.getSearchIndexInputs(t14, liveCat);
+    const mixed14bMap = vis.getSitemapInputs(t14, liveCat);
+    check(
+      !mixed14bSearch.topics.some((topic) => topic.id === "ai"),
+      "Test 14: search can omit a topic that the sitemap includes"
+    );
+    check(
+      mixed14bMap.topicPaths.includes("/topics/ai"),
+      "Test 14: includeInSitemap true lists /topics/ai even if search is off"
+    );
+
+    // ── Test 15: planned topic cannot leak into search or sitemap ───────────
+    const t15 = clone(live);
+    const cloud15 = t15.topics.find((topic) => topic.id === "cloud");
+    cloud15.includeInSearch = true;
+    cloud15.includeInSitemap = true;
+    cloud15.showOnHomepage = true;
+    cloud15.showInNavigation = true;
+    const cat15 = productionCatalog({ topicContentCounts: { ai: 15, devops: 2, cloud: 0 } });
+    check(
+      vis.normalizeStatus(cloud15.status) === "planned",
+      "Test 15: cloud stays planned"
+    );
+    check(
+      !vis.getSearchIndexInputs(t15, cat15).topics.some((topic) => topic.id === "cloud"),
+      "Test 15: planned cloud is absent from search"
+    );
+    check(
+      !vis.getSitemapInputs(t15, cat15).topicPaths.includes("/topics/cloud"),
+      "Test 15: planned cloud is absent from sitemap"
+    );
+    check(
+      vis.topicRouteState(t15, "cloud", cat15).state === "not-found",
+      "Test 15: planned cloud has no public route"
+    );
+
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -740,7 +783,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-14)");
+  console.log("SCENARIO TESTS PASSED (1-15)");
   return true;
 }
 

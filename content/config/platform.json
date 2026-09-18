@@ -7,7 +7,6 @@
     "ogImage": "/brand/og-image.jpg",
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
-    "tagline": "",
     "description": "A technology learning platform. The current program is DevOps Engineer Mastery: 120 days of practical engineering, starting at the shell. Content is free.",
     "url": "https://theairishi.com",
     "email": "contact@theairishi.com",
@@ -28,7 +27,7 @@
   },
   "story": {
     "whatTitle": "What this is",
-    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is DevOps Engineer Mastery, a 120-day path from the shell toward production-shaped work. Content is free.",
+    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is DevOps Engineer Mastery, a 120-day path from the shell toward production-shaped work.",
     "whyTitle": "Why DevOps before AI",
     "whyBody": "AI can generate the files. You still have to understand them, catch what is wrong, run them, and live with the failure.",
     "whyGenerate": [
@@ -84,7 +83,7 @@
     "pathTitle": "After this program",
     "pathBody": "DevOps is the current program. Later stages stay off this site until there is real material.",
     "communityTitle": "If you want to learn with me",
-    "communityBody": "If you are willing to put in the hours, you can learn along with me. I may help with doubts and debugging when the question shows real work. Content on this site is free."
+    "communityBody": "If you are willing to put in the hours, you can learn along with me. I may help with doubts and debugging when the question shows real work."
   },
   "about": {
     "kicker": "About",
@@ -114,7 +113,7 @@
       {
         "id": "expect",
         "title": "What you can expect",
-        "body": "A clear 120-day DevOps plan, starting from the shell. Content that is free. Honesty about what is ready and what is still a title on the map. I want to focus on people who are genuinely willing to put in the work."
+        "body": "A clear 120-day DevOps plan, starting from the shell. Honesty about what is ready and what is still a title on the map. I want to focus on people who are genuinely willing to put in the work."
       },
       {
         "id": "not",
@@ -152,6 +151,10 @@
   "defaults": {
     "topicSlug": "devops",
     "authorName": "The AI Rishi",
+    "authorUrl": "https://theairishi.com",
+    "sameAs": [
+      "https://github.com/the-ai-rishi"
+    ],
     "contentDate": "2026-09-18"
   },
   "topics": [

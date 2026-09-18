@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 import { getBrandConfig, getSearchTopics } from "@/lib/config";
-import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { creatorJsonLd, websiteJsonLd } from "@/lib/seo";
 import { canonicalUrl, getSiteOrigin } from "@/lib/urls";
 
 const geistSans = Geist({
@@ -101,7 +101,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = [organizationJsonLd(), websiteJsonLd()];
+  const jsonLd = [creatorJsonLd(), websiteJsonLd()];
 
   return (
     <html

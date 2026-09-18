@@ -61,10 +61,11 @@ Operational source of truth for this website: `content/config/programs.json`. Ch
 
 Sync procedure:
 
-1. Update the mastery repo first.
-2. Copy the changed phase/day metadata into `content/config/programs.json`. Do not invent titles.
+1. Update the mastery repo first (`roadmap/120-day-execution.md`).
+2. Copy the changed phase/day **titles and summaries** into `content/config/programs.json`. Short headlines are fine; do not invent a different Day 13.
 3. If the day is ready to publish, add `content/lessons/day-NN.md`.
-4. Run the verify loop below.
+4. Run `npm run validate` (this regenerates the published-slug catalog).
+5. Preview the route, then commit.
 
 ## Visibility matrix
 
@@ -135,5 +136,30 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 9. Do not edit `lib/content-data.generated.ts`. It is generated.
 10. Project frontmatter `status` is a badge (`Completed` / `In Progress` / `Planned`). Hide a lab with `enabled: false`.
 11. Content on this site is free. Do not add pricing pages.
-12. `brand.tagline` is optional. Do not invent a slogan because the field exists.
+12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected.
 13. `brand.lineage` must not exist.
+14. `defaults.authorName` is the public Person in structured data. Set it on purpose. Do not infer a private legal name.
+15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile.
+
+## Generated catalogs (do not let them go stale)
+
+`scripts/generate-content-data.js` writes:
+
+- `lib/content-data.generated.ts` — markdown/JSON embed
+- `lib/published-lesson-slugs.generated.ts` — published `/learn/[slug]` allow-list plus static `app/learn/*` folders
+
+It runs from:
+
+1. `next.config.ts` on every `next dev` / `next build` (so `npx next build` cannot skip it)
+2. npm `predev` / `prebuild` / `prevalidate` / `precf:build`
+3. OpenNext `buildCommand`
+
+Adding `content/lessons/day-04.md` and running a production build regenerates the allow-list. Middleware will then let Day 4 through. You cannot ship a new day while middleware still thinks it is unpublished, unless you bypass Next entirely.
+
+Unpublished `/learn/day-N` 404s via middleware rewrite to `/missing-lesson` with HTTP 404. That is the mechanism on Cloudflare Workers. `app/learn/[slug]/not-found.tsx` is only a fallback if a listed slug is missing at runtime.
+
+## Compatibility docs
+
+Root files such as `ARCHITECTURE.md`, `AUTHORING.md`, `PLATFORM_MANUAL.md`, `CONFIGURATION_GUIDE.md`, `CONTENT_GUIDE.md`, and `PRODUCTION_GUIDE.md` are **one-line redirects**. They are not canonical. Start at [docs/START-HERE.md](./START-HERE.md) or [docs/DOCUMENTATION-MAP.md](./DOCUMENTATION-MAP.md).
+
+`lib/program-schema.js` is the only program validator. Runtime and `scripts/validate.js` both use it.

@@ -6,7 +6,9 @@ This site publishes the 120-day DevOps Engineer Mastery plan. The source of trut
 
 https://github.com/the-ai-rishi/devops-engineer-mastery
 
-Do not invent curriculum here. Copy titles and phase names from that repo’s locked execution plan (`roadmap/120-day-execution.md`).
+Do not invent curriculum here. Copy titles and phase names from that repo’s locked execution plan (`roadmap/120-day-execution.md`). Website titles are short headlines of those days, not a rewritten plan.
+
+`lib/program-schema.js` is the only validator for `programs.json`. Runtime uses the same file.
 
 ## What lives where
 

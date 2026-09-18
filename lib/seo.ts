@@ -6,12 +6,15 @@ function personJsonLd() {
   const defaults = getDefaultsConfig();
   const person: Record<string, unknown> = {
     "@type": "Person",
-    name: defaults.authorName || brand.name,
-    url: getSiteOrigin(),
+    name: defaults.authorName,
+    url: defaults.authorUrl || getSiteOrigin(),
   };
   if (brand.email) person.email = brand.email;
-  if (brand.shortName) person.alternateName = brand.shortName;
-  person.sameAs = ["https://github.com/the-ai-rishi"];
+  if (brand.shortName && brand.shortName !== defaults.authorName) {
+    person.alternateName = brand.shortName;
+  }
+  const sameAs = (defaults.sameAs || []).filter((value) => typeof value === "string" && value.startsWith("https://"));
+  if (sameAs.length) person.sameAs = sameAs;
   return person;
 }
 
@@ -19,13 +22,11 @@ export function publisherJsonLd() {
   return personJsonLd();
 }
 
-export function organizationJsonLd() {
-  const brand = getBrandConfig();
-  const person = personJsonLd();
+/** Public Person for JSON-LD. Name comes from defaults.authorName — an explicit operator choice, not inferred. */
+export function creatorJsonLd() {
   return {
     "@context": "https://schema.org",
-    ...person,
-    description: brand.description,
+    ...personJsonLd(),
   };
 }
 

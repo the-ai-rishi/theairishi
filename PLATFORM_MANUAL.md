@@ -1,3 +1,3 @@
-# Moved
+# Compatibility redirect
 
-See docs/START-HERE.md.
+Not canonical. See [docs/START-HERE.md](docs/START-HERE.md).

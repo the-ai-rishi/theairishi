@@ -49,6 +49,11 @@ export interface HydratedPhase extends ProgramPhase {
   publishedCount: number;
 }
 
+/**
+ * Runtime program config.
+ * `lib/program-schema.js` is the only validator. parseProgramConfig throws
+ * if programs.json is incomplete. Do not add a second TypeScript schema.
+ */
 export function getProgram(): ProgramConfig {
   return parseProgramConfig(programsJson) as ProgramConfig;
 }

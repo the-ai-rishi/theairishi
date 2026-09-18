@@ -16,7 +16,7 @@ Run the site locally and confirm the live public surfaces before you edit JSON o
    - One short description (`copy.heroDescription`)
    - Primary button: **Start Day 1** → `/learn/day-01`
    - Secondary: **Explore the 120-day plan** → `/learn`
-   - No brand tagline in the hero. `brand.tagline` may be empty.
+   - No brand tagline in the hero. Omit `brand.tagline` unless you intend a slogan.
 5. Header: Start, 120 Days, About. Explore contains Guides and Projects. CTA **Start Day 1**.
 6. Scroll: facts strip → eleven phases → Why DevOps before AI → available days → how a day works → where this goes next → community → Start at Day 1.
 7. Open `/youtube` and `/instagram` — both must 404.

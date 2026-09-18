@@ -4,6 +4,7 @@ import { getPlatformConfig, getRawCourseConfigs } from "./config";
 import { getPublishedContent } from "./content";
 import { getAllCourses } from "./lessons";
 import { getChannelItems } from "./media";
+import { getProgram } from "./programs";
 
 let _catalog: PlatformCatalog | null = null;
 
@@ -18,8 +19,24 @@ export function getLiveCatalog(): PlatformCatalog {
   return _catalog;
 }
 
+function hrefForCourse(
+  course: { id: string; slug?: string },
+  live: ReturnType<typeof getAllCourses>[number] | undefined,
+  program: ReturnType<typeof getProgram>
+): string {
+  if (course.id === program.id || course.slug === program.slug) {
+    return program.startHref || "/learn";
+  }
+  if (!live || live.id !== course.id) return "/learn";
+  const first = live.stages?.[0]?.lessons?.[0];
+  const courseKeys = new Set([course.id, course.slug].filter(Boolean));
+  if (!first || !courseKeys.has(first.metadata.course)) return "/learn";
+  return `/learn/${first.slug}`;
+}
+
 export function buildLiveCatalog(): PlatformCatalog {
   const platform = getPlatformConfig();
+  const program = getProgram();
   const published = getPublishedContent();
   const topicContentCounts: Record<string, number> = {};
   const formatContentCounts: Record<string, number> = {};
@@ -44,12 +61,11 @@ export function buildLiveCatalog(): PlatformCatalog {
 
   const liveCourses = getAllCourses();
   const courses = getRawCourseConfigs().map((course) => {
-    const live = liveCourses.find((c) => c.id === course.id || c.slug === course.slug);
-    const firstLesson = live?.stages?.[0]?.lessons?.[0];
+    const live = liveCourses.find((item) => item.id === course.id);
     return {
       ...course,
       lessonCount: live?.totalLessons ?? 0,
-      href: firstLesson ? `/learn/${firstLesson.slug}` : "/learn",
+      href: hrefForCourse(course, live, program),
     };
   });
 

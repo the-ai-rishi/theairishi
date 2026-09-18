@@ -12,6 +12,8 @@ When you know the job (add a guide, change hero, enable YouTube) and need the fi
 
 Read [START-HERE.md](./START-HERE.md) first. Then this map. Then [COMMON-TASKS.md](./COMMON-TASKS.md).
 
+Root `ARCHITECTURE.md`, `AUTHORING.md`, `PLATFORM_MANUAL.md`, `CONFIGURATION_GUIDE.md`, `CONTENT_GUIDE.md`, and `PRODUCTION_GUIDE.md` are compatibility redirects into `docs/`. They are not a second manual.
+
 ## WHERE
 
 Honesty: new topic / lesson / guide / project / channel-with-existing-type = JSON + markdown, no React. New homepage section TYPE, new route shape, new visibility semantics = developer. There is no Python content. YouTube and Instagram stay empty and coming-soon until REAL items exist. Active + zero content = no public route. Coming-soon is not a public coming-soon URL.
@@ -44,7 +46,7 @@ Use the I want to table, then the What file do I edit table.
 | Change SEO | CONFIGURATION/SEO-CONFIGURATION.md | app/layout.tsx metadata, generateMetadata, brand.description |
 | Add a domain / topic | ADVANCED/ADDING-A-NEW-DOMAIN.md | topics[] JSON. Planned python topic is OK. Do not invent Python lessons. |
 | Add a new homepage TYPE | ADVANCED/ADDING-A-NEW-FEATURE.md | visibility-core SECTION_TYPES plus React. Developer required. |
-| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-14 |
+| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-15 |
 | Deploy | OPERATIONS/DEPLOYMENT.md | Vercel, theairishi.vercel.app. PR branch is not auto-main. |
 | Fix a missing route or block | OPERATIONS/TROUBLESHOOTING.md | visibility-core 404-until-active-plus-content |
 | Revert a mistake | OPERATIONS/BACKUP-AND-RECOVERY.md | git restore, git revert. No force-push. |
@@ -58,7 +60,7 @@ Use the I want to table, then the What file do I edit table.
 | Enable YouTube | `content/media/youtube.json` plus `content/config/platform.json` | Real items in youtube.json first. Then `social[]` id `youtube` and `contentTypes[]` id `youtube` `status` `active`. Do not invent items. Live files are empty and coming-soon. |
 | Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |
 | Add domain | `content/config/platform.json` | `topics[]` object. Start `planned`, `showOnHomepage` false, `showInNavigation` false. Planned python topic is OK. Do not invent Python lessons. |
-| SEO | `content/config/platform.json` `brand.description`, `brand.tagline`, `brand.url`; `app/layout.tsx` `metadata` | layout reads `siteConfig` from `lib/site.ts` (brand name/tagline/description). Per-page `generateMetadata` on listing/slug pages. Sitemap `app/sitemap.ts`, robots `app/robots.ts` |
+| SEO | `content/config/platform.json` `brand.description`, `brand.url`, `defaults.authorName`; `app/layout.tsx` `metadata` | layout reads `siteConfig` from `lib/site.ts`. Per-page `generateMetadata`. Sitemap `app/sitemap.ts`, robots `app/robots.ts`. `brand.tagline` is omitted unless there is a real slogan. |
 | Header CTA | `content/config/platform.json` | `copy.headerCta` (live: Start Day 1), `copy.headerCtaHref` (live: /learn/day-01). Overflow label Explore is code, cap 3 |
 
 ## COMPLETE EXAMPLE

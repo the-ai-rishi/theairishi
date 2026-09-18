@@ -92,7 +92,10 @@ export interface FuturePathItem {
 
 export interface DefaultsConfig {
   topicSlug: string;
+  /** Public Person name for schema.org. Explicit operator choice — do not infer a private legal name. */
   authorName: string;
+  authorUrl?: string;
+  sameAs?: string[];
   contentDate: string;
 }
 
@@ -421,6 +424,7 @@ export function getDefaultsConfig(): DefaultsConfig {
       topicSlug: "",
       authorName: brand?.name || "",
       contentDate: "",
+      sameAs: [],
     }
   );
 }

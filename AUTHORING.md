@@ -1,3 +1,3 @@
-# Moved
+# Compatibility redirect
 
-See docs/CONTENT/ADD-LESSON.md and docs/START-HERE.md.
+Not canonical. See [docs/START-HERE.md](docs/START-HERE.md) and [docs/CONTENT/ADD-LESSON.md](docs/CONTENT/ADD-LESSON.md).

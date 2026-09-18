@@ -51,4 +51,4 @@ If it prints `Validation failed`, do not deploy.
 
 ## 6. Scenario tests
 
-The validator also runs `scripts/scenario-test.js`. Those tests clone `platform.json` and check that disabling a topic, a channel, or a content type actually removes it from homepage, nav, search, sitemap, and routes. They do **not** require the live homepage to show a topic grid. The live homepage is learner-first (hero / program / phases / why / today / method / path).
+The validator also runs `scripts/scenario-test.js` (tests 1–15). Those tests clone `platform.json` and check that disabling a topic, a channel, or a content type actually removes it from homepage, nav, search, sitemap, and routes. They do **not** require the live homepage to show a topic grid. The live homepage is learner-first (hero / program / phases / why / today / method / path). Search and sitemap are independent surfaces.

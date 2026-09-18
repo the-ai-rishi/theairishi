@@ -21,6 +21,7 @@ export default function ProgramPhaseMap({ phases }: { phases: HydratedPhase[] })
             href={`#${phase.id}`}
             className="shrink-0 border border-hairline px-3 py-2 font-mono text-[12px] tracking-[0.08em] text-cream/60 hover:border-gold/40 hover:text-gold"
           >
+            <span className="sr-only">Jump to phase </span>
             {phase.number} {phase.name}
             {phase.current ? " · now" : ""}
           </a>
@@ -34,7 +35,10 @@ export default function ProgramPhaseMap({ phases }: { phases: HydratedPhase[] })
             className="phase-block border-t border-hairline pt-6"
             open={phase.current}
           >
-            <summary className="phase-summary cursor-pointer list-none sm:cursor-default">
+            <summary
+              className="phase-summary cursor-pointer list-none sm:cursor-default"
+              aria-label={`${formatPhaseLabel(phase.number)} ${phase.name}, days ${phase.daysLabel}`}
+            >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="font-mono text-[12px] tracking-[0.16em] uppercase text-gold/70">

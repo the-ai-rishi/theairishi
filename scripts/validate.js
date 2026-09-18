@@ -9,6 +9,11 @@ const { runScenarioTests } = require("./scenario-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
 const { execFileSync } = require("child_process");
+const {
+  generateContentData,
+  collectPublishedLessonSlugs,
+  collectStaticLearnSegments,
+} = require("./generate-content-data");
 
 const rootDir = process.cwd();
 const configDir = path.join(rootDir, "content", "config");
@@ -669,6 +674,40 @@ if (fs.existsSync(seriesPath)) {
   } catch (err) {
     errors.push("Error parsing series.json: " + err.message);
   }
+}
+
+const nextConfigSource = fs.readFileSync(path.join(rootDir, "next.config.ts"), "utf8");
+if (!nextConfigSource.includes("generate-content-data.js")) {
+  errors.push(
+    "ERROR:\nnext.config.ts no longer regenerates the content catalog.\n\nFix:\nKeep the spawnSync of scripts/generate-content-data.js at the top of next.config.ts so `npx next build` cannot compile a stale published-lesson allow-list."
+  );
+}
+
+try {
+  const generated = generateContentData(rootDir);
+  const expectedSlugs = collectPublishedLessonSlugs(generated.embedded);
+  const expectedStatic = collectStaticLearnSegments(rootDir);
+  const slugFile = fs.readFileSync(generated.slugPath, "utf8");
+  const writtenSlugs = JSON.parse(slugFile.match(/PUBLISHED_LESSON_SLUGS = (\[[^\]]*\])/s)[1]);
+  const writtenStatic = JSON.parse(slugFile.match(/STATIC_LEARN_SEGMENTS = (\[[^\]]*\])/s)[1]);
+  if (JSON.stringify(writtenSlugs) !== JSON.stringify(expectedSlugs)) {
+    errors.push(
+      "ERROR:\nlib/published-lesson-slugs.generated.ts does not match published markdown.\n\nFix:\nRun node scripts/generate-content-data.js. Adding a lesson file must regenerate this allow-list before next build."
+    );
+  }
+  if (JSON.stringify(writtenStatic) !== JSON.stringify(expectedStatic)) {
+    errors.push(
+      "ERROR:\nSTATIC_LEARN_SEGMENTS does not match app/learn static folders.\n\nFix:\nDo not hardcode /learn exceptions in middleware. They are generated from app/learn/* directories."
+    );
+  }
+  if (!expectedSlugs.includes("day-01")) {
+    errors.push("ERROR:\nPublished slug catalog is missing day-01.");
+  }
+  if (expectedSlugs.includes("day-04") === false && fs.existsSync(path.join(rootDir, "content/lessons/day-04.md"))) {
+    errors.push("ERROR:\nday-04.md exists on disk but is not in the published slug catalog.");
+  }
+} catch (err) {
+  errors.push("ERROR:\nCould not verify generated lesson slug catalog: " + err.message);
 }
 
 function operatorFix(issue, file, field, value) {
