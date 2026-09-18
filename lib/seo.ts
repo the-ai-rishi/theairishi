@@ -1,4 +1,4 @@
-import { getBrandConfig, getDefaultsConfig } from "./config";
+import { getBrandConfig, getDefaultsConfig, getSameAsUrls } from "./config";
 import { canonicalUrl, getSiteOrigin } from "./urls";
 
 function personJsonLd() {
@@ -13,7 +13,7 @@ function personJsonLd() {
   if (brand.shortName && brand.shortName !== defaults.authorName) {
     person.alternateName = brand.shortName;
   }
-  const sameAs = (defaults.sameAs || []).filter((value) => typeof value === "string" && value.startsWith("https://"));
+  const sameAs = getSameAsUrls();
   if (sameAs.length) person.sameAs = sameAs;
   return person;
 }

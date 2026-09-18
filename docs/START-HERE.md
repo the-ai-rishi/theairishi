@@ -35,7 +35,7 @@ DevOps Engineer Mastery is a **program**. That is its canonical meaning.
 | **Topic** | Subject-area tag for visibility | `platform.json` `topics[]` | Homepage/nav/search/sitemap flags |
 | **Content type** | A route family (`learn`, `guides`, `projects`) | `platform.json` `contentTypes[]` | URLs and Explore |
 | **Series** | Reserved multi-format grouping | `content/config/series.json` | Unused. Keep `enabled: false`. |
-| **Feature / channel** | YouTube, Instagram, etc. | `platform.json` `social[]` | Hidden until active **and** real items exist |
+| **Feature / channel** | External profiles (Instagram, Telegram, GitHub) or on-site media (YouTube) | `platform.json` `social[]` | External links when enabled+active with a real https URL. On-site listings still need real items |
 
 Example: Day 1 is a **lesson** in the **program** `devops-engineer-mastery`, tagged with **topic** `devops`, served by **content type** `learn`.
 
@@ -44,7 +44,7 @@ Example: Day 1 is a **lesson** in the **program** `devops-engineer-mastery`, tag
 | What do I want to change? | Edit this |
 | --- | --- |
 | Brand, homepage, nav, About, future path | `content/config/platform.json` |
-| 120-day roadmap titles | `content/config/programs.json` (copy from the mastery repo; this file does **not** auto-sync) |
+| 120-day roadmap titles | `content/config/programs.json` `programs[]` (copy from the mastery repo; this file does **not** auto-sync). Featured program is `featuredProgramId`. |
 | Daily lesson | `content/lessons/day-NN.md` |
 | Archive / older notes | `content/lessons/<slug>.md` (same `/learn/<slug>` URL). Not `content/courses/`. |
 | Guides / writing | `content/guides/*.md` |
@@ -84,7 +84,7 @@ The current AI guide and lab keep their URLs and stay in **Explore**. They are t
 
 Allowed `homepage.sections[].type` values (unknown types fail validation):
 
-`hero` `program` `phases` `why` `today` `method` `path` `prose` `cta` `continue-learning` `topic-grid` `course-list` `content-list` `channel-grid`
+`hero` `program` `phases` `why` `today` `method` `path` `prose` `cta` `continue-learning` `destinations` `topic-grid` `course-list` `content-list` `channel-grid`
 
 ## Before every publish
 
@@ -109,7 +109,11 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 | Add a lab | [CONTENT/ADD-PROJECT.md](./CONTENT/ADD-PROJECT.md) |
 | Add a topic | [CONTENT/ADD-TOPIC.md](./CONTENT/ADD-TOPIC.md) |
 | Enable YouTube | [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md) |
-| Enable Instagram | [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md) |
+| Instagram (live external profile) | [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md) |
+| Telegram (reserved, empty URL) | [FEATURES/TELEGRAM.md](./FEATURES/TELEGRAM.md) |
+| Social configuration | [CONFIGURATION/SOCIAL-CONFIGURATION.md](./CONFIGURATION/SOCIAL-CONFIGURATION.md) |
+| Add a future program | [CONTENT/ADD-PROGRAM.md](./CONTENT/ADD-PROGRAM.md) |
+| Future operations (Day N, Phase 12, tabs) | [OPERATIONS/FUTURE-OPERATIONS.md](./OPERATIONS/FUTURE-OPERATIONS.md) |
 | Enable any feature | [FEATURES/ENABLE-FEATURE.md](./FEATURES/ENABLE-FEATURE.md) |
 | Disable a feature | [FEATURES/DISABLE-FEATURE.md](./FEATURES/DISABLE-FEATURE.md) |
 | Change homepage order | [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md) |
@@ -141,6 +145,8 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** — the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
 15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.
 16. `lib/lesson-publish.js` is the only “is this a public /learn page?” rule. Generator, runtime, and validate all use it. Markdown under `content/courses/` is never a `/learn` route.
+17. Instagram is an external profile (`social[]`), not an `/instagram` page. Do not invent Telegram URLs or Instagram posts. A public lesson needs an explicit `status` (`published`).
+18. `programs.json` is a catalog with `featuredProgramId`. Adding AI later is a new object in `programs[]`, not a homepage rewrite.
 
 ## Generated catalogs (do not let them go stale)
 

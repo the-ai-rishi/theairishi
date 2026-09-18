@@ -16,7 +16,7 @@ Root `ARCHITECTURE.md`, `AUTHORING.md`, `PLATFORM_MANUAL.md`, `CONFIGURATION_GUI
 
 ## WHERE
 
-Honesty: new topic / lesson / guide / project / channel-with-existing-type = JSON + markdown, no React. New homepage section TYPE, new route shape, new visibility semantics = developer. There is no Python content. YouTube and Instagram stay empty and coming-soon until REAL items exist. Active + zero content = no public route. Coming-soon is not a public coming-soon URL.
+Honesty: new topic / lesson / guide / project / program / nav tab / social destination = JSON + markdown, no React. New homepage section TYPE, new route shape, new visibility semantics = developer. There is no Python content. Instagram is a live external profile. Telegram stays disabled with an empty URL. YouTube stays empty and coming-soon until REAL items exist. Active internal channel + zero content = no public route.
 
 Kernel: `lib/visibility-core.js`. Config: `content/config/platform.json`, `content/config/courses.json`. Content: `content/lessons`, `content/courses`, `content/guides`, `content/projects`, `content/media`.
 
@@ -38,7 +38,11 @@ Use the I want to table, then the What file do I edit table.
 | Change frontmatter | CONTENT/CONTENT-METADATA.md | the YAML block in the markdown file |
 | Replace images | CONTENT/CONTENT-IMAGES.md | public/brand, public/content; do not crop brand marks |
 | Enable or disable YouTube | FEATURES/YOUTUBE.md | content/media/youtube.json, platform.json social id youtube, contentTypes id youtube |
-| Enable or disable Instagram | FEATURES/INSTAGRAM.md | content/media/instagram.json, social id instagram |
+| Instagram (external profile) | FEATURES/INSTAGRAM.md | platform.json social id instagram |
+| Telegram (reserved) | FEATURES/TELEGRAM.md | platform.json social id telegram, url empty |
+| Social configuration | CONFIGURATION/SOCIAL-CONFIGURATION.md | platform.json social[] |
+| Add a program | CONTENT/ADD-PROGRAM.md | content/config/programs.json |
+| Future operations | OPERATIONS/FUTURE-OPERATIONS.md | JSON/markdown jobs without a rewrite |
 | Enable or disable a feature / type | CONFIGURATION/FEATURE-FLAGS.md | contentTypes[].enabled and status |
 | Enable or disable a topic | PLATFORM/DOMAIN-SYSTEM.md | topics[].enabled, status, showOnHomepage, showInNavigation |
 | Change homepage title / hero | CONFIGURATION/HOMEPAGE-CONFIGURATION.md | platform.json copy.hero* and brand.description |
@@ -46,7 +50,7 @@ Use the I want to table, then the What file do I edit table.
 | Change SEO | CONFIGURATION/SEO-CONFIGURATION.md | app/layout.tsx metadata, generateMetadata, brand.description |
 | Add a domain / topic | ADVANCED/ADDING-A-NEW-DOMAIN.md | topics[] JSON. Planned python topic is OK. Do not invent Python lessons. |
 | Add a new homepage TYPE | ADVANCED/ADDING-A-NEW-FEATURE.md | visibility-core SECTION_TYPES plus React. Developer required. |
-| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-18 |
+| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-18 + future operations A-N |
 | Deploy | OPERATIONS/DEPLOYMENT.md | Vercel, theairishi.vercel.app. PR branch is not auto-main. |
 | Fix a missing route or block | OPERATIONS/TROUBLESHOOTING.md | visibility-core 404-until-active-plus-content |
 | Revert a mistake | OPERATIONS/BACKUP-AND-RECOVERY.md | git restore, git revert. No force-push. |

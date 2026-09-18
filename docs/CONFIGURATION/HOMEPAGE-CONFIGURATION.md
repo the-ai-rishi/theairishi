@@ -35,7 +35,8 @@ The homepage is learner-first. Personal story lives on `/about`.
 | `topic-grid` | Public topics with content | Hidden when empty. **Disabled** live |
 | `course-list` | Featured courses | Hidden when empty. **Disabled** live |
 | `content-list` | Guides / labs / recent | Hidden when empty. **Disabled** live |
-| `channel-grid` | YouTube / Instagram | Hidden when empty. Not on the live homepage |
+| `destinations` | Compact outbound links from `social[]` (Instagram today; Telegram when enabled) | Hidden when empty. Live, after community |
+| `channel-grid` | On-site YouTube/Instagram listings | Hidden when empty. **Disabled** live. Not the Instagram profile |
 
 Unknown type is skipped. `npm run validate` errors.
 
@@ -55,7 +56,8 @@ Unknown type is skipped. `npm run validate` errors.
 7. method — how a day works
 8. path — after this program
 9. prose `community`
-10. cta — Start at Day 1
+10. destinations — Daily posts on Instagram
+11. cta — Start at Day 1
 
 Disabled (kept in JSON so you can turn them on later): what, topic-grid, recent, guides, projects-list, courses.
 

@@ -13,6 +13,7 @@ import MethodSection from "./MethodSection";
 import PathAhead from "./PathAhead";
 import WhySection from "./WhySection";
 import TodaySection from "./TodaySection";
+import DestinationsSection from "./DestinationsSection";
 import type { Course } from "@/lib/lessons";
 import type { TopicConfig, SocialPlatform } from "@/lib/config";
 import type { UniversalContentItem } from "@/lib/content";
@@ -78,6 +79,13 @@ export default function SectionRenderer({
       return <WhySection section={section} />;
     case "today":
       return <TodaySection section={section} />;
+    case "destinations":
+      return (
+        <DestinationsSection
+          section={section}
+          destinations={(section.data.destinations as SocialPlatform[]) || []}
+        />
+      );
     default:
       return null;
   }

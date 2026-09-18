@@ -131,6 +131,7 @@ export function isChannelVisible(
 export function publicTopics(platform: unknown, catalog: PlatformCatalog | undefined, surface: Surface): KernelEntity[];
 export function publicContentTypes(platform: unknown, catalog: PlatformCatalog | undefined, surface: Surface): KernelEntity[];
 export function publicChannels(platform: unknown, catalog: PlatformCatalog | undefined, surface: Surface): KernelEntity[];
+export function publicDestinations(platform: unknown, surface?: string): KernelEntity[];
 export function publicCourses(platform: unknown, catalog: PlatformCatalog | undefined, forHomepage?: boolean): KernelEntity[];
 export function comingSoonCourses(platform: unknown, catalog: PlatformCatalog | undefined): KernelEntity[];
 export function resolveHomepageSections(

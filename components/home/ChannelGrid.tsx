@@ -23,10 +23,10 @@ export default function ChannelGrid({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading kicker={subtitle} title={title} />
         <div className="mt-8 flex gap-5 overflow-x-auto pb-2">
-          {channels.map((channel) => (
+          {channels.filter((channel) => Boolean(channel.href)).map((channel) => (
             <Link
               key={channel.id}
-              href={channel.href}
+              href={channel.href as string}
               className="group w-[280px] shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:w-[340px]"
             >
               <div className="relative aspect-video overflow-hidden border border-hairline bg-field">

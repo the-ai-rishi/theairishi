@@ -4,7 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const vis = require("../lib/visibility-core");
 const { collectPlatformConfigErrors } = require("../lib/platform-schema");
-const { collectProgramErrors } = require("../lib/program-schema");
+const { collectProgramErrors, asProgramCatalog, featuredProgramFrom } = require("../lib/program-schema");
+const social = require("../lib/social");
 const { runScenarioTests } = require("./scenario-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
@@ -258,10 +259,42 @@ if (platform) {
     }
   }
 
-  for (const ch of platform.social || []) {
-    check(ch.id && ch.label, "social platform missing id/label");
-    check(vis.isValidLifecycle(ch.status || "active"), "social " + ch.id + " invalid status");
+  const instagram = (platform.social || []).find((ch) => ch.id === "instagram");
+  check(instagram, "social is missing instagram");
+  if (instagram) {
+    check(social.isPublicDestination(instagram), "Instagram must be a public external destination");
+    check(
+      social.INSTAGRAM_PROFILE_RE.test(social.destinationUrl(instagram)),
+      "Instagram URL must be https://www.instagram.com/theairishi/"
+    );
+    check(!instagram.href || !social.isInternalHref(instagram.href) || instagram.kind === "internal",
+      "Instagram must not be an on-site /instagram surface");
   }
+  const telegram = (platform.social || []).find((ch) => ch.id === "telegram");
+  check(telegram, "social is missing telegram (keep enabled: false and url empty until the real community exists)");
+  if (telegram) {
+    check(telegram.enabled === false, "Telegram must stay disabled until a real URL is pasted");
+    check(!social.isPublicDestination(telegram), "Telegram must not appear as a public destination while disabled");
+    const telegramUrl = typeof telegram.url === "string" ? telegram.url.trim() : "";
+    check(telegramUrl === "", "Telegram url must be empty until the real https://t.me/... community exists");
+  }
+  const liveDestinations = social.publicDestinations(platform);
+  check(
+    liveDestinations.some((ch) => ch.id === "instagram"),
+    "public destinations must include Instagram"
+  );
+  check(
+    !liveDestinations.some((ch) => ch.id === "telegram"),
+    "public destinations must not include Telegram while it is disabled"
+  );
+  check(
+    !vis.getRouteChannels(platform, vis.emptyCatalog()).some((ch) => ch.id === "instagram"),
+    "Instagram must not be a site route"
+  );
+  const sameAs = social.sameAsUrls(platform, (platform.defaults && platform.defaults.sameAs) || []);
+  check(sameAs.some((url) => /github\.com\/the-ai-rishi/i.test(url)), "sameAs must include GitHub from social config");
+  check(sameAs.some((url) => social.INSTAGRAM_PROFILE_RE.test(url)), "sameAs must include Instagram from social config");
+  check(!sameAs.some((url) => /t\.me\//i.test(url)), "sameAs must not include Telegram while it is unconfigured");
 }
 
 const coursesPath = path.join(configDir, "courses.json");
@@ -762,10 +795,10 @@ function operatorFix(issue, file, field, value) {
 
 const programsPath = path.join(configDir, "programs.json");
 check(fs.existsSync(programsPath), operatorFix(
-  "Missing DevOps Engineer Mastery program file.",
+  "Missing program catalog.",
   "content/config/programs.json",
   "(file)",
-  "a JSON program with 120 days and 11 phases"
+  '{ "featuredProgramId": "devops-engineer-mastery", "programs": [ ... ] }'
 ));
 
 let programConfig = null;
@@ -787,15 +820,16 @@ if (programConfig) {
     errors.push(err);
   }
 
-  const phaseIds = new Set(
-    (programConfig.phases || []).map((phase) => phase && phase.id).filter(Boolean)
+  const catalog = asProgramCatalog(programConfig);
+  const featured = catalog ? featuredProgramFrom(catalog) : programConfig;
+  const programsById = new Map(
+    ((catalog && catalog.programs) || (featured ? [featured] : []))
+      .filter(Boolean)
+      .map((program) => [program.id, program])
   );
-  const dayByNumber = new Map();
-  for (const day of programConfig.days || []) {
-    if (day && typeof day.day === "number") dayByNumber.set(day.day, day);
-  }
+  const knownProgramIds = new Set(programsById.keys());
 
-  const publishedDayNumbers = new Set();
+  const publishedDayKeys = new Set();
   for (const item of lessonMarkdown) {
     if (item.parseError) continue;
     const data = item.data || {};
@@ -807,24 +841,31 @@ if (programConfig) {
           : NaN;
     const phase = typeof data.phase === "string" ? data.phase.trim() : "";
     const programId = typeof data.program === "string" ? data.program.trim() : "";
+    const owner = (programId && programsById.get(programId)) || featured;
+    const phaseIds = new Set((owner && owner.phases ? owner.phases : []).map((row) => row && row.id).filter(Boolean));
+    const dayByNumber = new Map();
+    for (const day of (owner && owner.days) || []) {
+      if (day && typeof day.day === "number") dayByNumber.set(day.day, day);
+    }
 
     if (Number.isFinite(dayNumber)) {
-      if (publishedDayNumbers.has(dayNumber)) {
+      const dayKey = (owner && owner.id ? owner.id : "program") + ":" + dayNumber;
+      if (publishedDayKeys.has(dayKey)) {
         errors.push(operatorFix(
-          "Two lessons both claim day " + dayNumber + ". The second file is \"" + item.rel + "\".",
+          "Two lessons both claim day " + dayNumber + " in program \"" + (owner && owner.id ? owner.id : "") + "\". The second file is \"" + item.rel + "\".",
           item.rel,
           "day",
-          "a unique day number that is not already used"
+          "a unique day number inside that program"
         ));
       }
-      publishedDayNumbers.add(dayNumber);
+      publishedDayKeys.add(dayKey);
       const planned = dayByNumber.get(dayNumber);
       if (!planned) {
         errors.push(operatorFix(
-          "Lesson \"" + item.slug + "\" uses day " + dayNumber + ", which is not in the 120-day program map.",
+          "Lesson \"" + item.slug + "\" uses day " + dayNumber + ", which is not in program \"" + ((owner && owner.id) || "") + "\".",
           item.rel,
           "day",
-          "a day number that exists in content/config/programs.json"
+          "a day number that exists in that program"
         ));
       } else {
         if (phase && planned.phaseId && phase !== planned.phaseId) {
@@ -849,36 +890,37 @@ if (programConfig) {
       }
     }
 
-    if (phase && phaseIds.size && !phaseIds.has(phase)) {
+    if (phase && owner && phaseIds.size && !phaseIds.has(phase) && Number.isFinite(dayNumber)) {
       errors.push(operatorFix(
         "Lesson \"" + item.slug + "\" references phase \"" + phase + "\".",
         item.rel,
         "phase",
-        "an existing phase ID from content/config/programs.json (example: phase-01)"
+        "an existing phase ID from that program (example: phase-01)"
       ));
     }
 
-    if (programId && programConfig.id && programId !== programConfig.id) {
+    if (programId && !knownProgramIds.has(programId)) {
       errors.push(operatorFix(
         "Lesson \"" + item.slug + "\" references program \"" + programId + "\".",
         item.rel,
         "program",
-        programConfig.id
+        "an existing programs[].id"
       ));
     }
 
-    if ((phase || Number.isFinite(dayNumber) || programId) && data.course && programConfig.id) {
-      if (data.course !== programConfig.id && Number.isFinite(dayNumber)) {
+    if ((phase || Number.isFinite(dayNumber) || programId) && data.course && owner && owner.id) {
+      if (data.course !== owner.id && Number.isFinite(dayNumber)) {
         errors.push(operatorFix(
           "Lesson \"" + item.slug + "\" is day " + dayNumber + " but course is \"" + data.course + "\".",
           item.rel,
           "course",
-          programConfig.id
+          owner.id
         ));
       }
     }
   }
 }
+
 
 console.log("Running scenario tests...");
 const scenariosOk = runScenarioTests();

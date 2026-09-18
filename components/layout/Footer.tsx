@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
+import DestinationLinks from "@/components/brand/DestinationLinks";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 
 interface FooterProps {
@@ -42,10 +43,11 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
         </nav>
 
         <div className="lg:col-span-3 lg:text-right">
+          <DestinationLinks surface="footer" compact />
           {brand?.email ? (
             <a
               href={`mailto:${brand.email}`}
-              className="link-editorial font-mono text-[12px] tracking-[0.12em] text-cream/50 hover:text-gold"
+              className="link-editorial mt-4 inline-flex font-mono text-[12px] tracking-[0.12em] text-cream/50 hover:text-gold"
             >
               {brand.email}
             </a>

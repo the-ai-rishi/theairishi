@@ -24,7 +24,7 @@ Copy `templates/lesson-template.md` only if you are adding a daily day. For a no
 | `stageOrder` | Number | yes |
 | `lesson` | Number inside the stage | yes |
 | `topic` | A `topics[].id` in `platform.json` | yes |
-| `status` | `published` / `draft` / `archived` | yes |
+| `status` | `published` / `draft` / `archived` | yes — omitting it does **not** publish |
 | `description` | One short paragraph | yes |
 | `enabled` | `true` / `false` | optional, default true |
 | `tags` | List of strings | optional |

@@ -55,7 +55,7 @@
       {
         "n": "02",
         "title": "Try",
-        "body": "Do the core task. On write days, your first version is yours — not AI's."
+        "body": "Do the core task. On write days, your first version is yours \u2014 not AI's."
       },
       {
         "n": "03",
@@ -96,12 +96,12 @@
       {
         "id": "order",
         "title": "Why this order",
-        "body": "DevOps is where I am starting. The first plan is about four months — 120 days — of focused practice. AI can generate code and configs. Someone still has to review them, debug them, secure them, and run them. That someone needs the engineering underneath."
+        "body": "DevOps is where I am starting. The first plan is about four months \u2014 120 days \u2014 of focused practice. AI can generate code and configs. Someone still has to review them, debug them, secure them, and run them. That someone needs the engineering underneath."
       },
       {
         "id": "teach",
         "title": "How I want to learn and teach",
-        "body": "I am learning these technologies too, and I want to share what I understand along the way. I will try to help with doubts and debugging when the question shows real work. This is not a daily video course. I want people who will practise, analyse, and grow on their own — not people looking for a shortcut."
+        "body": "I am learning these technologies too, and I want to share what I understand along the way. I will try to help with doubts and debugging when the question shows real work. This is not a daily video course. I want people who will practise, analyse, and grow on their own \u2014 not people looking for a shortcut."
       },
       {
         "id": "share",
@@ -150,9 +150,6 @@
     "topicSlug": "devops",
     "authorName": "The AI Rishi",
     "authorUrl": "https://theairishi.com",
-    "sameAs": [
-      "https://github.com/the-ai-rishi"
-    ],
     "contentDate": "2026-09-18"
   },
   "topics": [
@@ -181,7 +178,7 @@
       "slug": "devops",
       "name": "DevOps Engineer Mastery",
       "shortName": "DevOps",
-      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure — a 120-day production-shaped program.",
+      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure \u2014 a 120-day production-shaped program.",
       "badge": "DevOps",
       "category": "Cloud & DevOps",
       "color": "emerald",
@@ -379,7 +376,7 @@
     {
       "id": "youtube",
       "title": "YouTube Videos",
-      "description": "Long-form walk-throughs and build streams.",
+      "description": "On-site video listing, public only when social youtube is active and content/media/youtube.json has real items.",
       "badge": "Video",
       "url": "/youtube",
       "iconName": "YouTubeIcon",
@@ -393,7 +390,7 @@
     {
       "id": "instagram",
       "title": "Instagram Carousels",
-      "description": "Short visual guides and architecture carousels.",
+      "description": "Reserved for on-site visual notes if they are ever listed here. The live Instagram profile is configured under social[].",
       "badge": "Visual Notes",
       "url": "/instagram",
       "iconName": "InstagramIcon",
@@ -413,7 +410,8 @@
         "href": "/learn/day-01",
         "enabled": true,
         "order": 1,
-        "status": "active"
+        "status": "active",
+        "placement": "primary"
       },
       {
         "id": "plan",
@@ -421,7 +419,8 @@
         "href": "/learn",
         "enabled": true,
         "order": 2,
-        "status": "active"
+        "status": "active",
+        "placement": "primary"
       },
       {
         "id": "about",
@@ -429,7 +428,8 @@
         "href": "/about",
         "enabled": true,
         "order": 3,
-        "status": "active"
+        "status": "active",
+        "placement": "primary"
       },
       {
         "id": "guides",
@@ -441,7 +441,8 @@
         "source": {
           "kind": "contentType",
           "id": "guides"
-        }
+        },
+        "placement": "explore"
       },
       {
         "id": "projects",
@@ -453,7 +454,8 @@
         "source": {
           "kind": "contentType",
           "id": "projects"
-        }
+        },
+        "placement": "explore"
       }
     ],
     "footer": [
@@ -514,7 +516,7 @@
         "enabled": true,
         "order": 4,
         "title": "What you will work through",
-        "subtitle": "Eleven phases · 120 days",
+        "subtitle": "Eleven phases \u00b7 120 days",
         "ctaLabel": "Open the full plan",
         "ctaHref": "/learn"
       },
@@ -565,7 +567,7 @@
         "id": "cta",
         "type": "cta",
         "enabled": true,
-        "order": 10,
+        "order": 11,
         "title": "Start at Day 1",
         "subtitle": "Shell, PATH, exit codes",
         "ctaLabel": "Open Day 1",
@@ -632,36 +634,90 @@
         "order": 24,
         "title": "Learning paths",
         "showWhenEmpty": false
+      },
+      {
+        "id": "destinations",
+        "type": "destinations",
+        "enabled": true,
+        "order": 10,
+        "title": "Daily posts",
+        "subtitle": "On Instagram",
+        "showWhenEmpty": false
       }
     ]
   },
   "social": [
     {
+      "id": "instagram",
+      "label": "Instagram",
+      "url": "https://www.instagram.com/theairishi/",
+      "kind": "external",
+      "role": "discovery",
+      "enabled": true,
+      "status": "active",
+      "order": 1,
+      "showInFooter": true,
+      "showOnHomepage": true,
+      "showOnAbout": true,
+      "showInHeader": false,
+      "includeInSameAs": true,
+      "ctaLabel": "Daily posts",
+      "displayName": "Instagram",
+      "description": "Short notes and daily posts. The site does not import the feed."
+    },
+    {
+      "id": "telegram",
+      "label": "Telegram",
+      "url": "",
+      "kind": "external",
+      "role": "community",
+      "enabled": false,
+      "status": "planned",
+      "order": 2,
+      "showInFooter": true,
+      "showOnHomepage": true,
+      "showOnAbout": true,
+      "showInHeader": false,
+      "includeInSameAs": true,
+      "ctaLabel": "Discussion",
+      "displayName": "Telegram",
+      "description": "Reserved for a real community link. Do not invent a URL."
+    },
+    {
+      "id": "github",
+      "label": "GitHub",
+      "url": "https://github.com/the-ai-rishi",
+      "kind": "external",
+      "role": "code",
+      "enabled": true,
+      "status": "active",
+      "order": 3,
+      "showInFooter": true,
+      "showOnHomepage": false,
+      "showOnAbout": true,
+      "showInHeader": false,
+      "includeInSameAs": true,
+      "ctaLabel": "Source",
+      "displayName": "GitHub",
+      "description": "The AI Rishi on GitHub, including the locked 120-day plan."
+    },
+    {
       "id": "youtube",
       "label": "YouTube",
       "href": "/youtube",
-      "externalUrl": "https://youtube.com/@theairishi",
+      "url": "",
+      "kind": "internal",
+      "role": "media",
       "enabled": true,
       "status": "coming-soon",
+      "order": 4,
+      "showInFooter": false,
       "showOnHomepage": false,
-      "showInNavigation": false,
-      "order": 1,
+      "showOnAbout": false,
+      "showInHeader": false,
+      "includeInSameAs": false,
       "displayName": "YouTube",
       "description": "Long-form walk-throughs. Nothing published yet.",
-      "badge": "Coming soon"
-    },
-    {
-      "id": "instagram",
-      "label": "Instagram",
-      "href": "/instagram",
-      "externalUrl": "https://instagram.com/theairishi",
-      "enabled": true,
-      "status": "coming-soon",
-      "showOnHomepage": false,
-      "showInNavigation": false,
-      "order": 2,
-      "displayName": "Instagram",
-      "description": "Short visual guides. Nothing published yet.",
       "badge": "Coming soon"
     }
   ]

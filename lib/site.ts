@@ -1,16 +1,15 @@
-import { getBrandConfig, getMainNavigation, getFooterNavigation, getSocialPlatforms, getSearchTopics, getDefaultsConfig } from "./config";
+import { getBrandConfig, getMainNavigation, getFooterNavigation, getPublicDestinations, getSearchTopics, getDefaultsConfig, getDestinationUrl } from "./config";
 import { getSiteOrigin } from "./urls";
 
 function buildSiteConfig() {
   const brand = getBrandConfig();
   const defaults = getDefaultsConfig();
-  const socialPlatforms = getSocialPlatforms();
+  const socialPlatforms = getPublicDestinations();
 
   const socialMap: Record<string, string> = {};
   for (const platform of socialPlatforms) {
-    if (platform.externalUrl && platform.status === "active") {
-      socialMap[platform.id] = platform.externalUrl;
-    }
+    const url = getDestinationUrl(platform);
+    if (url) socialMap[platform.id] = url;
   }
 
   const publicTopics = getSearchTopics();

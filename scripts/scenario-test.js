@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 const vis = require("../lib/visibility-core");
+const social = require("../lib/social");
+const { runFutureOperationsTests } = require("./future-operations-test");
 
 const platformPath = path.join(__dirname, "..", "content", "config", "platform.json");
 
@@ -522,6 +524,22 @@ function runScenarioTests() {
       vis.channelRouteState(live, "youtube", liveCat).state === "not-found",
       "Production: direct /youtube while coming-soon is not-found"
     );
+    check(
+      vis.channelRouteState(live, "instagram", liveCat).state === "not-found",
+      "Production: Instagram is not a site route"
+    );
+    check(
+      social.publicDestinations(live).some((ch) => ch.id === "instagram"),
+      "Production: Instagram is a public external destination"
+    );
+    check(
+      !social.publicDestinations(live).some((ch) => ch.id === "telegram"),
+      "Production: Telegram stays off while unconfigured"
+    );
+    check(
+      liveHome.some((s) => s.type === "destinations"),
+      "Production: destinations section is on the homepage"
+    );
 
     // ── Test 10: planned/coming-soon YouTube has no public route ────────────
     const t10 = clone(live);
@@ -844,6 +862,10 @@ function runScenarioTests() {
       "Test 17: a complete published lesson is public"
     );
     check(
+      publish.isPublicLessonMarkdown(completeLesson.replace("status: published\n", "")) === false,
+      "Test 17: omitted status is not public"
+    );
+    check(
       publish.isPublicLessonMarkdown("---\nstatus: published\n---\nstatus: published in the body\n") === false,
       "Test 17: a regex-only status match is not a public lesson"
     );
@@ -893,6 +915,11 @@ function runScenarioTests() {
       "Test 18: the dynamic [slug] folder is not a static learn segment"
     );
 
+    const future = runFutureOperationsTests(live);
+    if (!future.ok) {
+      future.failures.forEach((f) => failures.push(f));
+    }
+
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -906,7 +933,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-18)");
+  console.log("SCENARIO TESTS PASSED (1-18 + future operations A-N)");
   return true;
 }
 

@@ -127,3 +127,17 @@ Then push the branch. Vercel and Cloudflare both rebuild from the generated cata
 - `components/`
 - `lib/content-data.generated.ts`
 - `main` (work on `feature/new-upgrade` until you choose to merge)
+
+
+## Draft, hidden, omitted status
+
+| Frontmatter | What happens |
+| --- | --- |
+| `status: published` | Public `/learn/day-NN` if the other required fields are present |
+| `status: draft` (or `coming-soon`) | File can exist. Not a public page, not search, not sitemap |
+| `enabled: false` | Hidden even if status is published |
+| **omit `status`** | Not public. Publishing requires an explicit status |
+
+`title`, `stage`, `course`, `lesson`, and `status` are the publication fields. `day` / `phase` / `program` bind it to the 120-day map.
+
+After saving: `npm run validate`, then open `/learn/day-NN`. Search for `day N`. The homepage published count includes it. Unpublished days stay titles on `/learn`.

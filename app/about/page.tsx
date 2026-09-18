@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/brand/PageShell";
+import DestinationLinks from "@/components/brand/DestinationLinks";
 import {
   getMainNavigation,
   getFooterNavigation,
@@ -65,6 +66,12 @@ export default function AboutPage() {
           <Link href="/learn" className="link-editorial font-mono text-[14px] text-gold">
             Explore the 120-day plan →
           </Link>
+        </div>
+        <div className="mt-10">
+          <p className="font-mono text-[12px] tracking-[0.16em] uppercase text-cream/35">Elsewhere</p>
+          <div className="mt-3">
+            <DestinationLinks surface="about" />
+          </div>
         </div>
       </section>
     </PageShell>

@@ -3,6 +3,7 @@ import coursesJson from "../content/config/courses.json";
 import seriesJson from "../content/config/series.json";
 import * as vis from "./visibility-core";
 import { collectPlatformConfigErrors } from "./platform-schema";
+import * as social from "./social";
 import type { LifecycleStatus, PlatformCatalog, Surface } from "./visibility-core";
 
 export type ContentStatus =
@@ -140,6 +141,8 @@ export interface NavItem {
   status?: PlatformStatus;
   source?: NavSource;
   showInNavigation?: boolean;
+  placement?: "primary" | "explore";
+  external?: boolean;
 }
 
 export type HomepageSectionType =
@@ -156,7 +159,8 @@ export type HomepageSectionType =
   | "method"
   | "path"
   | "why"
-  | "today";
+  | "today"
+  | "destinations";
 
 export type ContentSource =
   | { kind: "recent" }
@@ -185,16 +189,27 @@ export interface HomepageSection {
 export interface SocialPlatform {
   id: string;
   label: string;
-  href: string;
+  /** Internal site path for media listings. Omit for external destinations. */
+  href?: string;
+  /** @deprecated Use url. Kept so older fixtures still parse. */
   externalUrl?: string;
+  /** Outbound https URL. Empty string is allowed while the channel is disabled. */
+  url?: string;
+  kind?: "external" | "internal";
+  role?: "discovery" | "community" | "media" | "code";
   enabled: boolean;
   status: PlatformStatus;
   order: number;
   displayName?: string;
   description?: string;
   badge?: string;
+  ctaLabel?: string;
   showOnHomepage?: boolean;
   showInNavigation?: boolean;
+  showInFooter?: boolean;
+  showInHeader?: boolean;
+  showOnAbout?: boolean;
+  includeInSameAs?: boolean;
 }
 
 export type ContentTypeCategory = string;
@@ -541,6 +556,21 @@ export function getSocialPlatform(id: string): SocialPlatform | null {
   const state = vis.channelRouteState(loadPlatformConfig(), id, liveCatalog());
   if (state.state === "not-found") return null;
   return state.channel as unknown as SocialPlatform;
+}
+
+/** Outbound profiles (Instagram, GitHub, Telegram when enabled). Never a fake /instagram page. */
+export function getPublicDestinations(
+  surface?: "footer" | "homepage" | "header" | "about"
+): SocialPlatform[] {
+  return social.publicDestinations(loadPlatformConfig(), surface) as unknown as SocialPlatform[];
+}
+
+export function getDestinationUrl(channel: SocialPlatform | null | undefined): string {
+  return social.destinationUrl(channel);
+}
+
+export function getSameAsUrls(): string[] {
+  return social.sameAsUrls(loadPlatformConfig(), getDefaultsConfig().sameAs);
 }
 
 export function getRawCourseConfigs(): CourseConfig[] {

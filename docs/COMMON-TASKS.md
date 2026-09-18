@@ -214,19 +214,23 @@ Full doc: [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md).
 
 ### Instagram
 
-Same pattern as YouTube. Live: `content/media/instagram.json` is `[]`, ids `instagram`, href /instagram, /instagram 404s. Do not invent posts.
+Instagram is a live **external** profile, not an on-site feed.
 
-After a real post exists, add an object to instagram.json (`id`, `title`, `publishedAt`, `url` or `instagramUrl`), then set `social` id instagram and `contentTypes` id instagram to `status` `active`:
+File: `content/config/platform.json` `social[]` id `instagram`.
+URL: `https://www.instagram.com/theairishi/`.
+`/instagram` 404s on purpose. `content/media/instagram.json` stays `[]`. Do not invent posts.
 
-```json
-{
-  "id": "instagram",
-  "href": "/instagram",
-  "status": "active"
-}
-```
+To hide it: `"enabled": false`. To change the URL: edit `url` only.
 
 Full doc: [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md).
+
+### Telegram
+
+Reserved. `social[]` id `telegram`, `"enabled": false`, `"url": ""`. Do not invent a `t.me` link.
+
+When the community exists: paste the real https URL, set `enabled: true`, `status: "active"`, then `npm run validate`.
+
+Full doc: [FEATURES/TELEGRAM.md](./FEATURES/TELEGRAM.md).
 
 ### Change nav
 
@@ -234,7 +238,7 @@ File: `content/config/platform.json` `navigation.main` and `navigation.footer`. 
 
 ```json
 [
-  { "id": "start", "label": "Start", "href": "/learn/day-01", "enabled": true, "order": 1, "status": "active" },
+  { "id": "start", "label": "Start", "href": "/learn/day-01", "enabled": true, "order": 1, "status": "active", "placement": "primary" },
   { "id": "plan", "label": "120 Days", "href": "/learn", "enabled": true, "order": 2, "status": "active" },
   { "id": "about", "label": "About", "href": "/about", "enabled": true, "order": 3, "status": "active" },
   { "id": "guides", "label": "Guides", "href": "/guides", "enabled": true, "order": 4, "status": "active", "source": { "kind": "contentType", "id": "guides" } },
