@@ -191,7 +191,7 @@ export interface SocialPlatform {
   label: string;
   /** Internal site path for media listings. Omit for external destinations. */
   href?: string;
-  /** @deprecated Use url. Kept so older fixtures still parse. */
+  /** @deprecated Not a live field. Validation rejects a non-empty value — use `url`. */
   externalUrl?: string;
   /** Outbound https URL. Empty string is allowed while the channel is disabled. */
   url?: string;
@@ -560,7 +560,7 @@ export function getSocialPlatform(id: string): SocialPlatform | null {
   return state.channel as unknown as SocialPlatform;
 }
 
-/** Outbound profiles (Instagram, GitHub, Telegram when enabled). Never a fake /instagram page. */
+/** Outbound profiles from social[]. Never a fake /instagram page. GitHub is config-only while disabled. */
 export function getPublicDestinations(
   surface?: "footer" | "homepage" | "header" | "about"
 ): SocialPlatform[] {

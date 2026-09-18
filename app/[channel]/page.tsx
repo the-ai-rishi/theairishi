@@ -11,6 +11,7 @@ import {
   getBrandConfig,
   getPlatformCopy,
   loadPlatformConfig,
+  getDestinationUrl,
   type SocialPlatform,
 } from "@/lib/config";
 import { getLiveCatalog } from "@/lib/catalog";
@@ -58,7 +59,7 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
-  const externalUrl = platform.status === "active" ? platform.externalUrl : undefined;
+  const outboundUrl = platform.status === "active" ? getDestinationUrl(platform) : "";
 
   return (
     <main id="main-content" className="min-h-screen bg-ink pb-24 text-cream selection:bg-gold/25 selection:text-ink">
@@ -85,9 +86,9 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
               Nothing is published on this channel yet.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              {externalUrl ? (
+              {outboundUrl ? (
                 <a
-                  href={externalUrl}
+                  href={outboundUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-cream px-6 py-3 text-xs font-medium text-ink"

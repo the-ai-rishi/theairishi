@@ -4,6 +4,7 @@ export function isPlaceholderUrl(value: unknown): boolean;
 export function isTelegramTemporaryUrl(value: unknown): boolean;
 export function isTemporaryDestination(channel: unknown): boolean;
 export function isRealTelegramCommunityUrl(value: unknown): boolean;
+export function isGitHubOrgProfileUrl(value: unknown): boolean;
 export function channelKind(channel: unknown): "external" | "internal";
 export function destinationUrl(channel: unknown): string;
 export function isEnabledChannel(channel: unknown): boolean;

@@ -91,9 +91,9 @@ Unknown type: skipped, validator errors.
 ## social[]
 
 
-id, label, href (e.g. /youtube), externalUrl, enabled, status, order, displayName, description, badge, showOnHomepage, showInNavigation.
+Canonical: docs/CONFIGURATION/SOCIAL-CONFIGURATION.md. Field is `url` (https). `href` only for internal listings such as /youtube. There is no `externalUrl`.
 
-Live: youtube and instagram coming-soon, href /youtube and /instagram, empty media JSON.
+Live: Instagram https://www.instagram.com/theairishi/, Telegram documented placeholder, GitHub hidden, YouTube coming-soon.
 
 ## courses.json array
 
@@ -185,9 +185,9 @@ Unknown type: skipped, validator errors.
 ## social[]
 
 
-id, label, href (e.g. /youtube), externalUrl, enabled, status, order, displayName, description, badge, showOnHomepage, showInNavigation.
+Canonical: docs/CONFIGURATION/SOCIAL-CONFIGURATION.md. Field is `url` (https). `href` only for internal listings such as /youtube. There is no `externalUrl`.
 
-Live: youtube and instagram coming-soon, href /youtube and /instagram, empty media JSON.
+Live: Instagram https://www.instagram.com/theairishi/, Telegram documented placeholder, GitHub hidden, YouTube coming-soon.
 
 ## courses.json array
 

@@ -314,6 +314,40 @@ if (platform) {
   check(!sameAs.some((url) => /github\.com/i.test(url)), "sameAs must not include GitHub while GitHub is disabled");
   check(!sameAs.some((url) => /t\.me\//i.test(url)), "sameAs must not include a Telegram community URL yet");
   check(!sameAs.some((url) => /example\.com/i.test(url)), "sameAs must not include the Telegram placeholder");
+  check(
+    !liveDestinations.some((ch) => social.isGitHubOrgProfileUrl(social.destinationUrl(ch))),
+    "public destinations must not emit the GitHub org profile https://github.com/the-ai-rishi"
+  );
+  check(
+    !sameAs.some((url) => social.isGitHubOrgProfileUrl(url)),
+    "sameAs must not emit the GitHub org profile"
+  );
+  for (const ch of platform.social || []) {
+    check(
+      !ch.externalUrl,
+      "social '" + ch.id + "' must not set externalUrl; the only destination field is url"
+    );
+  }
+  const destSection = (platform.homepage.sections || []).find((s) => s.type === "destinations");
+  const programSection = (platform.homepage.sections || []).find((s) => s.type === "program" || s.id === "program");
+  check(Boolean(destSection), "homepage destinations section must exist");
+  check(
+    destSection && programSection && Number(destSection.order) > Number(programSection.order),
+    "homepage destinations must stay below the program (secondary, not the first viewport)"
+  );
+
+  const githubOrgHref = /https:\/\/(?:www\.)?github\.com\/the-ai-rishi\/?(?=["'`\s?#)]|$)/;
+  for (const root of [path.join(rootDir, "app"), path.join(rootDir, "components")]) {
+    for (const file of scanFiles(root, (name) => /\.(tsx|ts|js|jsx)$/.test(name))) {
+      const text = fs.readFileSync(file, "utf8");
+      if (githubOrgHref.test(text)) {
+        errors.push(
+          path.relative(rootDir, file) +
+            " links to the GitHub org profile. Keep https://github.com/the-ai-rishi out of public UI while GitHub is disabled. Curriculum repoUrl is allowed."
+        );
+      }
+    }
+  }
 }
 
 const coursesPath = path.join(configDir, "courses.json");

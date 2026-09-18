@@ -307,6 +307,20 @@ function runFutureOperationsTests(livePlatform) {
     social.sameAsUrls(tGh).some((url) => /github\.com\/the-ai-rishi/i.test(url)),
     "GitHub restore: may enter sameAs when includeInSameAs is true"
   );
+  check(
+    social.isGitHubOrgProfileUrl("https://github.com/the-ai-rishi"),
+    "GitHub org profile helper matches the reserved social URL"
+  );
+  check(
+    !social.isGitHubOrgProfileUrl("https://github.com/the-ai-rishi/devops-engineer-mastery"),
+    "curriculum repoUrl is not the GitHub org profile"
+  );
+  const tDup = clone(livePlatform);
+  tDup.social[0].externalUrl = tDup.social[0].url;
+  check(
+    social.collectSocialErrors(tDup.social).some((err) => /externalUrl/.test(err)),
+    "Duplicate externalUrl field is rejected; url is the only destination field"
+  );
 
   // A new external channel without an icon is still config-only
   const tNew = clone(livePlatform);

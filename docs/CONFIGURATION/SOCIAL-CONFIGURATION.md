@@ -6,6 +6,8 @@ Header, Footer, About, the homepage destinations block, and Person JSON-LD `same
 
 A new `social[]` row with a real https URL appears as a **text link** automatically. Adding a custom icon is optional and is the only code change.
 
+There is no `externalUrl` field. The only outbound URL is `url`.
+
 ## Fields
 
 | Field | Meaning |

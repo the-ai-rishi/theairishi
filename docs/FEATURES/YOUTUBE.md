@@ -15,7 +15,7 @@ You have real videos to list. Do not invent items.
 | File | What to change |
 | --- | --- |
 | `content/media/youtube.json` | Array of video objects |
-| `content/config/platform.json` → `social` id `youtube` | `status`, `showInNavigation`, `showOnHomepage`, `externalUrl` |
+| `content/config/platform.json` → `social` id `youtube` | `status`, `kind: internal`, `href: /youtube`. Do not set `externalUrl`. |
 | `content/config/platform.json` → `contentTypes` id `youtube` | same `status` |
 
 ## 4. Item fields
