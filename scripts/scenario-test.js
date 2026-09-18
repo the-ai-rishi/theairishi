@@ -658,7 +658,15 @@ function runScenarioTests() {
       "Production: nav labels are Start / 120 Days / About, not Journey"
     );
     check(
-      live.copy.heroTitle === "" && live.copy.heroBadge !== live.brand.name,
+      !Object.prototype.hasOwnProperty.call(live.copy, "heroTitle"),
+      "Production: unused copy.heroTitle is omitted; the hero uses the program title"
+    );
+    check(
+      !Object.prototype.hasOwnProperty.call(live.copy, "heroTagline"),
+      "Production: unused copy.heroTagline is omitted"
+    );
+    check(
+      live.copy.heroBadge !== live.brand.name,
       "Production: hero does not repeat the brand name"
     );
     check(
@@ -711,6 +719,10 @@ function runScenarioTests() {
       "Test 14: includeInSearch false removes AI from search topics"
     );
     check(
+      !search14off.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: includeInSearch false removes AI items from search"
+    );
+    check(
       vis.topicRouteState(t14, "ai", liveCat).state === "active",
       "Test 14: route for AI stays active when search is off"
     );
@@ -722,6 +734,10 @@ function runScenarioTests() {
     check(
       mixed14.topics.some((topic) => topic.id === "ai"),
       "Test 14: search can include a topic that the sitemap omits"
+    );
+    check(
+      mixed14.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: search items include AI when search is on and sitemap is off"
     );
     check(
       !mixed14map.topicPaths.includes("/topics/ai"),
@@ -741,8 +757,16 @@ function runScenarioTests() {
       "Test 14: search can omit a topic that the sitemap includes"
     );
     check(
+      !mixed14bSearch.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: search items omit AI when search is off and sitemap is on"
+    );
+    check(
       mixed14bMap.topicPaths.includes("/topics/ai"),
       "Test 14: includeInSitemap true lists /topics/ai even if search is off"
+    );
+    check(
+      mixed14bMap.items.some((item) => item.topicSlug === "ai"),
+      "Test 14: sitemap items include AI when sitemap is on and search is off"
     );
 
     // ── Test 15: planned topic cannot leak into search or sitemap ───────────
@@ -770,6 +794,47 @@ function runScenarioTests() {
       "Test 15: planned cloud has no public route"
     );
 
+    // ── Test 16: course href cannot point at another course ────────────────
+    const { hrefForCourse } = require("../lib/course-href");
+    const program16 = {
+      id: "devops-engineer-mastery",
+      slug: "devops-engineer-mastery",
+      startHref: "/learn/day-01",
+    };
+    const foreignLive = {
+      id: "devops-engineer-mastery",
+      stages: [{ lessons: [{ slug: "ai-fundamentals-01", metadata: { course: "ai" } }] }],
+    };
+    check(
+      hrefForCourse({ id: "devops-engineer-mastery", slug: "devops-engineer-mastery" }, foreignLive, program16) ===
+        "/learn/day-01",
+      "Test 16: program course always uses startHref, even if live first lesson belongs elsewhere"
+    );
+    check(
+      hrefForCourse(
+        { id: "ai", slug: "ai" },
+        { id: "ai", stages: [{ lessons: [{ slug: "ai-fundamentals-01", metadata: { course: "ai" } }] }] },
+        program16
+      ) === "/learn/ai-fundamentals-01",
+      "Test 16: a matching course may link its own first lesson"
+    );
+    check(
+      hrefForCourse(
+        { id: "ai", slug: "ai" },
+        { id: "ai", stages: [{ lessons: [{ slug: "day-01", metadata: { course: "devops-engineer-mastery" } }] }] },
+        program16
+      ) === "/learn",
+      "Test 16: a course cannot inherit another course's first lesson"
+    );
+    check(
+      hrefForCourse(
+        { id: "ai", slug: "ai" },
+        { id: "someone-else", stages: [{ lessons: [{ slug: "day-01", metadata: { course: "ai" } }] }] },
+        program16
+      ) === "/learn",
+      "Test 16: live course id must match the catalog course"
+    );
+
   } finally {
     const after = fs.readFileSync(platformPath, "utf8");
     if (after !== originalRaw) {
@@ -783,7 +848,7 @@ function runScenarioTests() {
     failures.forEach((f) => console.error("  - " + f));
     return false;
   }
-  console.log("SCENARIO TESTS PASSED (1-15)");
+  console.log("SCENARIO TESTS PASSED (1-16)");
   return true;
 }
 

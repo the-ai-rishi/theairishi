@@ -22,7 +22,7 @@ function buildSiteConfig() {
     description: brand.description,
     url: getSiteOrigin(),
     author: {
-      name: defaults.authorName || brand.name,
+      name: defaults.authorName,
       role: brand.description,
       bio: brand.description,
       email: brand.email,

@@ -679,7 +679,7 @@ if (fs.existsSync(seriesPath)) {
 const nextConfigSource = fs.readFileSync(path.join(rootDir, "next.config.ts"), "utf8");
 if (!nextConfigSource.includes("generate-content-data.js")) {
   errors.push(
-    "ERROR:\nnext.config.ts no longer regenerates the content catalog.\n\nFix:\nKeep the spawnSync of scripts/generate-content-data.js at the top of next.config.ts so `npx next build` cannot compile a stale published-lesson allow-list."
+    "ERROR:\nnext.config.ts no longer regenerates the content catalog.\n\nFix:\nKeep the generateContentData() call (via createRequire) at the top of next.config.ts so `npx next build` cannot compile a stale published-lesson allow-list."
   );
 }
 
@@ -705,6 +705,14 @@ try {
   }
   if (expectedSlugs.includes("day-04") === false && fs.existsSync(path.join(rootDir, "content/lessons/day-04.md"))) {
     errors.push("ERROR:\nday-04.md exists on disk but is not in the published slug catalog.");
+  }
+  const probeEmbedded = Object.assign({}, generated.embedded, {
+    "content/lessons/day-04.md": "---\ntitle: Permissions as an incident\nstatus: published\n---\n",
+  });
+  if (!collectPublishedLessonSlugs(probeEmbedded).includes("day-04")) {
+    errors.push(
+      "ERROR:\nAdding content/lessons/day-04.md would not enter the published slug catalog.\n\nFix:\nscripts/generate-content-data.js collectPublishedLessonSlugs must include new public lesson files so middleware cannot keep 404ing a newly published day."
+    );
   }
 } catch (err) {
   errors.push("ERROR:\nCould not verify generated lesson slug catalog: " + err.message);

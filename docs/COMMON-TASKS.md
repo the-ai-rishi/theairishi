@@ -123,8 +123,6 @@ File: `content/config/platform.json` `copy`. Live values:
 ```json
 {
   "heroBadge": "Current program",
-  "heroTitle": "",
-  "heroTagline": "",
   "heroDescription": "A structured path from Linux and Git through cloud, CI/CD, containers, Kubernetes, and production engineering.",
   "heroPrimaryCta": "Start Day 1",
   "heroPrimaryCtaHref": "/learn/day-01",
@@ -133,7 +131,7 @@ File: `content/config/platform.json` `copy`. Live values:
 }
 ```
 
-The visible hero title is the current program name from `programs.json`, not `copy.heroTitle`. Keep `heroTitle` empty so the brand is not repeated under the header.
+The visible hero title is the current program name from `programs.json`. Omit `copy.heroTitle` and `copy.heroTagline`.
 
 Full doc: [CONFIGURATION/HOMEPAGE-CONFIGURATION.md](./CONFIGURATION/HOMEPAGE-CONFIGURATION.md).
 

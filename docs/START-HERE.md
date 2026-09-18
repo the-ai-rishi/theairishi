@@ -136,10 +136,10 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 9. Do not edit `lib/content-data.generated.ts`. It is generated.
 10. Project frontmatter `status` is a badge (`Completed` / `In Progress` / `Planned`). Hide a lab with `enabled: false`.
 11. Content on this site is free. Do not add pricing pages.
-12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected.
+12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected. Same for `copy.heroTitle` and `copy.heroTagline` — omit them; the hero uses the program title.
 13. `brand.lineage` must not exist.
-14. `defaults.authorName` is the public Person in structured data. Set it on purpose. Do not infer a private legal name.
-15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile.
+14. `defaults.authorName` is the public Person in structured data. Set it on purpose. Do not infer a private legal name or fall back to the brand name.
+15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.
 
 ## Generated catalogs (do not let them go stale)
 
@@ -162,4 +162,4 @@ Unpublished `/learn/day-N` 404s via middleware rewrite to `/missing-lesson` with
 
 Root files such as `ARCHITECTURE.md`, `AUTHORING.md`, `PLATFORM_MANUAL.md`, `CONFIGURATION_GUIDE.md`, `CONTENT_GUIDE.md`, and `PRODUCTION_GUIDE.md` are **one-line redirects**. They are not canonical. Start at [docs/START-HERE.md](./START-HERE.md) or [docs/DOCUMENTATION-MAP.md](./DOCUMENTATION-MAP.md).
 
-`lib/program-schema.js` is the only program validator. Runtime and `scripts/validate.js` both use it.
+`lib/program-schema.js` is the only program validator. Runtime and `scripts/validate.js` both use it. `lib/course-href.js` is the only course-card href rule.

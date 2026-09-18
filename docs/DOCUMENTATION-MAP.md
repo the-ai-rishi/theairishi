@@ -46,7 +46,7 @@ Use the I want to table, then the What file do I edit table.
 | Change SEO | CONFIGURATION/SEO-CONFIGURATION.md | app/layout.tsx metadata, generateMetadata, brand.description |
 | Add a domain / topic | ADVANCED/ADDING-A-NEW-DOMAIN.md | topics[] JSON. Planned python topic is OK. Do not invent Python lessons. |
 | Add a new homepage TYPE | ADVANCED/ADDING-A-NEW-FEATURE.md | visibility-core SECTION_TYPES plus React. Developer required. |
-| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-15 |
+| Validate | OPERATIONS/VALIDATION.md | scripts/validate.js, scenario-test.js 1-16 |
 | Deploy | OPERATIONS/DEPLOYMENT.md | Vercel, theairishi.vercel.app. PR branch is not auto-main. |
 | Fix a missing route or block | OPERATIONS/TROUBLESHOOTING.md | visibility-core 404-until-active-plus-content |
 | Revert a mistake | OPERATIONS/BACKUP-AND-RECOVERY.md | git restore, git revert. No force-push. |
@@ -55,7 +55,7 @@ Use the I want to table, then the What file do I edit table.
 
 | Job | File | Field / what to change |
 | --- | --- | --- |
-| Homepage title | `content/config/platform.json` | `copy.heroTitle` (live: empty; visible title is the program name). Also `copy.heroBadge`, `copy.heroTagline` |
+| Homepage title | `content/config/programs.json` | `title` (live: DevOps Engineer Mastery). Omit `copy.heroTitle` / `copy.heroTagline`. `copy.heroBadge` is the kicker. |
 | Hero description | `content/config/platform.json` | `copy.heroDescription` (and `brand.description` if the site description should match) |
 | Enable YouTube | `content/media/youtube.json` plus `content/config/platform.json` | Real items in youtube.json first. Then `social[]` id `youtube` and `contentTypes[]` id `youtube` `status` `active`. Do not invent items. Live files are empty and coming-soon. |
 | Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |
@@ -65,7 +65,7 @@ Use the I want to table, then the What file do I edit table.
 
 ## COMPLETE EXAMPLE
 
-Change the visible homepage title by editing `content/config/programs.json` `title` (live: DevOps Engineer Mastery). `copy.heroTitle` should stay empty so the brand is not repeated under the header. Then `npm run validate` and refresh the preview.
+Change the visible homepage title by editing `content/config/programs.json` `title` (live: DevOps Engineer Mastery). Omit `copy.heroTitle`. Then `npm run validate` and refresh the preview.
 
 Enable YouTube: only after a real video exists. Put an object with `id`, `title`, `publishedAt`, `url` in `content/media/youtube.json`. Set `social` id youtube and `contentTypes` id youtube to `status` `active`. Until then /youtube 404s. Full doc: [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md).
 
@@ -85,7 +85,7 @@ npm run validate. See [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md).
 | Symptom | Cause | Fix |
 | --- | --- | --- |
 | Cannot find which file to edit | Job is copy vs content vs type | Use What file do I edit? then the I want to row |
-| Hero did not change | Edited the wrong field or a component | `copy.heroTitle` / `copy.heroDescription` in platform.json |
+| Hero did not change | Edited the wrong field or a component | `programs.json` title, or `copy.heroDescription` in platform.json |
 | /youtube still 404 | coming-soon or empty JSON | Expected until real items + status active |
 
 ## HOW TO UNDO

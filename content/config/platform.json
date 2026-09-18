@@ -14,8 +14,6 @@
   },
   "copy": {
     "heroBadge": "Current program",
-    "heroTitle": "",
-    "heroTagline": "",
     "heroDescription": "A structured path from Linux and Git through cloud, CI/CD, containers, Kubernetes, and production engineering.",
     "heroPrimaryCta": "Start Day 1",
     "heroPrimaryCtaHref": "/learn/day-01",

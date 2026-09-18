@@ -5,6 +5,7 @@ import { getPublishedContent } from "./content";
 import { getAllCourses } from "./lessons";
 import { getChannelItems } from "./media";
 import { getProgram } from "./programs";
+import { hrefForCourse } from "./course-href";
 
 let _catalog: PlatformCatalog | null = null;
 
@@ -17,21 +18,6 @@ export function getLiveCatalog(): PlatformCatalog {
   _catalog = emptyCatalog();
   _catalog = buildLiveCatalog();
   return _catalog;
-}
-
-function hrefForCourse(
-  course: { id: string; slug?: string },
-  live: ReturnType<typeof getAllCourses>[number] | undefined,
-  program: ReturnType<typeof getProgram>
-): string {
-  if (course.id === program.id || course.slug === program.slug) {
-    return program.startHref || "/learn";
-  }
-  if (!live || live.id !== course.id) return "/learn";
-  const first = live.stages?.[0]?.lessons?.[0];
-  const courseKeys = new Set([course.id, course.slug].filter(Boolean));
-  if (!first || !courseKeys.has(first.metadata.course)) return "/learn";
-  return `/learn/${first.slug}`;
 }
 
 export function buildLiveCatalog(): PlatformCatalog {

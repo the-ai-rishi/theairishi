@@ -35,7 +35,9 @@ export interface BrandConfig {
 
 export interface CopyConfig {
   heroBadge: string;
-  heroTitle: string;
+  /** Optional override. Omit it; the hero uses the current program title. */
+  heroTitle?: string;
+  /** Optional. Omit unless there is a real slogan. */
   heroTagline?: string;
   heroDescription: string;
   heroPrimaryCta: string;
@@ -418,15 +420,10 @@ export function getFuturePath(): FuturePathItem[] {
 
 export function getDefaultsConfig(): DefaultsConfig {
   const cfg = loadPlatformConfig();
-  const brand = cfg.brand;
-  return (
-    cfg.defaults ?? {
-      topicSlug: "",
-      authorName: brand?.name || "",
-      contentDate: "",
-      sameAs: [],
-    }
-  );
+  if (!cfg.defaults || !cfg.defaults.authorName) {
+    throw new Error("[config] defaults.authorName is required. It is an explicit Person name, not inferred from the brand.");
+  }
+  return cfg.defaults;
 }
 
 /**
@@ -446,7 +443,7 @@ export function getDefaultTopicSlug(): string | null {
 }
 
 export function getDefaultAuthorName(): string {
-  return getDefaultsConfig().authorName || getBrandConfig().name;
+  return getDefaultsConfig().authorName;
 }
 
 export function getConfiguredTopics(): TopicConfig[] {

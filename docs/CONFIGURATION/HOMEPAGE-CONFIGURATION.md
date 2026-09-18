@@ -71,7 +71,7 @@ Edit `content/config/platform.json`:
 - Later stages: `futurePath`
 - Header button: `copy.headerCta`, `copy.headerCtaHref` (Start Day 1 → `/learn/day-01`)
 
-Leave `copy.heroTagline` empty. Do not stack slogans. Do not restore “Ancient patience. Modern systems.” Do not describe the product as a public journey or learning in public.
+Omit `copy.heroTitle` and `copy.heroTagline`. The visible headline is `programs.json` `title`. Do not stack slogans. Do not restore “Ancient patience. Modern systems.” Do not describe the product as a public journey or learning in public.
 
 ## How to reorder
 
