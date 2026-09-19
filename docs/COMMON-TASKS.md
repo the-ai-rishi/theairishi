@@ -226,9 +226,11 @@ Full doc: [FEATURES/INSTAGRAM.md](./FEATURES/INSTAGRAM.md).
 
 ### Telegram
 
-Enabled now with a documented temporary URL: `https://example.com/the-ai-rishi-telegram`. That is **not** a real community. Footer / About / destinations show it as a placeholder. It is not in JSON-LD `sameAs`.
+Live official channel: `https://t.me/theairishi_official`.
 
-When the real group exists: paste `https://t.me/...` into `social[]` id `telegram` `url`, keep `enabled: true`, optionally set `includeInSameAs: true`, then `npm run validate`. No React.
+Configured in `social[]` id `telegram` `url`. Footer / About / destinations. Included in JSON-LD `sameAs`.
+
+To hide it: `"enabled": false`. To change the URL: edit `url` only (the official username is pinned). Then `npm run validate`. No React.
 
 Full doc: [FEATURES/TELEGRAM.md](./FEATURES/TELEGRAM.md).
 

@@ -106,7 +106,7 @@ In **Reinforcement Learning**, there is no static dataset. Instead, an autonomou
 2. **Environment:** The world the agent operates in (e.g., a chess board, a simulation physics engine, an AWS cluster).
 3. **State ($S$):** The current condition or snapshot of the environment.
 4. **Action ($A$):** The move or operation the agent decides to execute.
-5. **Reward ($R$):** Feedback from the environment—a positive scalar for favorable outcomes, negative for penalties.
+5. **Reward ($R$):** Feedback from the environment-a positive scalar for favorable outcomes, negative for penalties.
 6. **Policy ($\pi$):** The strategy the agent learns that maps states to the best possible actions to maximize cumulative reward over time.
 
 ### Real-World Examples of RL:
@@ -130,7 +130,7 @@ In **Reinforcement Learning**, there is no static dataset. Instead, an autonomou
 ## Common Misconceptions
 
 - **Misconception:** *Reinforcement learning is just supervised learning with numbers.*
-  **Reality:** In supervised learning, the model is told the exact right answer for every example. In reinforcement learning, the agent is never told the correct action—it only receives a score after taking actions and must discover optimal strategies through exploration and trial-and-error.
+  **Reality:** In supervised learning, the model is told the exact right answer for every example. In reinforcement learning, the agent is never told the correct action-it only receives a score after taking actions and must discover optimal strategies through exploration and trial-and-error.
 - **Misconception:** *Unsupervised learning means the AI trains with zero human guidance.*
   **Reality:** Engineers still define the feature representations, algorithm choices, distance metrics, and clustering hyperparameters.
 

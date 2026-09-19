@@ -13,7 +13,7 @@ description: "Understand deep learning, multi-layer representation learning, and
 
 # Deep Learning
 
-**Deep Learning** is a specialized subfield of machine learning based on **deep neural networks**—neural networks containing many hidden layers (from dozens to hundreds or thousands).
+**Deep Learning** is a specialized subfield of machine learning based on **deep neural networks**-neural networks containing many hidden layers (from dozens to hundreds or thousands).
 
 While simple neural networks have existed for decades, deep learning is the specific technological breakthrough that unlocked modern computer vision, automated speech recognition, and large language models.
 

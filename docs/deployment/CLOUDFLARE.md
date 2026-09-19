@@ -50,7 +50,7 @@ npm run cf:deploy
 
 ## 6. How to validate
 
-- `npm run validate` — includes a worker-bundle check when `.open-next` exists.
+- `npm run validate` - includes a worker-bundle check when `.open-next` exists.
 - After `cf:build`, the artifact must contain `The AI Rishi` and `EMBEDDED_CONTENT`.
 - Refresh `/` several times. No recurring `[config] Platform config not found`.
 - `/learn`, `/learn/day-01`, `/guides`, `/projects`, `/topics/ai` still render.

@@ -17,7 +17,7 @@ A **Large Language Model (LLM)** is a deep neural network trained on vast quanti
 
 At its core mathematical foundation, an LLM performs one primary task: **given a sequence of words or tokens, it calculates the probability distribution of what token should come next.**
 
-Yet, when scaled to hundreds of billions of parameters and trained across trillions of words from the web, this seemingly simple next-token objective gives rise to extraordinary emergent capabilities—including translation, summarization, logical deduction, programming, and tool coordination.
+Yet, when scaled to hundreds of billions of parameters and trained across trillions of words from the web, this seemingly simple next-token objective gives rise to extraordinary emergent capabilities-including translation, summarization, logical deduction, programming, and tool coordination.
 
 ---
 
@@ -155,4 +155,4 @@ The journey of an LLM from raw text to an intelligent application follows four c
 
 Before an LLM can calculate probabilities or process sentences, human text must be converted into a format computers understand: numbers.
 
-In **Lesson 02**, we explore **Tokens and Tokenization**—the fundamental gateway between raw human text and neural network inputs.
+In **Lesson 02**, we explore **Tokens and Tokenization**-the fundamental gateway between raw human text and neural network inputs.

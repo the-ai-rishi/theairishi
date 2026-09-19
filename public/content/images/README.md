@@ -6,12 +6,12 @@ This directory holds images referenced in lessons, guides, and other Markdown co
 
 ```
 public/content/images/
-  ai/          — AI, ML, LLM content images
-  devops/      — DevOps, Kubernetes, CI/CD images
-  cloud/       — Cloud, Azure, AWS images
-  software-engineering/ — Programming, system design images
-  career/      — Career, interview, growth images
-  general/     — Platform-wide or uncategorized images
+  ai/          - AI, ML, LLM content images
+  devops/      - DevOps, Kubernetes, CI/CD images
+  cloud/       - Cloud, Azure, AWS images
+  software-engineering/ - Programming, system design images
+  career/      - Career, interview, growth images
+  general/     - Platform-wide or uncategorized images
 ```
 
 ## Usage in Markdown

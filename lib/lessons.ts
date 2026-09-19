@@ -31,6 +31,8 @@ export interface LessonMetadata {
   day?: number;
   phase?: string;
   program?: string;
+  /** Optional on-site exercise id. Day 1 uses starting-assessment. */
+  exercise?: string;
 }
 
 export interface LessonSummary {
@@ -135,6 +137,7 @@ function getLessonMetadata(data: Record<string, unknown>): LessonMetadata | null
   const day = getPositiveNumber(data.day) || undefined;
   const phase = getString(data.phase) || undefined;
   const program = getString(data.program) || undefined;
+  const exercise = getString(data.exercise) || undefined;
 
   return {
     title,
@@ -153,6 +156,7 @@ function getLessonMetadata(data: Record<string, unknown>): LessonMetadata | null
     day,
     phase,
     program,
+    exercise,
   };
 }
 

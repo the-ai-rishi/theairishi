@@ -68,7 +68,7 @@ export default function DestinationLinks({
               rel={temporary ? "noopener noreferrer nofollow" : "noopener noreferrer"}
               title={
                 temporary
-                  ? "Temporary placeholder — not a real Telegram community yet. Replace url with https://t.me/..."
+                  ? "Temporary placeholder - not a real Telegram community yet. Replace url with https://t.me/..."
                   : undefined
               }
               aria-label={temporary ? `${channel.label} (temporary placeholder)` : undefined}

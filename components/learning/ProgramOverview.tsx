@@ -41,16 +41,6 @@ export default function ProgramOverview({ program }: { program: ProgramConfig })
               Start {formatDayLabel(start.day)}
             </Link>
           ) : null}
-          {program.repoUrl ? (
-            <a
-              href={program.repoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="link-editorial font-mono text-[14px] tracking-[0.12em] text-cream/60 hover:text-gold"
-            >
-              GitHub source of truth →
-            </a>
-          ) : null}
         </div>
       </section>
 

@@ -23,22 +23,22 @@ There is no `externalUrl` field. The only outbound URL is `url`.
 | `showInFooter` | Default true for public external destinations |
 | `showOnHomepage` | Homepage destinations block |
 | `showOnAbout` | About page |
-| `includeInSameAs` | Person JSON-LD. Disabled, empty, and temporary placeholder URLs are never added |
+| `includeInSameAs` | Person JSON-LD. Disabled, empty, and retired placeholder URLs are never added |
 | `ctaLabel` | Short phrase next to the name (`Daily posts`) |
-| `role` | `discovery` / `community` / `media` / `code` — documentation only |
+| `role` | `discovery` / `community` / `media` / `code` - documentation only |
 
 ## Live today
 
 | Channel | State | What visitors see |
 | --- | --- | --- |
 | Instagram | `kind: external`, `enabled: true`, `status: active`, `url: https://www.instagram.com/theairishi/` | Footer, About, homepage destinations, `sameAs` |
-| Telegram | external, enabled, documented placeholder `https://example.com/the-ai-rishi-telegram` | Footer, About, homepage destinations. **Not** `sameAs`. Label shows Placeholder |
+| Telegram | `kind: external`, `enabled: true`, `status: active`, `url: https://t.me/theairishi_official` | Footer, About, homepage destinations, `sameAs` |
 | GitHub | external, `enabled: false`, `status: planned`, URL kept in config | Nothing public. Enable later from this row |
 | YouTube | internal `/youtube`, `coming-soon`, no videos | 404 until real items exist. No on-site Instagram feed either |
 
 The site does **not** import Instagram posts, follower counts, or reels. `content/media/instagram.json` stays `[]`. `/instagram` is not a public product page.
 
-JSON-LD `sameAs` today: **Instagram only**.
+JSON-LD `sameAs` today: **Instagram and Telegram**.
 
 ## Change the Instagram URL later
 
@@ -51,9 +51,9 @@ Edit one field:
 
 Then `npm run validate`.
 
-## Replace the Telegram placeholder
+## Change the Telegram URL later
 
-See [TELEGRAM.md](../FEATURES/TELEGRAM.md). Edit `url` to the real `https://t.me/...`. Set `includeInSameAs: true` only when the real community should appear in structured data.
+See [TELEGRAM.md](../FEATURES/TELEGRAM.md). The live URL is pinned to `https://t.me/theairishi_official`. Edit `url` only, then `npm run validate`.
 
 ## Enable GitHub later
 

@@ -35,29 +35,29 @@ The homepage is learner-first. Personal story lives on `/about`.
 | `topic-grid` | Public topics with content | Hidden when empty. **Disabled** live |
 | `course-list` | Featured courses | Hidden when empty. **Disabled** live |
 | `content-list` | Guides / labs / recent | Hidden when empty. **Disabled** live |
-| `destinations` | Compact outbound links from `social[]` (Instagram today; Telegram when enabled) | Hidden when empty. Live, after community |
+| `destinations` | Compact outbound links from `social[]` (Instagram and Telegram) | Hidden when empty. Live, after community |
 | `channel-grid` | On-site YouTube/Instagram listings | Hidden when empty. **Disabled** live. Not the Instagram profile |
 
 Unknown type is skipped. `npm run validate` errors.
 
-`bodyKey` for `prose`: `what` | `why` | `method` | `path` | `community` — mapped to `story.whatBody` etc.
+`bodyKey` for `prose`: `what` | `why` | `method` | `path` | `community` - mapped to `story.whatBody` etc.
 
 `why` also reads `story.whyGenerate` and `story.whyStillNeed`.
 `method` also reads `story.methodSteps`.
 
 ## Live order
 
-1. hero — DevOps Engineer Mastery, 120 days, Start Day 1
+1. hero - DevOps Engineer Mastery, 120 days, Start Day 1
 2. continue-learning (only if the visitor has progress)
-3. program — facts strip
-4. phases — what you will work through
-5. why — Why DevOps before AI
-6. today — published days
-7. method — how a day works
-8. path — after this program
+3. program - facts strip
+4. phases - what you will work through
+5. why - Why DevOps before AI
+6. today - published days
+7. method - how a day works
+8. path - after this program
 9. prose `community`
-10. destinations — Daily posts on Instagram
-11. cta — Start at Day 1
+10. destinations - Daily posts on Instagram
+11. cta - Start at Day 1
 
 Disabled (kept in JSON so you can turn them on later): what, topic-grid, recent, guides, projects-list, courses.
 

@@ -1,0 +1,77 @@
+{
+  "sourceRepo": {
+    "name": "devops-engineer-mastery",
+    "role": "private-authoring-source",
+    "public": false
+  },
+  "learnerFrontDoor": "/learn",
+  "concepts": [
+    {
+      "id": "start-here",
+      "sourcePath": "START-HERE.md",
+      "learnerLabel": "Start Here",
+      "publicHref": "/learn/day-01"
+    },
+    {
+      "id": "starting-assessment",
+      "sourcePath": "docs/current-skills-gap.md",
+      "learnerLabel": "Your Starting Assessment",
+      "kind": "exercise",
+      "authorOnly": true,
+      "publicSurface": "starting-assessment"
+    },
+    {
+      "id": "roadmap",
+      "sourcePath": "roadmap/120-day-execution.md",
+      "learnerLabel": "120-Day Roadmap",
+      "publicHref": "/learn"
+    },
+    {
+      "id": "daily-lesson",
+      "sourcePath": "daily-learning/",
+      "learnerLabel": "Day N Lesson",
+      "publicHrefPattern": "/learn/day-NN"
+    },
+    {
+      "id": "labs",
+      "sourcePath": "labs/",
+      "learnerLabel": "Practice Labs",
+      "kind": "exercise"
+    },
+    {
+      "id": "break-fix",
+      "sourcePath": "break-fix/",
+      "learnerLabel": "Debugging Challenges",
+      "kind": "exercise"
+    },
+    {
+      "id": "interview",
+      "sourcePath": "interview-preparation/",
+      "learnerLabel": "Interview Practice",
+      "kind": "exercise"
+    },
+    {
+      "id": "templates",
+      "sourcePath": "templates/",
+      "learnerLabel": "Templates & Resources",
+      "kind": "resource"
+    }
+  ],
+  "authorOnlyPaths": [
+    "docs/current-skills-gap.md"
+  ],
+  "forbiddenRawPaths": [
+    "docs/current-skills-gap.md",
+    "docs/how-a-day-works.md",
+    "docs/where-work-goes.md",
+    "docs/DAY120.md",
+    "daily-learning/",
+    "roadmap/120-day-execution.md",
+    "roadmap/curriculum/",
+    "break-fix/",
+    "interview-preparation/",
+    "labs/day-",
+    "templates/",
+    "START-HERE.md"
+  ]
+}

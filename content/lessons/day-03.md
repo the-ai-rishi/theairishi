@@ -1,5 +1,5 @@
 ---
-title: "Day 3 — Merge vs rebase"
+title: "Day 3 - Merge vs rebase"
 description: "Diverged branches, fast-forward, merge commits, three-way conflicts, abort, and when rebase is forbidden."
 course: "devops-engineer-mastery"
 courseTitle: "DevOps Engineer Mastery"
@@ -15,9 +15,9 @@ status: "published"
 tags: ["git", "merge", "rebase", "foundations", "day-03"]
 ---
 
-# Day 3 — Merge vs rebase
+# Day 3 - Merge vs rebase
 
-Locked: a real conflict, abort, and when rebase is forbidden. Still Phase 01 of [DevOps Engineer Mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). Private branch only for rebase practice.
+This is Day 3 of DevOps Engineer Mastery. Today: a real conflict, abort, and when rebase is forbidden. Private branch only for rebase practice.
 
 ## Words
 
@@ -29,7 +29,7 @@ main:    A---B
 feature:       C---D     ancestor = B
 ```
 
-**Fast-forward** slides the name. **Merge commit** is a new commit with two parents. **Three-way** merge needs ours + theirs + ancestor — that is why conflicts exist.
+**Fast-forward** slides the name. **Merge commit** is a new commit with two parents. **Three-way** merge needs ours + theirs + ancestor - that is why conflicts exist.
 
 Rebase replays as **new SHAs**:
 
@@ -39,7 +39,7 @@ A---B---C'---D'
 
 People who already pulled C and D still have the old IDs. That is why rebasing shared `main` is dangerous.
 
-`merge --abort` / `rebase --abort` / `rebase --continue` (after `add`). Ours/theirs feel reversed on rebase — read the file, do not memorise a flag.
+`merge --abort` / `rebase --abort` / `rebase --continue` (after `add`). Ours/theirs feel reversed on rebase - read the file, do not memorise a flag.
 
 ## Practise
 
@@ -63,5 +63,3 @@ Rebase `main` that twelve people already pulled.
 ## Definition of done
 
 You can draw diverge / ancestor / fast-forward / merge commit / rebase-as-new-SHAs. You created and aborted a conflict. You can say when rebase is forbidden without hedging.
-
-Full pack: [Day 3 learning pack](https://github.com/the-ai-rishi/devops-engineer-mastery/blob/main/daily-learning/day-03/DAY-03-LEARNING-PACK.md).

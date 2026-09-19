@@ -10,7 +10,7 @@ Run the site locally and confirm the live public surfaces before you edit JSON o
 2. `npm run dev`
 3. Open the Local URL Next prints (usually http://localhost:3000)
 4. Confirm the hero:
-   - Kicker: Current program (`copy.heroBadge`) — not the brand name (that is already in the header)
+   - Kicker: Current program (`copy.heroBadge`) - not the brand name (that is already in the header)
    - Headline: DevOps Engineer Mastery (`programs.json` `title`)
    - Duration: 120 days · about 4 months
    - One short description (`copy.heroDescription`)
@@ -19,7 +19,7 @@ Run the site locally and confirm the live public surfaces before you edit JSON o
    - No brand tagline in the hero. Omit `brand.tagline` unless you intend a slogan.
 5. Header: Start, 120 Days, About. Explore contains Guides and Projects. CTA **Start Day 1**.
 6. Scroll: facts strip → eleven phases → Why DevOps before AI → available days → how a day works → where this goes next → community → Start at Day 1.
-7. Open `/youtube` and `/instagram` — both must 404.
+7. Open `/youtube` and `/instagram` - both must 404.
 8. Open `/learn/day-01`, `/learn`, `/about`. About is first person. Homepage is not a diary.
 9. Stop the server. Run `npm run validate`, then `npm run lint`, then `npm run build`.
 

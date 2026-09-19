@@ -22,7 +22,7 @@ export function publisherJsonLd() {
   return personJsonLd();
 }
 
-/** Public Person for JSON-LD. Name comes from defaults.authorName — an explicit operator choice, not inferred. */
+/** Public Person for JSON-LD. Name comes from defaults.authorName - an explicit operator choice, not inferred. */
 export function creatorJsonLd() {
   return {
     "@context": "https://schema.org",

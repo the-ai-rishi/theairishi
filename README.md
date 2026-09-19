@@ -6,13 +6,13 @@ This is not a guru course, not a diary, and not an AI-first landing page.
 
 Start: `/learn/day-01`. 120 Days: `/learn`. About: `/about`.
 
-The locked plan lives in [devops-engineer-mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). This site publishes the days that are ready.
+Day titles live in `content/config/programs.json`. This site publishes the days that are ready. The authoring repository is private and is not a public learner destination.
 
 ## Operator start
 
-- [docs/START-HERE.md](docs/START-HERE.md) — the index
-- [docs/CONTENT/ADD-DAILY-LESSON.md](docs/CONTENT/ADD-DAILY-LESSON.md) — add Day N
-- [docs/DEVOPS-ENGINEER-MASTERY.md](docs/DEVOPS-ENGINEER-MASTERY.md) — the 120-day map
+- [docs/START-HERE.md](docs/START-HERE.md) - the index
+- [docs/CONTENT/ADD-DAILY-LESSON.md](docs/CONTENT/ADD-DAILY-LESSON.md) - add Day N
+- [docs/DEVOPS-ENGINEER-MASTERY.md](docs/DEVOPS-ENGINEER-MASTERY.md) - the 120-day map
 
 ## Commands
 

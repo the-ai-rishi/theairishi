@@ -17,6 +17,7 @@ import LessonSidebar from "@/components/learning/LessonSidebar";
 import LessonContent from "@/components/learning/LessonContent";
 import LessonCompletionButton from "@/components/learning/LessonCompletionButton";
 import MobileLessonMenu from "@/components/learning/MobileLessonMenu";
+import StartingAssessment from "@/components/learning/StartingAssessment";
 import {
   getAllLessonSlugs,
   getLesson,
@@ -92,6 +93,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
   const footerNav = getFooterNavigation();
+  const showStartingAssessment = lesson.metadata.exercise === "starting-assessment";
   const jsonLd = articleJsonLd({
     title: lesson.metadata.title,
     description: lesson.metadata.description,
@@ -145,6 +147,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
       <section className="border-y border-hairline">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-[1fr_280px] lg:px-8">
           <div className="space-y-12">
+            {showStartingAssessment ? <StartingAssessment /> : null}
+
             <LessonContent content={lesson.content} />
 
             <LessonCompletionButton

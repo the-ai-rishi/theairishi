@@ -71,7 +71,7 @@ The model makes an initial guess across its vocabulary. The true target token is
 └─────────────────────────────────────────────────────────────┘
 ```
 
-At the end of pre-training, the resulting **Base Model** is an extraordinary pattern completion engine—but it does not yet act like a chatbot. If you prompt a base model with *"What is the capital of France?"*, it might simply respond with *"What is the capital of Germany? What is the capital of Spain?"* because it treats your prompt as a list in a geography quiz.
+At the end of pre-training, the resulting **Base Model** is an extraordinary pattern completion engine-but it does not yet act like a chatbot. If you prompt a base model with *"What is the capital of France?"*, it might simply respond with *"What is the capital of Germany? What is the capital of Spain?"* because it treats your prompt as a list in a geography quiz.
 
 ---
 
@@ -147,4 +147,4 @@ Training frontier models requires specialized high-performance computing cluster
 
 Now that we have a trained, aligned model with billions of frozen parameters, what actually happens when an end-user sends a prompt over an API?
 
-In **Lesson 07**, we explore **Inference and Generation**—from the prompt prefill phase to autoregressive token sampling and streaming.
+In **Lesson 07**, we explore **Inference and Generation**-from the prompt prefill phase to autoregressive token sampling and streaming.

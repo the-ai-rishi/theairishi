@@ -6,7 +6,7 @@
  * Always run before Next compiles. next.config.ts, npm prebuild/predev/prevalidate,
  * and OpenNext buildCommand all call this so published-lesson slugs cannot go stale.
  *
- * Public /learn/[slug] membership is lib/lesson-publish.js — the same predicate
+ * Public /learn/[slug] membership is lib/lesson-publish.js - the same predicate
  * the runtime catalog uses. Do not re-implement publication with a regex here.
  */
 

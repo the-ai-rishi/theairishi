@@ -3,11 +3,11 @@
 Labels:
 
 - 🟢 SAFE FOR CONTENT EDITING
-- 🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-- 🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+- 🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+- 🔴 CODE - DO NOT EDIT UNLESS ADVANCED
 
 theairishi/
-  app/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+  app/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
     apple-icon.png
     favicon.ico
     globals.css
@@ -17,38 +17,38 @@ theairishi/
     page.tsx
     robots.ts
     sitemap.ts
-    [channel]/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    [channel]/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       page.tsx
-    about/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    about/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       page.tsx
-    api/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
-      search/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    api/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
+      search/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
         route.ts
-    guides/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    guides/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       page.tsx
-      [slug]/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+      [slug]/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
         page.tsx
-    learn/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    learn/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       page.tsx
-      [slug]/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+      [slug]/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
         not-found.tsx
         page.tsx
-      ai-fundamentals/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+      ai-fundamentals/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
         page.tsx
-    projects/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    projects/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       page.tsx
-      [slug]/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+      [slug]/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
         page.tsx
-    topics/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
-      [topic]/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    topics/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
+      [topic]/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
         page.tsx
-  components/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
-    brand/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+  components/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
+    brand/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       Logo.tsx
       PageShell.tsx
       SectionHeading.tsx
-    channel/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
-    home/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    channel/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
+    home/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       CallToAction.tsx
       ChannelGrid.tsx
       ContentList.tsx
@@ -59,17 +59,17 @@ theairishi/
       SectionRenderer.tsx
       TechnologyOrbit.tsx
       TopicGrid.tsx
-    icons/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    icons/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       AboutIcon.tsx
       GuidesIcon.tsx
       InstagramIcon.tsx
       LearnIcon.tsx
       ProjectsIcon.tsx
       YouTubeIcon.tsx
-    layout/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    layout/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       Footer.tsx
       Header.tsx
-    learning/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    learning/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       CourseCard.tsx
       LessonCompletionButton.tsx
       LessonContent.tsx
@@ -79,12 +79,12 @@ theairishi/
       MobileLessonMenu.tsx
       ResumeLearningBanner.tsx
       useLessonProgress.ts
-    search/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    search/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       SearchModal.tsx
-    ui/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+    ui/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       button.tsx
   content/  🟢 SAFE FOR CONTENT EDITING
-    config/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
+    config/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
       courses.json
       platform.json
       series.json
@@ -199,7 +199,7 @@ theairishi/
       CONFIGURATION-REFERENCE.md
       FILE-STRUCTURE.md
       GLOSSARY.md
-  lib/  🔴 CODE — DO NOT EDIT UNLESS ADVANCED
+  lib/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
     brand.ts
     catalog.ts
     config.ts
@@ -223,22 +223,22 @@ theairishi/
     visibility-core.d.ts
     visibility-core.js
     visibility.ts
-  public/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-    brand/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
+  public/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+    brand/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
       logo-horizontal.png
       logo-mark.png
       logo.png
       og-image.jpg
-    content/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-      images/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
+    content/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+      images/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
         README.md
-        ai/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-        career/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-        cloud/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-        devops/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-        general/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-        software-engineering/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
-  scripts/  🟡 CONFIGURATION — FOLLOW DOCUMENTATION
+        ai/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+        career/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+        cloud/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+        devops/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+        general/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+        software-engineering/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
+  scripts/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
     content-index.js
     scenario-test.js
     validate.js

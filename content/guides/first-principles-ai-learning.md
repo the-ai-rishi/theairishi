@@ -18,7 +18,7 @@ The modern artificial intelligence landscape moves at an exhausting speed. Every
 
 If you attempt to learn by memorizing every new tool and framework, you will quickly experience burn-out.
 
-The solution is **First-Principles Thinking**—breaking complex technology down into its foundational components and reasoning up from there.
+The solution is **First-Principles Thinking**-breaking complex technology down into its foundational components and reasoning up from there.
 
 ---
 
@@ -48,4 +48,4 @@ By viewing AI through the lens of computer science architecture, you gain clarit
 
 ## Key Takeaway
 
-> Focus on the enduring mathematical and architectural principles—vectors, attention, loss functions, and API protocols. Tools will change every 6 months, but fundamental principles remain constant.
+> Focus on the enduring mathematical and architectural principles-vectors, attention, loss functions, and API protocols. Tools will change every 6 months, but fundamental principles remain constant.

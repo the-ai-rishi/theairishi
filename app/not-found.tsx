@@ -8,7 +8,7 @@ export default function NotFound() {
     <main id="main-content" className="flex min-h-screen items-center justify-center bg-ink px-6 text-cream selection:bg-gold/25 selection:text-ink">
       <div className="flex flex-col items-center text-center">
         <Logo brand={brand} variant="horizontal" />
-        <p className="mt-8 kicker text-gold/70">404 — Beyond the field</p>
+        <p className="mt-8 kicker text-gold/70">404 - Beyond the field</p>
         <h1 className="mt-4 font-serif text-4xl tracking-[0.01em] text-cream sm:text-6xl">
           This path does not exist
         </h1>

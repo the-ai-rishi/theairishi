@@ -100,4 +100,4 @@ Plan ──► Code ──► Build ──► Test ──► Release ──► D
 
 The technical engine powering rapid DevOps releases is **CI/CD**. 
 
-In **Lesson 02**, we explore **What is CI/CD?**—continuous integration, automated test verification, and automated deployment pipelines.
+In **Lesson 02**, we explore **What is CI/CD?**-continuous integration, automated test verification, and automated deployment pipelines.

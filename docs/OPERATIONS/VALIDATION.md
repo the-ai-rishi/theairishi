@@ -28,7 +28,7 @@ This runs `content:generate` first (`prevalidate`), then `scripts/validate.js`, 
 - Generated catalog contains platform, courses, programs, lessons, guides, projects
 - Active topics/courses that are shown on the homepage have content
 - Instagram is a public external destination; `/instagram` is not a site route
-- Telegram may be disabled with an empty URL; enabled Telegram requires a real https://t.me/... URL
+- Telegram is the official channel `https://t.me/theairishi_official` and is in `sameAs`
 - Coming-soon YouTube does not leak into nav, search, sitemap, or routes
 - Brand files exist on disk
 - Worker bundle (if `.open-next` exists) contains the brand and embedded lessons

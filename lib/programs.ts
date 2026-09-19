@@ -32,7 +32,6 @@ export interface ProgramConfig {
   title: string;
   durationLabel: string;
   currentPhaseId: string;
-  repoUrl: string;
   status: string;
   enabled: boolean;
   featured?: boolean;
