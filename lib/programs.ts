@@ -7,6 +7,12 @@ import {
 } from "./program-schema";
 import { getAllLessonSummaries, type LessonSummary } from "./lessons";
 import { normalizeStatus } from "./visibility-core";
+import type { LearnerCatalog, LearnerDay, LearnerPhase } from "./continue-learning";
+
+/** Featured DevOps program also answers /programs/devops. */
+const PROGRAM_SLUG_ALIASES: Record<string, string> = {
+  devops: "devops-engineer-mastery",
+};
 
 export interface ProgramPhase {
   id: string;
@@ -84,9 +90,14 @@ export function getProgramById(id: string): ProgramConfig | null {
 export function getProgramBySlug(slug: string): ProgramConfig | null {
   const catalog = asProgramCatalog(programsJson);
   if (!catalog) return null;
-  const found = catalog.programs.find(
-    (program) => program && (program.slug === slug || program.id === slug)
-  ) as ProgramConfig | undefined;
+  const requested = String(slug || "").trim().toLowerCase();
+  const aliased = PROGRAM_SLUG_ALIASES[requested] || requested;
+  const found = catalog.programs.find((program) => {
+    if (!program) return false;
+    const id = String(program.id || "").toLowerCase();
+    const programSlug = String(program.slug || "").toLowerCase();
+    return id === aliased || programSlug === aliased || id === requested || programSlug === requested;
+  }) as ProgramConfig | undefined;
   return found || null;
 }
 
@@ -176,3 +187,74 @@ export function programHref(program: ProgramConfig): string {
   if (program.id === getFeaturedProgramId()) return "/learn";
   return `/programs/${program.slug || program.id}`;
 }
+
+export function getLearnerCatalog(programId?: string): LearnerCatalog {
+  const program = resolveProgram(programId);
+  const phases = getHydratedPhases(program.id);
+  const days: LearnerDay[] = [];
+  const learnerPhases: LearnerPhase[] = phases.map((phase) => {
+    for (const day of phase.days) {
+      days.push({
+        day: day.day,
+        slug: day.slug,
+        title: day.title,
+        summary: day.summary,
+        published: day.published,
+        href: day.href,
+        phaseId: phase.id,
+        phaseName: phase.name,
+        phaseNumber: phase.number,
+      });
+    }
+    return {
+      id: phase.id,
+      number: phase.number,
+      name: phase.name,
+      daysLabel: phase.daysLabel,
+      startDay: phase.startDay,
+      endDay: phase.endDay,
+      summary: phase.summary,
+      current: phase.current,
+      publishedCount: phase.publishedCount,
+      totalDays: phase.days.length,
+    };
+  });
+  const start = getStartDay(program.id);
+  return {
+    programId: program.id,
+    programSlug: program.slug || program.id,
+    title: program.title,
+    durationLabel: program.durationLabel,
+    description: program.description,
+    outcome: program.outcome,
+    capstone: program.capstone,
+    mapTitle: program.mapTitle,
+    currentPhaseId: program.currentPhaseId,
+    totalDays: program.days.length,
+    startHref: start?.href || program.startHref || "/learn/day-01",
+    startDay: start?.day ?? null,
+    startTitle: start?.title ?? null,
+    days,
+    phases: learnerPhases,
+  };
+}
+
+export function getPublishedAdjacent(slug: string, programId?: string): {
+  previous: LearnerDay | null;
+  next: LearnerDay | null;
+  current: LearnerDay | null;
+} {
+  const catalog = getLearnerCatalog(programId);
+  const published = catalog.days.filter((day) => day.published && day.href);
+  const index = published.findIndex((day) => day.slug === slug);
+  if (index === -1) {
+    return { previous: null, next: null, current: null };
+  }
+  return {
+    current: published[index],
+    previous: published[index - 1] || null,
+    next: published[index + 1] || null,
+  };
+}
+
+export { PROGRAM_SLUG_ALIASES };

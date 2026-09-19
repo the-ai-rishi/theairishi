@@ -464,3 +464,54 @@ textarea:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 3px;
 }
+
+.lesson-kind-kicker {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+h2.lesson-h {
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--color-hairline);
+}
+
+h2.lesson-h-why {
+  border-left-color: rgba(212, 180, 106, 0.55);
+}
+
+h2.lesson-h-learn,
+h2.lesson-h-predict {
+  border-left-color: rgba(139, 124, 255, 0.55);
+}
+
+h2.lesson-h-try,
+h2.lesson-h-break,
+h2.lesson-h-fix {
+  border-left-color: var(--color-gold);
+}
+
+h2.lesson-h-verify,
+h2.lesson-h-evidence {
+  border-left-color: var(--color-circuit);
+}
+
+h2.lesson-h-ai-review,
+h2.lesson-h-interview {
+  border-left-color: var(--color-danger);
+}
+
+h2.lesson-h-gate {
+  border-left-color: var(--color-signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-kind-kicker {
+    transition: none;
+  }
+}

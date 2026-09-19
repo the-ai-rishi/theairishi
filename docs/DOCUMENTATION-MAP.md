@@ -41,6 +41,8 @@ Use the I want to table, then the What file do I edit table.
 | Instagram (external profile) | FEATURES/INSTAGRAM.md | platform.json social id instagram |
 | Telegram (official channel) | FEATURES/TELEGRAM.md | platform.json social id telegram, url https://t.me/theairishi_official |
 | Learner mapping (repo path → website) | CONTENT/LEARNER-MAPPING.md | content/config/learner-surface.json, content/lessons |
+| Learner experience (progress, /learn, continue) | PRODUCT/LEARNER-EXPERIENCE.md | lib/learner-progress.js, lib/continue-learning.js, components/learning |
+| Learning-platform UX research | PRODUCT/LEARNING-PLATFORM-UX-RESEARCH.md | internal research; not a public page |
 | Social configuration | CONFIGURATION/SOCIAL-CONFIGURATION.md | platform.json social[] |
 | Add a program | CONTENT/ADD-PROGRAM.md | content/config/programs.json |
 | Future operations | OPERATIONS/FUTURE-OPERATIONS.md | JSON/markdown jobs without a rewrite |

@@ -153,6 +153,8 @@ export default function LessonContent({ content }: LessonContentProps) {
           [&_h1]:tracking-[0.01em]
           sm:[&_h1]:text-4xl
 
+          [&_h1:first-of-type]:sr-only
+
           [&_h2]:mt-16
           [&_h2]:text-2xl
           [&_h2]:font-serif

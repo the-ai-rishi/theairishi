@@ -2,7 +2,13 @@ import Link from "next/link";
 import type { HydratedPhase } from "@/lib/programs";
 import { formatDayLabel, formatPhaseLabel } from "@/lib/labels";
 
-export default function ProgramPhaseMap({ phases }: { phases: HydratedPhase[] }) {
+export default function ProgramPhaseMap({
+  phases,
+  completedSlugs = [],
+}: {
+  phases: HydratedPhase[];
+  completedSlugs?: readonly string[];
+}) {
   const published = phases.reduce((sum, phase) => sum + phase.publishedCount, 0);
   const total = phases.reduce((sum, phase) => sum + phase.days.length, 0);
 
@@ -61,9 +67,10 @@ export default function ProgramPhaseMap({ phases }: { phases: HydratedPhase[] })
             </summary>
             <ol className="phase-days mt-6 divide-y divide-hairline border-y border-hairline">
               {phase.days.map((day) => {
+                const completed = completedSlugs.includes(day.slug);
                 const state = day.published ? (
                   <span className="inline-flex border border-gold/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gold">
-                    Available
+                    {completed ? "Complete" : "Available"}
                   </span>
                 ) : (
                   <span className="inline-flex border border-hairline px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">

@@ -12,6 +12,12 @@ phase: "phase-01"
 program: "devops-engineer-mastery"
 topic: "devops"
 status: "published"
+estimatedMinutes: 50
+outcomes:
+  - draw worktree, index, commit, and HEAD
+  - distinguish reset, revert, and restore
+  - recover from reset --hard using reflog on a throwaway repo
+  - restore a deleted branch name without practising on shared main
 tags: ["git", "foundations", "day-02"]
 ---
 

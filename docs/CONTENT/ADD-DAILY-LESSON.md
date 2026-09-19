@@ -42,6 +42,8 @@ Do **not** put daily lessons (or any public lesson) under `content/courses/`. Th
 | `program` | `devops-engineer-mastery` | yes |
 | `topic` | `devops` | yes |
 | `status` | `published` (or `draft` to keep it off the site) | yes |
+| `outcomes` | 3–5 concrete abilities this day actually trains | yes for public program days |
+| `estimatedMinutes` | Number, wall-clock for the whole day | recommended |
 | `tags` | List of strings, include `day-04` | optional |
 | `enabled` | `true` / `false` | optional, default true |
 

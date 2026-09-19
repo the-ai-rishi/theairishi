@@ -1,36 +1,54 @@
 "use client";
 
-import { getProgressRepository } from "./progress-repository";
+import {
+  emptyState,
+  getState,
+  isCompleted as stateIsCompleted,
+  storeMarkCompleted,
+  storeSetLastVisited,
+  storeToggleCompleted,
+  subscribe,
+  type LearnerProgressState,
+} from "./learner-progress";
 
 export const EMPTY_COMPLETED_LESSONS: readonly string[] = Object.freeze([]);
 
+export function getProgressSnapshot(): LearnerProgressState {
+  return getState();
+}
+
 export function getCompletedLessons(): readonly string[] {
-  return getProgressRepository().getCompletedLessons();
+  return getState().completed;
 }
 
 export function isLessonCompleted(slug: string): boolean {
-  return getProgressRepository().isLessonCompleted(slug);
+  return stateIsCompleted(getState(), slug);
 }
 
 export function markLessonCompleted(slug: string): void {
-  getProgressRepository().markLessonCompleted(slug);
+  storeMarkCompleted(slug);
 }
 
 export function toggleLessonCompleted(slug: string): boolean {
-  return getProgressRepository().toggleLessonCompleted(slug);
+  return storeToggleCompleted(slug);
 }
 
 export function getLastVisitedLesson(): string | null {
-  return getProgressRepository().getLastVisitedLesson();
+  return getState().lastVisited;
 }
 
 export function setLastVisitedLesson(slug: string): void {
-  getProgressRepository().setLastVisitedLesson(slug);
+  storeSetLastVisited(slug);
 }
 
 export function subscribeToProgress(callback: () => void): () => void {
-  return getProgressRepository().subscribe(callback);
+  return subscribe(callback);
+}
+
+export function getEmptyProgress(): LearnerProgressState {
+  return emptyState();
 }
 
 export { getProgressRepository } from "./progress-repository";
 export type { IUserProgressRepository, UserProgressData } from "./progress-repository";
+export type { LearnerProgressState };

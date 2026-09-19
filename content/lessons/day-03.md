@@ -12,6 +12,12 @@ phase: "phase-01"
 program: "devops-engineer-mastery"
 topic: "devops"
 status: "published"
+estimatedMinutes: 45
+outcomes:
+  - draw diverged branches and name the common ancestor
+  - produce and abort a real merge conflict
+  - abort a rebase on a private branch
+  - say when rebase is forbidden on shared main
 tags: ["git", "merge", "rebase", "foundations", "day-03"]
 ---
 

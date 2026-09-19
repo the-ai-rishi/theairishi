@@ -8,12 +8,15 @@ import SearchModal from "@/components/search/SearchModal";
 import Logo from "@/components/brand/Logo";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 import { splitPrimaryNav } from "@/lib/visibility-core";
+import SmartCta from "@/components/learning/SmartCta";
+import type { LearnerCatalog } from "@/lib/continue-learning";
 
 interface HeaderProps {
   navItems: NavItem[];
   brand?: BrandConfig;
   copy?: CopyConfig;
   showSearch?: boolean;
+  catalog?: LearnerCatalog | null;
 }
 
 function isCurrentHref(href: string, pathname: string) {
@@ -27,6 +30,7 @@ export default function Header({
   brand,
   copy,
   showSearch = true,
+  catalog = null,
 }: HeaderProps) {
   const pathname = usePathname() || "/";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -135,9 +139,18 @@ export default function Header({
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
           {showSearch ? <SearchModal /> : null}
 
-          <Link href={headerCtaHref} className="btn-primary hidden sm:inline-flex">
-            {headerCta}
-          </Link>
+          {catalog ? (
+            <SmartCta
+              catalog={catalog}
+              fallbackLabel={headerCta}
+              fallbackHref={headerCtaHref}
+              variant="header"
+            />
+          ) : (
+            <Link href={headerCtaHref} className="btn-primary hidden sm:inline-flex">
+              {headerCta}
+            </Link>
+          )}
 
           <button
             ref={menuButtonRef}
@@ -185,13 +198,22 @@ export default function Header({
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href={headerCtaHref}
-                onClick={() => setMobileMenuOpen(false)}
-                className="btn-primary mt-4 self-start"
-              >
-                {headerCta}
-              </Link>
+              {catalog ? (
+                <SmartCta
+                  catalog={catalog}
+                  fallbackLabel={headerCta}
+                  fallbackHref={headerCtaHref}
+                  className="btn-primary mt-4 self-start"
+                />
+              ) : (
+                <Link
+                  href={headerCtaHref}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn-primary mt-4 self-start"
+                >
+                  {headerCta}
+                </Link>
+              )}
             </div>
           </div>
         </>

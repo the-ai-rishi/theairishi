@@ -1,9 +1,5 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, Check, ChevronRight, Clock, Share2 } from "lucide-react";
-import { formatDayLabel } from "@/lib/labels";
+import { formatDayLabel, formatPhaseLabel } from "@/lib/labels";
 
 interface LessonHeaderProps {
   courseTitle?: string;
@@ -15,124 +11,103 @@ interface LessonHeaderProps {
   totalLessons: number;
   readingTime?: number;
   day?: number;
+  phaseNumber?: number;
+  outcomes?: string[];
+  estimatedMinutes?: number;
+  startHref?: string | null;
+  practiceHref?: string | null;
+  programTotal?: number;
 }
 
 export default function LessonHeader({
-  courseTitle,
-  stageNumber,
   stage,
   title,
   description,
-  lessonNumber,
-  totalLessons,
-  readingTime = 4,
   day,
+  phaseNumber,
+  outcomes = [],
+  estimatedMinutes,
+  startHref,
+  practiceHref,
+  programTotal = 120,
 }: LessonHeaderProps) {
-  const [copied, setCopied] = useState(false);
-  const progress =
-    totalLessons > 0 ? Math.round((lessonNumber / totalLessons) * 100) : 0;
-
-  const handleShare = async () => {
-    try {
-      if (typeof window !== "undefined" && navigator.share) {
-        await navigator.share({
-          title,
-          text: description,
-          url: window.location.href,
-        });
-      } else if (typeof window !== "undefined") {
-        await navigator.clipboard.writeText(window.location.href);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
-    } catch {
-      // Ignore user cancellation
-    }
-  };
+  const dayLabel = day ? formatDayLabel(day) : null;
+  const phaseLabel = phaseNumber
+    ? `${formatPhaseLabel(phaseNumber).replace(/Phase (\d+)/, (_, n) => `Phase ${String(n).padStart(2, "0")}`)} · ${stage}`
+    : stage;
+  const timeLabel = estimatedMinutes
+    ? `About ${estimatedMinutes} minutes`
+    : null;
 
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8 lg:pt-24">
-      {/* Breadcrumb Navigation & Share Button */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-cream/40">
-          <Link
-            href="/learn"
-            className="transition hover:text-cream hover:underline underline-offset-4"
-          >
-            120 Days
-          </Link>
-          {courseTitle && (
-            <>
-              <ChevronRight className="h-3 w-3 text-cream/25 shrink-0" />
-              <span className="text-cream/60">{courseTitle}</span>
-            </>
-          )}
-          <ChevronRight className="h-3 w-3 text-cream/25 shrink-0" />
-          <span className="text-cream/80 font-medium">
-            {day
-              ? `${formatDayLabel(day)} · ${stage}`
-              : `Stage ${stageNumber} · ${stage}`}
-          </span>
-        </nav>
+    <section className="mx-auto max-w-4xl px-4 pb-10 pt-10 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8">
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-cream/40">
+        <Link href="/learn" className="transition hover:text-cream hover:underline underline-offset-4">
+          120 Days
+        </Link>
+        <span aria-hidden="true" className="text-cream/25">
+          /
+        </span>
+        <span className="text-cream/80 font-medium">
+          {dayLabel ? `${dayLabel} · ${stage}` : stage}
+        </span>
+      </nav>
 
-        <button
-          type="button"
-          onClick={handleShare}
-          className="inline-flex items-center gap-1.5 border border-hairline bg-cream/[0.03] px-3 py-1 text-xs text-cream/45 hover:bg-cream/[0.08] hover:text-cream transition cursor-pointer"
-        >
-          {copied ? (
-            <>
-              <Check className="h-3.5 w-3.5 text-gold" />
-              <span className="text-gold-bright">Link copied</span>
-            </>
-          ) : (
-            <>
-              <Share2 className="h-3.5 w-3.5" />
-              <span>Share</span>
-            </>
-          )}
-        </button>
-      </div>
+      {dayLabel ? (
+        <p className="mt-8 kicker text-gold/85">
+          {dayLabel.startsWith("Day ") ? `Day ${String(day).padStart(2, "0")}` : dayLabel}
+        </p>
+      ) : (
+        <p className="mt-8 kicker text-gold/85">{stage}</p>
+      )}
 
-      {/* Stage Badge & Reading Time */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-gold">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-          Stage {String(stageNumber).padStart(2, "0")}
-        </div>
-
-        <div className="inline-flex items-center gap-1.5 font-mono text-xs text-cream/45">
-          <Clock className="h-3.5 w-3.5 text-cream/30" />
-          <span>{readingTime} min read</span>
-        </div>
-
-        <div className="inline-flex items-center gap-1.5 font-mono text-xs text-cream/45">
-          <BookOpen className="h-3.5 w-3.5 text-cream/30" />
-          <span>Lesson {lessonNumber} of {totalLessons}</span>
-        </div>
-      </div>
-
-      <h1 className="mt-6 font-serif text-4xl tracking-[0.01em] text-cream sm:text-5xl lg:text-6xl">
-        {title}
+      <h1 className="mt-4 font-serif text-4xl tracking-[0.01em] text-cream sm:text-5xl lg:text-6xl">
+        {title.replace(/^Day\s+\d+\s+[—–-]\s+/i, "")}
       </h1>
 
-      <p className="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-cream/50">
-        {description}
-      </p>
+      <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.16em] text-gold/70">{phaseLabel}</p>
 
-      {/* Stage Progress Bar */}
-      <div className="mt-10">
-        <div className="flex items-center justify-between text-xs text-cream/35">
-          <span>Stage progress</span>
-          <span>{progress}% complete</span>
-        </div>
+      <p className="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-cream/55">{description}</p>
 
-        <div className="mt-3 h-1.5 overflow-hidden bg-hairline">
-          <div
-            className="h-full bg-gradient-to-r from-gold to-circuit transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
+      {outcomes.length > 0 ? (
+        <div className="mt-8 max-w-2xl">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-cream/40">
+            You should be able to
+          </p>
+          <ul className="mt-3 space-y-2">
+            {outcomes.map((outcome) => (
+              <li key={outcome} className="flex gap-3 text-[15px] leading-relaxed text-cream/70">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
+                <span>{outcome}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+      ) : null}
+
+      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[12px] text-cream/45">
+        {timeLabel ? <span>{timeLabel}</span> : null}
+        {day ? (
+          <span>
+            {formatDayLabel(day)} of {programTotal}
+          </span>
+        ) : null}
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-center gap-5">
+        {startHref ? (
+          <a href={startHref} className="btn-primary">
+            {day ? `Start ${formatDayLabel(day)}` : "Start"}
+          </a>
+        ) : null}
+        {practiceHref ? (
+          <a
+            href={practiceHref}
+            className="link-editorial min-h-11 inline-flex items-center font-mono text-[13px] tracking-[0.12em] text-cream/65 hover:text-gold"
+          >
+            Already know this? Jump to practice
+          </a>
+        ) : null}
       </div>
     </section>
   );

@@ -15,7 +15,8 @@ import LessonHeader from "@/components/learning/LessonHeader";
 import LessonNavigation from "@/components/learning/LessonNavigation";
 import LessonSidebar from "@/components/learning/LessonSidebar";
 import LessonContent from "@/components/learning/LessonContent";
-import LessonCompletionButton from "@/components/learning/LessonCompletionButton";
+import DayCompletion from "@/components/learning/DayCompletion";
+import LessonStickyNav from "@/components/learning/LessonStickyNav";
 import MobileLessonMenu from "@/components/learning/MobileLessonMenu";
 import StartingAssessment from "@/components/learning/StartingAssessment";
 import {
@@ -23,6 +24,8 @@ import {
   getLesson,
   getLessonContext,
 } from "@/lib/lessons";
+import { getLearnerCatalog, getPublishedAdjacent } from "@/lib/programs";
+import { firstContentHeading, firstPracticeHeading, navFromHeadings } from "@/lib/lesson-rhythm";
 
 interface LessonPageProps {
   params: Promise<{
@@ -94,11 +97,42 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const copy = getPlatformCopy();
   const footerNav = getFooterNavigation();
   const showStartingAssessment = lesson.metadata.exercise === "starting-assessment";
+  const catalog = getLearnerCatalog(lesson.metadata.program);
+  const adjacent = getPublishedAdjacent(slug, lesson.metadata.program);
+  const nav = navFromHeadings(lesson.headings);
+  const practice = firstPracticeHeading(lesson.headings);
+  const startAt = firstContentHeading(lesson.headings);
   const jsonLd = articleJsonLd({
     title: lesson.metadata.title,
     description: lesson.metadata.description,
     url: canonicalUrl(`/learn/${slug}`),
   });
+  const phaseNumber =
+    catalog.days.find((day) => day.slug === slug)?.phaseNumber ||
+    lessonContext.stage.number;
+
+  const previous = adjacent.previous
+    ? {
+        slug: adjacent.previous.slug,
+        metadata: {
+          ...lesson.metadata,
+          title: adjacent.previous.title,
+          day: adjacent.previous.day,
+        },
+      }
+    : lessonContext.previous;
+  const next = adjacent.next
+    ? {
+        slug: adjacent.next.slug,
+        metadata: {
+          ...lesson.metadata,
+          title: adjacent.next.title,
+          day: adjacent.next.day,
+        },
+      }
+    : adjacent.current
+      ? null
+      : lessonContext.next;
 
   return (
     <main id="main-content" className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink pb-20">
@@ -117,7 +151,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             <SearchModal />
             <Link
               href="/learn"
-              className="inline-flex items-center gap-2 border border-hairline px-4 py-2 font-mono text-xs text-cream/60 transition hover:text-cream"
+              className="inline-flex min-h-11 items-center gap-2 border border-hairline px-4 py-2 font-mono text-xs text-cream/60 transition hover:text-cream"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>120 Days</span>
@@ -125,6 +159,14 @@ export default async function LessonPage({ params }: LessonPageProps) {
           </div>
         </nav>
       </header>
+
+      <LessonStickyNav
+        slug={lesson.slug}
+        day={lesson.metadata.day}
+        stage={lesson.metadata.stage}
+        catalog={catalog}
+        nav={nav}
+      />
 
       <LessonHeader
         courseTitle={lessonContext.course.title}
@@ -136,6 +178,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
         totalLessons={lessonContext.totalLessonsInStage}
         readingTime={lesson.readingTime}
         day={lesson.metadata.day}
+        phaseNumber={phaseNumber}
+        outcomes={lesson.metadata.outcomes}
+        estimatedMinutes={lesson.metadata.estimatedMinutes}
+        startHref={showStartingAssessment ? "#starting-assessment" : startAt ? `#${startAt.id}` : "#lesson-body"}
+        practiceHref={practice ? `#${practice.id}` : null}
+        programTotal={catalog.totalDays}
       />
 
       {lesson.metadata.topic ? (
@@ -147,19 +195,35 @@ export default async function LessonPage({ params }: LessonPageProps) {
       <section className="border-y border-hairline">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-[1fr_280px] lg:px-8">
           <div className="space-y-12">
-            {showStartingAssessment ? <StartingAssessment /> : null}
+            {showStartingAssessment ? (
+              <div id="starting-assessment">
+                <StartingAssessment />
+              </div>
+            ) : null}
 
-            <LessonContent content={lesson.content} />
+            <div id="lesson-body">
+              <LessonContent content={lesson.content} />
+            </div>
 
-            <LessonCompletionButton
+            <DayCompletion
               slug={lesson.slug}
-              nextSlug={lessonContext.next?.slug ?? null}
+              day={lesson.metadata.day}
+              title={lesson.metadata.title}
+              outcomes={lesson.metadata.outcomes}
+              catalog={catalog}
+              nextPublished={adjacent.next}
             />
 
             <LessonNavigation
-              previous={lessonContext.previous}
-              next={lessonContext.next}
+              previous={previous}
+              next={next}
               currentStage={lessonContext.stage.name}
+              waitTitle={
+                !adjacent.next && adjacent.current
+                  ? catalog.days.find((day) => !day.published)?.title || null
+                  : null
+              }
+              waitDay={!adjacent.next && adjacent.current ? catalog.days.find((day) => !day.published)?.day : null}
             />
           </div>
 

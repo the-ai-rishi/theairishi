@@ -8,6 +8,7 @@ const { collectProgramErrors, asProgramCatalog, featuredProgramFrom } = require(
 const social = require("../lib/social");
 const learnerSurface = require("../lib/learner-surface");
 const { runScenarioTests } = require("./scenario-test");
+const { runLearnerProgressTests } = require("./learner-progress-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
 const { execFileSync } = require("child_process");
@@ -666,6 +667,26 @@ for (const item of lessonMarkdown) {
       problem(item.rel, "topic", '"ai" or another topics[].id', "lesson is missing required frontmatter topic")
     );
   }
+  const dayNumber =
+    typeof item.data.day === "number"
+      ? item.data.day
+      : typeof item.data.day === "string" && item.data.day.trim()
+        ? Number(item.data.day)
+        : NaN;
+  const status = vis.normalizeStatus(item.data.status || "published");
+  if (Number.isFinite(dayNumber) && status === "active") {
+    const outcomes = Array.isArray(item.data.outcomes) ? item.data.outcomes.filter((row) => typeof row === "string" && row.trim()) : [];
+    if (outcomes.length < 3 || outcomes.length > 5) {
+      errors.push(
+        problem(
+          item.rel,
+          "outcomes",
+          "3-5 concrete strings derived from this day's copy",
+          "program days need outcomes (3-5) so the lesson header can say what you should be able to do"
+        )
+      );
+    }
+  }
 }
 
 const imageRefPattern = /!\[[^\]]*\]\((\/(?:brand|images)\/[^)\s]+)\)|<(?:img|Image)[^>]+(?:src|srcSet)=["'](\/(?:brand|images)\/[^"'\s]+)["']/gi;
@@ -1037,6 +1058,10 @@ if (programConfig) {
   }
 }
 
+
+console.log("Running learner progress tests...");
+const progressOk = runLearnerProgressTests();
+check(progressOk, "Learner progress tests failed");
 
 console.log("Running scenario tests...");
 const scenariosOk = runScenarioTests();

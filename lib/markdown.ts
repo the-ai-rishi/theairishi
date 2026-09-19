@@ -1,5 +1,6 @@
 import { remark } from "remark";
 import html from "remark-html";
+import { decorateHeadings } from "./lesson-rhythm";
 
 /**
  * Enhanced HTML post-processor for Markdown across all content types.
@@ -47,7 +48,7 @@ export function enhanceHtml(rawHtml: string): string {
         .toLowerCase()
         .replace(/[^\w\s-]/g, "")
         .replace(/\s+/g, "-");
-      return `<h${level} id="${id}" class="group scroll-mt-24"><a href="#${id}" class="anchor-link" aria-hidden="true">#</a><span>${text}</span></h${level}>`;
+      return `<h${level} id="${id}" class="group scroll-mt-36"><a href="#${id}" class="anchor-link" aria-hidden="true">#</a><span>${text}</span></h${level}>`;
     }
   );
 
@@ -68,7 +69,7 @@ export function enhanceHtml(rawHtml: string): string {
     }
   );
 
-  return enhanced;
+  return decorateHeadings(enhanced);
 }
 
 /**

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { getPlatformCopy } from "@/lib/config";
-import { getProgram } from "@/lib/programs";
+import { getLearnerCatalog, getProgram } from "@/lib/programs";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
+import SmartCta from "@/components/learning/SmartCta";
 
 export default function CallToAction({ section }: { section?: ResolvedHomepageSection }) {
   const copy = getPlatformCopy();
   const program = getProgram();
+  const catalog = getLearnerCatalog(program.id);
   const title = section?.title || "Start at Day 1";
   const kicker = section?.subtitle || program.durationLabel;
   const body = program.outcome || program.description;
@@ -23,9 +25,11 @@ export default function CallToAction({ section }: { section?: ResolvedHomepageSe
             {body}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-5 sm:mt-10 sm:gap-6">
-            <Link href={section?.ctaHref || copy.heroPrimaryCtaHref || "/learn/day-01"} className="btn-primary">
-              {section?.ctaLabel || copy.heroPrimaryCta || "Start Day 1"}
-            </Link>
+            <SmartCta
+              catalog={catalog}
+              fallbackLabel={section?.ctaLabel || copy.heroPrimaryCta || "Start Day 1"}
+              fallbackHref={section?.ctaHref || copy.heroPrimaryCtaHref || "/learn/day-01"}
+            />
             <Link
               href={copy.heroSecondaryCtaHref || "/learn"}
               className="link-editorial font-mono text-[14px] tracking-[0.14em] text-gold hover:text-gold-bright"

@@ -194,6 +194,7 @@ export function getAllUniversalContent(): UniversalContentItem[] {
         day: l.metadata.day,
         phase: l.metadata.phase,
         program: l.metadata.program,
+        outcomes: l.metadata.outcomes,
       },
       status: (l.metadata.status as ContentStatus) || "published",
       enabled: l.metadata.enabled !== false,

@@ -110,15 +110,26 @@ export function searchSite(query: string): SearchResultItem[] {
       item.phase,
       item.program,
       item.metadata && typeof item.metadata === "object"
-        ? Object.values(item.metadata as Record<string, unknown>).join(" ")
+        ? Object.values(item.metadata as Record<string, unknown>)
+            .flat()
+            .join(" ")
         : "",
     ]);
     if (!matchesQuery(q, blob)) continue;
+    const dayNumber =
+      item.day != null
+        ? Number(item.day)
+        : item.metadata && typeof item.metadata === "object" && "day" in item.metadata
+          ? Number((item.metadata as { day?: unknown }).day)
+          : NaN;
+    const typeLabel = Number.isFinite(dayNumber)
+      ? `Day ${dayNumber}`
+      : labelForSearchType(item.type);
     results.push({
       id: String(item.id),
       title: String(item.title),
       description: String(item.description || ""),
-      type: labelForSearchType(item.type),
+      type: typeLabel,
       url: String(item.url || "/"),
       category: item.category as string | undefined,
       badge: badgeForTopic(item.topicSlug) || (item.topicSlug as string | undefined),

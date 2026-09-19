@@ -22,9 +22,11 @@ interface ProgramPageProps {
 
 export function generateStaticParams() {
   const featured = getFeaturedProgramId();
-  return getPublicPrograms()
+  const slugs = getPublicPrograms()
     .filter((program) => program.id !== featured)
     .map((program) => ({ slug: program.slug || program.id }));
+  slugs.push({ slug: "devops" });
+  return slugs;
 }
 
 export async function generateMetadata({ params }: ProgramPageProps): Promise<Metadata> {
