@@ -15,7 +15,7 @@ description: "Master the self-attention mechanism, Query-Key-Value retrieval int
 
 The **Self-Attention Mechanism** is the mathematical engine at the core of the Transformer architecture.
 
-It gives language models the ability to dynamically route information across a sequence—allowing every token to weigh, reference, and extract context from every other relevant token in the prompt.
+It gives language models the ability to dynamically route information across a sequence-allowing every token to weigh, reference, and extract context from every other relevant token in the prompt.
 
 ---
 
@@ -114,7 +114,7 @@ Each head learns to specialize in a different linguistic or logical pattern inde
 
 ## Causal Attention (Masked Attention)
 
-In generative decoder-only models (like GPT-4 or Llama), models must generate text **autoregressively**—predicting one token into the future based *only* on past tokens.
+In generative decoder-only models (like GPT-4 or Llama), models must generate text **autoregressively**-predicting one token into the future based *only* on past tokens.
 
 If a token at position 3 could look ahead at position 5 during training, the model would simply "cheat" by reading the answer rather than learning to predict it.
 
@@ -170,4 +170,4 @@ This quadratic scaling is why ultra-long context windows require immense GPU mem
 
 We now understand the architecture of a Transformer and how self-attention operates. But how do the billions of weights in these matrices actually get their values?
 
-In **Lesson 06**, we explore **Training an LLM**—from self-supervised pre-training to instruction tuning and RLHF alignment.
+In **Lesson 06**, we explore **Training an LLM**-from self-supervised pre-training to instruction tuning and RLHF alignment.

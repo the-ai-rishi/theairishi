@@ -93,7 +93,7 @@ Unknown type: skipped, validator errors.
 
 Canonical: docs/CONFIGURATION/SOCIAL-CONFIGURATION.md. Field is `url` (https). `href` only for internal listings such as /youtube. There is no `externalUrl`.
 
-Live: Instagram https://www.instagram.com/theairishi/, Telegram documented placeholder, GitHub hidden, YouTube coming-soon.
+Live: Instagram https://www.instagram.com/theairishi/, Telegram https://t.me/theairishi_official, GitHub hidden, YouTube coming-soon.
 
 ## courses.json array
 
@@ -187,7 +187,7 @@ Unknown type: skipped, validator errors.
 
 Canonical: docs/CONFIGURATION/SOCIAL-CONFIGURATION.md. Field is `url` (https). `href` only for internal listings such as /youtube. There is no `externalUrl`.
 
-Live: Instagram https://www.instagram.com/theairishi/, Telegram documented placeholder, GitHub hidden, YouTube coming-soon.
+Live: Instagram https://www.instagram.com/theairishi/, Telegram https://t.me/theairishi_official, GitHub hidden, YouTube coming-soon.
 
 ## courses.json array
 

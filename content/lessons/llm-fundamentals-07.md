@@ -15,7 +15,7 @@ description: "Trace what happens under the hood during model inference: prompt p
 
 When you send a prompt to an LLM API, the model does not generate an entire paragraph in a single instantaneous step.
 
-Instead, the model executes an **Autoregressive Generation Loop**—generating text strictly **one token at a time**, repeatedly appending each new token to the sequence, and passing the updated context back into the model to predict the next token.
+Instead, the model executes an **Autoregressive Generation Loop**-generating text strictly **one token at a time**, repeatedly appending each new token to the sequence, and passing the updated context back into the model to predict the next token.
 
 Understanding inference is critical for optimizing latency, managing throughput, and tuning sampling hyperparameters in production applications.
 
@@ -125,7 +125,7 @@ To prevent this redundant quadratic computation, inference engines use a **KV Ca
 - The Key and Value vectors for all past tokens are calculated once and stored in GPU VRAM.
 - On each new step, the model only computes the Key and Value vectors for the single newly generated token and appends them to the cache.
 
-While the KV cache makes generation fast, it consumes significant GPU memory—a key constraint when serving thousands of concurrent users.
+While the KV cache makes generation fast, it consumes significant GPU memory-a key constraint when serving thousands of concurrent users.
 
 ---
 
@@ -162,4 +162,4 @@ When benchmarking an LLM system, track three essential metrics:
 
 How do you configure these generation dials in real-world APIs, and what are the hard limits of context windows?
 
-In **Lesson 08**, we wrap up Stage 02 with **Context Windows, Temperature and Parameters**—the complete developer guide to configuring LLMs.
+In **Lesson 08**, we wrap up Stage 02 with **Context Windows, Temperature and Parameters**-the complete developer guide to configuring LLMs.

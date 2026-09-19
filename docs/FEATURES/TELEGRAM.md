@@ -1,40 +1,62 @@
 # Telegram
 
-Telegram is a community destination. It is **enabled now** with a documented temporary URL. That URL is **not** a real group. Do not invent a `t.me` community.
+Telegram is a live production channel.
 
-## Live config
+Official URL: [https://t.me/theairishi_official](https://t.me/theairishi_official)
 
-`content/config/platform.json` → `social[]` id `telegram`:
+Do not invent a different `t.me` username. Do not put the URL in React.
+
+## Where the canonical URL lives
+
+`content/config/platform.json` → `social[]` id `telegram` → `url`
 
 ```json
 {
   "id": "telegram",
   "label": "Telegram",
-  "url": "https://example.com/the-ai-rishi-telegram",
+  "url": "https://t.me/theairishi_official",
   "kind": "external",
   "enabled": true,
   "status": "active",
   "showInFooter": true,
   "showOnHomepage": true,
   "showOnAbout": true,
-  "includeInSameAs": false,
+  "includeInSameAs": true,
   "ctaLabel": "Discussion"
 }
 ```
 
-The URL `https://example.com/the-ai-rishi-telegram` is the only allowed stand-in. Visitors can see Telegram in Footer, About, and the homepage destinations block. The link is marked as a placeholder. It is **not** added to JSON-LD `sameAs`.
+Footer, About, and the homepage destinations block read this row. Person JSON-LD `sameAs` includes it because `includeInSameAs` is true.
 
-## Replace with the real community (one URL field)
+The old stand-in `https://example.com/the-ai-rishi-telegram` is retired. Validation fails if it comes back.
 
-When the real group exists:
+## Enable or disable
 
-1. Open `content/config/platform.json`
-2. Find `social` id `telegram`
-3. Replace `url` with the real `https://t.me/...` community
-4. Keep `enabled: true` and `status: "active"`
-5. Set `includeInSameAs: true` only when you want that profile in structured data
-6. Run `npm run validate`
-7. Preview Footer / About / destinations
-8. Deploy
+Hide it:
 
-No React/TSX edit. `https://t.me/your-real-community` is rejected. An empty URL while enabled is rejected. The placeholder cannot be listed in `sameAs`.
+```json
+"enabled": false
+```
+
+Turn it back on: `enabled: true`, `status: "active"`, keep the official URL.
+
+## Change the URL later
+
+Edit `url` only. The live channel is pinned to `https://t.me/theairishi_official`. A different username is rejected. Then:
+
+```bash
+npm run validate
+```
+
+Preview Footer / About / destinations. Deploy. No React/TSX edit.
+
+## How deployment consumes this
+
+`scripts/generate-content-data.js` embeds `content/config/platform.json` into `lib/content-data.generated.ts` before every Next compile. Vercel and Cloudflare Workers both read the embedded catalog. They do not read `platform.json` from disk at runtime.
+
+## What NOT to do
+
+- Do not hardcode `t.me` into a component
+- Do not add `externalUrl`
+- Do not invent a second social list
+- Do not reintroduce the example.com placeholder

@@ -15,7 +15,7 @@ description: "Explore the landmark Transformer architecture, why it superseded r
 
 In 2017, a team of researchers at Google published a landmark research paper titled *"Attention Is All You Need"*.
 
-That paper introduced the **Transformer architecture**—the single neural network design that completely replaced previous sequence architectures and paved the way for modern Generative AI, ChatGPT, Claude, Llama, and Gemini.
+That paper introduced the **Transformer architecture**-the single neural network design that completely replaced previous sequence architectures and paved the way for modern Generative AI, ChatGPT, Claude, Llama, and Gemini.
 
 ---
 
@@ -129,7 +129,7 @@ As you increase:
 2. **Training Dataset Size**
 3. **Training Compute (FLOPs)**
 
-The model's cross-entropy loss drops following a smooth, predictable power-law curve. Transformers do not hit an early performance plateau—giving engineers confidence that investing millions into larger training runs consistently yields more capable models.
+The model's cross-entropy loss drops following a smooth, predictable power-law curve. Transformers do not hit an early performance plateau-giving engineers confidence that investing millions into larger training runs consistently yields more capable models.
 
 ---
 

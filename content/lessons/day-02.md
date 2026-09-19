@@ -1,5 +1,5 @@
 ---
-title: "Day 2 — Git recovery"
+title: "Day 2 - Git recovery"
 description: "Worktree, index, commit, HEAD. Then reset --hard, reflog, revert a middle commit, and restore a deleted branch."
 course: "devops-engineer-mastery"
 courseTitle: "DevOps Engineer Mastery"
@@ -15,16 +15,16 @@ status: "published"
 tags: ["git", "foundations", "day-02"]
 ---
 
-# Day 2 — Git recovery
+# Day 2 - Git recovery
 
-Coverage is locked in Phase 01 of [DevOps Engineer Mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). Practise on a throwaway repo. Do not force-push course `main`. Do not practise destructive Git on a work remote.
+This is Day 2 of DevOps Engineer Mastery. Practise on a throwaway repository you create yourself. Do not force-push shared `main`. Do not practise destructive Git on a work remote.
 
 ## Happy path first
 
 Worktree = files you edit. Index/staging = the next snapshot. Commit = snapshot + parent + SHA. The repo holds objects and names.
 
 ```text
-worktree —git add→ index —git commit→ commit ← branch name
+worktree -git add→ index -git commit→ commit ← branch name
                                               ↑
                                             HEAD
 ```
@@ -50,9 +50,9 @@ They are not synonyms.
 - **reset** moves the branch name / HEAD. `--hard` also wipes the worktree. Throwaway only.
 - **revert** makes a *new* commit that reverses an old one. This is what you do on shared `main`.
 - **restore** puts file bytes back. It does **not** undelete a branch name.
-- **reflog** is this clone’s “where HEAD was.” It is local.
+- **reflog** is this clone's "where HEAD was." It is local.
 
-Fetch vs pull: pulling is fetch plus integrate. A local revert is not “the team has it” until it is pushed.
+Fetch vs pull: pulling is fetch plus integrate. A local revert is not "the team has it" until it is pushed.
 
 ## Locked practice
 
@@ -73,10 +73,8 @@ No destructive Git on shared or work remotes. Never `reset --hard origin/main &&
 
 ## Interview kill
 
-Two good commits **on top of** the bad one. “I reverted so the team is fixed” is false until they have the revert commit.
+Two good commits **on top of** the bad one. "I reverted so the team is fixed" is false until they have the revert commit.
 
 ## Definition of done
 
 You can explain reset vs revert vs restore. You predicted HEAD before a reset. You recovered a deleted branch from reflog. You did not force-push `main`.
-
-Full pack: [Day 2 learning pack](https://github.com/the-ai-rishi/devops-engineer-mastery/blob/main/daily-learning/day-02/DAY-02-LEARNING-PACK.md).

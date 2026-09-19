@@ -8,7 +8,7 @@ Use this page only for a lesson that is **not** one of the 120 program days (for
 
 `content/lessons/YOUR-SLUG.md`
 
-That is the only public lesson folder. Course grouping lives in `content/config/courses.json`. Do not put lessons under `content/courses/` — those files are not `/learn` routes.
+That is the only public lesson folder. Course grouping lives in `content/config/courses.json`. Do not put lessons under `content/courses/` - those files are not `/learn` routes.
 
 Copy `templates/lesson-template.md` only if you are adding a daily day. For a non-daily note, you may omit `day` / `phase` / `program`.
 
@@ -24,7 +24,7 @@ Copy `templates/lesson-template.md` only if you are adding a daily day. For a no
 | `stageOrder` | Number | yes |
 | `lesson` | Number inside the stage | yes |
 | `topic` | A `topics[].id` in `platform.json` | yes |
-| `status` | `published` / `draft` / `archived` | yes — omitting it does **not** publish |
+| `status` | `published` / `draft` / `archived` | yes - omitting it does **not** publish |
 | `description` | One short paragraph | yes |
 | `enabled` | `true` / `false` | optional, default true |
 | `tags` | List of strings | optional |

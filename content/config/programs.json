@@ -7,10 +7,9 @@
       "title": "DevOps Engineer Mastery",
       "durationLabel": "120 days · about 4 months",
       "currentPhaseId": "phase-01",
-      "repoUrl": "https://github.com/the-ai-rishi/devops-engineer-mastery",
       "status": "active",
       "enabled": true,
-      "description": "120 days of practical DevOps: understand the system, write the files, break them safely, debug from evidence, and defend the work. The GitHub repo is the source of truth for the plan. This site publishes the days that are ready.",
+      "description": "120 days of practical DevOps: understand the system, write the files, break them safely, debug from evidence, and defend the work. Days are published here as they are ready.",
       "outcome": "Designed to help you build the skills and practical foundation needed to start attempting DevOps roles.",
       "startHref": "/learn/day-01",
       "capstone": "One system the whole way: FastAPI + Postgres → Docker → CI → ACR → Terraform → AKS → Helm → identity → monitor → rollback.",
@@ -31,7 +30,7 @@
           "daysLabel": "13–18",
           "startDay": 13,
           "endDay": 18,
-          "summary": "CIDR as AKS math, VNet/NSG, private endpoints, private DNS, and identity as a system — not a portal click-path."
+          "summary": "CIDR as AKS math, VNet/NSG, private endpoints, private DNS, and identity as a system - not a portal click-path."
         },
         {
           "id": "phase-03",
@@ -275,7 +274,7 @@
           "phaseId": "phase-03",
           "slug": "day-23",
           "title": "Environments and secrets",
-          "summary": "Approvals, service connections, Key Vault variable group. Secret in logs — prevention + rotation."
+          "summary": "Approvals, service connections, Key Vault variable group. Secret in logs - prevention + rotation."
         },
         {
           "day": 24,
@@ -331,7 +330,7 @@
           "phaseId": "phase-05",
           "slug": "day-31",
           "title": "Multi-stage + non-root",
-          "summary": "Permission denied after USER — fix. Layers, cache, CMD vs ENTRYPOINT."
+          "summary": "Permission denied after USER - fix. Layers, cache, CMD vs ENTRYPOINT."
         },
         {
           "day": 32,
@@ -345,7 +344,7 @@
           "phaseId": "phase-05",
           "slug": "day-33",
           "title": "Compose + Postgres",
-          "summary": "Volume + healthcheck. App starts before DB — fix readiness."
+          "summary": "Volume + healthcheck. App starts before DB - fix readiness."
         },
         {
           "day": 34,
@@ -436,7 +435,7 @@
           "phaseId": "phase-06",
           "slug": "day-46",
           "title": "HPA",
-          "summary": "Stuck because metrics-server is missing — that is the lesson."
+          "summary": "Stuck because metrics-server is missing - that is the lesson."
         },
         {
           "day": 47,

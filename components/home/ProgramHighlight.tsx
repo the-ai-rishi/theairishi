@@ -13,7 +13,7 @@ export default function ProgramHighlight({ section }: { section: ResolvedHomepag
     { label: "Phases", value: String(phases.length) },
     {
       label: "Current",
-      value: current ? `${current.number} · ${current.name}` : "—",
+      value: current ? `${current.number} · ${current.name}` : "-",
     },
     {
       label: "Ready",

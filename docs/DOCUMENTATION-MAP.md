@@ -16,7 +16,7 @@ Root `ARCHITECTURE.md`, `AUTHORING.md`, `PLATFORM_MANUAL.md`, `CONFIGURATION_GUI
 
 ## WHERE
 
-Honesty: new topic / lesson / guide / project / program / nav tab / social destination = JSON + markdown, no React. New homepage section TYPE, new route shape, new visibility semantics = developer. There is no Python content. Instagram is a live external profile. Telegram is enabled with a documented example.com placeholder (not a real group, not in sameAs). GitHub is hidden. YouTube stays empty and coming-soon until REAL items exist. Active internal channel + zero content = no public route.
+Honesty: new topic / lesson / guide / project / program / nav tab / social destination = JSON + markdown, no React. New homepage section TYPE, new route shape, new visibility semantics = developer. There is no Python content. Instagram is a live external profile. Telegram is the official channel `https://t.me/theairishi_official` and is in `sameAs`. GitHub is hidden. YouTube stays empty and coming-soon until REAL items exist. Active internal channel + zero content = no public route.
 
 Kernel: `lib/visibility-core.js`. Config: `content/config/platform.json`, `content/config/courses.json`. Content: `content/lessons`, `content/courses`, `content/guides`, `content/projects`, `content/media`.
 
@@ -39,7 +39,8 @@ Use the I want to table, then the What file do I edit table.
 | Replace images | CONTENT/CONTENT-IMAGES.md | public/brand, public/content; do not crop brand marks |
 | Enable or disable YouTube | FEATURES/YOUTUBE.md | content/media/youtube.json, platform.json social id youtube, contentTypes id youtube |
 | Instagram (external profile) | FEATURES/INSTAGRAM.md | platform.json social id instagram |
-| Telegram (documented placeholder until real t.me) | FEATURES/TELEGRAM.md | platform.json social id telegram |
+| Telegram (official channel) | FEATURES/TELEGRAM.md | platform.json social id telegram, url https://t.me/theairishi_official |
+| Learner mapping (repo path → website) | CONTENT/LEARNER-MAPPING.md | content/config/learner-surface.json, content/lessons |
 | Social configuration | CONFIGURATION/SOCIAL-CONFIGURATION.md | platform.json social[] |
 | Add a program | CONTENT/ADD-PROGRAM.md | content/config/programs.json |
 | Future operations | OPERATIONS/FUTURE-OPERATIONS.md | JSON/markdown jobs without a rewrite |

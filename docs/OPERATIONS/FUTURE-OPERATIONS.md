@@ -17,7 +17,7 @@ These jobs should not need a React rewrite. Code is expected only when the site 
 | Disable a non-featured program | that program `enabled: false` | Featured current program cannot be disabled. |
 | Add Instagram | already live as an external URL | [INSTAGRAM.md](../FEATURES/INSTAGRAM.md) |
 | Change Instagram later | `social[]` id `instagram` `url` | One field. |
-| Enable Telegram | already live as a documented placeholder | Replace `url` with the real `https://t.me/...`. [TELEGRAM.md](../FEATURES/TELEGRAM.md) |
+| Enable Telegram | already live at `https://t.me/theairishi_official` | Hide with `enabled: false`. [TELEGRAM.md](../FEATURES/TELEGRAM.md) |
 | Hide / restore GitHub | `social[]` id `github` `enabled` | Hidden today. URL is already in config. |
 
 | Enable YouTube | `content/media/youtube.json` + social + contentType | Real items only. [YOUTUBE.md](../FEATURES/YOUTUBE.md) |

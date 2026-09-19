@@ -51,7 +51,7 @@ Optional: `duration` (e.g. `25 min`).
 
 ```yaml
 ---
-title: "Day 4 — Permissions as an incident"
+title: "Day 4 - Permissions as an incident"
 description: "namei -l, uid/gid, file 640 vs directory 755. Why chmod 777 is not a fix."
 course: "devops-engineer-mastery"
 courseTitle: "DevOps Engineer Mastery"
@@ -72,18 +72,18 @@ Use the real Day 4 title from `programs.json`, not this sample, if they differ.
 
 ## 5. Body
 
-Write a real lesson: words, practice, production constraint, the lie to reject, the interview kill. Link the GitHub pack:
+Write a real lesson the learner can finish here: words, practice, production constraint, the lie to reject, the interview kill.
 
-`https://github.com/the-ai-rishi/devops-engineer-mastery/blob/main/daily-learning/day-04/DAY-04-LEARNING-PACK.md`
+Do **not** tell them to open files in the private authoring repository (`daily-learning/...`, `docs/current-skills-gap.md`, `roadmap/...`). This website is the front door. See [LEARNER-MAPPING.md](./LEARNER-MAPPING.md).
 
-Do not paste the whole pack into the site.
+Do **not** link that repository. Learners finish the day here.
 
 ## 6. Where it appears
 
 After the next build:
 
-- `/learn/day-04` — the lesson
-- `/learn` — under Published days and under Phase 01
+- `/learn/day-04` - the lesson
+- `/learn` - under Published days and under Phase 01
 - Homepage program/phases counts go up by one
 - Search for `day 4` or `permissions`
 - Sitemap

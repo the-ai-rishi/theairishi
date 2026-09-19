@@ -13,7 +13,7 @@ description: "Discover generative AI: how foundation models, tokens, and multimo
 
 # Generative AI
 
-**Generative AI** refers to a class of artificial intelligence models capable of creating new, original content—such as coherent text, executable code, photorealistic images, synthetic voices, music, and high-definition video.
+**Generative AI** refers to a class of artificial intelligence models capable of creating new, original content-such as coherent text, executable code, photorealistic images, synthetic voices, music, and high-definition video.
 
 Where earlier AI systems primarily analyzed, classified, or scored existing information, generative AI synthesizes novel outputs based on patterns learned during large-scale training.
 
@@ -27,7 +27,7 @@ Generative AI marks a fundamental shift from **analytical computing** to **creat
 - Systems can converse naturally with humans, translate between programming languages, and summarize multi-page technical documentation.
 - Creative pipelines can generate assets, mockups, and realistic voice audio on demand.
 
-For software engineers, understanding generative AI is no longer optional—it is becoming a primary layer in modern software architectures.
+For software engineers, understanding generative AI is no longer optional-it is becoming a primary layer in modern software architectures.
 
 ---
 
@@ -66,7 +66,7 @@ Generative models now operate across almost every major digital modality:
 
 ## Foundation Models & Large Language Models (LLMs)
 
-Modern generative AI is powered by **Foundation Models**—massive deep neural networks trained on vast, diverse corpora of data at enormous scale.
+Modern generative AI is powered by **Foundation Models**-massive deep neural networks trained on vast, diverse corpora of data at enormous scale.
 
 ```text
 Deep Learning

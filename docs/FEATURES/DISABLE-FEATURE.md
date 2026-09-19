@@ -25,7 +25,7 @@ Pick **one**:
 
 For a single lesson/guide/lab, set that file’s `enabled: false` or `status: draft` instead of disabling the whole type.
 
-## 5. Example — hide Build
+## 5. Example - hide Build
 
 In `contentTypes` id `projects` and `navigation` items that source `projects`:
 
@@ -58,4 +58,4 @@ The feature is gone from:
 
 ## 9. Troubleshooting
 
-If it still appears, you flipped `showOnHomepage` but left `status: "active"` with content — it can still be in nav/search/sitemap. Use `enabled: false` or a non-active status for a full hide.
+If it still appears, you flipped `showOnHomepage` but left `status: "active"` with content - it can still be in nav/search/sitemap. Use `enabled: false` or a non-active status for a full hide.

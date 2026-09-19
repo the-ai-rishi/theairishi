@@ -14,11 +14,13 @@ const social = require("../lib/social");
 const publish = require("../lib/lesson-publish");
 const {
   collectProgramErrors,
+  collectSingleProgramErrors,
   parseProgramCatalog,
   parseProgramConfig,
   asProgramCatalog,
 } = require("../lib/program-schema");
 const { collectPlatformConfigErrors } = require("../lib/platform-schema");
+const learner = require("../lib/learner-surface");
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -32,7 +34,6 @@ function miniProgram(overrides) {
       title: "DevOps Engineer Mastery",
       durationLabel: "120 days",
       currentPhaseId: "phase-01",
-      repoUrl: "https://github.com/the-ai-rishi/devops-engineer-mastery",
       status: "active",
       enabled: true,
       featured: true,
@@ -81,7 +82,7 @@ function runFutureOperationsTests(livePlatform) {
     fs.readFileSync(path.join(__dirname, "..", "content", "config", "programs.json"), "utf8")
   );
 
-  // A. Add Day 4 — markdown + existing program day title
+  // A. Add Day 4 - markdown + existing program day title
   const day4 =
     "---\ntitle: Day 4\ncourse: devops-engineer-mastery\nstage: Foundations\nlesson: 4\nstatus: published\n---\nbody\n";
   check(publish.isPublicLessonMarkdown(day4) === true, "Op A: complete Day 4 markdown is public");
@@ -215,25 +216,34 @@ function runFutureOperationsTests(livePlatform) {
     "Op H: destinations lists Instagram"
   );
 
-  // Change Instagram later — one field
+  // Change Instagram later - one field
   const tH2 = clone(livePlatform);
   const ig2 = tH2.social.find((ch) => ch.id === "instagram");
   ig2.url = "https://www.instagram.com/theairishi/";
   check(social.destinationUrl(ig2).includes("instagram.com/theairishi"), "Op H: changing Instagram is one url field");
 
-  // I. Telegram: live documented placeholder; replace later with a real t.me URL
+  // I. Telegram: live official channel
   const telegram = (livePlatform.social || []).find((ch) => ch.id === "telegram");
   check(telegram && telegram.enabled !== false, "Op I live: Telegram is enabled");
   check(
-    social.isTelegramTemporaryUrl(telegram && telegram.url),
-    "Op I live: Telegram uses the documented example.com placeholder, not a fake t.me group"
+    social.TELEGRAM_OFFICIAL_RE.test(telegram && telegram.url),
+    "Op I live: Telegram is the official channel " + social.TELEGRAM_OFFICIAL_URL
   );
-  check(social.isPublicDestination(telegram), "Op I live: Telegram placeholder is a public destination");
-  check(social.includeInSameAs(telegram) === false, "Op I live: Telegram placeholder is not in sameAs");
+  check(social.isPublicDestination(telegram), "Op I live: Telegram is a public destination");
+  check(social.includeInSameAs(telegram) === true, "Op I live: official Telegram is in sameAs");
   check(
     social.publicDestinations(livePlatform).some((ch) => ch.id === "telegram"),
     "Op I live: Telegram appears in destinations"
   );
+  check(
+    social.sameAsUrls(livePlatform).some((url) => social.TELEGRAM_OFFICIAL_RE.test(url)),
+    "Op I live: sameAs includes official Telegram"
+  );
+  check(
+    !social.sameAsUrls(livePlatform).some((url) => /example\.com/i.test(url)),
+    "Op I live: sameAs does not include the retired placeholder"
+  );
+  check(social.isTemporaryDestination(telegram) === false, "Op I live: official Telegram is not temporary");
 
   const tIbad = clone(livePlatform);
   const tgBad = tIbad.social.find((ch) => ch.id === "telegram");
@@ -253,33 +263,24 @@ function runFutureOperationsTests(livePlatform) {
     social.collectSocialErrors(tIph.social).some((err) => /telegram/i.test(err)),
     "Op I: an invented t.me placeholder is rejected"
   );
-  const tIseo = clone(livePlatform);
-  const tgSeo = tIseo.social.find((ch) => ch.id === "telegram");
-  tgSeo.includeInSameAs = true;
+  const tIold = clone(livePlatform);
+  const tgOld = tIold.social.find((ch) => ch.id === "telegram");
+  tgOld.url = social.TELEGRAM_TEMPORARY_URL;
+  tgOld.includeInSameAs = true;
   check(
-    social.collectSocialErrors(tIseo.social).some((err) => /sameAs|placeholder/i.test(err)),
-    "Op I: placeholder Telegram cannot set includeInSameAs true"
+    social.collectSocialErrors(tIold.social).some((err) => /placeholder|official|telegram/i.test(err)),
+    "Op I: the retired example.com placeholder is rejected"
   );
-  const tIok = clone(livePlatform);
-  const tgOk = tIok.social.find((ch) => ch.id === "telegram");
-  tgOk.enabled = true;
-  tgOk.status = "active";
-  tgOk.url = "https://t.me/theairishi";
-  tgOk.includeInSameAs = true;
+  const tIwrong = clone(livePlatform);
+  const tgWrong = tIwrong.social.find((ch) => ch.id === "telegram");
+  tgWrong.url = "https://t.me/theairishi";
   check(
-    social.collectSocialErrors(tIok.social).length === 0,
-    "Op I: replacing the placeholder with a real t.me URL is one config change"
-  );
-  check(social.isPublicDestination(tgOk), "Op I: real Telegram stays a public destination");
-  check(social.isTemporaryDestination(tgOk) === false, "Op I: real Telegram is not temporary");
-  check(social.includeInSameAs(tgOk) === true, "Op I: real Telegram may enter sameAs when includeInSameAs is true");
-  check(
-    social.sameAsUrls(tIok).some((url) => /t\.me\/theairishi/i.test(url)),
-    "Op I: sameAs includes Telegram only after a real community URL"
+    social.collectSocialErrors(tIwrong.social).some((err) => /theairishi_official/i.test(err)),
+    "Op I: a different t.me username is rejected; the official channel is pinned"
   );
   check(
-    !social.sameAsUrls(livePlatform).some((url) => /example\.com/i.test(url) || /t\.me\//i.test(url)),
-    "Op I live: sameAs does not include the Telegram placeholder"
+    social.destinationUrl(telegram) === social.TELEGRAM_OFFICIAL_URL,
+    "Op I: changing Telegram later is still one url field (currently the official channel)"
   );
 
   // GitHub: hidden now, restorable later from the same row
@@ -312,8 +313,8 @@ function runFutureOperationsTests(livePlatform) {
     "GitHub org profile helper matches the reserved social URL"
   );
   check(
-    !social.isGitHubOrgProfileUrl("https://github.com/the-ai-rishi/devops-engineer-mastery"),
-    "curriculum repoUrl is not the GitHub org profile"
+    !social.isGitHubOrgProfileUrl("https://github.com/the-ai-rishi/some-other-repo"),
+    "GitHub org profile helper does not match a repository path"
   );
   const tDup = clone(livePlatform);
   tDup.social[0].externalUrl = tDup.social[0].url;
@@ -342,7 +343,7 @@ function runFutureOperationsTests(livePlatform) {
     "New social id appears as a text destination without an icon registry change"
   );
 
-  // J. Enable YouTube later — config + real items, still an internal listing
+  // J. Enable YouTube later - config + real items, still an internal listing
   const tJ = clone(livePlatform);
   const yt = tJ.social.find((ch) => ch.id === "youtube");
   yt.enabled = true;
@@ -478,6 +479,74 @@ function runFutureOperationsTests(livePlatform) {
       archiveSeq.includes("devops-fundamentals-02") &&
       !archiveSeq.some((slug) => slug.startsWith("day-")),
     "Archive devops adjacent nav stays inside the archive course"
+  );
+
+  const liveSurface = learner.loadLearnerSurface(path.join(__dirname, ".."));
+  check(
+    learner.duplicateConceptIds(liveSurface).length === 0,
+    "Learner mapping: concept ids are unique"
+  );
+  const day1Raw = fs.readFileSync(path.join(lessonsDir, "day-01.md"), "utf8");
+  check(
+    learner.collectLearnerSurfaceErrors(day1Raw, "content/lessons/day-01.md", liveSurface).length === 0,
+    "Learner mapping: Day 1 does not leak authoring paths"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "Open `docs/current-skills-gap.md`.",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: author-only skills-gap file is rejected in public lessons"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "See `daily-learning/day-01/DAY-01-LEARNING-PACK.md`.",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: raw daily-learning paths are rejected in public lessons"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "Open https://github.com/the-ai-rishi/devops-engineer-mastery/blob/main/daily-learning/day-01/DAY-01-LEARNING-PACK.md",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: GitHub blob paths into the mastery repo are rejected"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "See https://github.com/the-ai-rishi/devops-engineer-mastery/tree/main/roadmap",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: GitHub tree paths into the mastery repo are rejected"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "https://raw.githubusercontent.com/the-ai-rishi/devops-engineer-mastery/main/START-HERE.md",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: raw.githubusercontent mastery URLs are rejected"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "Want the full source repository? https://github.com/the-ai-rishi/devops-engineer-mastery",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: mastery repository root is rejected in public lessons"
+  );
+  const leakedProgram = miniProgram({
+    repoUrl: "https://github.com/the-ai-rishi/devops-engineer-mastery",
+  });
+  check(
+    collectSingleProgramErrors(leakedProgram, { requireComplete: true }).some((err) =>
+      /repoUrl/i.test(err)
+    ),
+    "Public programs.json must not carry repoUrl"
   );
 
   if (failures.length) {

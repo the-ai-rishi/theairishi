@@ -534,16 +534,17 @@ function runScenarioTests() {
     );
     check(
       social.publicDestinations(live).some((ch) => ch.id === "telegram"),
-      "Production: Telegram placeholder is a public destination"
+      "Production: Telegram is a public destination"
     );
     check(
       !social.publicDestinations(live).some((ch) => ch.id === "github"),
       "Production: GitHub is hidden while disabled"
     );
     check(
-      social.sameAsUrls(live).length === 1 &&
-        social.INSTAGRAM_PROFILE_RE.test(social.sameAsUrls(live)[0]),
-      "Production: JSON-LD sameAs is Instagram only"
+      social.sameAsUrls(live).length === 2 &&
+        social.sameAsUrls(live).some((url) => social.INSTAGRAM_PROFILE_RE.test(url)) &&
+        social.sameAsUrls(live).some((url) => social.TELEGRAM_OFFICIAL_RE.test(url)),
+      "Production: JSON-LD sameAs is Instagram and official Telegram"
     );
     check(
       liveHome.some((s) => s.type === "destinations"),
@@ -609,7 +610,7 @@ function runScenarioTests() {
       "Test 10: coming-soon YouTube is not a route channel"
     );
 
-    // ── Test 11: nav split — 8 visible items => 5 primary + 3 explore ───────
+    // ── Test 11: nav split - 8 visible items => 5 primary + 3 explore ───────
     const eight = Array.from({ length: 8 }, (_, i) => ({
       id: "nav-" + (i + 1),
       label: "Item " + (i + 1),
