@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import SectionRenderer from "@/components/home/SectionRenderer";
+import ProductHome from "@/components/product/ProductHome";
 import PageShell from "@/components/brand/PageShell";
 import { getResolvedHomepage } from "@/lib/homepage";
 import {
@@ -26,14 +26,12 @@ export default function Home() {
   const sections = getResolvedHomepage();
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();
-  const brand = getBrandConfig();
+  const brandConfig = getBrandConfig();
   const copy = getPlatformCopy();
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
-      {sections.map((section) => (
-        <SectionRenderer key={section.id} section={section} />
-      ))}
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brandConfig} copy={copy}>
+      <ProductHome sections={sections} />
     </PageShell>
   );
 }

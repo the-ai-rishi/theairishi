@@ -61,14 +61,20 @@ Homepage shows a continue strip when there is started or completed work. `/learn
 
 ## 4. Homepage learner flow
 
+The homepage is a product surface (`ProductHome`), not a long editorial landing.
+
 1. Brand + current program title.
-2. Duration label from `programs.json`.
+2. Duration, phase count, available vs planned — live from the catalog.
 3. Primary CTA: Start Day 1 or Continue Day N (client island; SSR defaults to Start Day 1).
-4. Continue strip if progress exists (n / 120, current title, resume).
-5. Program map / method / today / why — existing sections, unchanged in role.
-6. Destinations (Instagram, Telegram) stay **below** the program. They are not the first viewport.
+4. Current-work card in the first viewport (day, phase, outcomes, progress).
+5. 120-day journey map (complete / now / available / planned).
+6. How a day works, why this path, later/community — supporting, not first.
+7. Destinations (Instagram, Telegram) stay **below** the program. They are not the first viewport.
 
 Header CTA follows the same Start / Continue rule.
+
+Visual decisions: [UX-DESIGN-DECISIONS.md](./UX-DESIGN-DECISIONS.md).
+
 
 ---
 

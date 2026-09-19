@@ -199,6 +199,10 @@ function runLearnerProgressTests() {
   // rhythm mapping
   check(rhythm.kindForHeading("What today is for").id === "why", "why maps");
   check(rhythm.kindForHeading("Words").id === "learn", "words → learn");
+  check(
+    rhythm.kindForHeading('<a href="#words" class="anchor-link">#</a><span>Words</span>').id === "learn",
+    "anchor # prefix does not hide Words"
+  );
   check(rhythm.kindForHeading("Happy path first").id === "learn", "happy path → learn");
   check(rhythm.kindForHeading("Three different undos").id === "learn", "undos → learn");
   check(rhythm.kindForHeading("Practise").id === "try", "practise → try");
@@ -229,6 +233,23 @@ function runLearnerProgressTests() {
   ]);
   check(practice && practice.id === "practise", "skip-to-practice finds Practise");
 
+  const wrapped = rhythm.wrapLessonSections(
+    rhythm.decorateHeadings("<h1>Day 1</h1><p>Lead.</p><h2 id=\"practise\">Practise</h2><p>Do it.</p>")
+  );
+  check(wrapped.includes('class="lesson-block lesson-block-try"'), "wrap creates a practice block");
+  check(wrapped.includes("lesson-block-label"), "wrap adds a kind label");
+  check(wrapped.includes('aria-hidden="true"'), "program-day first h1 is hidden from AT");
+  check(wrapped.includes("<p>Lead.</p>"), "leading copy before the first H2 is kept");
+
+  const archive = rhythm.wrapLessonSections("<h1>Tokens</h1><h2>What is a Token?</h2><p>Body</p>");
+  check(!archive.includes("lesson-block"), "archive lessons without rhythm kinds stay unwrapped");
+
+  const mixed = rhythm.wrapLessonSections(
+    rhythm.decorateHeadings("<h2>Words</h2><p>A</p><h2>A random aside</h2><p>B</p><h2>Practise</h2><p>C</p>")
+  );
+  check(mixed.includes("lesson-block-learn"), "known learn heading wraps");
+  check(mixed.includes("<h2>A random aside</h2>"), "unknown headings are not forced into a kind panel");
+
   const fs = require("fs");
   const path = require("path");
   const leakNeedle = "the-ai-rishi/devops-engineer-mastery";
@@ -240,7 +261,15 @@ function runLearnerProgressTests() {
     "components/learning/SmartCta.tsx",
     "components/learning/DayCompletion.tsx",
     "components/learning/LessonStickyNav.tsx",
+    "components/learning/LessonWorkspaceChrome.tsx",
+    "components/learning/DayRail.tsx",
+    "components/product/ProductHome.tsx",
+    "components/product/ProductHero.tsx",
+    "components/product/CurrentWorkCard.tsx",
+    "components/product/JourneyMap.tsx",
     "docs/PRODUCT/LEARNER-EXPERIENCE.md",
+    "docs/PRODUCT/LEARNING-PLATFORM-UX-RESEARCH.md",
+    "docs/PRODUCT/UX-DESIGN-DECISIONS.md",
   ]) {
     const text = fs.readFileSync(path.join(__dirname, "..", rel), "utf8");
     check(!text.toLowerCase().includes(leakNeedle), rel + " must not mention the private mastery repository");
@@ -251,7 +280,7 @@ function runLearnerProgressTests() {
     for (const err of errors) console.error("  - " + err);
     return false;
   }
-  console.log("Learner progress tests passed (" + "continue, last-visited, counts, unpublished, invalid, rhythm" + ").");
+  console.log("Learner progress tests passed (continue, last-visited, counts, unpublished, invalid, rhythm, wrap).");
   return true;
 }
 

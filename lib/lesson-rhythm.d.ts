@@ -10,6 +10,7 @@ export const NAV_ORDER: string[];
 
 export function kindForHeading(text: string): RhythmKind | null;
 export function decorateHeadings(html: string): string;
+export function wrapLessonSections(html: string): string;
 export function navFromHeadings(
   headings: Array<{ id: string; text: string; level: number }>
 ): Array<{ nav: string; kind: string; href: string; label: string }>;

@@ -43,72 +43,76 @@ export default function DayCompletion({
 
   return (
     <section
-      className="border border-hairline bg-field/40 p-6 sm:p-8"
+      className="lesson-block lesson-block-gate p-0"
       aria-labelledby="day-gate-heading"
     >
-      <p className="kicker text-gold/80">Day gate</p>
-      <h2 id="day-gate-heading" className="mt-3 font-serif text-3xl text-cream">
-        {completed ? `${dayLabel} complete` : `Finish ${dayLabel}`}
-      </h2>
-      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
-        {completed
-          ? "You marked this day complete. That is a claim about work you did, not about scrolling the page."
-          : "Reading this page is not done. Mark complete only when the definition of done is true."}
-      </p>
+      <header className="lesson-block-head">
+        <span className="lesson-block-label">Day gate</span>
+      </header>
+      <div className="p-5 sm:p-7">
+        <h2 id="day-gate-heading" className="font-serif text-2xl text-cream sm:text-3xl">
+          {completed ? `${dayLabel} complete` : `Can you prove ${dayLabel}?`}
+        </h2>
+        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
+          {completed
+            ? "You marked this day complete. That is a claim about work you did, not about scrolling the page."
+            : "Reading this page is not done. Mark complete only when the definition of done is true."}
+        </p>
 
-      {outcomes.length > 0 ? (
-        <ul className="mt-6 space-y-2">
-          {outcomes.map((outcome) => (
-            <li key={outcome} className="flex gap-3 text-[15px] leading-relaxed text-cream/70">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
-              <span>{outcome}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+        {outcomes.length > 0 ? (
+          <ul className="mt-5 space-y-2">
+            {outcomes.map((outcome) => (
+              <li key={outcome} className="flex gap-3 text-[15px] leading-relaxed text-cream/70">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
+                <span>{outcome}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
 
-      <div className="mt-8 flex flex-wrap items-center gap-4">
-        <button
-          type="button"
-          onClick={() => toggleComplete(slug)}
-          className={
-            completed
-              ? "inline-flex min-h-11 items-center border border-gold/30 bg-gold/10 px-5 font-mono text-[13px] tracking-[0.08em] text-gold-bright"
-              : "btn-primary"
-          }
-          aria-pressed={completed}
-        >
-          {completed ? "Completed — undo" : "Mark day complete"}
-        </button>
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <button
+            type="button"
+            onClick={() => toggleComplete(slug)}
+            className={
+              completed
+                ? "inline-flex min-h-11 items-center justify-center border border-gold/30 bg-gold/10 px-5 font-mono text-[13px] tracking-[0.08em] text-gold-bright"
+                : "btn-primary btn-block"
+            }
+            aria-pressed={completed}
+          >
+            {completed ? "Completed — undo" : "Mark day complete"}
+          </button>
 
-        {completed && continueTarget?.href ? (
-          <Link href={continueTarget.href} className="btn-primary">
-            Continue {continueTarget.day ? formatDayLabel(continueTarget.day) : "next"}
-          </Link>
+          {completed && continueTarget?.href ? (
+            <Link href={continueTarget.href} className="btn-primary btn-block">
+              Continue {continueTarget.day ? formatDayLabel(continueTarget.day) : "next"}
+            </Link>
+          ) : null}
+        </div>
+
+        {waiting ? (
+          <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-cream/50">
+            {after.waitTitle
+              ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} is planned, not published yet. Come back to the 120-day map.`
+              : "The next day is not published yet."}{" "}
+            <Link href="/learn" className="link-editorial text-gold">
+              See the plan
+            </Link>
+          </p>
+        ) : null}
+
+        {completed ? (
+          <p className="mt-4">
+            <a
+              href="#main-content"
+              className="font-mono text-[12px] tracking-[0.12em] text-cream/45 hover:text-gold"
+            >
+              Review this day
+            </a>
+          </p>
         ) : null}
       </div>
-
-      {waiting ? (
-        <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-cream/50">
-          {after.waitTitle
-            ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} is planned, not published yet. Come back to the 120-day map.`
-            : "The next day is not published yet."}{" "}
-          <Link href="/learn" className="link-editorial text-gold">
-            See the plan
-          </Link>
-        </p>
-      ) : null}
-
-      {completed ? (
-        <p className="mt-4">
-          <a
-            href="#main-content"
-            className="font-mono text-[12px] tracking-[0.12em] text-cream/45 hover:text-gold"
-          >
-            Review this day
-          </a>
-        </p>
-      ) : null}
     </section>
   );
 }
