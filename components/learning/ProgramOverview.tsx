@@ -9,7 +9,6 @@ import {
   type ProgramConfig,
 } from "@/lib/programs";
 import { formatDayLabel } from "@/lib/labels";
-import OptionalSourceNote from "@/components/learning/OptionalSourceNote";
 
 export default function ProgramOverview({ program }: { program: ProgramConfig }) {
   const phases = getHydratedPhases(program.id);
@@ -43,11 +42,6 @@ export default function ProgramOverview({ program }: { program: ProgramConfig })
             </Link>
           ) : null}
         </div>
-        {program.repoUrl ? (
-          <div className="mt-6">
-            <OptionalSourceNote href={program.repoUrl} title={program.title + " repository"} />
-          </div>
-        ) : null}
       </section>
 
       <ResumeLearningBanner allLessons={allLessons} />

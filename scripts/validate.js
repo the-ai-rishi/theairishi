@@ -348,7 +348,7 @@ if (platform) {
       if (githubOrgHref.test(text)) {
         errors.push(
           path.relative(rootDir, file) +
-            " links to the GitHub org profile. Keep https://github.com/the-ai-rishi out of public UI while GitHub is disabled. Curriculum repoUrl is allowed."
+            " links to the GitHub org profile. Keep https://github.com/the-ai-rishi out of public UI while GitHub is disabled."
         );
       }
     }
@@ -404,6 +404,49 @@ for (const dirName of ["lessons", "guides", "projects"]) {
     for (const err of learnerSurface.collectLearnerSurfaceErrors(text, rel, learnerCfg)) {
       errors.push(err);
     }
+  }
+}
+
+check(
+  !fs.existsSync(path.join(rootDir, "components", "learning", "OptionalSourceNote.tsx")),
+  "OptionalSourceNote must not exist. The private mastery repo is not a public learner destination."
+);
+
+const publicLeakRoots = [
+  path.join(rootDir, "content"),
+  path.join(rootDir, "app"),
+  path.join(rootDir, "components"),
+  path.join(rootDir, "templates"),
+  path.join(rootDir, "public"),
+];
+for (const dir of publicLeakRoots) {
+  for (const filePath of scanFiles(dir, () => true)) {
+    const rel = path.relative(rootDir, filePath);
+    let text = "";
+    try {
+      text = fs.readFileSync(filePath, "utf8");
+    } catch {
+      continue;
+    }
+    for (const err of learnerSurface.collectMasteryRepoLeakErrors(text, rel)) {
+      errors.push(err);
+    }
+  }
+}
+for (const filePath of scanFiles(path.join(rootDir, "lib"), (name) => /\.(ts|tsx)$/.test(name))) {
+  const rel = path.relative(rootDir, filePath);
+  const text = fs.readFileSync(filePath, "utf8");
+  for (const err of learnerSurface.collectMasteryRepoLeakErrors(text, rel)) {
+    errors.push(err);
+  }
+}
+if (fs.existsSync(generatedPath)) {
+  const generated = fs.readFileSync(generatedPath, "utf8");
+  for (const err of learnerSurface.collectMasteryRepoLeakErrors(
+    generated,
+    "lib/content-data.generated.ts"
+  )) {
+    errors.push(err);
   }
 }
 

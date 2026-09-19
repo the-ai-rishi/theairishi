@@ -74,9 +74,9 @@ Use the real Day 4 title from `programs.json`, not this sample, if they differ.
 
 Write a real lesson the learner can finish here: words, practice, production constraint, the lie to reject, the interview kill.
 
-Do **not** tell them to open files in the mastery GitHub repository (`daily-learning/...`, `docs/current-skills-gap.md`, `roadmap/...`). This website is the front door. See [LEARNER-MAPPING.md](./LEARNER-MAPPING.md).
+Do **not** tell them to open files in the private authoring repository (`daily-learning/...`, `docs/current-skills-gap.md`, `roadmap/...`). This website is the front door. See [LEARNER-MAPPING.md](./LEARNER-MAPPING.md).
 
-The site already offers the repository root as an optional note. You do not need to paste a pack URL.
+Do **not** link that repository. Learners finish the day here.
 
 ## 6. Where it appears
 

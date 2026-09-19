@@ -1,14 +1,14 @@
 # Learner mapping
 
-The mastery GitHub repository is the **authoring** source of truth. This website is the **learner's front door**.
+The mastery GitHub repository is a **private authoring** source. This website is the **learner's front door**.
 
-A visitor should complete Day N here. They should not have to clone a repo, find `daily-learning/`, or open the author's personal files.
+A visitor should complete Day N here. They should not clone a repo, find `daily-learning/`, or open the author's personal files. They must never be given a public link to the authoring repository.
 
 ## Where things live
 
 | What | Where |
 | --- | --- |
-| Source curriculum (titles, packs, labs) | `https://github.com/the-ai-rishi/devops-engineer-mastery` |
+| Private authoring curriculum (titles, packs, labs) | Operator-only. Never a public learner destination. See [DEVOPS-ENGINEER-MASTERY.md](../DEVOPS-ENGINEER-MASTERY.md) |
 | Learner-facing days | `content/lessons/day-NN.md` |
 | 120-day map copy | `content/config/programs.json` |
 | Path → learner concept table | `content/config/learner-surface.json` |
@@ -16,16 +16,18 @@ A visitor should complete Day N here. They should not have to clone a repo, find
 
 ## Source file → learner concept
 
-| In the mastery repo | On this website |
+These are conceptual mappings. They resolve to website pages, on-site exercises, or copy/download templates. They must **not** resolve to GitHub URLs.
+
+| In the private authoring repo | On this website |
 | --- | --- |
 | `START-HERE.md` | Start Here → `/learn/day-01` |
 | `docs/current-skills-gap.md` | **Your Starting Assessment** (on-site exercise). Author-only. Never publish the file. |
 | `roadmap/120-day-execution.md` | 120-Day Roadmap → `/learn` |
 | `daily-learning/day-NN/...` | Day N Lesson → `/learn/day-NN` |
-| `labs/` | Practice Labs (write the lab into the lesson; do not send people to the folder) |
+| `labs/` | Practice Labs (write the lab into the lesson) |
 | `break-fix/` | Debugging Challenges (same) |
 | `interview-preparation/` | Interview Practice (same) |
-| `templates/` | Templates & Resources (on-site copy/download, not a repo path) |
+| `templates/` | Templates & Resources (on-site copy/download) |
 
 ## How to add Day N
 
@@ -33,7 +35,7 @@ A visitor should complete Day N here. They should not have to clone a repo, find
 2. Create `content/lessons/day-NN.md` from `templates/lesson-template.md`.
 3. Write the lesson as something a person can finish in the browser and their own terminal.
 4. Do **not** tell them to open `docs/current-skills-gap.md`, `daily-learning/...`, or `roadmap/...`.
-5. If they may want the source repo, the site already offers it as an optional note: "Want the full source repository?"
+5. Do **not** link the private authoring repository. Not the root. Not a pack file. Not "optional GitHub".
 6. `npm run validate`
 7. Preview `/learn/day-NN`
 
@@ -51,17 +53,15 @@ That renders **Your Starting Assessment**. Scores stay in the browser (`localSto
 
 Future authenticated progress can read the same exercise id without rewriting the curriculum.
 
-## How to expose an optional GitHub resource
+## The authoring repository is not public
 
-Point at the **repository root**, as optional copy, never as the way to finish the day:
+There is no public GitHub CTA for the mastery repo. Do not add `repoUrl` to `programs.json`. Do not add an OptionalSourceNote. Do not put that repository in `social[]`, JSON-LD `sameAs`, footer, About, navigation, or sitemap.
 
-> Want the full source repository? View the DevOps Engineer Mastery repository. Optional. Not required to finish the day.
-
-Do not link `blob/main/daily-learning/...` or `docs/current-skills-gap.md` from public lessons.
+Validate fails if public content contains `the-ai-rishi/devops-engineer-mastery` (root, blob, tree, raw, or any other path).
 
 ## How to avoid author-only / personal files
 
-`docs/current-skills-gap.md` in the mastery repo is the author's personal baseline. It must not appear in:
+`docs/current-skills-gap.md` in the authoring repo is the author's personal baseline. It must not appear in:
 
 - public lesson/guide/project markdown
 - JSON-LD
@@ -79,13 +79,14 @@ npm run validate
 
 Expected: `ALL CHECKS PASSED`.
 
-If you see `surfaces author-only path` or `mentions internal repository path`, rewrite that sentence into a learner-facing step or drop it.
+If you see `surfaces author-only path`, `mentions internal repository path`, or `private mastery authoring repository`, rewrite that sentence into a learner-facing step or drop it.
 
 ## Troubleshooting
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
 | Validate mentions `docs/current-skills-gap.md` | Public markdown told learners to open the author's file | Use Your Starting Assessment |
-| Validate mentions `daily-learning/` | Lesson still links the teaching pack path | Teach on the page; optional GitHub is the repo root |
+| Validate mentions `daily-learning/` | Lesson still links the teaching pack path | Teach on the page |
+| Validate mentions `devops-engineer-mastery` as a GitHub URL | Public content linked the private authoring repo | Delete the link. There is no public GitHub destination for that repo |
 | Learner asks "where is this file?" | Internal path leaked into copy | Map it using the table above |
 | Scores vanished | Different browser/device; localStorage only | Copy or download the template |

@@ -19,7 +19,7 @@ tags: ["linux", "permissions", "foundations", "day-04"]
 
 Copy the real title and summary from `content/config/programs.json` for this day.
 
-Write the lesson so a learner can finish it on this website and in their own terminal. Do not tell them to open files in the mastery GitHub repository. Optional GitHub is offered by the site as a secondary note.
+Write the lesson so a learner can finish it on this website and in their own terminal. Do not tell them to open files in the private authoring repository. Do not link GitHub.
 
 ## What today is for
 

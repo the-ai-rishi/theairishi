@@ -14,6 +14,7 @@ const social = require("../lib/social");
 const publish = require("../lib/lesson-publish");
 const {
   collectProgramErrors,
+  collectSingleProgramErrors,
   parseProgramCatalog,
   parseProgramConfig,
   asProgramCatalog,
@@ -33,7 +34,6 @@ function miniProgram(overrides) {
       title: "DevOps Engineer Mastery",
       durationLabel: "120 days",
       currentPhaseId: "phase-01",
-      repoUrl: "https://github.com/the-ai-rishi/devops-engineer-mastery",
       status: "active",
       enabled: true,
       featured: true,
@@ -313,8 +313,8 @@ function runFutureOperationsTests(livePlatform) {
     "GitHub org profile helper matches the reserved social URL"
   );
   check(
-    !social.isGitHubOrgProfileUrl("https://github.com/the-ai-rishi/devops-engineer-mastery"),
-    "curriculum repoUrl is not the GitHub org profile"
+    !social.isGitHubOrgProfileUrl("https://github.com/the-ai-rishi/some-other-repo"),
+    "GitHub org profile helper does not match a repository path"
   );
   const tDup = clone(livePlatform);
   tDup.social[0].externalUrl = tDup.social[0].url;
@@ -513,15 +513,40 @@ function runFutureOperationsTests(livePlatform) {
       "content/lessons/day-99.md",
       liveSurface
     ).length > 0,
-    "Learner mapping: GitHub blob paths into teaching packs are rejected"
+    "Learner mapping: GitHub blob paths into the mastery repo are rejected"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "See https://github.com/the-ai-rishi/devops-engineer-mastery/tree/main/roadmap",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: GitHub tree paths into the mastery repo are rejected"
+  );
+  check(
+    learner.collectLearnerSurfaceErrors(
+      "https://raw.githubusercontent.com/the-ai-rishi/devops-engineer-mastery/main/START-HERE.md",
+      "content/lessons/day-99.md",
+      liveSurface
+    ).length > 0,
+    "Learner mapping: raw.githubusercontent mastery URLs are rejected"
   );
   check(
     learner.collectLearnerSurfaceErrors(
       "Want the full source repository? https://github.com/the-ai-rishi/devops-engineer-mastery",
       "content/lessons/day-99.md",
       liveSurface
-    ).length === 0,
-    "Learner mapping: repository root remains an allowed optional resource"
+    ).length > 0,
+    "Learner mapping: mastery repository root is rejected in public lessons"
+  );
+  const leakedProgram = miniProgram({
+    repoUrl: "https://github.com/the-ai-rishi/devops-engineer-mastery",
+  });
+  check(
+    collectSingleProgramErrors(leakedProgram, { requireComplete: true }).some((err) =>
+      /repoUrl/i.test(err)
+    ),
+    "Public programs.json must not carry repoUrl"
   );
 
   if (failures.length) {

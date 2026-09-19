@@ -55,13 +55,13 @@ Example: Day 1 is a **lesson** in the **program** `devops-engineer-mastery`, tag
 | Visibility rules | `lib/visibility-core.js` |
 | Canonical URLs | `lib/urls.ts` |
 
-Conceptual source of truth for Day titles: [devops-engineer-mastery](https://github.com/the-ai-rishi/devops-engineer-mastery) `roadmap/120-day-execution.md`.
+Conceptual source of truth for Day titles: the **private** authoring repository. Operator pointer: [DEVOPS-ENGINEER-MASTERY.md](./DEVOPS-ENGINEER-MASTERY.md). Never link that repository from the public website.
 
-Operational source of truth for this website: `content/config/programs.json`. Changing the other repo does **not** change the site.
+Operational source of truth for this website: `content/config/programs.json`. Changing the authoring repo does **not** change the site.
 
 Sync procedure:
 
-1. Update the mastery repo first (`roadmap/120-day-execution.md`).
+1. Update the private authoring repo first (`roadmap/120-day-execution.md`).
 2. Copy the changed phase/day **titles and summaries** into `content/config/programs.json`. Short headlines are fine; do not invent a different Day 13.
 3. If the day is ready to publish, add `content/lessons/day-NN.md`.
 4. Run `npm run validate` (this regenerates the published-slug catalog).

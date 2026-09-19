@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This site publishes the 120-day DevOps Engineer Mastery plan. The source of truth for the plan is the GitHub repository, not this website:
+This site publishes the 120-day DevOps Engineer Mastery plan. The conceptual source of titles is a **private authoring repository**. It is not a public learner destination.
+
+Operator-only (never link this from the public website, `social[]`, JSON-LD, footer, About, lessons, or navigation):
 
 https://github.com/the-ai-rishi/devops-engineer-mastery
 
@@ -37,7 +39,7 @@ Days 4–120 are roadmap titles only until you add a markdown file.
 1. Confirm the day already exists in `content/config/programs.json` (it should: all 120 titles are already there).
 2. Create `content/lessons/day-NN.md` from `templates/lesson-template.md`.
 3. Set `day`, `phase`, `program`, `course`, `topic` to match the program map.
-4. Write a real lesson. Link the GitHub pack. Do not paste the 35KB pack into the site.
+4. Write a real lesson the learner can finish on this site. Do **not** link the private authoring repository or its pack files.
 5. Run `npm run validate`, then preview `/learn/day-NN`.
 
 Full steps: [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md).

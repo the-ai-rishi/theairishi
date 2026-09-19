@@ -5,6 +5,8 @@ export function collectLearnerSurfaceErrors(
   relPath: string,
   config?: Record<string, unknown>
 ): string[];
+export function collectMasteryRepoLeakErrors(text: string, relPath?: string): string[];
+export function textLeaksMasteryRepo(text: string): boolean;
 export function duplicateConceptIds(config: unknown): string[];
 export function conceptBySourcePath(
   config: unknown,
@@ -12,3 +14,4 @@ export function conceptBySourcePath(
 ): Record<string, unknown> | null;
 export const AUTHOR_ONLY_DEFAULT: string[];
 export const FORBIDDEN_RAW_DEFAULT: string[];
+export const MASTERY_REPO_MARKERS: string[];

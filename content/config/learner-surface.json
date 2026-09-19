@@ -1,8 +1,8 @@
 {
   "sourceRepo": {
     "name": "devops-engineer-mastery",
-    "url": "https://github.com/the-ai-rishi/devops-engineer-mastery",
-    "role": "authoring-source-of-truth"
+    "role": "private-authoring-source",
+    "public": false
   },
   "learnerFrontDoor": "/learn",
   "concepts": [
