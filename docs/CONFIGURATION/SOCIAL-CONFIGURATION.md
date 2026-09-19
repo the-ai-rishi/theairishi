@@ -25,7 +25,7 @@ There is no `externalUrl` field. The only outbound URL is `url`.
 | `showOnAbout` | About page |
 | `includeInSameAs` | Person JSON-LD. Disabled, empty, and temporary placeholder URLs are never added |
 | `ctaLabel` | Short phrase next to the name (`Daily posts`) |
-| `role` | `discovery` / `community` / `media` / `code` — documentation only |
+| `role` | `discovery` / `community` / `media` / `code` - documentation only |
 
 ## Live today
 

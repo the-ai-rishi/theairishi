@@ -122,7 +122,7 @@ Language depends strictly on word order:
 - *"The cat ate the fish."*
 - *"The fish ate the cat."*
 
-By default, neural attention mechanisms process all tokens simultaneously in parallel—they are mathematically unordered.
+By default, neural attention mechanisms process all tokens simultaneously in parallel-they are mathematically unordered.
 
 To inject sequence awareness, the model adds a **Positional Encoding** vector to each token's embedding before feeding it into the network:
 
@@ -155,4 +155,4 @@ Modern LLMs use advanced positional techniques like **RoPE (Rotary Position Embe
 
 Now that we understand how tokens become contextualized numerical vectors, what neural network architecture actually processes these vectors to produce intelligence?
 
-In **Lesson 04**, we explore **Transformers Explained**—the groundbreaking architecture powering all modern foundation models.
+In **Lesson 04**, we explore **Transformers Explained**-the groundbreaking architecture powering all modern foundation models.

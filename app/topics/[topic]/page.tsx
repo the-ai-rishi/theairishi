@@ -100,7 +100,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
                   className="group grid grid-cols-1 items-baseline gap-2 py-5 sm:grid-cols-[7.5rem_5.5rem_1fr] sm:gap-6"
                 >
                   <span className="font-mono text-[13px] text-cream/40">
-                    {item.publishedAt || "—"}
+                    {item.publishedAt || "-"}
                   </span>
                   <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold/70">
                     {item.type}

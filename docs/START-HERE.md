@@ -8,10 +8,10 @@ This is not a guru course, not a marketplace, and not an AI-first landing page.
 
 Primary navigation today:
 
-- **Start** — Day 1 (`/learn/day-01`)
-- **120 Days** — the plan (`/learn`)
-- **About** — why this exists (`/about`)
-- **Explore** — Guides and Projects when those files exist
+- **Start** - Day 1 (`/learn/day-01`)
+- **120 Days** - the plan (`/learn`)
+- **About** - why this exists (`/about`)
+- **Explore** - Guides and Projects when those files exist
 
 The homepage is for the learner (what to learn, where to start). The About page is the personal story.
 
@@ -140,9 +140,9 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 9. Do not edit `lib/content-data.generated.ts`. It is generated.
 10. Project frontmatter `status` is a badge (`Completed` / `In Progress` / `Planned`). Hide a lab with `enabled: false`.
 11. Content on this site is free. Do not add pricing pages.
-12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected. Same for `copy.heroTitle` and `copy.heroTagline` — omit them; the hero uses the program title.
+12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected. Same for `copy.heroTitle` and `copy.heroTagline` - omit them; the hero uses the program title.
 13. `brand.lineage` must not exist.
-14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** — the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
+14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** - the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
 15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.
 16. `lib/lesson-publish.js` is the only “is this a public /learn page?” rule. Generator, runtime, and validate all use it. Markdown under `content/courses/` is never a `/learn` route.
 17. Instagram is an external profile (`social[]`), not an `/instagram` page. Telegram is enabled with a documented placeholder, not a real `t.me` group; it is not in `sameAs`. GitHub is configured but hidden. Do not invent Instagram posts. A public lesson needs an explicit `status` (`published`).
@@ -152,8 +152,8 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 
 `scripts/generate-content-data.js` writes:
 
-- `lib/content-data.generated.ts` — markdown/JSON embed
-- `lib/published-lesson-slugs.generated.ts` — published `/learn/[slug]` allow-list (from `content/lessons/*.md` via `lib/lesson-publish.js`) plus static `app/learn/<name>/page.*` folders
+- `lib/content-data.generated.ts` - markdown/JSON embed
+- `lib/published-lesson-slugs.generated.ts` - published `/learn/[slug]` allow-list (from `content/lessons/*.md` via `lib/lesson-publish.js`) plus static `app/learn/<name>/page.*` folders
 
 `next.config.ts` calls `generateContentData()` at module load. That is an **intentional build contract**: OpenNext runs `npx next build`, which skips npm `prebuild`. Do not duplicate that generation in other config files. Do not remove it.
 
@@ -169,7 +169,7 @@ A directory under `app/learn` is an allowed `/learn/<name>` only when it contain
 
 Unpublished `/learn/day-N` 404s via middleware rewrite to `/missing-lesson` with HTTP 404. That is the mechanism on Cloudflare Workers. `app/learn/[slug]/not-found.tsx` is only a fallback if a listed slug is missing at runtime.
 
-The `what` homepage section stays disabled. `story.whatTitle` / `story.whatBody` are reserved copy for that section — not live homepage text.
+The `what` homepage section stays disabled. `story.whatTitle` / `story.whatBody` are reserved copy for that section - not live homepage text.
 
 ## Compatibility docs
 

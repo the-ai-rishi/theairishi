@@ -15,7 +15,7 @@ description: "Understand the complete lifecycle of machine learning: datasets, f
 
 At its core, machine learning is about finding a mathematical function that connects inputs to accurate outputs.
 
-Instead of writing that function by hand, we allow an algorithm to discover it by inspecting historical data. Once trained, the resulting program—called a **model**—can make predictions on new information it has never seen before.
+Instead of writing that function by hand, we allow an algorithm to discover it by inspecting historical data. Once trained, the resulting program-called a **model**-can make predictions on new information it has never seen before.
 
 ---
 
@@ -119,7 +119,7 @@ Evaluating the model on the test set answers the most critical question in machi
 
 ## Overfitting vs Generalization
 
-The objective of machine learning is not memorization—it is **generalization**.
+The objective of machine learning is not memorization-it is **generalization**.
 
 ```text
 Underfitting                Good Generalization             Overfitting
@@ -132,7 +132,7 @@ o      o                        o    o                        o   o  o
 ```
 
 - **Generalization:** The model successfully learns the underlying patterns and performs accurately on new, unseen data.
-- **Overfitting:** The model memorizes the training data too closely—including noise, outliers, and quirks. It scores 99% on the training set, but fails when deployed to production with real user data.
+- **Overfitting:** The model memorizes the training data too closely-including noise, outliers, and quirks. It scores 99% on the training set, but fails when deployed to production with real user data.
 - **Underfitting:** The model is too simple to capture the underlying pattern (like trying to fit a straight line to a complex curve).
 
 ---

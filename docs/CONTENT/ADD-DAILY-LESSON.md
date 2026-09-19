@@ -51,7 +51,7 @@ Optional: `duration` (e.g. `25 min`).
 
 ```yaml
 ---
-title: "Day 4 — Permissions as an incident"
+title: "Day 4 - Permissions as an incident"
 description: "namei -l, uid/gid, file 640 vs directory 755. Why chmod 777 is not a fix."
 course: "devops-engineer-mastery"
 courseTitle: "DevOps Engineer Mastery"
@@ -82,8 +82,8 @@ Do not paste the whole pack into the site.
 
 After the next build:
 
-- `/learn/day-04` — the lesson
-- `/learn` — under Published days and under Phase 01
+- `/learn/day-04` - the lesson
+- `/learn` - under Published days and under Phase 01
 - Homepage program/phases counts go up by one
 - Search for `day 4` or `permissions`
 - Sitemap

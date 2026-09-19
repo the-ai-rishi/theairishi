@@ -10,9 +10,9 @@ The locked plan lives in [devops-engineer-mastery](https://github.com/the-ai-ris
 
 ## Operator start
 
-- [docs/START-HERE.md](docs/START-HERE.md) — the index
-- [docs/CONTENT/ADD-DAILY-LESSON.md](docs/CONTENT/ADD-DAILY-LESSON.md) — add Day N
-- [docs/DEVOPS-ENGINEER-MASTERY.md](docs/DEVOPS-ENGINEER-MASTERY.md) — the 120-day map
+- [docs/START-HERE.md](docs/START-HERE.md) - the index
+- [docs/CONTENT/ADD-DAILY-LESSON.md](docs/CONTENT/ADD-DAILY-LESSON.md) - add Day N
+- [docs/DEVOPS-ENGINEER-MASTERY.md](docs/DEVOPS-ENGINEER-MASTERY.md) - the 120-day map
 
 ## Commands
 

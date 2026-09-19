@@ -95,7 +95,7 @@ export interface FuturePathItem {
 
 export interface DefaultsConfig {
   topicSlug: string;
-  /** Public Person name for schema.org. Explicit operator choice — do not infer a private legal name. */
+  /** Public Person name for schema.org. Explicit operator choice - do not infer a private legal name. */
   authorName: string;
   authorUrl?: string;
   sameAs?: string[];
@@ -191,7 +191,7 @@ export interface SocialPlatform {
   label: string;
   /** Internal site path for media listings. Omit for external destinations. */
   href?: string;
-  /** @deprecated Not a live field. Validation rejects a non-empty value — use `url`. */
+  /** @deprecated Not a live field. Validation rejects a non-empty value - use `url`. */
   externalUrl?: string;
   /** Outbound https URL. Empty string is allowed while the channel is disabled. */
   url?: string;

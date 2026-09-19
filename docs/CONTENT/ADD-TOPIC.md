@@ -33,7 +33,7 @@ Field: `topics` (array).
 | `showInNavigation` | `true` / `false` | keep false unless you want a nav item |
 | `status` | `planned` / `coming-soon` / `active` / `paused` / `disabled` / `archived` | |
 
-## 5. Example — keep it hidden until content exists
+## 5. Example - keep it hidden until content exists
 
 ```json
 {

@@ -31,7 +31,7 @@ export default function ProjectsPage() {
           Labs
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-cream/55">
-          Hands-on architectures and open labs — tangible work, not course tiles.
+          Hands-on architectures and open labs - tangible work, not course tiles.
         </p>
       </section>
 

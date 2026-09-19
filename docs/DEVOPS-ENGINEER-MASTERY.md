@@ -17,7 +17,7 @@ Do not invent curriculum here. Copy titles and phase names from that repo’s lo
 | Authority chain | `START-HERE.md` → execution plan → phase file → daily pack → evidence | Linked from `/learn` |
 | 11 phases + 120 day titles | `roadmap/120-day-execution.md` | `content/config/programs.json` |
 | Teaching pack for a day | `daily-learning/day-NN/DAY-NN-LEARNING-PACK.md` | Linked from the lesson. Not dumped into the site. |
-| Public lesson | — | `content/lessons/day-NN.md` |
+| Public lesson | - | `content/lessons/day-NN.md` |
 | Unpublished days | Planned titles | Titles on `/learn`, **no page**, **no link** |
 | Salary / LPA / job claims | Internal career notes | **Never** on this site |
 
@@ -63,11 +63,11 @@ If a phase name in `programs.json` disagrees with the mastery repo, the repo win
 
 A day is not a video.
 
-1. Understand — read the words, predict before you run.
-2. Do — attempt the core task. On write days, no AI for v1.
-3. Break — break one thing safely, write what you saw.
-4. Prove — evidence in a file. Chat is not evidence.
-5. Defend — what fails, how you troubleshoot it, the trade-offs, how it lands on the capstone.
+1. Understand - read the words, predict before you run.
+2. Do - attempt the core task. On write days, no AI for v1.
+3. Break - break one thing safely, write what you saw.
+4. Prove - evidence in a file. Chat is not evidence.
+5. Defend - what fails, how you troubleshoot it, the trade-offs, how it lands on the capstone.
 
 ## Future tracks
 

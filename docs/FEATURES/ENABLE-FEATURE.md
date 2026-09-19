@@ -38,7 +38,7 @@ On the matching `contentTypes[]` (and `social[]` / `topics[]` if they exist):
 
 `coming-soon` and `planned` **never** get a public URL, even if `enabled` is true.
 
-## 5. Example — YouTube
+## 5. Example - YouTube
 
 1. Add real items to `content/media/youtube.json`.
 2. In `platform.json` `social` id `youtube` and `contentTypes` id `youtube`: set `status` to `active`.
@@ -65,4 +65,4 @@ npm run build
 
 ## 9. Common errors
 
-Validate fails “active with zero content” — add items first, then flip status.
+Validate fails “active with zero content” - add items first, then flip status.

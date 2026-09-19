@@ -81,7 +81,7 @@ function runFutureOperationsTests(livePlatform) {
     fs.readFileSync(path.join(__dirname, "..", "content", "config", "programs.json"), "utf8")
   );
 
-  // A. Add Day 4 — markdown + existing program day title
+  // A. Add Day 4 - markdown + existing program day title
   const day4 =
     "---\ntitle: Day 4\ncourse: devops-engineer-mastery\nstage: Foundations\nlesson: 4\nstatus: published\n---\nbody\n";
   check(publish.isPublicLessonMarkdown(day4) === true, "Op A: complete Day 4 markdown is public");
@@ -215,7 +215,7 @@ function runFutureOperationsTests(livePlatform) {
     "Op H: destinations lists Instagram"
   );
 
-  // Change Instagram later — one field
+  // Change Instagram later - one field
   const tH2 = clone(livePlatform);
   const ig2 = tH2.social.find((ch) => ch.id === "instagram");
   ig2.url = "https://www.instagram.com/theairishi/";
@@ -342,7 +342,7 @@ function runFutureOperationsTests(livePlatform) {
     "New social id appears as a text destination without an icon registry change"
   );
 
-  // J. Enable YouTube later — config + real items, still an internal listing
+  // J. Enable YouTube later - config + real items, still an internal listing
   const tJ = clone(livePlatform);
   const yt = tJ.social.find((ch) => ch.id === "youtube");
   yt.enabled = true;

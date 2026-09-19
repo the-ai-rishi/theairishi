@@ -1,5 +1,5 @@
 ---
-title: "Day 2 — Git recovery"
+title: "Day 2 - Git recovery"
 description: "Worktree, index, commit, HEAD. Then reset --hard, reflog, revert a middle commit, and restore a deleted branch."
 course: "devops-engineer-mastery"
 courseTitle: "DevOps Engineer Mastery"
@@ -15,7 +15,7 @@ status: "published"
 tags: ["git", "foundations", "day-02"]
 ---
 
-# Day 2 — Git recovery
+# Day 2 - Git recovery
 
 Coverage is locked in Phase 01 of [DevOps Engineer Mastery](https://github.com/the-ai-rishi/devops-engineer-mastery). Practise on a throwaway repo. Do not force-push course `main`. Do not practise destructive Git on a work remote.
 
@@ -24,7 +24,7 @@ Coverage is locked in Phase 01 of [DevOps Engineer Mastery](https://github.com/t
 Worktree = files you edit. Index/staging = the next snapshot. Commit = snapshot + parent + SHA. The repo holds objects and names.
 
 ```text
-worktree —git add→ index —git commit→ commit ← branch name
+worktree -git add→ index -git commit→ commit ← branch name
                                               ↑
                                             HEAD
 ```

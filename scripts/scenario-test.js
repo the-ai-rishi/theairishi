@@ -609,7 +609,7 @@ function runScenarioTests() {
       "Test 10: coming-soon YouTube is not a route channel"
     );
 
-    // ── Test 11: nav split — 8 visible items => 5 primary + 3 explore ───────
+    // ── Test 11: nav split - 8 visible items => 5 primary + 3 explore ───────
     const eight = Array.from({ length: 8 }, (_, i) => ({
       id: "nav-" + (i + 1),
       label: "Item " + (i + 1),

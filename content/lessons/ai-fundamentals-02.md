@@ -34,7 +34,7 @@ Using deep learning for a simple classification problem is costly and unnecessar
 ## Definitions: The Big Picture
 
 ### 1. Artificial Intelligence (The Vision)
-**Artificial Intelligence** is the broad field concerned with creating computational systems capable of performing tasks that typically require human cognition—such as vision, natural language understanding, reasoning, planning, and problem-solving.
+**Artificial Intelligence** is the broad field concerned with creating computational systems capable of performing tasks that typically require human cognition-such as vision, natural language understanding, reasoning, planning, and problem-solving.
 
 AI includes:
 - **Symbolic AI & Expert Systems:** Hand-coded logic trees and knowledge graphs.
@@ -92,10 +92,10 @@ Instead of writing explicit heuristics:
 
 1. You gather 100,000 historical emails, each labeled as either `Spam` or `Not Spam`.
 2. The machine-learning algorithm scans the dataset, calculating which word combinations, sender metadata, and structural features correlate with spam.
-3. The algorithm outputs a **model**—a compact mathematical function that assigns a probability score to any incoming email:
+3. The algorithm outputs a **model**-a compact mathematical function that assigns a probability score to any incoming email:
    $$\text{Score} = 0.98 \implies \text{Spam}$$
 
-If spam patterns evolve, you don't write new code—you retrain the model with fresh data.
+If spam patterns evolve, you don't write new code-you retrain the model with fresh data.
 
 ---
 
@@ -125,7 +125,7 @@ Machine learning concepts have existed since the 1950s, but classical rule-based
 
 - **Machine Learning** encompasses classical algorithms (linear regression, decision trees, support vector machines) and modern neural networks.
 - **Deep Learning** is a branch of ML that uses deep neural networks capable of learning complex representations across multiple layers.
-- **Generative AI** builds upon deep learning to generate entirely new artifacts—drafting code, authoring essays, synthesizing realistic images, or conducting natural voice conversations.
+- **Generative AI** builds upon deep learning to generate entirely new artifacts-drafting code, authoring essays, synthesizing realistic images, or conducting natural voice conversations.
 
 In the next lesson, we will look directly under the hood of the machine learning lifecycle: how data is structured, how a model learns, and how it evaluates new inputs.
 

@@ -1,5 +1,5 @@
 ---
-title: "Day 1 — Shell from zero"
+title: "Day 1 - Shell from zero"
 description: "Terminal vs shell, PATH, I/O, exit codes, quoting, and the no-AI rule. Honest scores before any tool worship."
 course: "devops-engineer-mastery"
 courseTitle: "DevOps Engineer Mastery"
@@ -15,7 +15,7 @@ status: "published"
 tags: ["shell", "linux", "foundations", "day-01"]
 ---
 
-# Day 1 — Shell from zero
+# Day 1 - Shell from zero
 
 This is Day 1 of DevOps Engineer Mastery. The locked plan is in the [devops-engineer-mastery](https://github.com/the-ai-rishi/devops-engineer-mastery) repo. The coverage contract is Phase 01. The full teaching pack lives at `daily-learning/day-01/DAY-01-LEARNING-PACK.md` in that repo.
 
@@ -50,9 +50,9 @@ stdin / stdout / stderr:
 
 Quoting:
 
-- unquoted — the shell splits and expands
-- `'exact'` — literal
-- `"$VAR"` — the value of VAR, still one word if you keep the quotes
+- unquoted - the shell splits and expands
+- `'exact'` - literal
+- `"$VAR"` - the value of VAR, still one word if you keep the quotes
 
 Glob: `*` `?` `[ab]`.
 
