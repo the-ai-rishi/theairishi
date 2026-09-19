@@ -534,16 +534,17 @@ function runScenarioTests() {
     );
     check(
       social.publicDestinations(live).some((ch) => ch.id === "telegram"),
-      "Production: Telegram placeholder is a public destination"
+      "Production: Telegram is a public destination"
     );
     check(
       !social.publicDestinations(live).some((ch) => ch.id === "github"),
       "Production: GitHub is hidden while disabled"
     );
     check(
-      social.sameAsUrls(live).length === 1 &&
-        social.INSTAGRAM_PROFILE_RE.test(social.sameAsUrls(live)[0]),
-      "Production: JSON-LD sameAs is Instagram only"
+      social.sameAsUrls(live).length === 2 &&
+        social.sameAsUrls(live).some((url) => social.INSTAGRAM_PROFILE_RE.test(url)) &&
+        social.sameAsUrls(live).some((url) => social.TELEGRAM_OFFICIAL_RE.test(url)),
+      "Production: JSON-LD sameAs is Instagram and official Telegram"
     );
     check(
       liveHome.some((s) => s.type === "destinations"),

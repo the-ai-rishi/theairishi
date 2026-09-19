@@ -6,6 +6,7 @@ const vis = require("../lib/visibility-core");
 const { collectPlatformConfigErrors } = require("../lib/platform-schema");
 const { collectProgramErrors, asProgramCatalog, featuredProgramFrom } = require("../lib/program-schema");
 const social = require("../lib/social");
+const learnerSurface = require("../lib/learner-surface");
 const { runScenarioTests } = require("./scenario-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
@@ -273,13 +274,14 @@ if (platform) {
   const telegram = (platform.social || []).find((ch) => ch.id === "telegram");
   check(telegram, "social is missing telegram");
   if (telegram) {
-    check(telegram.enabled !== false, "Telegram should be enabled with the documented temporary URL");
-    check(social.isPublicDestination(telegram), "Telegram must be a public destination while the placeholder is active");
+    check(telegram.enabled !== false, "Telegram should be enabled as the official channel");
+    check(social.isPublicDestination(telegram), "Telegram must be a public destination");
     check(
-      social.isTelegramTemporaryUrl(telegram.url),
-      "Telegram must use the documented placeholder " + social.TELEGRAM_TEMPORARY_URL + " until the real t.me URL is pasted"
+      social.TELEGRAM_OFFICIAL_RE.test(social.destinationUrl(telegram)),
+      "Telegram URL must be " + social.TELEGRAM_OFFICIAL_URL
     );
-    check(telegram.includeInSameAs !== true, "Telegram placeholder must not set includeInSameAs true");
+    check(telegram.includeInSameAs !== false, "Official Telegram should be in JSON-LD sameAs");
+    check(!social.isTelegramTemporaryUrl(telegram.url), "Telegram must not use the retired example.com placeholder");
   }
   const github = (platform.social || []).find((ch) => ch.id === "github");
   check(github, "social is missing github (keep the architecture; hide it from the public site)");
@@ -294,7 +296,7 @@ if (platform) {
   );
   check(
     liveDestinations.some((ch) => ch.id === "telegram"),
-    "public destinations must include Telegram (temporary placeholder)"
+    "public destinations must include Telegram"
   );
   check(
     !liveDestinations.some((ch) => ch.id === "github"),
@@ -309,11 +311,14 @@ if (platform) {
     "Instagram must not be a site route"
   );
   const sameAs = social.sameAsUrls(platform, (platform.defaults && platform.defaults.sameAs) || []);
-  check(sameAs.length === 1, "sameAs must currently be Instagram only");
+  check(sameAs.length === 2, "sameAs must currently be Instagram and Telegram");
   check(sameAs.some((url) => social.INSTAGRAM_PROFILE_RE.test(url)), "sameAs must include Instagram from social config");
+  check(
+    sameAs.some((url) => social.TELEGRAM_OFFICIAL_RE.test(url)),
+    "sameAs must include the official Telegram channel"
+  );
   check(!sameAs.some((url) => /github\.com/i.test(url)), "sameAs must not include GitHub while GitHub is disabled");
-  check(!sameAs.some((url) => /t\.me\//i.test(url)), "sameAs must not include a Telegram community URL yet");
-  check(!sameAs.some((url) => /example\.com/i.test(url)), "sameAs must not include the Telegram placeholder");
+  check(!sameAs.some((url) => /example\.com/i.test(url)), "sameAs must not include the retired Telegram placeholder");
   check(
     !liveDestinations.some((ch) => social.isGitHubOrgProfileUrl(social.destinationUrl(ch))),
     "public destinations must not emit the GitHub org profile https://github.com/the-ai-rishi"
@@ -387,6 +392,21 @@ if (leftoverCourseLessons.length) {
       leftoverCourseLessons.map((file) => path.relative(rootDir, file)).join(", ")
   );
 }
+
+const learnerCfg = learnerSurface.loadLearnerSurface(rootDir);
+check(Array.isArray(learnerCfg.concepts) && learnerCfg.concepts.length > 0, "learner-surface.json must list source-to-learner concepts");
+const conceptDupes = learnerSurface.duplicateConceptIds(learnerCfg);
+check(conceptDupes.length === 0, "learner-surface concept ids must be unique: " + conceptDupes.join(", "));
+for (const dirName of ["lessons", "guides", "projects"]) {
+  for (const filePath of scanMarkdown(path.join(contentDir, dirName))) {
+    const rel = path.relative(rootDir, filePath);
+    const text = fs.readFileSync(filePath, "utf8");
+    for (const err of learnerSurface.collectLearnerSurfaceErrors(text, rel, learnerCfg)) {
+      errors.push(err);
+    }
+  }
+}
+
 const lessonCounts = {};
 for (const filePath of lessonFiles) {
   const content = fs.readFileSync(filePath, "utf8");

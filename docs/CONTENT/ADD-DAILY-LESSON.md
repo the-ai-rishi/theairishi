@@ -72,11 +72,11 @@ Use the real Day 4 title from `programs.json`, not this sample, if they differ.
 
 ## 5. Body
 
-Write a real lesson: words, practice, production constraint, the lie to reject, the interview kill. Link the GitHub pack:
+Write a real lesson the learner can finish here: words, practice, production constraint, the lie to reject, the interview kill.
 
-`https://github.com/the-ai-rishi/devops-engineer-mastery/blob/main/daily-learning/day-04/DAY-04-LEARNING-PACK.md`
+Do **not** tell them to open files in the mastery GitHub repository (`daily-learning/...`, `docs/current-skills-gap.md`, `roadmap/...`). This website is the front door. See [LEARNER-MAPPING.md](./LEARNER-MAPPING.md).
 
-Do not paste the whole pack into the site.
+The site already offers the repository root as an optional note. You do not need to paste a pack URL.
 
 ## 6. Where it appears
 

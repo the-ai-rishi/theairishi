@@ -17,14 +17,14 @@ tags: ["linux", "permissions", "foundations", "day-04"]
 
 # Day 4 - Permissions as an incident
 
-Copy the real title and summary from `content/config/programs.json` for this day. The GitHub repo is the source of truth: https://github.com/the-ai-rishi/devops-engineer-mastery
+Copy the real title and summary from `content/config/programs.json` for this day.
 
-Link the pack when it exists: `daily-learning/day-04/DAY-04-LEARNING-PACK.md` in that repo.
+Write the lesson so a learner can finish it on this website and in their own terminal. Do not tell them to open files in the mastery GitHub repository. Optional GitHub is offered by the site as a secondary note.
 
 ## What today is for
 
 - One sentence: what this day trains.
-- Honest scores in the skills-gap file. Chat is not WORKING.
+- Honest scores in Your Starting Assessment if the day needs a baseline. Chat is not a 5.
 
 ## Words
 

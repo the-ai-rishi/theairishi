@@ -643,7 +643,7 @@
         "title": "Around the work",
         "subtitle": "Instagram and Telegram",
         "showWhenEmpty": false,
-        "body": "Daily posts go on Instagram. Telegram is a temporary placeholder until the real community URL is set. The 120-day plan stays here."
+        "body": "Daily posts go on Instagram. Discussion happens on Telegram. The 120-day plan stays here."
       }
     ]
   },
@@ -669,7 +669,7 @@
     {
       "id": "telegram",
       "label": "Telegram",
-      "url": "https://example.com/the-ai-rishi-telegram",
+      "url": "https://t.me/theairishi_official",
       "kind": "external",
       "role": "community",
       "enabled": true,
@@ -679,10 +679,10 @@
       "showOnHomepage": true,
       "showOnAbout": true,
       "showInHeader": false,
-      "includeInSameAs": false,
+      "includeInSameAs": true,
       "ctaLabel": "Discussion",
       "displayName": "Telegram",
-      "description": "Temporary placeholder. Replace url with the real https://t.me/... community. Not a real group."
+      "description": "Official Telegram channel. Discussion and updates. Not a substitute for the 120-day plan."
     },
     {
       "id": "github",

@@ -35,7 +35,7 @@ The homepage is learner-first. Personal story lives on `/about`.
 | `topic-grid` | Public topics with content | Hidden when empty. **Disabled** live |
 | `course-list` | Featured courses | Hidden when empty. **Disabled** live |
 | `content-list` | Guides / labs / recent | Hidden when empty. **Disabled** live |
-| `destinations` | Compact outbound links from `social[]` (Instagram today; Telegram when enabled) | Hidden when empty. Live, after community |
+| `destinations` | Compact outbound links from `social[]` (Instagram and Telegram) | Hidden when empty. Live, after community |
 | `channel-grid` | On-site YouTube/Instagram listings | Hidden when empty. **Disabled** live. Not the Instagram profile |
 
 Unknown type is skipped. `npm run validate` errors.

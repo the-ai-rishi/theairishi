@@ -17,11 +17,14 @@ import LessonSidebar from "@/components/learning/LessonSidebar";
 import LessonContent from "@/components/learning/LessonContent";
 import LessonCompletionButton from "@/components/learning/LessonCompletionButton";
 import MobileLessonMenu from "@/components/learning/MobileLessonMenu";
+import StartingAssessment from "@/components/learning/StartingAssessment";
+import OptionalSourceNote from "@/components/learning/OptionalSourceNote";
 import {
   getAllLessonSlugs,
   getLesson,
   getLessonContext,
 } from "@/lib/lessons";
+import { getProgram } from "@/lib/programs";
 
 interface LessonPageProps {
   params: Promise<{
@@ -92,6 +95,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
   const footerNav = getFooterNavigation();
+  const program = getProgram();
+  const showStartingAssessment = lesson.metadata.exercise === "starting-assessment";
+  const showOptionalSource =
+    Boolean(program.repoUrl) && lesson.metadata.program === program.id;
   const jsonLd = articleJsonLd({
     title: lesson.metadata.title,
     description: lesson.metadata.description,
@@ -145,7 +152,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
       <section className="border-y border-hairline">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-[1fr_280px] lg:px-8">
           <div className="space-y-12">
+            {showStartingAssessment ? <StartingAssessment /> : null}
+
             <LessonContent content={lesson.content} />
+
+            {showOptionalSource && program.repoUrl ? (
+              <OptionalSourceNote href={program.repoUrl} title={program.title + " repository"} />
+            ) : null}
 
             <LessonCompletionButton
               slug={lesson.slug}

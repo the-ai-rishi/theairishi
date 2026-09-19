@@ -210,7 +210,7 @@ export interface SocialPlatform {
   showInHeader?: boolean;
   showOnAbout?: boolean;
   includeInSameAs?: boolean;
-  /** Optional. Telegram may use the documented placeholder URL; inferred from url if omitted. */
+  /** Optional. Unused for the live official Telegram channel; inferred from a retired placeholder URL if present. */
   temporary?: boolean;
 }
 

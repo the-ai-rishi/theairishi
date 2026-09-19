@@ -14,9 +14,10 @@ Do not invent curriculum here. Copy titles and phase names from that repo’s lo
 
 | Piece | In the mastery repo | On this website |
 | --- | --- | --- |
-| Authority chain | `START-HERE.md` → execution plan → phase file → daily pack → evidence | Linked from `/learn` |
+| Authority chain | `START-HERE.md` → execution plan → phase file → daily pack → evidence | Learner front door is `/learn`. See [LEARNER-MAPPING.md](./CONTENT/LEARNER-MAPPING.md) |
 | 11 phases + 120 day titles | `roadmap/120-day-execution.md` | `content/config/programs.json` |
-| Teaching pack for a day | `daily-learning/day-NN/DAY-NN-LEARNING-PACK.md` | Linked from the lesson. Not dumped into the site. |
+| Teaching pack for a day | `daily-learning/day-NN/DAY-NN-LEARNING-PACK.md` | Teach on `/learn/day-NN`. Do not send learners into that folder |
+| Personal baseline | `docs/current-skills-gap.md` | **Your Starting Assessment** on Day 1. Never publish the author file |
 | Public lesson | - | `content/lessons/day-NN.md` |
 | Unpublished days | Planned titles | Titles on `/learn`, **no page**, **no link** |
 | Salary / LPA / job claims | Internal career notes | **Never** on this site |
