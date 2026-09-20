@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
 import { getBrandConfig } from "@/lib/config";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   const brand = getBrandConfig();
@@ -20,10 +26,10 @@ export default function NotFound() {
             Return home
           </Link>
           <Link
-            href="/guides"
+            href="/learn"
             className="bg-cream px-5 py-2.5 text-[13px] font-medium tracking-[0.04em] text-ink"
           >
-            Read
+            120 Days
           </Link>
         </div>
       </div>

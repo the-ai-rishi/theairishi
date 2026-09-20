@@ -44,6 +44,34 @@ export function websiteJsonLd() {
   };
 }
 
+export function courseJsonLd(input: {
+  name: string;
+  description: string;
+  url: string;
+  numberOfLessons?: number;
+}) {
+  const person = personJsonLd();
+  const pageUrl = input.url.startsWith("http") ? input.url : canonicalUrl(input.url);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: input.name,
+    description: input.description,
+    url: pageUrl,
+    isAccessibleForFree: true,
+    provider: person,
+    ...(typeof input.numberOfLessons === "number"
+      ? {
+          hasCourseInstance: {
+            "@type": "CourseInstance",
+            courseMode: "online",
+            courseWorkload: `${input.numberOfLessons} published lessons`,
+          },
+        }
+      : {}),
+  };
+}
+
 export function articleJsonLd(input: {
   title: string;
   description: string;

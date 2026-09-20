@@ -13,13 +13,25 @@ import { canonicalAlternates } from "@/lib/urls";
 
 const program = getProgram();
 const brand = getBrandConfig();
+const homeTitle = `${program.title} | ${brand.name}`;
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${program.title} | ${brand.name}`,
+    absolute: homeTitle,
   },
   description: brand.description,
   alternates: canonicalAlternates("/"),
+  openGraph: {
+    title: homeTitle,
+    description: brand.description,
+    url: canonicalAlternates("/").canonical,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: homeTitle,
+    description: brand.description,
+  },
 };
 
 export default function Home() {
