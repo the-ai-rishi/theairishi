@@ -64,11 +64,11 @@ Homepage shows a continue strip when there is started or completed work. `/learn
 The homepage is a product surface (`ProductHome`), not a long editorial landing.
 
 1. Brand + current program title.
-2. Duration, phase count, available vs planned — live from the catalog.
+2. Duration, phase count, available vs planned - live from the catalog.
 3. Primary CTA: Start Day 1 or Continue Day N (client island; SSR defaults to Start Day 1).
 4. Current-work card in the first viewport (day, phase, outcomes, progress).
 5. 120-day journey map (complete / now / available / planned).
-6. How a day works, why this path, later/community — supporting, not first.
+6. How a day works, why this path, later/community - supporting, not first.
 7. Destinations (Instagram, Telegram) stay **below** the program. They are not the first viewport.
 
 Header CTA follows the same Start / Continue rule.
@@ -266,8 +266,8 @@ Key: `theairishi_learner_progress_v1`
 
 Legacy keys (migrated on first read, still dual-written so old readers do not explode):
 
-- `theairishi_completed_lessons` — JSON string array
-- `theairishi_last_visited_lesson` — raw slug
+- `theairishi_completed_lessons` - JSON string array
+- `theairishi_last_visited_lesson` - raw slug
 
 Starting assessment remains `theairishi_starting_assessment` (separate document).
 
@@ -300,7 +300,7 @@ Start at the hero, read why, then words, then practise. Assessment on Day 1 is r
 
 ## 23. Experienced learner flow
 
-Same path. “Already know this? Jump to practice” scrolls to the first try heading. Peeking at later days is allowed. Completing Day 3 does not skip the obligation of Day 1 if they want a truthful  n / 120 — continue will still offer Day 1.
+Same path. “Already know this? Jump to practice” scrolls to the first try heading. Peeking at later days is allowed. Completing Day 3 does not skip the obligation of Day 1 if they want a truthful  n / 120 - continue will still offer Day 1.
 
 ---
 
@@ -457,7 +457,7 @@ A new public day is a markdown job, not a redesign.
 4. Fill 3–5 outcomes. Set `status: published`.
 5. `npm run validate`.
 
-Search indexes title, description, tags, and outcomes — not the full body. Unpublished days stay titles on `/learn`. `/learn/day-NN` 404s until the file is published.
+Search indexes title, description, tags, and outcomes - not the full body. Unpublished days stay titles on `/learn`. `/learn/day-NN` 404s until the file is published.
 
 ---
 

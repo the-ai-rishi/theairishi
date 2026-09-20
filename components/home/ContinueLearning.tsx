@@ -23,7 +23,7 @@ export default function ContinueLearning({
   const heading =
     target.kind === "wait"
       ? "Published days complete"
-      : `${target.ctaLabel.replace(/^Continue /, "").replace(/^Start /, "")}${target.title ? ` — ${target.title}` : ""}`;
+      : `${target.ctaLabel.replace(/^Continue /, "").replace(/^Start /, "")}${target.title ? ` - ${target.title}` : ""}`;
 
   return (
     <section id="continue" className="py-2 sm:py-3" aria-label="Continue learning">

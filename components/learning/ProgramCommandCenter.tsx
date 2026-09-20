@@ -75,7 +75,7 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
             </Link>
           ) : (
             <p className="mt-3 text-[15px] leading-relaxed text-cream/50">
-              {formatDayLabel(upNext.day)} — {upNext.title} is planned, not a page yet.
+              {formatDayLabel(upNext.day)} - {upNext.title} is planned, not a page yet.
             </p>
           )}
         </section>
@@ -162,7 +162,7 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
           {catalog.mapTitle || `${catalog.phases.length} phases`}
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
-          The whole path. This phase lists the days you can do now. Later phases open as titles —
+          The whole path. This phase lists the days you can do now. Later phases open as titles -
           planned days are names, not empty pages.
         </p>
         <div className="mt-6">

@@ -46,7 +46,7 @@ export default function CurrentWorkCard({
           <h2 className="mt-3 font-serif text-2xl text-cream sm:text-[1.85rem]">Published days complete</h2>
           <p className="mt-3 text-[15px] leading-relaxed text-cream/50">
             {target.waitTitle
-              ? `${formatDayLabel(target.waitDay || 0)} — ${target.waitTitle} is planned, not a page yet.`
+              ? `${formatDayLabel(target.waitDay || 0)} - ${target.waitTitle} is planned, not a page yet.`
               : "The next day is not published yet."}
           </p>
           <Link href="/learn" className="btn-primary btn-block mt-6">

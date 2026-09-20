@@ -66,7 +66,7 @@ Do **not** put daily lessons (or any public lesson) under `content/courses/`. Th
 
 Do not set `exercise` unless you are Day 1 (`starting-assessment`). No other exercise widget exists.
 
-Search indexes **title, description, tags, outcomes** — not the full markdown body.
+Search indexes **title, description, tags, outcomes** - not the full markdown body.
 
 ## 4. Headings (so the workbench appears)
 
@@ -92,8 +92,8 @@ Do **not** tell them to open files in the private authoring repository. Do **not
 
 ## 6. Where it appears after the next build
 
-- `/learn/day-NN` — the lesson
-- `/learn` — This phase / the spine
+- `/learn/day-NN` - the lesson
+- `/learn` - This phase / the spine
 - Homepage ticket and map counts
 - Search for `day N` or a word from the title
 - Sitemap

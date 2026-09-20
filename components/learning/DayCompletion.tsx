@@ -53,7 +53,7 @@ export default function DayCompletion({
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
           {completed
             ? waiting
-              ? "You claimed this day. The next page is not published yet — that is a planned title, not a broken link."
+              ? "You claimed this day. The next page is not published yet - that is a planned title, not a broken link."
               : "You claimed the work. Next is the following published day."
             : "Completion is a claim about evidence on your machine, not about finishing the article."}
         </p>
@@ -106,7 +106,7 @@ export default function DayCompletion({
         {waiting ? (
           <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-cream/50">
             {after.waitTitle
-              ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} will appear here when the lesson is published.`
+              ? `${formatDayLabel(after.waitDay || 0)} - ${after.waitTitle} will appear here when the lesson is published.`
               : "The next day is not published yet."}
           </p>
         ) : null}

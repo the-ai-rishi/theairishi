@@ -44,7 +44,7 @@ Publish Day 4 (title already in programs.json: “Permissions as an incident”)
 
 ```bash
 npm run new-day -- 4
-# edit content/lessons/day-04.md — outcomes + body, status: published
+# edit content/lessons/day-04.md - outcomes + body, status: published
 npm run validate
 ```
 
@@ -57,7 +57,7 @@ Open `/learn/day-04`. `/learn/day-05` stays 404 until that file exists.
 ## COMMON MISTAKES
 
 - Inventing a Day 13 title instead of copying `programs.json`
-- Editing React because the workbench did not appear — fix the H2s or `lesson-rhythm.json`
+- Editing React because the workbench did not appear - fix the H2s or `lesson-rhythm.json`
 - Linking the private mastery repo
 - Searching for a sentence that exists only in the body
 - Setting `exercise` on any day except Day 1
