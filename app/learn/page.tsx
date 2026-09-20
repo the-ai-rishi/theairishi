@@ -10,7 +10,7 @@ import {
 } from "@/lib/config";
 import { getProgram, getPublishedProgramDays } from "@/lib/programs";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
-import { courseJsonLd } from "@/lib/seo";
+import { courseJsonLd, shareImages, shareTwitterImages } from "@/lib/seo";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,11 +23,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title: program.title,
       description: program.description,
       type: "website",
+      images: shareImages(),
     },
     twitter: {
       card: "summary_large_image",
       title: program.title,
       description: program.description,
+      images: shareTwitterImages(),
     },
   };
 }

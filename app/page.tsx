@@ -9,6 +9,7 @@ import {
   getPlatformCopy,
 } from "@/lib/config";
 import { getProgram } from "@/lib/programs";
+import { shareImages, shareTwitterImages } from "@/lib/seo";
 import { canonicalAlternates } from "@/lib/urls";
 
 const program = getProgram();
@@ -26,11 +27,13 @@ export const metadata: Metadata = {
     description: brand.description,
     url: canonicalAlternates("/").canonical,
     type: "website",
+    images: shareImages(),
   },
   twitter: {
     card: "summary_large_image",
     title: homeTitle,
     description: brand.description,
+    images: shareTwitterImages(),
   },
 };
 

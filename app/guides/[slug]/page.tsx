@@ -6,7 +6,7 @@ import LessonContent from "@/components/learning/LessonContent";
 import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import PageShell from "@/components/brand/PageShell";
 import ExistingNotesNote from "@/components/content/ExistingNotesNote";
-import { articleJsonLd } from "@/lib/seo";
+import { articleJsonLd, shareImages, shareTwitterImages } from "@/lib/seo";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 
 interface GuidePageProps {
@@ -35,6 +35,13 @@ export async function generateMetadata({
       title: guide.metadata.title,
       description: guide.metadata.description,
       type: "article",
+      images: shareImages(),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: guide.metadata.title,
+      description: guide.metadata.description,
+      images: shareTwitterImages(),
     },
     alternates: canonicalAlternates(`/guides/${slug}`),
   };

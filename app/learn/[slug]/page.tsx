@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 import ExistingNotesNote from "@/components/content/ExistingNotesNote";
 import { getBrandConfig, getFooterNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
-import { articleJsonLd } from "@/lib/seo";
+import { articleJsonLd, shareImages, shareTwitterImages } from "@/lib/seo";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 import { indexRobots, isTopicIndexable } from "@/lib/indexing";
 
@@ -70,11 +70,13 @@ export async function generateMetadata({
       type: "article",
       siteName: brand.name,
       locale: "en_US",
+      images: shareImages(),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: shareTwitterImages(),
     },
     alternates: canonicalAlternates(`/learn/${slug}`),
   };
