@@ -104,7 +104,7 @@ export default function LessonNavigation({
             Next day is planned
           </span>
           <span className="mt-0.5 block text-sm font-medium text-cream/70">
-            {waitDay ? `${formatDayLabel(waitDay)} — ${waitTitle}` : waitTitle}
+            {waitDay ? `${formatDayLabel(waitDay)} - ${waitTitle}` : waitTitle}
           </span>
           <Link href="/learn" className="mt-2 inline-block font-mono text-[12px] text-gold">
             See the 120-day map

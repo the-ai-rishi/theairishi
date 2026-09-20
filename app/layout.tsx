@@ -5,6 +5,8 @@ import { siteConfig } from "@/lib/site";
 import { getBrandConfig, getSearchTopics } from "@/lib/config";
 import { creatorJsonLd, websiteJsonLd } from "@/lib/seo";
 import { canonicalUrl, getSiteOrigin } from "@/lib/urls";
+import { getGoogleSiteVerification } from "@/lib/analytics";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +30,7 @@ const topicKeywords = getSearchTopics().flatMap((topic) =>
   [topic.name, topic.shortName, topic.badge].filter(Boolean)
 );
 const keywords = Array.from(new Set([brand.name, ...topicKeywords]));
+const googleVerification = getGoogleSiteVerification();
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteOrigin()),
@@ -94,6 +97,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: canonicalUrl("/"),
   },
+
+  ...(googleVerification ? { verification: { google: googleVerification } } : {}),
 };
 
 export default function RootLayout({
@@ -109,6 +114,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased dark`}
     >
       <body className="flex min-h-full flex-col bg-ink font-sans text-cream/90">
+        <GoogleAnalytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

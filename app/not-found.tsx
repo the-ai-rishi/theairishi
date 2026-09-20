@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
 import { getBrandConfig } from "@/lib/config";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   const brand = getBrandConfig();

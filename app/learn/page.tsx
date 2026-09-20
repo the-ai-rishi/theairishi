@@ -8,8 +8,9 @@ import {
   getPlatformCopy,
   isContentTypeRoutable,
 } from "@/lib/config";
-import { getProgram } from "@/lib/programs";
-import { canonicalAlternates } from "@/lib/urls";
+import { getProgram, getPublishedProgramDays } from "@/lib/programs";
+import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
+import { courseJsonLd } from "@/lib/seo";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,6 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
       description: program.description,
       type: "website",
     },
+    twitter: {
+      card: "summary_large_image",
+      title: program.title,
+      description: program.description,
+    },
   };
 }
 
@@ -33,9 +39,20 @@ export default function LearnPage() {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
+  const published = getPublishedProgramDays(program.id);
+  const jsonLd = courseJsonLd({
+    name: program.title,
+    description: program.description,
+    url: canonicalUrl("/learn"),
+    numberOfLessons: published.length,
+  });
 
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ProgramOverview program={program} />
     </PageShell>
   );

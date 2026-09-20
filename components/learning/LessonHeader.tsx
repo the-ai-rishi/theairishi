@@ -30,7 +30,7 @@ export default function LessonHeader({
   practiceHref,
   programTotal = 120,
 }: LessonHeaderProps) {
-  const cleanTitle = title.replace(/^Day\s+\d+\s+[—–-]\s+/i, "");
+  const cleanTitle = title.replace(/^Day\s+\d+\s+[-–-]\s+/i, "");
   const phaseLabel = phaseNumber
     ? `${formatPhaseLabel(phaseNumber).replace(/Phase (\d+)/, (_, n) => `Phase ${String(n).padStart(2, "0")}`)} · ${stage}`
     : stage;

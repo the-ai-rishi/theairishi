@@ -79,7 +79,7 @@ The 120-day map follows immediately. Method, why, later/community, destinations,
 - Compact contract header (outcomes, time, Start, Jump to practice).
 - Markdown H2s that already match the rhythm are wrapped in `.lesson-block-*` panels (why / learn / predict / practice / break / evidence / fix / verify / AI review / interview / gate).
 - `DayCompletion` is a gate panel, not “finished reading?”
-- Archive AI lessons without rhythm kinds stay ordinary prose — wrapping is not forced.
+- Archive AI lessons without rhythm kinds stay ordinary prose - wrapping is not forced.
 
 **Why this solution.** Authors keep writing `## Practise`. The renderer supplies the product language. Practice is visually louder (gold rail + wash). Concepts stay quiet. The gate is the finish line.
 
@@ -118,7 +118,7 @@ Current phase gets a gold spine. `/learn` also lists titles under each phase.
 
 **Alternatives considered.** A vertical timeline of 120 rows (too long). A single SVG path (pretty, not operable). Circular “progress ring” as the hero (hides the path).
 
-**Accessibility.** Each dot has an `aria-label` (“Day 4 — …, planned”). Published dots are links. Planned dots are not.
+**Accessibility.** Each dot has an `aria-label` (“Day 4 - …, planned”). Published dots are links. Planned dots are not.
 
 **Responsive.** Dots wrap. Hit area is 32×32 even when the square is 12px.
 
@@ -142,7 +142,7 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 
 **Why this solution.** The brand is still recognisable. The product is newly operable.
 
-**Alternatives considered.** Dropping the serif (would erase the brand). Keeping the 4.25rem header height (ate lesson viewport). Rainbow reading bar (`gold → circuit → signal`) — rejected as slop; progress is gold only.
+**Alternatives considered.** Dropping the serif (would erase the brand). Keeping the 4.25rem header height (ate lesson viewport). Rainbow reading bar (`gold → circuit → signal`) - rejected as slop; progress is gold only.
 
 **Accessibility.** Body contrast stays cream-on-ink. Muted text is secondary only. Tap targets ≥ 44px on primary actions.
 
@@ -288,7 +288,7 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 - Wait CTAs say **See the plan**, never “Day 4 is next”. Day 4 is a planned title, not a page.
 - Completing Day 3 without 1/2 continues Day 1. Visiting Day 3 without completing 1/2 resumes Day 3 and the ticket says Day 1 is still open.
 - Clearing storage returns Start Day 1.
-- Search copy: titles, summaries, tags, outcomes — not the full lesson text. Results are a list of links, not a fake listbox. Tab is trapped in the dialog; focus returns to the trigger.
+- Search copy: titles, summaries, tags, outcomes - not the full lesson text. Results are a list of links, not a fake listbox. Tab is trapped in the dialog; focus returns to the trigger.
 - Skip-to-content on a day lands on the lesson column, not the sticky chrome.
 - Day 1 does not offer “Jump to practice” (that day starts with the assessment).
 - Archive lessons still demote their markdown H1, even when no rhythm kinds wrap.
@@ -301,7 +301,7 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 - Brand, shift ticket, 11-station spine, workbench/gate. Those are the distinctive idea.
 - Full-text search. Catalog search is honest and enough for three published days.
 - Accounts / sync. Progress stays `localStorage`.
-- `CourseCard` — unused on current surfaces, kept for a future archive catalog. Documented in the file, not deleted.
+- `CourseCard` - unused on current surfaces, kept for a future archive catalog. Documented in the file, not deleted.
 - Client JS graph (~800 KB uncompressed including Next/React). Islands: Header, SearchModal, ProgramCommandCenter, CurrentWorkCard, JourneyMap, LessonWorkspaceChrome, DayRail, DayCompletion, LessonContent (copy buttons), StartingAssessment, SmartCta. No new dependency. Future work is splitting copy enhancement, not a rewrite.
 - Physical VoiceOver/NVDA. Not available in this environment. Heading tree, keyboard path, focus styles, and progress semantics were checked in rendered HTML. Do not claim a screen-reader run.
 

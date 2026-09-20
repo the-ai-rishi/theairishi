@@ -42,7 +42,7 @@ Reject a pattern if it requires accounts, streaks, fake social proof, marketplac
 
 ## 2. One hundred and twelve products reviewed
 
-Each row is a product whose public learning, docs, or adjacent UX was considered. “Signal” is the single most relevant observation for The AI Rishi — not a full review.
+Each row is a product whose public learning, docs, or adjacent UX was considered. “Signal” is the single most relevant observation for The AI Rishi - not a full review.
 
 ### 2.1 Learning platforms and structured programs
 
@@ -251,7 +251,7 @@ Implication: completion is an explicit learner action after practice, never an i
 
 - Microsoft Learn module end: check + next learning unit.
 - Duolingo / Brilliant: end-of-lesson summary of what you just did, then next.
-- Advent of Code: day complete, see you tomorrow — without punishing you for missing a day.
+- Advent of Code: day complete, see you tomorrow - without punishing you for missing a day.
 
 Implication: Day N complete should list the outcomes and offer Day N+1, or an honest wait if unpublished.
 
@@ -277,7 +277,7 @@ Implication: versioned localStorage is the correct v1. Accounts would be a produ
 - Stripe Docs, MDN, Tailwind, GitHub Docs: query “day 1 shell” should not require exact slug `day-01`.
 - Marketplace search (Udemy) optimizes for course shopping, not continuation.
 
-Implication: search should surface **Day 1 — Shell**, **Guide — …**, not file names.
+Implication: search should surface **Day 1 - Shell**, **Guide - …**, not file names.
 
 ### 3.9 Visual system is quiet
 
@@ -323,7 +323,7 @@ Implication: keep cream / ink / gold. Distinguish exercise kinds with kickers, n
 | Quiet exercise language | Stripe Docs, Julia Evans kickers | CONCEPT / TRY / VERIFY / GATE as kickers |
 | Resume exact place | Readwise, Learn “Resume” | lastVisited if incomplete, else first incomplete |
 | Keyboard | Superhuman, Linear, existing `[` `]` | Keep, don’t hide |
-| Search labels in learner words | MDN / Stripe | Day 1, Guide, Interview — never repo paths |
+| Search labels in learner words | MDN / Stripe | Day 1, Guide, Interview - never repo paths |
 
 ---
 
@@ -369,18 +369,18 @@ These are assets. The upgrade should amplify them, not replace them.
 See also the product spec. The research maps onto these gaps:
 
 1. **Homepage and header always say Start Day 1** even after progress.
-2. **Continue-learning hides until a lesson is completed** — a learner who starts Day 1 and leaves has no resume.
+2. **Continue-learning hides until a lesson is completed** - a learner who starts Day 1 and leaves has no resume.
 3. **Progress bar in the lesson header is positional** (lesson 1 of 3 in a stage), not completion of 120.
 4. **`/learn` is a brochure + list**, not a command center with  n / 120 and a current day.
 5. **No structured outcomes** in frontmatter; the header cannot say “you should be able to.”
 6. **Reading time ≠ estimated work time.**
-7. **Completion is “Finished reading?”** — the wrong verb for a practice day.
+7. **Completion is “Finished reading?”** - the wrong verb for a practice day.
 8. **nextSlug is unused**; completing Day 1 does not offer Day 2 as a state.
 9. **No wait state** for the next unpublished day (the nav currently can claim “course completed”).
-10. **Lesson H2s are typographically equal** — practise does not look like practise.
+10. **Lesson H2s are typographically equal** - practise does not look like practise.
 11. **No skip-to-practice** for people who already know PATH.
 12. **Search type is “Lesson”** rather than “Day 1.”
-13. **Mobile lesson chrome** stacks a sticky header, a reading bar, and a floating syllabus button — easy to over-chrome if we add a fat sticky nav.
+13. **Mobile lesson chrome** stacks a sticky header, a reading bar, and a floating syllabus button - easy to over-chrome if we add a fat sticky nav.
 
 Largest learner-experience improvements, in order:
 
@@ -406,7 +406,7 @@ Largest learner-experience improvements, in order:
 
 ## 10. Prioritized recommendations
 
-### P0 — ship in this upgrade
+### P0 - ship in this upgrade
 
 1. Versioned local progress: started, completed, lastVisited, completedAt.
 2. Continue algorithm (see spec). Wire homepage, header, `/learn`.
@@ -416,7 +416,7 @@ Largest learner-experience improvements, in order:
 6. Outcomes on Day 1–3 from actual copy.
 7. Completion recap + next published day or wait state.
 
-### P1 — ship if it stays light
+### P1 - ship if it stays light
 
 1. Exercise kickers (why / learn / try / verify / gate).
 2. Compact sticky lesson nav.
@@ -425,7 +425,7 @@ Largest learner-experience improvements, in order:
 5. Search labels: Day N.
 6. `/programs/devops` as an alias to the featured program (`/learn`).
 
-### P2 — explicitly later
+### P2 - explicitly later
 
 1. Accounts and synced progress.
 2. In-browser terminal.
@@ -441,13 +441,13 @@ Largest learner-experience improvements, in order:
 
 Qualitative, not a bibliography of invented stats.
 
-- [Microsoft Learn — training and “My Learning” states](https://learn.microsoft.com/)
+- [Microsoft Learn - training and “My Learning” states](https://learn.microsoft.com/)
 - [The Odin Project FAQ](https://www.theodinproject.com/faq) (no signup required; the work is the evidence)
 - [roadmap.sh](https://roadmap.sh/)
 - [web.dev / Learn](https://web.dev/learn/)
 - [MDN Web Docs](https://developer.mozilla.org/)
 - [Stripe Docs](https://docs.stripe.com/)
-- [Baymard Institute — Online Learning UX research](https://baymard.com/research/online-learning) (marketplace/course sites including Udemy, Codecademy, DataCamp)
+- [Baymard Institute - Online Learning UX research](https://baymard.com/research/online-learning) (marketplace/course sites including Udemy, Codecademy, DataCamp)
 - [HashiCorp Tutorials](https://developer.hashicorp.com/tutorials)
 - [A Tour of Go](https://go.dev/tour/)
 - [SQLBolt](https://sqlbolt.com/)
@@ -478,7 +478,7 @@ The 112-product review is not a bibliography. These are the patterns that actual
 | Stripe / MDN information scent | Lesson blocks labelled Why / Learn / Predict / Practice / Evidence / Break / Fix / Verify / AI review / Interview / Gate. Kickers are mono, not badges. | You should know what kind of work a section is before reading it. |
 | GitHub Skills / A Tour of Go immediate action | First viewport: program name + full-width Start Day 1 (or Continue) + the current day. No quiz wall, no catalog. | Time-to-first-keystroke is the onboarding. |
 | VS Code workspace feeling | `LessonWorkspaceChrome` + `DayRail` + panelled sections. Reading progress is a 2px gold bar. Code blocks keep a copy header. | An engineer should feel they are in a tool, not a blog CMS. |
-| Brilliant progressive reveal | Predict is its own kind (circuit rail) before Practice. We do not paginate the whole day into 12 screens — that would fight long technical notes. | Prediction matters; carousel-lessons do not fit a 45-minute shell day. |
+| Brilliant progressive reveal | Predict is its own kind (circuit rail) before Practice. We do not paginate the whole day into 12 screens - that would fight long technical notes. | Prediction matters; carousel-lessons do not fit a 45-minute shell day. |
 | Readwise / Reader resume | `lastVisited` wins if that day is incomplete; otherwise first incomplete published day; unpublished days are skipped, never linked. | Returning to the exact day is the whole returning-learner loop. |
 
 Patterns we still refuse, after the redesign: accounts, streaks, XP, marketplace ratings, fake learner counts, Instagram-first navigation, confetti, public GitHub as the classroom, and the forbidden slogan that `validate.js` already blocks.

@@ -6,6 +6,7 @@ import ExistingNotesNote from "@/components/content/ExistingNotesNote";
 import { getBrandConfig, getFooterNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { articleJsonLd } from "@/lib/seo";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
+import { indexRobots, isTopicIndexable } from "@/lib/indexing";
 
 import LessonHeader from "@/components/learning/LessonHeader";
 import LessonNavigation from "@/components/learning/LessonNavigation";
@@ -49,12 +50,12 @@ export async function generateMetadata({
   const courseTitle = lesson.metadata.courseTitle || "Course";
   const title = `${lesson.metadata.title} · ${lesson.metadata.stage}`;
   const description = lesson.metadata.description;
+  const indexable = isTopicIndexable(lesson.metadata.topic);
 
   return {
     title,
     description,
     keywords: [
-      lesson.metadata.course,
       courseTitle,
       lesson.metadata.stage,
       lesson.metadata.title,
@@ -62,6 +63,7 @@ export async function generateMetadata({
       "Tutorial",
       ...(lesson.metadata.tags || []),
     ],
+    robots: indexRobots(indexable),
     openGraph: {
       title,
       description,

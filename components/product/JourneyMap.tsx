@@ -28,7 +28,7 @@ function DayDots({
             : day.published
               ? "day-dot-live"
               : "day-dot-plan";
-        const label = `Day ${day.day} — ${day.title}${done ? ", complete" : day.published ? ", available" : ", planned"}`;
+        const label = `Day ${day.day} - ${day.title}${done ? ", complete" : day.published ? ", available" : ", planned"}`;
         const inner = <span className={`day-dot ${cls}`} aria-hidden="true" />;
         return (
           <span key={day.slug} role="listitem">

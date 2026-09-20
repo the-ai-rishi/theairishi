@@ -2,7 +2,7 @@
 
 /**
  * Progress, continue-learning, and lesson-rhythm tests.
- * Invoked from scripts/validate.js. Pure Node — no browser.
+ * Invoked from scripts/validate.js. Pure Node - no browser.
  */
 
 const progress = require("../lib/learner-progress");
