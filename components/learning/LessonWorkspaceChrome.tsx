@@ -33,21 +33,24 @@ export default function LessonWorkspaceChrome({
   const [active, setActive] = useState(nav[0]?.href || "");
 
   useEffect(() => {
-    if (!nav.length || typeof IntersectionObserver === "undefined") return;
-    const ids = nav.map((item) => item.href.replace("#", "")).filter(Boolean);
-    const nodes = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    if (!nodes.length) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.id) setActive("#" + visible.target.id);
-      },
-      { rootMargin: "-22% 0px -62% 0px", threshold: [0.15, 0.4, 0.7] }
-    );
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
+    if (!nav.length) return;
+    const onScroll = () => {
+      const marker = 104;
+      let current = nav[0]?.href || "";
+      for (const item of nav) {
+        const id = item.href.replace("#", "");
+        const el = document.getElementById(id + "-block") || document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= marker) current = item.href;
+      }
+      setActive((prev) => (prev === current ? prev : current));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("hashchange", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", onScroll);
+    };
   }, [nav]);
 
   return (
@@ -80,17 +83,18 @@ export default function LessonWorkspaceChrome({
         <SearchModal compact />
       </div>
       {nav.length > 0 ? (
-        <nav aria-label="On this day" className="workspace-chips flex gap-0.5 overflow-x-auto px-3 pb-1.5 sm:px-6 lg:px-8">
+        <nav aria-label="On this day" className="workspace-chips flex gap-0.5 overflow-x-auto px-3 sm:px-6 lg:px-8">
           {nav.map((item) => {
             const isActive = active === item.href;
             return (
               <a
                 key={item.nav}
                 href={item.href}
-                className={`shrink-0 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] ${
+                className={`inline-flex min-h-9 shrink-0 items-center px-2.5 font-mono text-[10px] uppercase tracking-[0.14em] ${
                   isActive ? "text-cream" : "text-cream/38 hover:text-gold"
                 }`}
                 aria-current={isActive ? "location" : undefined}
+                onClick={() => setActive(item.href)}
               >
                 {item.label}
               </a>

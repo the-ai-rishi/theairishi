@@ -23,6 +23,11 @@ export default function CurrentWorkCard({
   const phases = phaseProgress(catalog, hasHydrated ? state : null);
   const kicker =
     target.kind === "wait" ? "Waiting" : target.kind === "continue" ? "Now" : "Today";
+  const phaseNow = target.phaseNumber || catalog.phases[0]?.number || 1;
+  const phaseName =
+    catalog.phases.find((phase) => phase.number === phaseNow)?.name ||
+    day?.phaseName ||
+    "";
 
   return (
     <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-8" : "p-5 sm:p-6"}`} aria-label="Today's shift">
@@ -77,13 +82,14 @@ export default function CurrentWorkCard({
         <div
           className="shift-ticks"
           role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={catalog.phases.length}
-          aria-valuenow={target.phaseNumber || 1}
+          aria-valuemin={1}
+          aria-valuemax={Math.max(1, catalog.phases.length)}
+          aria-valuenow={phaseNow}
+          aria-valuetext={`Phase ${String(phaseNow).padStart(2, "0")} of ${catalog.phases.length}${phaseName ? `, ${phaseName}` : ""}`}
           aria-label="Phase on the 120-day spine"
         >
           {phases.map((phase) => {
-            const now = (target.phaseNumber || catalog.phases[0]?.number) === phase.number;
+            const now = phaseNow === phase.number;
             const done = phase.completedCount >= phase.totalDays && phase.totalDays > 0;
             return (
               <span

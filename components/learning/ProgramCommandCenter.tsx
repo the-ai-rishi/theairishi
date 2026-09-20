@@ -54,10 +54,7 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
         </div>
       </header>
 
-      <section className="mt-8" aria-labelledby="today-heading">
-        <h2 id="today-heading" className="sr-only">
-          Today
-        </h2>
+      <section className="mt-8" aria-label="Today">
         <CurrentWorkCard catalog={catalog} size="hero" />
       </section>
 
@@ -128,11 +125,15 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
               return (
                 <li key={day.slug}>
                   {day.published && day.href ? (
-                    <Link href={day.href} className="block hover:bg-cream/[0.02]">
+                    <Link
+                      href={day.href}
+                      className="block hover:bg-cream/[0.02]"
+                      aria-current={current ? "true" : undefined}
+                    >
                       {row}
                     </Link>
                   ) : (
-                    <div aria-disabled="true">{row}</div>
+                    <div>{row}</div>
                   )}
                 </li>
               );
@@ -147,7 +148,8 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
           {catalog.mapTitle || `${catalog.phases.length} phases`}
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
-          Open a phase to see every day. Planned days stay titles until the lesson is published.
+          The whole path. This phase lists the days you can do now. Later phases open as titles —
+          planned days are names, not empty pages.
         </p>
         <div className="mt-6">
           <JourneyMap catalog={catalog} showTitles />

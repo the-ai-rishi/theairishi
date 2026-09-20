@@ -226,8 +226,8 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 
 - Homepage first viewport: program identity (calm) then a full-width **shift ticket** (Today / Now / Waiting) with outcomes and the only primary CTA. An 11-tick spine under the ticket shows which phase you are in.
 - The map is **11 phase stations**. Only the current phase shows day-dots. Other phases are progress bars. `/learn` opens the current phase with titles; others are `<details>`.
-- `/learn` is Today → Up next → This phase → The spine. The old triple of card + 120-dot map + published list + titled map is gone.
-- Lesson blocks have two registers: **understand** (why/learn/predict as quiet ticks, not cards) and **do** (practice/break/fix as a gold workbench). The gate is a checkpoint: “Can you prove Day N?” / “I can prove this.”
+- `/learn` is Today → Up next → This phase → The spine. This phase is the titled day list. The spine shows dots on the current phase and `<details>` titles on later phases, so Day 1–12 are not listed twice.
+- Lesson blocks have two registers: **understand** (why/learn/predict as quiet ticks, not cards) and **do** (practice/break/fix as a gold workbench). The gate is a checkpoint: “Can you prove Day N?” / “I can prove this.” The markdown “Definition of done” stays a reading tick; `DayCompletion` is the only checkpoint chrome.
 - Lesson chrome drops the extra “120 Days” button; the `n/120` count is the link back to the plan. Search is icon-only. Global nav no longer duplicates Start next to the Start CTA.
 
 **Why this solution.** 120 identical dots are abstract. Eleven named stations are a path. Boxing every paragraph kills reading. Practice has to look like a bench, not a callout.
@@ -238,7 +238,7 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 - Paginate each day into Brilliant-style screens. Rejected: these days are 45-minute engineering notes.
 - Rename the product around “shift” in every CTA. Rejected: beginners need Start / Continue.
 
-**Accessibility.** Current phase labelled “you are here”. Planned rows are not links. Gate button has `aria-pressed`. Hidden program-day H1 remains `aria-hidden`; the contract header is the visible H1. Chips use `aria-current="location"`.
+**Accessibility.** Current phase labelled “you are here”. Planned rows are not links. Gate button has `aria-pressed`. Program-day markdown H1 is demoted to a visually hidden `<p class="lesson-page-title">` so `LessonHeader` is the only H1; kind kickers and block chrome are `aria-hidden`. Chips use `aria-current="location"`. The 11-tick spine is a `progressbar` with `aria-valuetext`. The 2px read bar is decorative (`aria-hidden`) so it does not chatter. Copy buttons expose `Copy` / `Copied` / `Copy failed`.
 
 **Responsive.** Ticket is full width at 360px, CTA full width. Phase stations stack. Workbench code still scrolls inside `pre`, not the page.
 
@@ -255,3 +255,22 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 - GitHub hidden, YouTube coming-soon
 - Dual Vercel + Cloudflare, Cloudflare-compatible embedded content
 - No invented curriculum, salaries, or social proof
+
+---
+
+## 11. QA pass (not a redesign)
+
+**Current problem.** After the spine pass, the product idea was clear. Remaining risk was the last 10–15%: heading semantics, leftover chrome from the refactor, `/learn` listing the same days twice, and silent clipboard failure.
+
+**What we verified and changed.**
+
+- Lesson heading tree: one visible H1 from `LessonHeader`; markdown title demoted; H2s keep their real names; sections labelled by those H2s.
+- Sticky chips follow scroll position of the wrapped `.lesson-block`, update `aria-current` on click, and show a gold underline.
+- `aria-current="page"` on primary nav and the day rail; `aria-current="true"` on the current step in This phase / map.
+- Shift ticks: `role="progressbar"` with min/max/now plus `aria-valuetext` (“Phase 01 of 11, Foundations”). Reading progress stays decorative.
+- Copy: labelled button, live status, `execCommand` fallback, visible “Copy failed”.
+- `/learn`: Today is the action, This phase is the titled list, the spine is the path (dots here, titles on later phases).
+- Day 1 → 2 → 3 → wait on Day 4 is an explicit continue-learning test.
+- Removed unused lesson chrome: `LessonStickyNav`, `LessonSidebar`, `MobileLessonMenu`, `ProgramPhaseMap`, `LessonCompletionButton`, `ResumeLearningBanner`. `HeroSection` / `SectionRenderer` stay as the JSON type switch, not the homepage.
+
+**Rejected.** Another visual redesign. Confetti. Inventing Day 4.

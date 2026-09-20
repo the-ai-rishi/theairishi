@@ -38,6 +38,7 @@ function DayDots({
                 className="inline-flex min-h-8 min-w-8 items-center justify-center"
                 title={label}
                 aria-label={label}
+                aria-current={current ? "true" : undefined}
               >
                 {inner}
               </Link>
@@ -50,6 +51,60 @@ function DayDots({
         );
       })}
     </div>
+  );
+}
+
+function TitleList({
+  days,
+  currentSlug,
+  isCompleted,
+  hasHydrated,
+}: {
+  days: LearnerCatalog["days"];
+  currentSlug: string | null;
+  isCompleted: (slug: string) => boolean;
+  hasHydrated: boolean;
+}) {
+  return (
+    <ol className="mt-3 divide-y divide-hairline border-y border-hairline">
+      {days.map((day) => {
+        const done = hasHydrated && isCompleted(day.slug);
+        const current = currentSlug === day.slug;
+        const row = (
+          <span className="grid gap-1 py-3 sm:grid-cols-[4.5rem_1fr_auto] sm:items-baseline">
+            <span className="font-mono text-[12px] text-cream/45">
+              Day {String(day.day).padStart(2, "0")}
+            </span>
+            <span>
+              <span className={`font-serif text-lg ${day.published ? "text-cream" : "text-cream/50"}`}>
+                {day.title}
+              </span>
+              <span className="mt-0.5 block text-[13px] leading-relaxed text-cream/40">{day.summary}</span>
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">
+              {done ? "Complete" : current ? "Now" : day.published ? "Available" : "Planned"}
+            </span>
+          </span>
+        );
+        return (
+          <li key={day.slug}>
+            {day.published && day.href ? (
+              <Link
+                href={day.href}
+                className="block hover:bg-cream/[0.02]"
+                aria-current={current ? "true" : undefined}
+              >
+                {row}
+              </Link>
+            ) : (
+              <div>
+                {row}
+              </div>
+            )}
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
@@ -90,54 +145,22 @@ export default function JourneyMap({
           </div>
         );
 
+        const dots = (
+          <DayDots
+            days={days}
+            currentSlug={target.slug}
+            isCompleted={isCompleted}
+            hasHydrated={hasHydrated}
+          />
+        );
+
         const body = (
           <>
             <div className="spine-bar" aria-hidden="true">
               <span style={{ width: `${isCurrentPhase && fill === 0 ? 8 : fill}%` }} />
             </div>
-            {(isCurrentPhase || !compact) && !showTitles ? (
-              <DayDots
-                days={days}
-                currentSlug={target.slug}
-                isCompleted={isCompleted}
-                hasHydrated={hasHydrated}
-              />
-            ) : null}
-            {showTitles ? (
-              <ol className="mt-3 divide-y divide-hairline border-y border-hairline">
-                {days.map((day) => {
-                  const done = hasHydrated && isCompleted(day.slug);
-                  const current = target.slug === day.slug;
-                  const row = (
-                    <span className="grid gap-1 py-3 sm:grid-cols-[4.5rem_1fr_auto] sm:items-baseline">
-                      <span className="font-mono text-[12px] text-cream/45">
-                        Day {String(day.day).padStart(2, "0")}
-                      </span>
-                      <span>
-                        <span className={`font-serif text-lg ${day.published ? "text-cream" : "text-cream/50"}`}>
-                          {day.title}
-                        </span>
-                        <span className="mt-0.5 block text-[13px] leading-relaxed text-cream/40">{day.summary}</span>
-                      </span>
-                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">
-                        {done ? "Complete" : current ? "Now" : day.published ? "Available" : "Planned"}
-                      </span>
-                    </span>
-                  );
-                  return (
-                    <li key={day.slug}>
-                      {day.published && day.href ? (
-                        <Link href={day.href} className="block hover:bg-cream/[0.02]">
-                          {row}
-                        </Link>
-                      ) : (
-                        <div aria-disabled="true">{row}</div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ol>
-            ) : null}
+            {showTitles ? (isCurrentPhase ? dots : <TitleList days={days} currentSlug={target.slug} isCompleted={isCompleted} hasHydrated={hasHydrated} />) : null}
+            {!showTitles && (isCurrentPhase || !compact) ? dots : null}
           </>
         );
 

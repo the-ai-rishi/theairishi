@@ -147,6 +147,17 @@ function runLearnerProgressTests() {
   const laterFirst = resolveContinue(progress.markCompleted(progress.emptyState(), "day-03"), cat);
   check(laterFirst.slug === "day-01", "completing later before earlier still continues first incomplete");
 
+  let chain = progress.emptyState();
+  chain = progress.markCompleted(chain, "day-01");
+  check(resolveContinue(chain, cat).slug === "day-02", "Day 1 complete → Day 2");
+  chain = progress.markCompleted(chain, "day-02");
+  check(resolveContinue(chain, cat).slug === "day-03", "Day 2 complete → Day 3");
+  chain = progress.markCompleted(chain, "day-03");
+  const afterThree = resolveContinue(chain, cat);
+  check(afterThree.kind === "wait", "Day 1 → 2 → 3 complete → wait");
+  check(afterThree.waitDay === 4, "wait names Day 4");
+  check(afterThree.href === "/learn", "wait does not invent /learn/day-04");
+
   const invalidLast = resolveContinue(
     progress.parseProgress({ v: 1, completed: [], started: [], lastVisited: "day-99" }),
     cat
@@ -216,6 +227,10 @@ function runLearnerProgressTests() {
   const decorated = rhythm.decorateHeadings("<h2>Practise</h2>");
   check(decorated.includes('data-lesson-kind="try"'), "decorate adds kind");
   check(decorated.includes("lesson-kind-kicker"), "decorate adds kicker");
+  check(
+    /lesson-kind-kicker"[^>]*aria-hidden="true"/.test(decorated),
+    "kicker is hidden so the H2 name is the real heading"
+  );
 
   const nav = rhythm.navFromHeadings([
     { id: "what-today-is-for", text: "What today is for", level: 2 },
@@ -238,7 +253,12 @@ function runLearnerProgressTests() {
   );
   check(wrapped.includes('class="lesson-block lesson-block-try"'), "wrap creates a practice block");
   check(wrapped.includes("lesson-block-label"), "wrap adds a kind label");
-  check(wrapped.includes('aria-hidden="true"'), "program-day first h1 is hidden from AT");
+  check(!/<h1\b/i.test(wrapped), "program-day markdown title is demoted so LessonHeader is the only H1");
+  check(/<p[^>]*class="[^"]*lesson-page-title/.test(wrapped), "demoted title remains for in-page search");
+  check(/<p[^>]*hidden/.test(wrapped), "demoted title is hidden from AT and layout");
+  check(wrapped.includes('aria-labelledby="practise"'), "section is labelled by the visible H2");
+  check(wrapped.includes('id="practise-block"'), "section id is heading-id-block for sticky nav");
+  check(/lesson-block-head"[^>]*aria-hidden="true"/.test(wrapped), "kind chrome is hidden from AT");
   check(wrapped.includes("<p>Lead.</p>"), "leading copy before the first H2 is kept");
 
   const archive = rhythm.wrapLessonSections("<h1>Tokens</h1><h2>What is a Token?</h2><p>Body</p>");
@@ -260,7 +280,6 @@ function runLearnerProgressTests() {
     "components/learning/ProgramCommandCenter.tsx",
     "components/learning/SmartCta.tsx",
     "components/learning/DayCompletion.tsx",
-    "components/learning/LessonStickyNav.tsx",
     "components/learning/LessonWorkspaceChrome.tsx",
     "components/learning/DayRail.tsx",
     "components/product/ProductHome.tsx",

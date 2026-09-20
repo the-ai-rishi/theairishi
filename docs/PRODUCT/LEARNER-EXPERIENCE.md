@@ -477,7 +477,7 @@ A demanding reviewer should be able to:
 | `/learn` | `ProgramCommandCenter` |
 | Lesson header | `LessonHeader` |
 | Completion | `DayCompletion` |
-| Sticky nav | `LessonStickyNav` |
+| Sticky nav | `LessonWorkspaceChrome` |
 | Homepage / header CTA | `SmartCta` |
 
 P0 is the loop. P1 is rhythm, sticky nav, mobile, skip, search labels, `/programs/devops`. P2 stays out of this branch.
