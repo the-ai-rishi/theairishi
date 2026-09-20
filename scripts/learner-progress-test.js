@@ -144,8 +144,14 @@ function runLearnerProgressTests() {
   check(halfwayDay3.slug === "day-03", "stopped halfway Day 3 → continue Day 3");
   check(halfwayDay3.completedCount === 0, "halfway is not a completion");
 
+  const skippedAhead = resolveContinue(progress.setLastVisited(progress.emptyState(), "day-03"), cat);
+  check(skippedAhead.slug === "day-03", "lastVisited Day 3 without completing 1/2 resumes Day 3");
+  check(skippedAhead.completedCount === 0, "skip-ahead does not invent completions");
+  check(skippedAhead.kind === "continue", "skip-ahead is continue, not start");
+
   const laterFirst = resolveContinue(progress.markCompleted(progress.emptyState(), "day-03"), cat);
-  check(laterFirst.slug === "day-01", "completing later before earlier still continues first incomplete");
+  check(laterFirst.slug === "day-01", "completing Day 3 before 1/2 continues first incomplete");
+  check(laterFirst.completedCount === 1, "Day 3 completion still counts");
 
   let chain = progress.emptyState();
   chain = progress.markCompleted(chain, "day-01");
@@ -157,6 +163,7 @@ function runLearnerProgressTests() {
   check(afterThree.kind === "wait", "Day 1 → 2 → 3 complete → wait");
   check(afterThree.waitDay === 4, "wait names Day 4");
   check(afterThree.href === "/learn", "wait does not invent /learn/day-04");
+  check(afterThree.ctaLabel === "See the plan", "wait CTA is the plan, not a fake Day 4 link");
 
   const invalidLast = resolveContinue(
     progress.parseProgress({ v: 1, completed: [], started: [], lastVisited: "day-99" }),
@@ -263,12 +270,18 @@ function runLearnerProgressTests() {
 
   const archive = rhythm.wrapLessonSections("<h1>Tokens</h1><h2>What is a Token?</h2><p>Body</p>");
   check(!archive.includes("lesson-block"), "archive lessons without rhythm kinds stay unwrapped");
+  check(!/<h1\b/i.test(archive), "archive markdown H1 is still demoted so the page H1 stays unique");
+  check(/lesson-page-title/.test(archive), "demoted archive title remains as a hidden paragraph");
 
   const mixed = rhythm.wrapLessonSections(
     rhythm.decorateHeadings("<h2>Words</h2><p>A</p><h2>A random aside</h2><p>B</p><h2>Practise</h2><p>C</p>")
   );
   check(mixed.includes("lesson-block-learn"), "known learn heading wraps");
   check(mixed.includes("<h2>A random aside</h2>"), "unknown headings are not forced into a kind panel");
+
+  const rhythmFile = require("../content/config/lesson-rhythm.json");
+  check(Array.isArray(rhythmFile.headingRules) && rhythmFile.headingRules.length > 0, "lesson-rhythm.json is the heading alias source");
+  check(rhythmFile.kinds && rhythmFile.kinds.try && rhythmFile.kinds.gate, "lesson-rhythm.json defines practice and gate kinds");
 
   const fs = require("fs");
   const path = require("path");
@@ -277,6 +290,8 @@ function runLearnerProgressTests() {
     "lib/learner-progress.js",
     "lib/continue-learning.js",
     "lib/lesson-rhythm.js",
+    "content/config/lesson-rhythm.json",
+    "scripts/new-day.js",
     "components/learning/ProgramCommandCenter.tsx",
     "components/learning/SmartCta.tsx",
     "components/learning/DayCompletion.tsx",
@@ -293,6 +308,15 @@ function runLearnerProgressTests() {
     const text = fs.readFileSync(path.join(__dirname, "..", rel), "utf8");
     check(!text.toLowerCase().includes(leakNeedle), rel + " must not mention the private mastery repository");
   }
+
+  const { spawnSync } = require("child_process");
+  const newDayScript = path.join(__dirname, "new-day.js");
+  const refuseRange = spawnSync(process.execPath, [newDayScript, "121"], { encoding: "utf8" });
+  check(refuseRange.status !== 0, "new-day refuses a day outside 1–120");
+  const refuseOverwrite = spawnSync(process.execPath, [newDayScript, "1"], { encoding: "utf8" });
+  check(refuseOverwrite.status !== 0, "new-day refuses to overwrite an existing lesson");
+  check(/already exists/i.test(refuseOverwrite.stderr || ""), "new-day overwrite error names the file");
+  check(!fs.existsSync(path.join(__dirname, "..", "content/lessons/day-04.md")), "this pass does not invent Day 4 markdown");
 
   if (errors.length) {
     console.error("Learner progress tests failed:");

@@ -5,16 +5,12 @@ import MethodSection from "@/components/home/MethodSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
 import CallToAction from "@/components/home/CallToAction";
 import { getLearnerCatalog } from "@/lib/programs";
-import { getAllLessonSummaries } from "@/lib/lessons";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
 import type { SocialPlatform } from "@/lib/config";
 import { getPlatformStory } from "@/lib/config";
 
 export default function ProductHome({ sections }: { sections: ResolvedHomepageSection[] }) {
   const catalog = getLearnerCatalog();
-  const firstDay = getAllLessonSummaries().find(
-    (lesson) => lesson.slug === catalog.days.find((d) => d.published)?.slug
-  );
   const byType = new Map(sections.map((section) => [section.type, section]));
   const byId = new Map(sections.map((section) => [section.id, section]));
   const why = byType.get("why");
@@ -27,11 +23,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
 
   return (
     <>
-      <ProductHero
-        catalog={catalog}
-        outcomes={firstDay?.metadata.outcomes}
-        estimatedMinutes={firstDay?.metadata.estimatedMinutes}
-      />
+      <ProductHero catalog={catalog} />
 
       <section id="path" className="scroll-mt-24 py-8 sm:py-11">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

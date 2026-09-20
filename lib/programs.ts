@@ -204,6 +204,8 @@ export function getLearnerCatalog(programId?: string): LearnerCatalog {
         phaseId: phase.id,
         phaseName: phase.name,
         phaseNumber: phase.number,
+        outcomes: day.lesson?.metadata.outcomes || [],
+        estimatedMinutes: day.lesson?.metadata.estimatedMinutes,
       });
     }
     return {

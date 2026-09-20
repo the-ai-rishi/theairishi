@@ -438,15 +438,30 @@ Progress is a count of days the learner marked complete. That is enough.
 ## 38. Performance principles
 
 - Server-render the lesson body
-- Client islands only for progress-aware chrome
+- Client islands only for progress-aware chrome (header, search, ticket, map, day chrome, copy buttons, assessment, gate)
 - No Redux / Zustand for this
 - Do not add dependencies
 - Keep dual Vercel + Cloudflare embed path; no runtime `fs` in production
 - Sticky nav must not cause layout jump (reserved height)
+- Production client chunks are ~800 KB uncompressed including Next/React. Do not add a new client island without a reason. Copy enhancement is the main lesson-page cost.
 
 ---
 
-## 39. Acceptance criteria
+## 39. Daily publish
+
+A new public day is a markdown job, not a redesign.
+
+1. Title already exists in `content/config/programs.json`.
+2. `npm run new-day -- N` writes a draft. It will not overwrite. It will not invent a missing day.
+3. Write the body. Keep the template H2s (or add an alias in `content/config/lesson-rhythm.json`).
+4. Fill 3–5 outcomes. Set `status: published`.
+5. `npm run validate`.
+
+Search indexes title, description, tags, and outcomes — not the full body. Unpublished days stay titles on `/learn`. `/learn/day-NN` 404s until the file is published.
+
+---
+
+## 40. Acceptance criteria
 
 A demanding reviewer should be able to:
 
@@ -471,7 +486,8 @@ A demanding reviewer should be able to:
 | --- | --- |
 | Progress v1 | `lib/learner-progress.js` |
 | Continue algorithm | `lib/continue-learning.js` |
-| Heading kinds | `lib/lesson-rhythm.js` |
+| Heading kinds | `content/config/lesson-rhythm.json` (`lib/lesson-rhythm.js` reads it) |
+| Daily scaffold | `npm run new-day -- N` → `content/lessons/day-NN.md` as draft |
 | Catalog for client | `getLearnerCatalog()` in `lib/programs.ts` |
 | Tests | `scripts/learner-progress-test.js` (invoked from validate) |
 | `/learn` | `ProgramCommandCenter` |

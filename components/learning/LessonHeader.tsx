@@ -51,7 +51,7 @@ export default function LessonHeader({
 
       {outcomes.length > 0 ? (
         <ul className="mt-5 grid gap-2 sm:grid-cols-2">
-          {outcomes.map((outcome) => (
+          {outcomes.slice(0, 3).map((outcome) => (
             <li key={outcome} className="flex gap-3 text-[14px] leading-relaxed text-cream/70">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
               <span>{outcome}</span>

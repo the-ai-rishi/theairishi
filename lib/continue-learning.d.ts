@@ -8,6 +8,8 @@ export interface LearnerDay {
   phaseId: string;
   phaseName: string;
   phaseNumber: number;
+  outcomes?: string[];
+  estimatedMinutes?: number;
 }
 
 export interface LearnerPhase {

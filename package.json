@@ -12,6 +12,7 @@
     "lint": "eslint",
     "prelint": "node scripts/generate-content-data.js",
     "validate": "node scripts/validate.js",
+    "new-day": "node scripts/new-day.js",
     "prevalidate": "node scripts/generate-content-data.js",
     "test:platform": "node scripts/scenario-test.js",
     "content:index": "node scripts/content-index.js",

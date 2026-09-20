@@ -223,7 +223,7 @@
 
 .shift-ticks {
   display: grid;
-  grid-template-columns: repeat(11, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   gap: 4px;
   height: 6px;
 }
@@ -317,6 +317,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .animate-spin-slow,
   .animate-spin-reverse,
   .animate-float,
@@ -327,12 +336,7 @@
   }
 
   .link-editorial {
-    transition: none;
     background-size: 100% 1px;
-  }
-
-  .btn-primary {
-    transition: none;
   }
 }
 
@@ -601,7 +605,8 @@ button:focus-visible,
 [role="button"]:focus-visible,
 summary:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+[tabindex]:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 3px;
 }
@@ -624,10 +629,15 @@ textarea:focus-visible {
 .workspace-chips {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  padding-block: 0.4rem;
 }
 
 .workspace-chips::-webkit-scrollbar {
   display: none;
+}
+
+.workspace-chips a {
+  min-height: 36px;
 }
 
 .workspace-chips a[aria-current="location"] {
@@ -637,6 +647,11 @@ textarea:focus-visible {
 
 .lesson-block {
   margin: 0 0 1.15rem;
+  scroll-margin-top: 6rem;
+}
+
+#main-content {
+  scroll-margin-top: 5.5rem;
 }
 
 .lesson-block-head {

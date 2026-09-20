@@ -26,7 +26,22 @@ When you already know the job and need the snippet. For theory and edge cases, f
 
 ## STEP-BY-STEP
 
+### Publish the next program day
+
+This is the daily job. Titles for Days 1–120 already live in `content/config/programs.json`.
+
+```bash
+npm run new-day -- 4
+```
+
+Edit `content/lessons/day-04.md`: write the lesson, 3–5 outcomes, `status: published`. Keep the template H2s. Then `npm run validate`.
+
+Full doc: [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md). Operator loop: [DAILY-CONTENT-MANAGEMENT.md](./DAILY-CONTENT-MANAGEMENT.md).
+
+Do not edit React. Do not invent a title. Search is titles/summaries/tags, not the full body.
+
 ### Add a guide
+
 
 File: `content/guides/SLUG.md` copied from `templates/guide-template.md`. There is no `content/articles` folder.
 

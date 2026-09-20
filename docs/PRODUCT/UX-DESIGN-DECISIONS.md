@@ -274,3 +274,51 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 - Removed unused lesson chrome: `LessonStickyNav`, `LessonSidebar`, `MobileLessonMenu`, `ProgramPhaseMap`, `LessonCompletionButton`, `ResumeLearningBanner`. `HeroSection` / `SectionRenderer` stay as the JSON type switch, not the homepage.
 
 **Rejected.** Another visual redesign. Confetti. Inventing Day 4.
+
+---
+
+## 12. Launch-quality audit and daily publish (not a redesign)
+
+**Current problem.** After the QA pass the product was coherent, but two launch risks remained: a few honesty/a11y edges, and the daily operator loop still looked like a code change.
+
+**Research signal.** Microsoft Learn resume is honest about state. Linear’s Today / Up next does not duplicate. MDN search does not pretend to be a full-text engine. The 100+ research already chose “one numbered shift on a 120-day spine.” Launch quality is that idea, told truthfully, plus a publishing job that does not touch React.
+
+**What we changed.**
+
+- Wait CTAs say **See the plan**, never “Day 4 is next”. Day 4 is a planned title, not a page.
+- Completing Day 3 without 1/2 continues Day 1. Visiting Day 3 without completing 1/2 resumes Day 3 and the ticket says Day 1 is still open.
+- Clearing storage returns Start Day 1.
+- Search copy: titles, summaries, tags, outcomes — not the full lesson text. Results are a list of links, not a fake listbox. Tab is trapped in the dialog; focus returns to the trigger.
+- Skip-to-content on a day lands on the lesson column, not the sticky chrome.
+- Day 1 does not offer “Jump to practice” (that day starts with the assessment).
+- Archive lessons still demote their markdown H1, even when no rhythm kinds wrap.
+- `/learn` This phase carries the four-state legend (Complete / Now / Available / Planned). Up next hides in the wait state so it does not repeat the ticket.
+- Chip row has block padding so the gold underline and focus ring are not clipped. `prefers-reduced-motion` is a catch-all.
+- `content/config/lesson-rhythm.json` owns kinds and heading aliases. `npm run new-day -- N` scaffolds a **draft** from `programs.json`. Publishing Day 4+ is markdown + validate. No invented titles.
+
+**What we chose not to change.**
+
+- Brand, shift ticket, 11-station spine, workbench/gate. Those are the distinctive idea.
+- Full-text search. Catalog search is honest and enough for three published days.
+- Accounts / sync. Progress stays `localStorage`.
+- `CourseCard` — unused on current surfaces, kept for a future archive catalog. Documented in the file, not deleted.
+- Client JS graph (~800 KB uncompressed including Next/React). Islands: Header, SearchModal, ProgramCommandCenter, CurrentWorkCard, JourneyMap, LessonWorkspaceChrome, DayRail, DayCompletion, LessonContent (copy buttons), StartingAssessment, SmartCta. No new dependency. Future work is splitting copy enhancement, not a rewrite.
+- Physical VoiceOver/NVDA. Not available in this environment. Heading tree, keyboard path, focus styles, and progress semantics were checked in rendered HTML. Do not claim a screen-reader run.
+
+**Daily publish contract.**
+
+| Job | Edit |
+| --- | --- |
+| Next day | `npm run new-day -- N` then `content/lessons/day-NN.md` → `status: published` |
+| Day title on the map | `content/config/programs.json` (copy from the private plan; do not invent) |
+| New H2 alias | `content/config/lesson-rhythm.json` `headingRules` |
+| New program / tab / social | existing JSON config |
+
+No React for a normal morning.
+
+**Accessibility implication.** Skip link, search dialog, wait CTA, and Day 1 assessment order are the remaining launch edges. VoiceOver is still an honest gap.
+
+**Responsive implication.** Unchanged 360 / 390 / 1440 contract: ticket then CTA in the first viewport.
+
+**Architecture implication.** Rhythm JSON is `require()`d (Cloudflare-safe). `new-day.js` refuses overwrite and refuses days missing from `programs.json`.
+

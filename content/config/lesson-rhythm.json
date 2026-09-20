@@ -1,0 +1,32 @@
+{
+  "navOrder": ["Overview", "Learn", "Practice", "Evidence", "Review", "Gate"],
+  "kinds": {
+    "why": { "id": "why", "label": "Why this matters", "nav": "Overview", "kicker": "Why" },
+    "learn": { "id": "learn", "label": "Learn", "nav": "Learn", "kicker": "Learn" },
+    "predict": { "id": "predict", "label": "Predict", "nav": "Learn", "kicker": "Predict" },
+    "try": { "id": "try", "label": "Practice", "nav": "Practice", "kicker": "Practice" },
+    "break": { "id": "break", "label": "Break it", "nav": "Practice", "kicker": "Break" },
+    "evidence": { "id": "evidence", "label": "Evidence", "nav": "Evidence", "kicker": "Evidence" },
+    "fix": { "id": "fix", "label": "Fix it", "nav": "Practice", "kicker": "Fix" },
+    "verify": { "id": "verify", "label": "Verify", "nav": "Evidence", "kicker": "Verify" },
+    "ai-review": { "id": "ai-review", "label": "AI review", "nav": "Review", "kicker": "AI review" },
+    "interview": { "id": "interview", "label": "Interview", "nav": "Review", "kicker": "Interview" },
+    "gate": { "id": "gate", "label": "Day gate", "nav": "Gate", "kicker": "Gate" }
+  },
+  "headingRules": [
+    { "match": "what today is for", "kind": "why" },
+    { "match": "happy path", "kind": "learn" },
+    { "match": "three different undos", "kind": "learn" },
+    { "match": "^words\\b", "kind": "learn" },
+    { "match": "predict", "kind": "predict" },
+    { "match": "locked practice", "kind": "try" },
+    { "match": "practise|practice", "kind": "try" },
+    { "match": "\\bbreak\\b", "kind": "break" },
+    { "match": "evidence", "kind": "evidence" },
+    { "match": "\\bfix\\b", "kind": "fix" },
+    { "match": "production", "kind": "verify" },
+    { "match": "ai review", "kind": "ai-review" },
+    { "match": "interview", "kind": "interview" },
+    { "match": "definition of done", "kind": "gate" }
+  ]
+}

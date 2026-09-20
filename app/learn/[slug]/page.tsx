@@ -131,7 +131,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       : lessonContext.next;
 
   return (
-    <main id="main-content" className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
+    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -149,7 +149,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 xl:grid-cols-[188px_minmax(0,1fr)]">
         {isProgramDay ? <DayRail catalog={catalog} currentSlug={lesson.slug} /> : <div className="hidden xl:block" />}
 
-        <div className="min-w-0 space-y-6 pb-16">
+        <div id="main-content" tabIndex={-1} className="min-w-0 space-y-6 pb-16">
           <LessonHeader
             courseTitle={lessonContext.course.title}
             stageNumber={lessonContext.stage.number}
@@ -164,7 +164,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             outcomes={lesson.metadata.outcomes}
             estimatedMinutes={lesson.metadata.estimatedMinutes}
             startHref={showStartingAssessment ? "#starting-assessment" : startAt ? `#${startAt.id}` : "#lesson-body"}
-            practiceHref={practice ? `#${practice.id}` : null}
+            practiceHref={showStartingAssessment ? null : practice ? `#${practice.id}` : null}
             programTotal={catalog.totalDays}
           />
 

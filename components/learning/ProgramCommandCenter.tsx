@@ -29,22 +29,22 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
     : published;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 sm:pt-10 lg:px-8">
-      <header className="flex flex-col gap-5 border-b border-hairline pb-6 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mx-auto max-w-6xl px-4 pb-16 pt-5 sm:px-6 sm:pt-10 lg:px-8">
+      <header className="flex items-end justify-between gap-4 border-b border-hairline pb-5">
         <div className="min-w-0">
           <p className="kicker text-gold/80">Program</p>
-          <h1 className="mt-2 font-serif text-[2.1rem] leading-[0.95] text-cream sm:text-5xl">
+          <h1 className="mt-2 font-serif text-[1.85rem] leading-[0.95] text-cream sm:text-5xl">
             {catalog.title}
           </h1>
-          <p className="stat-line mt-4">
+          <p className="stat-line mt-3">
             <span>{catalog.durationLabel}</span>
             <span>{published.length} available</span>
             <span>{planned} planned</span>
             {currentPhase ? <span>Phase {String(currentPhase.number).padStart(2, "0")} now</span> : null}
           </p>
         </div>
-        <div className="sm:text-right">
-          <p className="font-serif text-4xl tabular-nums text-cream sm:text-5xl">
+        <div className="shrink-0 text-right">
+          <p className="font-serif text-3xl tabular-nums text-cream sm:text-5xl">
             {target.completedCount}
             <span className="text-cream/30">/{target.totalDays}</span>
           </p>
@@ -58,7 +58,7 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
         <CurrentWorkCard catalog={catalog} size="hero" />
       </section>
 
-      {upNext ? (
+      {upNext && target.kind !== "wait" ? (
         <section className="mt-6" aria-labelledby="up-next-heading">
           <p id="up-next-heading" className="kicker text-gold/80">
             Up next
@@ -88,6 +88,20 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
             ? `Phase ${String(currentPhase.number).padStart(2, "0")} · ${currentPhase.name}`
             : "Published days"}
         </h2>
+        <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">
+          <span className="inline-flex items-center gap-2">
+            <span className="day-dot day-dot-done" aria-hidden="true" /> Complete
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="day-dot day-dot-now" aria-hidden="true" /> Now
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="day-dot day-dot-live" aria-hidden="true" /> Available
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="day-dot day-dot-plan" aria-hidden="true" /> Planned
+          </span>
+        </p>
         {phaseDays.length === 0 ? (
           <p className="mt-6 text-cream/45">No daily lessons are published on this site yet.</p>
         ) : (

@@ -52,7 +52,9 @@ export default function DayCompletion({
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
           {completed
-            ? "You claimed the work. That is not the same as having scrolled the page."
+            ? waiting
+              ? "You claimed this day. The next page is not published yet — that is a planned title, not a broken link."
+              : "You claimed the work. Next is the following published day."
             : "Completion is a claim about evidence on your machine, not about finishing the article."}
         </p>
 
@@ -73,34 +75,39 @@ export default function DayCompletion({
         ) : null}
 
         <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <button
-            type="button"
-            onClick={() => toggleComplete(slug)}
-            className={
-              completed
-                ? "inline-flex min-h-11 items-center justify-center border border-gold/30 bg-gold/10 px-5 font-mono text-[13px] tracking-[0.08em] text-gold-bright"
-                : "btn-primary btn-block"
-            }
-            aria-pressed={completed}
-          >
-            {completed ? "Undo complete" : "I can prove this"}
-          </button>
-
           {completed && continueTarget?.href ? (
             <Link href={continueTarget.href} className="btn-primary btn-block">
               Continue {continueTarget.day ? formatDayLabel(continueTarget.day) : "next"}
             </Link>
           ) : null}
+
+          {waiting ? (
+            <Link href="/learn" className="btn-primary btn-block">
+              See the plan
+            </Link>
+          ) : null}
+
+          {!completed ? (
+            <button type="button" onClick={() => toggleComplete(slug)} className="btn-primary btn-block" aria-pressed={completed}>
+              I can prove this
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => toggleComplete(slug)}
+              className="btn-ghost btn-block"
+              aria-pressed={completed}
+            >
+              Undo complete
+            </button>
+          )}
         </div>
 
         {waiting ? (
           <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-cream/50">
             {after.waitTitle
-              ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} is planned, not published yet.`
-              : "The next day is not published yet."}{" "}
-            <Link href="/learn" className="link-editorial text-gold">
-              See the plan
-            </Link>
+              ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} will appear here when the lesson is published.`
+              : "The next day is not published yet."}
           </p>
         ) : null}
 

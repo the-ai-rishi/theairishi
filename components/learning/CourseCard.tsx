@@ -1,5 +1,7 @@
 "use client";
 
+/** Unused on current learner surfaces. Kept for a future archive-course catalog. Do not delete in a cleanup pass. */
+
 import { useState } from "react";
 import Link from "next/link";
 import {

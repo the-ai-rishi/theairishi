@@ -2,15 +2,7 @@ import CurrentWorkCard from "@/components/product/CurrentWorkCard";
 import { getPlatformCopy } from "@/lib/config";
 import type { LearnerCatalog } from "@/lib/continue-learning";
 
-export default function ProductHero({
-  catalog,
-  outcomes,
-  estimatedMinutes,
-}: {
-  catalog: LearnerCatalog;
-  outcomes?: string[];
-  estimatedMinutes?: number;
-}) {
+export default function ProductHero({ catalog }: { catalog: LearnerCatalog }) {
   const copy = getPlatformCopy();
   const published = catalog.days.filter((day) => day.published).length;
   const planned = Math.max(0, catalog.totalDays - published);
@@ -33,12 +25,7 @@ export default function ProductHero({
         </p>
 
         <div className="mt-7 sm:mt-8">
-          <CurrentWorkCard
-            catalog={catalog}
-            outcomes={outcomes}
-            estimatedMinutes={estimatedMinutes}
-            size="hero"
-          />
+          <CurrentWorkCard catalog={catalog} size="hero" />
         </div>
       </div>
     </section>

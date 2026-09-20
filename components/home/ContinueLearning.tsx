@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { resolveContinue, type LearnerCatalog } from "@/lib/continue-learning";
-import { formatDayLabel } from "@/lib/labels";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 
 export default function ContinueLearning({
@@ -23,9 +22,7 @@ export default function ContinueLearning({
     target.totalDays > 0 ? Math.round((target.completedCount / target.totalDays) * 100) : 0;
   const heading =
     target.kind === "wait"
-      ? target.waitTitle
-        ? `${formatDayLabel(target.waitDay || 0)} is next — not published yet`
-        : "Published days are complete"
+      ? "Published days complete"
       : `${target.ctaLabel.replace(/^Continue /, "").replace(/^Start /, "")}${target.title ? ` — ${target.title}` : ""}`;
 
   return (
