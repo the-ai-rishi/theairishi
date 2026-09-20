@@ -16,6 +16,7 @@ import { getLiveCatalog } from "@/lib/catalog";
 import { getRouteTopics, topicRouteState } from "@/lib/visibility-core";
 import { topicTone } from "@/lib/palette";
 import { canonicalAlternates } from "@/lib/urls";
+import { indexRobots, isTopicIndexable } from "@/lib/indexing";
 
 interface TopicPageProps {
   params: Promise<{ topic: string }>;
@@ -34,7 +35,7 @@ export async function generateMetadata({
   const state = topicRouteState(loadPlatformConfig(), topic, getLiveCatalog());
 
   if (state.state !== "active" || !state.topic) {
-    return { title: "Topic not found" };
+    return { title: "Topic not found", robots: { index: false, follow: false } };
   }
 
   const config = state.topic as unknown as TopicConfig;
@@ -42,6 +43,7 @@ export async function generateMetadata({
     title: config.name,
     description: config.description,
     alternates: canonicalAlternates(`/topics/${config.slug}`),
+    robots: indexRobots(isTopicIndexable(config.slug) && isTopicIndexable(config.id)),
   };
 }
 
