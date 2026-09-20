@@ -71,13 +71,16 @@ theairishi/
       Header.tsx
     learning/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       CourseCard.tsx
-      LessonCompletionButton.tsx
+      DayCompletion.tsx
+      DayRail.tsx
       LessonContent.tsx
       LessonHeader.tsx
       LessonNavigation.tsx
-      LessonSidebar.tsx
-      MobileLessonMenu.tsx
-      ResumeLearningBanner.tsx
+      LessonWorkspaceChrome.tsx
+      ProgramCommandCenter.tsx
+      ProgramOverview.tsx
+      SmartCta.tsx
+      StartingAssessment.tsx
       useLessonProgress.ts
     search/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       SearchModal.tsx

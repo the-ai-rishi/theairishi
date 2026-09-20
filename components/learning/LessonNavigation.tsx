@@ -3,23 +3,31 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookCheck } from "lucide-react";
-import type { LessonSummary } from "@/lib/lessons";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { formatDayLabel } from "@/lib/labels";
+
+interface AdjacentLesson {
+  slug: string;
+  metadata: { title: string; stage?: string; day?: number };
+}
 
 interface LessonNavigationProps {
-  previous: LessonSummary | null;
-  next: LessonSummary | null;
+  previous: AdjacentLesson | null;
+  next: AdjacentLesson | null;
   currentStage: string;
+  waitTitle?: string | null;
+  waitDay?: number | null;
 }
 
 export default function LessonNavigation({
   previous,
   next,
   currentStage,
+  waitTitle,
+  waitDay,
 }: LessonNavigationProps) {
   const router = useRouter();
 
-  // Keyboard navigation shortcuts: [ for prev, ] for next
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -43,9 +51,9 @@ export default function LessonNavigation({
   }, [previous, next, router]);
 
   const nextLabel =
-    next && next.metadata.stage !== currentStage
-      ? "Continue to next stage"
-      : "Next lesson";
+    next && next.metadata.stage && next.metadata.stage !== currentStage
+      ? "Continue to next phase"
+      : "Next day";
 
   return (
     <nav
@@ -76,20 +84,32 @@ export default function LessonNavigation({
       {next ? (
         <Link
           href={`/learn/${next.slug}`}
-          className="group flex items-center justify-between gap-3 border border-circuit/30 bg-circuit/5 p-4 text-right transition hover:border-circuit sm:justify-self-end w-full"
+          className="group flex items-center justify-between gap-3 border border-gold/25 bg-gold/[0.04] p-4 text-right transition hover:border-gold/50 sm:justify-self-end w-full"
         >
           <div className="text-left sm:text-right">
-            <span className="block text-[11px] uppercase tracking-[0.16em] text-circuit-bright/80">
+            <span className="block text-[11px] uppercase tracking-[0.16em] text-gold/80">
               {nextLabel} · ]
             </span>
             <span className="mt-0.5 block text-sm font-medium text-cream group-hover:text-cream line-clamp-1">
               {next.metadata.title}
             </span>
           </div>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-circuit/40 bg-circuit/15 text-circuit-bright">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold/40 bg-gold/15 text-gold-bright">
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </div>
         </Link>
+      ) : waitTitle ? (
+        <div className="border border-hairline p-4 text-left sm:text-right sm:justify-self-end w-full">
+          <span className="block text-[11px] uppercase tracking-[0.16em] text-cream/40">
+            Next day is planned
+          </span>
+          <span className="mt-0.5 block text-sm font-medium text-cream/70">
+            {waitDay ? `${formatDayLabel(waitDay)} — ${waitTitle}` : waitTitle}
+          </span>
+          <Link href="/learn" className="mt-2 inline-block font-mono text-[12px] text-gold">
+            See the 120-day map
+          </Link>
+        </div>
       ) : (
         <Link
           href="/learn"
@@ -97,14 +117,11 @@ export default function LessonNavigation({
         >
           <div className="text-left sm:text-right">
             <span className="block text-[11px] uppercase tracking-[0.16em] text-gold/70">
-              Course Completed!
+              Back to the map
             </span>
             <span className="mt-0.5 block text-sm font-medium text-cream">
-              Return to Learning Hub
+              120-day command center
             </span>
-          </div>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold/30 bg-gold/20 text-gold-bright">
-            <BookCheck className="h-4 w-4" />
           </div>
         </Link>
       )}

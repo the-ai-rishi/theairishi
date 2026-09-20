@@ -5,11 +5,18 @@
  *
  * Clean architectural abstraction separating PLATFORM DATA from USER DATA.
  *
- * Defines the contract for user progress, bookmarks, likes, and followed topics.
- * Currently backed by `LocalProgressRepository` (localStorage).
- * Future implementation can seamlessly swap in `AuthenticatedProgressRepository`
- * (Supabase, Postgres, Firebase, or custom backend API) without changing any UI component.
+ * Lesson progress is owned by `lib/learner-progress.js` (versioned v1).
+ * Bookmarks and followed topics remain here for a future authenticated store.
  */
+
+import {
+  getState,
+  isCompleted as progressIsCompleted,
+  storeMarkCompleted,
+  storeSetLastVisited,
+  storeToggleCompleted,
+  subscribe as subscribeLearnerProgress,
+} from "./learner-progress";
 
 export interface UserProgressData {
   completedLessons: readonly string[];
@@ -20,7 +27,6 @@ export interface UserProgressData {
 }
 
 export interface IUserProgressRepository {
-  // Lesson progress
   getCompletedLessons(): readonly string[];
   isLessonCompleted(slug: string): boolean;
   markLessonCompleted(slug: string): void;
@@ -28,25 +34,20 @@ export interface IUserProgressRepository {
   getLastVisitedLesson(): string | null;
   setLastVisitedLesson(slug: string): void;
 
-  // Bookmarks & Saved items (future user feature)
   getBookmarks(): readonly string[];
   isBookmarked(contentId: string): boolean;
   toggleBookmark(contentId: string): boolean;
 
-  // Followed Topics (future personalization)
   getFollowedTopics(): readonly string[];
   isTopicFollowed(topicSlug: string): boolean;
   toggleFollowTopic(topicSlug: string): boolean;
 
-  // Subscriptions for reactive React state
   subscribe(callback: () => void): () => void;
 }
 
 const EMPTY_ARRAY: readonly string[] = Object.freeze([]);
 
 const STORAGE_KEYS = {
-  COMPLETED_LESSONS: "theairishi_completed_lessons",
-  LAST_VISITED: "theairishi_last_visited_lesson",
   BOOKMARKS: "theairishi_bookmarks",
   FOLLOWED_TOPICS: "theairishi_followed_topics",
   LIKED_CONTENT: "theairishi_liked_content",
@@ -55,9 +56,6 @@ const STORAGE_KEYS = {
 const REPO_EVENT = "theairishi_user_state_change";
 
 class LocalProgressRepository implements IUserProgressRepository {
-  private cachedCompletedRaw: string | null = null;
-  private cachedCompletedSnapshot: readonly string[] = EMPTY_ARRAY;
-
   private cachedBookmarksRaw: string | null = null;
   private cachedBookmarksSnapshot: readonly string[] = EMPTY_ARRAY;
 
@@ -70,97 +68,29 @@ class LocalProgressRepository implements IUserProgressRepository {
     }
   }
 
-  // ── Lesson Progress ─────────────────────────────────────────────────────────
-
   getCompletedLessons(): readonly string[] {
-    if (typeof window === "undefined") return EMPTY_ARRAY;
-    try {
-      const raw = localStorage.getItem(STORAGE_KEYS.COMPLETED_LESSONS);
-      if (!raw) {
-        this.cachedCompletedRaw = null;
-        this.cachedCompletedSnapshot = EMPTY_ARRAY;
-        return EMPTY_ARRAY;
-      }
-      if (raw === this.cachedCompletedRaw) {
-        return this.cachedCompletedSnapshot;
-      }
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        this.cachedCompletedRaw = raw;
-        this.cachedCompletedSnapshot = Object.freeze([...parsed]);
-        return this.cachedCompletedSnapshot;
-      }
-      return EMPTY_ARRAY;
-    } catch {
-      return this.cachedCompletedSnapshot;
-    }
+    return getState().completed;
   }
 
   isLessonCompleted(slug: string): boolean {
-    return this.getCompletedLessons().includes(slug);
+    return progressIsCompleted(getState(), slug);
   }
 
   markLessonCompleted(slug: string): void {
-    if (typeof window === "undefined") return;
-    try {
-      const current = this.getCompletedLessons();
-      if (!current.includes(slug)) {
-        const next = [...current, slug];
-        const raw = JSON.stringify(next);
-        this.cachedCompletedRaw = raw;
-        this.cachedCompletedSnapshot = Object.freeze(next);
-        localStorage.setItem(STORAGE_KEYS.COMPLETED_LESSONS, raw);
-        this.emitChange();
-      }
-    } catch (e) {
-      console.warn("Failed to save completed lesson:", e);
-    }
+    storeMarkCompleted(slug);
   }
 
   toggleLessonCompleted(slug: string): boolean {
-    if (typeof window === "undefined") return false;
-    try {
-      const current = this.getCompletedLessons();
-      const isCurrentlyCompleted = current.includes(slug);
-      const next = isCurrentlyCompleted
-        ? current.filter((s) => s !== slug)
-        : [...current, slug];
-
-      const raw = JSON.stringify(next);
-      this.cachedCompletedRaw = raw;
-      this.cachedCompletedSnapshot = Object.freeze(next);
-      localStorage.setItem(STORAGE_KEYS.COMPLETED_LESSONS, raw);
-      this.emitChange();
-      return !isCurrentlyCompleted;
-    } catch (e) {
-      console.warn("Failed to toggle completed lesson:", e);
-      return false;
-    }
+    return storeToggleCompleted(slug);
   }
 
   getLastVisitedLesson(): string | null {
-    if (typeof window === "undefined") return null;
-    try {
-      return localStorage.getItem(STORAGE_KEYS.LAST_VISITED);
-    } catch {
-      return null;
-    }
+    return getState().lastVisited;
   }
 
   setLastVisitedLesson(slug: string): void {
-    if (typeof window === "undefined") return;
-    try {
-      const current = localStorage.getItem(STORAGE_KEYS.LAST_VISITED);
-      if (current !== slug) {
-        localStorage.setItem(STORAGE_KEYS.LAST_VISITED, slug);
-        this.emitChange();
-      }
-    } catch {
-      // Ignore storage errors
-    }
+    storeSetLastVisited(slug);
   }
-
-  // ── Bookmarks ───────────────────────────────────────────────────────────────
 
   getBookmarks(): readonly string[] {
     if (typeof window === "undefined") return EMPTY_ARRAY;
@@ -203,8 +133,6 @@ class LocalProgressRepository implements IUserProgressRepository {
     }
   }
 
-  // ── Followed Topics ─────────────────────────────────────────────────────────
-
   getFollowedTopics(): readonly string[] {
     if (typeof window === "undefined") return EMPTY_ARRAY;
     try {
@@ -246,22 +174,21 @@ class LocalProgressRepository implements IUserProgressRepository {
     }
   }
 
-  // ── Reactive Subscription ───────────────────────────────────────────────────
-
   subscribe(callback: () => void): () => void {
+    const unsubscribeProgress = subscribeLearnerProgress(callback);
     if (typeof window === "undefined") {
-      return () => {};
+      return unsubscribeProgress;
     }
     window.addEventListener(REPO_EVENT, callback);
     window.addEventListener("storage", callback);
     return () => {
+      unsubscribeProgress();
       window.removeEventListener(REPO_EVENT, callback);
       window.removeEventListener("storage", callback);
     };
   }
 }
 
-// Singleton repository instance
 let _progressRepositoryInstance: IUserProgressRepository | null = null;
 
 export function getProgressRepository(): IUserProgressRepository {

@@ -2,67 +2,65 @@
 
 import { useSyncExternalStore, useMemo, useCallback } from "react";
 import {
-  EMPTY_COMPLETED_LESSONS,
-  getCompletedLessons,
-  getLastVisitedLesson,
-  markLessonCompleted,
-  setLastVisitedLesson,
-  subscribeToProgress,
-  toggleLessonCompleted,
-} from "@/lib/progress";
+  emptyState,
+  getState,
+  isCompleted as stateIsCompleted,
+  isStarted as stateIsStarted,
+  storeMarkCompleted,
+  storeSetLastVisited,
+  storeToggleCompleted,
+  subscribe,
+} from "@/lib/learner-progress";
 
-function getServerSnapshot(): readonly string[] {
-  return EMPTY_COMPLETED_LESSONS;
+const SERVER_PROGRESS = emptyState();
+
+function getServerSnapshot() {
+  return SERVER_PROGRESS;
 }
 
 export function useLessonProgress() {
-  const hasHydrated = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
+  const state = useSyncExternalStore(subscribe, getState, getServerSnapshot);
 
-  const completedSlugs = useSyncExternalStore(
-    subscribeToProgress,
-    getCompletedLessons,
-    getServerSnapshot
-  );
-
-  const completedSet = useMemo(
-    () => new Set(completedSlugs),
-    [completedSlugs]
-  );
+  const completedSet = useMemo(() => new Set(state.completed), [state]);
+  const startedSet = useMemo(() => new Set(state.started), [state]);
 
   const isCompleted = useCallback(
-    (slug: string) => completedSet.has(slug),
-    [completedSet]
+    (slug: string) => stateIsCompleted(state, slug),
+    [state]
+  );
+
+  const isStarted = useCallback(
+    (slug: string) => stateIsStarted(state, slug),
+    [state]
   );
 
   const getCompletedCount = useCallback(
-    (lessons: { slug: string }[]) => {
-      return lessons.filter((l) => completedSet.has(l.slug)).length;
-    },
+    (lessons: { slug: string }[]) => lessons.filter((lesson) => completedSet.has(lesson.slug)).length,
     [completedSet]
   );
 
   const getProgressPercent = useCallback(
     (lessons: { slug: string }[]) => {
       if (lessons.length === 0) return 0;
-      const count = lessons.filter((l) => completedSet.has(l.slug)).length;
-      return Math.round((count / lessons.length) * 100);
+      return Math.round((lessons.filter((lesson) => completedSet.has(lesson.slug)).length / lessons.length) * 100);
     },
     [completedSet]
   );
 
   return {
-    hasHydrated,
-    completedSlugs,
+    hasHydrated: state !== SERVER_PROGRESS,
+    state,
+    completedSlugs: state.completed,
+    startedSlugs: state.started,
     isCompleted,
+    isStarted,
     getCompletedCount,
     getProgressPercent,
-    markComplete: markLessonCompleted,
-    toggleComplete: toggleLessonCompleted,
-    lastVisited: hasHydrated ? getLastVisitedLesson() : null,
-    setLastVisited: setLastVisitedLesson,
+    markComplete: storeMarkCompleted,
+    toggleComplete: storeToggleCompleted,
+    lastVisited: state.lastVisited,
+    setLastVisited: storeSetLastVisited,
+    completedSet,
+    startedSet,
   };
 }

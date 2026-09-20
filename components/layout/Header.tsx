@@ -8,12 +8,15 @@ import SearchModal from "@/components/search/SearchModal";
 import Logo from "@/components/brand/Logo";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 import { splitPrimaryNav } from "@/lib/visibility-core";
+import SmartCta from "@/components/learning/SmartCta";
+import type { LearnerCatalog } from "@/lib/continue-learning";
 
 interface HeaderProps {
   navItems: NavItem[];
   brand?: BrandConfig;
   copy?: CopyConfig;
   showSearch?: boolean;
+  catalog?: LearnerCatalog | null;
 }
 
 function isCurrentHref(href: string, pathname: string) {
@@ -27,6 +30,7 @@ export default function Header({
   brand,
   copy,
   showSearch = true,
+  catalog = null,
 }: HeaderProps) {
   const pathname = usePathname() || "/";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,7 +40,8 @@ export default function Header({
   const headerCta = copy?.headerCta || "Start Day 1";
   const headerCtaHref = copy?.headerCtaHref || "/learn/day-01";
   const visible = navItems.filter((item) => item.href !== "/");
-  const { primary, explore } = splitPrimaryNav(visible, 3);
+  const forLinks = catalog ? visible.filter((item) => item.href !== headerCtaHref) : visible;
+  const { primary, explore } = splitPrimaryNav(forLinks, 2);
 
   useEffect(() => {
     if (!exploreOpen && !mobileMenuOpen) return;
@@ -76,16 +81,19 @@ export default function Header({
     } ${extra}`;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gold/15 bg-ink/90 backdrop-blur-md">
-      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-3 sm:h-[4.25rem] sm:px-6 lg:px-8" aria-label="Primary">
+    <header className="sticky top-0 z-40 border-b border-hairline bg-ink/92 backdrop-blur-md">
+      <nav
+        className="mx-auto flex h-12 max-w-7xl items-center justify-between gap-3 px-3 sm:h-14 sm:px-6 lg:px-8"
+        aria-label="Primary"
+      >
         <Logo brand={brand} variant="horizontal" />
 
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden items-center gap-7 lg:flex">
           {primary.map((item) => (
             <Link
               key={item.id}
               href={item.href}
-              className={linkClass(item.href, "text-[13px]")}
+              className={linkClass(item.href, "text-[12px]")}
               aria-current={isCurrentHref(item.href, pathname) ? "page" : undefined}
               onClick={() => setExploreOpen(false)}
             >
@@ -96,7 +104,7 @@ export default function Header({
             <div className="relative" ref={exploreRef}>
               <button
                 type="button"
-                className="inline-flex min-h-11 items-center gap-1 font-mono text-[13px] tracking-[0.14em] text-cream/60 hover:text-cream"
+                className="inline-flex min-h-11 items-center gap-1 font-mono text-[12px] tracking-[0.14em] text-cream/60 hover:text-cream"
                 aria-expanded={exploreOpen}
                 aria-controls="header-explore-menu"
                 aria-haspopup="menu"
@@ -112,7 +120,7 @@ export default function Header({
                 <div
                   id="header-explore-menu"
                   role="menu"
-                  className="absolute right-0 mt-3 min-w-[12rem] border border-hairline bg-ink py-2"
+                  className="absolute right-0 mt-3 min-w-[12rem] rounded-md border border-hairline bg-ink py-2"
                 >
                   {explore.map((item) => (
                     <Link
@@ -132,12 +140,21 @@ export default function Header({
           ) : null}
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {showSearch ? <SearchModal /> : null}
 
-          <Link href={headerCtaHref} className="btn-primary hidden sm:inline-flex">
-            {headerCta}
-          </Link>
+          {catalog ? (
+            <SmartCta
+              catalog={catalog}
+              fallbackLabel={headerCta}
+              fallbackHref={headerCtaHref}
+              variant="header"
+            />
+          ) : (
+            <Link href={headerCtaHref} className="btn-primary hidden sm:inline-flex">
+              {headerCta}
+            </Link>
+          )}
 
           <button
             ref={menuButtonRef}
@@ -160,7 +177,7 @@ export default function Header({
         <>
           <button
             type="button"
-            className="fixed inset-0 top-14 z-30 bg-ink/70 lg:hidden"
+            className="fixed inset-0 top-12 z-30 bg-ink/70 lg:hidden"
             aria-label="Close navigation menu"
             onClick={() => {
               setMobileMenuOpen(false);
@@ -169,10 +186,10 @@ export default function Header({
           />
           <div
             id="mobile-navigation"
-            className="relative z-40 border-b border-hairline bg-ink px-4 py-6 lg:hidden"
+            className="relative z-40 border-b border-hairline bg-ink px-4 py-5 lg:hidden"
           >
             <div className="flex flex-col gap-1">
-              {visible.map((item) => (
+              {forLinks.map((item) => (
                 <Link
                   key={item.id}
                   href={item.href}
@@ -185,13 +202,22 @@ export default function Header({
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href={headerCtaHref}
-                onClick={() => setMobileMenuOpen(false)}
-                className="btn-primary mt-4 self-start"
-              >
-                {headerCta}
-              </Link>
+              {catalog ? (
+                <SmartCta
+                  catalog={catalog}
+                  fallbackLabel={headerCta}
+                  fallbackHref={headerCtaHref}
+                  className="btn-primary mt-4 self-stretch sm:self-start"
+                />
+              ) : (
+                <Link
+                  href={headerCtaHref}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn-primary mt-4 self-stretch sm:self-start"
+                >
+                  {headerCta}
+                </Link>
+              )}
             </div>
           </div>
         </>

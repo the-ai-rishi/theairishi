@@ -63,7 +63,7 @@ Sync procedure:
 
 1. Update the private authoring repo first (`roadmap/120-day-execution.md`).
 2. Copy the changed phase/day **titles and summaries** into `content/config/programs.json`. Short headlines are fine; do not invent a different Day 13.
-3. If the day is ready to publish, add `content/lessons/day-NN.md`.
+3. If the day is ready to publish: `npm run new-day -- N`, write the body and 3–5 outcomes, set `status: published`.
 4. Run `npm run validate` (this regenerates the published-slug catalog).
 5. Preview the route, then commit.
 
@@ -102,7 +102,7 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 
 | I want to… | Open this |
 | --- | --- |
-| Add tomorrow’s DevOps day | [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md) |
+| Add tomorrow’s DevOps day | [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md) (`npm run new-day -- N`) |
 | Understand the 120-day program | [DEVOPS-ENGINEER-MASTERY.md](./DEVOPS-ENGINEER-MASTERY.md) |
 | Add a non-daily lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
 | Add an essay | [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md) |

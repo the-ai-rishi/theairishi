@@ -2,8 +2,8 @@
 
 @theme {
   --color-ink: #08080b;
-  --color-field: #0e0e13;
-  --color-raised: #14141b;
+  --color-field: #101016;
+  --color-raised: #17171f;
   --color-gold: #d4b46a;
   --color-gold-bright: #f0d090;
   --color-circuit: #8b7cff;
@@ -24,12 +24,18 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-quick: 150ms;
   --duration-fast: 250ms;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 }
 
 @layer base {
   html {
     background-color: var(--color-ink);
     color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -38,7 +44,15 @@
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   button:not(:disabled),
@@ -88,7 +102,7 @@
 
 .display {
   font-family: var(--font-serif);
-  font-size: clamp(2.75rem, 8vw, 5rem);
+  font-size: clamp(2.1rem, 6.4vw, 4.4rem);
   line-height: 0.95;
   letter-spacing: 0.01em;
   color: var(--color-cream);
@@ -96,7 +110,7 @@
 
 .kicker {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 0.6875rem;
   font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -120,12 +134,15 @@
   align-items: center;
   justify-content: center;
   min-height: 2.75rem;
-  padding: 0.7rem 1.4rem;
+  padding: 0.7rem 1.25rem 0.7rem 1.35rem;
   background: var(--color-cream);
   color: var(--color-ink);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.04em;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-quick) var(--ease-out);
 }
 
@@ -135,6 +152,124 @@
 
 .btn-primary:active {
   transform: scale(0.98);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid var(--color-hairline);
+  color: var(--color-cream);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+}
+
+.btn-ghost:hover {
+  border-color: rgba(212, 180, 106, 0.45);
+  background: rgba(243, 238, 228, 0.03);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .btn-block {
+    width: auto;
+  }
+}
+
+.panel {
+  background: var(--color-field);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.panel-hero {
+  background: linear-gradient(180deg, rgba(243, 238, 228, 0.035) 0%, rgba(16, 16, 22, 1) 42%);
+  border-color: rgba(212, 180, 106, 0.22);
+}
+
+.shift-ticket {
+  position: relative;
+  background: var(--color-field);
+  border: 1px solid rgba(212, 180, 106, 0.32);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.shift-ticket::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--color-gold);
+}
+
+.shift-ticket > * {
+  position: relative;
+}
+
+.shift-ticks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 4px;
+  height: 6px;
+}
+
+.shift-tick {
+  display: block;
+  height: 100%;
+  background: rgba(244, 239, 228, 0.1);
+}
+
+.shift-tick-done {
+  background: var(--color-gold);
+}
+
+.shift-tick-now {
+  background: var(--color-cream);
+}
+
+.product-stage {
+  background: var(--color-ink);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.stat-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 238, 228, 0.42);
+}
+
+.stat-line span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.stat-line span::before {
+  content: "";
+  width: 0.35rem;
+  height: 0.35rem;
+  background: var(--color-gold);
+  border-radius: 1px;
 }
 
 .dual-rule {
@@ -168,6 +303,11 @@
   to { transform: rotate(0deg); }
 }
 
+@keyframes dayNowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(243, 238, 228, 0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(243, 238, 228, 0); }
+}
+
 .animate-spin-slow {
   animation: spinSlow 48s linear infinite;
 }
@@ -177,29 +317,34 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .animate-spin-slow,
   .animate-spin-reverse,
   .animate-float,
   .animate-pulse,
-  .animate-ping {
+  .animate-ping,
+  .day-dot-now {
     animation: none !important;
   }
 
   .link-editorial {
-    transition: none;
     background-size: 100% 1px;
-  }
-
-  .btn-primary {
-    transition: none;
   }
 }
 
 .callout {
-  margin-top: 1.75rem;
-  margin-bottom: 1.75rem;
-  padding: 1.25rem 1.5rem;
-  border-radius: 0;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius-md);
   border-left-width: 2px;
   background-color: rgba(243, 238, 228, 0.02);
   border: 1px solid var(--color-hairline);
@@ -325,18 +470,18 @@
 }
 
 details.practice-card {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  border: 1px solid rgba(212, 180, 106, 0.22);
-  background: rgba(212, 180, 106, 0.04);
-  border-radius: 0;
-  padding: 1.25rem 1.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(212, 180, 106, 0.28);
+  background: rgba(212, 180, 106, 0.05);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
   transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 details.practice-card[open] {
-  border-color: rgba(212, 180, 106, 0.4);
-  background: rgba(212, 180, 106, 0.07);
+  border-color: rgba(212, 180, 106, 0.45);
+  background: rgba(212, 180, 106, 0.08);
 }
 
 details.practice-card summary {
@@ -393,7 +538,7 @@ details.practice-card .practice-body {
 }
 
 details.phase-block {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 5.5rem;
 }
 
 details.phase-block > summary.phase-summary {
@@ -460,7 +605,408 @@ button:focus-visible,
 [role="button"]:focus-visible,
 summary:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+[tabindex]:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 3px;
+}
+
+/* ── Lesson workspace ─────────────────────────────────────── */
+
+.lesson-kind-kicker,
+.lesson-page-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.workspace-chips {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-block: 0.4rem;
+}
+
+.workspace-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.workspace-chips a {
+  min-height: 36px;
+}
+
+.workspace-chips a[aria-current="location"] {
+  color: var(--color-cream);
+  box-shadow: inset 0 -2px 0 var(--color-gold);
+}
+
+.lesson-block {
+  margin: 0 0 1.15rem;
+  scroll-margin-top: 6rem;
+}
+
+#main-content {
+  scroll-margin-top: 5.5rem;
+}
+
+.lesson-block-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 0;
+  padding: 0 0 0.3rem;
+}
+
+.lesson-block-index {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--color-gold);
+}
+
+.lesson-block-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(243, 238, 228, 0.45);
+}
+
+.lesson-block-body {
+  padding: 0;
+}
+
+/* Calm register: understand */
+.lesson-block-why,
+.lesson-block-learn {
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(243, 238, 228, 0.16);
+}
+
+.lesson-block-why .lesson-block-head,
+.lesson-block-learn .lesson-block-head,
+.lesson-block-predict .lesson-block-head,
+.lesson-block-evidence .lesson-block-head,
+.lesson-block-verify .lesson-block-head,
+.lesson-block-ai-review .lesson-block-head,
+.lesson-block-interview .lesson-block-head {
+  background: transparent;
+  border: 0;
+}
+
+.lesson-block-predict {
+  padding: 0.85rem 1rem;
+  border-left: 2px dashed var(--color-circuit);
+  background: rgba(139, 124, 255, 0.04);
+}
+
+.lesson-block-predict .lesson-block-label {
+  color: var(--color-circuit);
+}
+
+.lesson-block-evidence,
+.lesson-block-verify {
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(110, 168, 255, 0.45);
+}
+
+.lesson-block-verify .lesson-block-label,
+.lesson-block-evidence .lesson-block-label {
+  color: var(--color-circuit-bright);
+}
+
+.lesson-block-ai-review {
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(232, 160, 160, 0.55);
+}
+
+.lesson-block-ai-review .lesson-block-label {
+  color: var(--color-danger);
+}
+
+.lesson-block-interview {
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(103, 232, 249, 0.4);
+}
+
+.lesson-block-interview .lesson-block-label {
+  color: var(--color-signal);
+}
+
+/* Doing register: workbench */
+.lesson-block-try,
+.lesson-block-break,
+.lesson-block-fix {
+  border: 1px solid rgba(212, 180, 106, 0.34);
+  background: #0b0b10;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.lesson-block-try .lesson-block-head,
+.lesson-block-break .lesson-block-head,
+.lesson-block-fix .lesson-block-head {
+  min-height: 2.4rem;
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid rgba(212, 180, 106, 0.22);
+  background: rgba(212, 180, 106, 0.08);
+}
+
+.lesson-block-try .lesson-block-label,
+.lesson-block-break .lesson-block-label,
+.lesson-block-fix .lesson-block-label {
+  color: var(--color-gold-bright);
+}
+
+.lesson-block-try .lesson-block-body,
+.lesson-block-break .lesson-block-body,
+.lesson-block-fix .lesson-block-body {
+  padding: 0.95rem 1rem 1.2rem;
+}
+
+/* Checkpoint */
+.lesson-block-gate {
+  border: 1px solid rgba(212, 180, 106, 0.5);
+  background: linear-gradient(180deg, rgba(212, 180, 106, 0.09), rgba(8, 8, 11, 0.2));
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.lesson-block-gate .lesson-block-head {
+  min-height: 2.4rem;
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid rgba(212, 180, 106, 0.28);
+  background: rgba(212, 180, 106, 0.1);
+}
+
+.lesson-block-gate .lesson-block-label {
+  color: var(--color-gold-bright);
+}
+
+.lesson-block-gate .lesson-block-body {
+  padding: 1rem 1.05rem 1.25rem;
+}
+
+/* Written definition-of-done stays a reading tick; DayCompletion is the checkpoint. */
+.workspace-prose .lesson-block-gate {
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(212, 180, 106, 0.5);
+  overflow: visible;
+}
+
+.workspace-prose .lesson-block-gate .lesson-block-head {
+  min-height: 0;
+  padding: 0 0 0.3rem;
+  border: 0;
+  background: transparent;
+}
+
+.workspace-prose .lesson-block-gate .lesson-block-body {
+  padding: 0;
+}
+
+.lesson-block h2.lesson-h {
+  border-left: 0;
+  padding-left: 0;
+  margin-top: 0.15rem;
+  margin-bottom: 0.35rem;
+  font-size: 1.28rem;
+  line-height: 1.25;
+}
+
+@media (min-width: 640px) {
+  .lesson-block h2.lesson-h {
+    font-size: 1.42rem;
+  }
+}
+
+.workspace-prose {
+  max-width: none;
+}
+
+.workspace-prose > h1:first-child,
+.workspace-prose .lesson-page-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.workspace-prose h3 {
+  margin-top: 1.1rem;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--color-cream);
+}
+
+.workspace-prose p {
+  margin-top: 0.7rem;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: rgba(243, 238, 228, 0.62);
+}
+
+.workspace-prose ul,
+.workspace-prose ol {
+  margin: 0.75rem 0;
+  padding-left: 1.2rem;
+}
+
+.workspace-prose li {
+  color: rgba(243, 238, 228, 0.62);
+  line-height: 1.65;
+}
+
+.workspace-prose pre {
+  margin: 0.9rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  background: var(--color-ink);
+}
+
+.workspace-prose hr {
+  margin: 1.25rem 0;
+  border-color: var(--color-hairline);
+}
+
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  height: 2px;
+  background: var(--color-gold);
+  pointer-events: none;
+}
+
+/* ── Day dots ─────────────────────────────────────────────── */
+
+.day-dot {
+  display: inline-block;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 2px;
+  border: 1px solid rgba(244, 239, 228, 0.16);
+  background: transparent;
+  vertical-align: middle;
+}
+
+.day-dot-done {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.day-dot-now {
+  width: 0.86rem;
+  height: 0.86rem;
+  background: var(--color-cream);
+  border-color: var(--color-cream);
+  animation: dayNowPulse 2.4s var(--ease-out) infinite;
+}
+
+.day-dot-live {
+  border-color: rgba(212, 180, 106, 0.75);
+  background: rgba(212, 180, 106, 0.14);
+}
+
+.day-dot-plan {
+  border-color: rgba(244, 239, 228, 0.1);
+  background: rgba(244, 239, 228, 0.03);
+}
+
+.phase-spine {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.spine-station {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  width: 100%;
+  padding: 0.55rem 0;
+  cursor: pointer;
+}
+
+.spine-quiet {
+  cursor: default;
+  padding: 0.55rem 0;
+}
+
+.spine-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+}
+
+.spine-bar {
+  margin-top: 0.4rem;
+  height: 3px;
+  background: rgba(244, 239, 228, 0.08);
+  overflow: hidden;
+}
+
+.spine-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--color-gold);
+}
+
+.spine-now .spine-bar {
+  background: rgba(212, 180, 106, 0.18);
+}
+
+.phase-now {
+  position: relative;
+  padding-left: 0.75rem;
+}
+
+.phase-now::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 2px;
+  background: var(--color-gold);
+}
+
+@media (min-width: 640px) {
+  .day-dot {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  .day-dot-now {
+    width: 0.94rem;
+    height: 0.94rem;
+  }
+}
+
+@media (max-width: 389px) {
+  .display {
+    font-size: 2rem;
+  }
+
+  .lesson-block-body {
+    padding: 0.85rem 0.8rem 1.05rem;
+  }
 }

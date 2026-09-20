@@ -2,79 +2,75 @@
 
 ## PURPOSE
 
-A one-day operator loop for the live catalog: 15 AI/LLM lessons, 2 DevOps lessons, 1 guide, 1 project. YouTube and Instagram stay empty and coming-soon.
+A one-day operator loop for **the next DevOps Engineer Mastery lesson**. The 120-day map already exists. Tomorrow’s job is one markdown file.
 
 ## WHEN TO USE
 
-Any day you add, edit, hide, or ship markdown/JSON on this site.
+Any morning you publish the next program day, hide a draft, or edit a live day.
 
 ## PREREQUISITES
 
-- Repository cloned on branch you are allowed to use.
-- Local app: see [QUICK-START.md](./QUICK-START.md) and [OPERATIONS/LOCAL-DEVELOPMENT.md](./OPERATIONS/LOCAL-DEVELOPMENT.md).
-- Do not invent YouTube or Instagram items. Do not crop brand PNG/JPG. There is no Python content.
+- Repository cloned on the branch you are allowed to use.
+- Day title already present in `content/config/programs.json` (Days 1–120 are listed).
+- Do not invent curriculum. Do not link the private authoring repository. Do not fill YouTube/Instagram with fake items.
 
 ## WHERE
 
-- AI lessons: `content/lessons/ai-fundamentals-01.md` through `ai-fundamentals-07.md`, `llm-fundamentals-01.md` through `llm-fundamentals-08.md`
-- DevOps archive notes: `content/lessons/devops-fundamentals-01.md`, `content/lessons/devops-fundamentals-02.md`
-- Daily program days: `content/lessons/day-01.md`, `day-02.md`, `day-03.md`
-- Guide: `content/guides/first-principles-ai-learning.md`
-- Project: `content/projects/autonomous-research-agent.md`
-- New lesson template: `templates/lesson-template.md` (next AI lesson number in that template is 16)
-- New guide template: `templates/guide-template.md`
-- New project template: `templates/project-template.md`
-- New path template: `templates/learning-path-template.json` into `content/config/courses.json`
-- Platform: `content/config/platform.json`
-- Courses: `content/config/courses.json`
-- Series (all planned / enabled false): `content/config/series.json`
-- YouTube: `content/media/youtube.json` (live: `[]`)
-- Instagram: `content/media/instagram.json` (live: `[]`)
-- Cheat sheet: [COMMON-TASKS.md](./COMMON-TASKS.md)
+| Job | File |
+| --- | --- |
+| Next program day | `content/lessons/day-NN.md` |
+| Day titles on the map | `content/config/programs.json` |
+| Lesson heading aliases (Why/Practice/Gate) | `content/config/lesson-rhythm.json` |
+| Scaffold | `npm run new-day -- N` |
+| Template | `templates/lesson-template.md` |
+| Full steps | [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md) |
+
+Archive AI notes, guides, and projects are **not** the daily loop. See [COMMON-TASKS.md](./COMMON-TASKS.md).
 
 ## STEP-BY-STEP
 
-1. Decide the job: edit existing copy, add a lesson/guide/path/project, hide a topic, or change hero/nav. Use [COMMON-TASKS.md](./COMMON-TASKS.md).
-2. Edit only the real path for that job (table in WHERE). Do not add Python lessons. Do not fill `youtube.json` or `instagram.json` unless a real item exists.
-3. If you added a learning path, also edit `content/config/courses.json`. Keep `status` `coming-soon` until real lessons exist. Active courses must have lessons.
-4. npm run validate from the repo root. It must exit 0.
-5. npm run dev and open the route plus search (header search uses /api/search). Confirm The field still shows only AI / LLM and DevOps unless you intentionally published another topic with real content.
-6. npm run lint and npm run build before publish. Deploy is Vercel at theairishi.vercel.app; the PR branch is not auto-main. See [OPERATIONS/PRE-PUBLISH-CHECKLIST.md](./OPERATIONS/PRE-PUBLISH-CHECKLIST.md) and [OPERATIONS/DEPLOYMENT.md](./OPERATIONS/DEPLOYMENT.md).
+1. `npm run new-day -- N` (example: `4`). This writes a **draft** from the programs.json title. It will not overwrite.
+2. Write the lesson. Keep the template H2s (`What today is for`, `Words`, `Practise`, `Production constraint`, `AI review`, `Interview kill`, `Definition of done`).
+3. Fill 3–5 `outcomes`. Set `status: published`.
+4. `npm run validate` (must exit 0).
+5. Preview `/learn/day-NN`. Confirm the following unpublished day is still not a page. Search matches **title / summary / tags**, not the whole body.
+6. Commit and push. Vercel + Cloudflare rebuild. No server copy.
+
+You do not edit `app/`, `components/`, or `lib/` to publish a day.
 
 ## COMPLETE EXAMPLE
 
-Edit the live guide, then check it:
+Publish Day 4 (title already in programs.json: “Permissions as an incident”):
 
-1. Open `content/guides/first-principles-ai-learning.md`
-2. Change body copy; keep frontmatter `slug: first-principles-ai-learning`
-3. npm run validate
-4. npm run dev -> http://localhost:3000/guides/first-principles-ai-learning
-5. Search for a distinctive phrase from the edit
-6. npm run lint && npm run build
+```bash
+npm run new-day -- 4
+# edit content/lessons/day-04.md — outcomes + body, status: published
+npm run validate
+```
 
-Add a second guide: copy `templates/guide-template.md` to `content/guides/SLUG.md`. No React change. Full steps: [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md).
+Open `/learn/day-04`. `/learn/day-05` stays 404 until that file exists.
 
 ## VALIDATION
 
-npm run validate must exit 0. Open the edited route. If the item is public, it should appear in search. See [OPERATIONS/VALIDATION.md](./OPERATIONS/VALIDATION.md).
+`npm run validate` must exit 0. Public program days need 3–5 outcomes. Two files cannot claim the same `day`.
 
 ## COMMON MISTAKES
 
-- Enabling YouTube or Instagram while the JSON file is still `[]`
-- Flipping a course to `active` with zero lessons
-- Inventing Python (or any) lesson text
-- Cropping brand PNG/JPG
-- Leaking planned / coming-soon / disabled areas in the public UI
+- Inventing a Day 13 title instead of copying `programs.json`
+- Editing React because the workbench did not appear — fix the H2s or `lesson-rhythm.json`
+- Linking the private mastery repo
+- Searching for a sentence that exists only in the body
+- Setting `exercise` on any day except Day 1
 
 ## TROUBLESHOOTING
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| New lesson missing on /learn | `status` not published, `enabled` false, or `course` / `topic` mismatch | Match `courses.json` `id` and `topics[]` `id` |
-| Guide 404 | content type guides hidden, or slug mismatch | Keep contentTypes id guides enabled+active; slug must match filename or frontmatter |
-| validate fails | active course with 0 lessons, placeholder URLs, missing brand file | coming-soon or add lessons; omit github.com roots; restore brand files |
-| Search misses the edit | type not public or file draft | Publish the type; set lesson/guide status published |
+| New day missing on /learn | `status` not `published`, or validate not run | Publish; `npm run validate` |
+| `/learn/day-NN` 404 after adding the file | Dev server started before generate | Re-run `npm run dev` / validate |
+| Workbench not wrapping | H2 text not in `lesson-rhythm.json` | Use the template headings or add a `match` |
+| Search miss | Query is body-only | Search the title, tag (`day-04`), or an outcome |
 
 ## HOW TO UNDO
 
-`git restore` the markdown or JSON you edited, or `git revert` the commit. Do not force-push. See [OPERATIONS/BACKUP-AND-RECOVERY.md](./OPERATIONS/BACKUP-AND-RECOVERY.md).
+Set `status: draft` or `git restore` the markdown. Do not force-push.

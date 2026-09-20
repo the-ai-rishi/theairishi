@@ -13,6 +13,13 @@ program: "devops-engineer-mastery"
 topic: "devops"
 status: "published"
 exercise: "starting-assessment"
+estimatedMinutes: 50
+outcomes:
+  - explain what a shell does versus a terminal
+  - inspect where you are and which file a command runs
+  - explain PATH as a search list
+  - predict a command result from quoting and exit codes
+  - write the no-AI rule and honest starting scores
 tags: ["shell", "linux", "foundations", "day-01"]
 ---
 

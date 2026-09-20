@@ -1,72 +1,60 @@
 "use client";
 
 import Link from "next/link";
+import { resolveContinue, type LearnerCatalog } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
-import { Course } from "@/lib/lessons";
 
-export default function ContinueLearning({ courses }: { courses: Course[] }) {
-  const { completedSlugs, hasHydrated } = useLessonProgress();
-
-  if (!courses.length) return null;
+export default function ContinueLearning({
+  catalog,
+}: {
+  catalog: LearnerCatalog;
+  courses?: unknown;
+}) {
+  const { state, hasHydrated } = useLessonProgress();
   if (!hasHydrated) return null;
-  if (completedSlugs.length === 0) return null;
 
-  const lessonSlugsFor = (course: Course) =>
-    course.stages?.flatMap((s) => s.lessons.map((l) => l.slug)) ?? [];
+  const target = resolveContinue(state, catalog);
+  if (target.completedCount === 0 && target.startedCount === 0 && !state.lastVisited) {
+    return null;
+  }
 
-  const activeCourse =
-    courses.find((c) =>
-      lessonSlugsFor(c).some((slug) => completedSlugs.includes(slug))
-    ) || courses[0];
-
-  const activeLessonSlugs = activeCourse ? lessonSlugsFor(activeCourse) : [];
-  const totalCompletedInCourse = activeLessonSlugs.filter((slug) =>
-    completedSlugs.includes(slug)
-  ).length;
-
-  const totalLessonsInCourse = activeCourse?.totalLessons || 1;
-  const progressPercent = Math.round(
-    (totalCompletedInCourse / totalLessonsInCourse) * 100
-  );
-
-  const allActiveCourseLessons = activeCourse?.stages?.flatMap((s) => s.lessons) || [];
-  const firstUncompletedLesson = allActiveCourseLessons.find(
-    (l) => !completedSlugs.includes(l.slug)
-  );
-  const targetLessonSlug = firstUncompletedLesson?.slug || allActiveCourseLessons[0]?.slug;
-  const targetHref = targetLessonSlug ? `/learn/${targetLessonSlug}` : "/learn";
+  const percent =
+    target.totalDays > 0 ? Math.round((target.completedCount / target.totalDays) * 100) : 0;
+  const heading =
+    target.kind === "wait"
+      ? "Published days complete"
+      : `${target.ctaLabel.replace(/^Continue /, "").replace(/^Start /, "")}${target.title ? ` — ${target.title}` : ""}`;
 
   return (
     <section id="continue" className="py-2 sm:py-3" aria-label="Continue learning">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 border-y border-hairline py-4 sm:flex-row sm:items-center sm:gap-6">
-          <span className="kicker shrink-0 text-gold/80">Continue</span>
+          <span className="kicker shrink-0 text-gold/80">
+            {target.kind === "wait" ? "Waiting" : "Continue"}
+          </span>
           <h2 className="min-w-0 flex-1 font-serif text-xl tracking-[0.01em] text-cream sm:text-2xl">
-            {activeCourse?.title || "Start learning"}
+            {heading}
           </h2>
-          <div className="flex items-center gap-3 sm:w-40">
+          <div className="flex items-center gap-3 sm:w-44">
             <div
               className="h-px flex-1 bg-hairline"
               role="progressbar"
               aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={progressPercent}
-              aria-label="Path progress"
+              aria-valuemax={target.totalDays}
+              aria-valuenow={target.completedCount}
+              aria-label="Program progress"
             >
-              <div
-                className="h-px bg-gold"
-                style={{ width: `${Math.max(6, progressPercent)}%` }}
-              />
+              <div className="h-px bg-gold" style={{ width: `${Math.max(percent, percent > 0 ? 6 : 0)}%` }} />
             </div>
             <span className="font-mono text-[12px] tabular-nums text-cream/40">
-              {progressPercent}%
+              {target.completedCount}/{target.totalDays}
             </span>
           </div>
           <Link
-            href={targetHref}
+            href={target.href || "/learn"}
             className="link-editorial shrink-0 font-mono text-[13px] tracking-[0.12em] text-cream/70 hover:text-gold"
           >
-            Resume →
+            {target.kind === "wait" ? "See the plan →" : `${target.ctaLabel} →`}
           </Link>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import type { ResolvedHomepageSection } from "@/lib/homepage";
-import SectionHeading from "@/components/brand/SectionHeading";
 import { getPlatformStory } from "@/lib/config";
 
 const FALLBACK_STEPS = [
@@ -15,23 +14,23 @@ export default function MethodSection({ section }: { section: ResolvedHomepageSe
   const story = getPlatformStory();
   const steps = story.methodSteps?.length ? story.methodSteps : FALLBACK_STEPS;
   return (
-    <section className="scroll-mt-24 py-10 sm:py-14">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          kicker={section.subtitle || "Practice, not playback"}
-          title={section.title || story.methodTitle || "How a day works"}
-        />
+    <section className="scroll-mt-24 py-7 sm:py-10">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <p className="kicker text-gold/80">{section.subtitle || "Practice, not playback"}</p>
+        <h2 className="mt-3 font-serif text-3xl text-cream sm:text-4xl">
+          {section.title || story.methodTitle || "How a day works"}
+        </h2>
         {story.methodBody ? (
-          <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-cream/55 sm:text-[17px]">
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/50 sm:text-[16px]">
             {story.methodBody}
           </p>
         ) : null}
-        <ol className="mt-8 grid gap-px bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {steps.map((step) => (
-            <li key={step.n} className="bg-ink px-5 py-6">
-              <p className="font-mono text-[12px] tracking-[0.18em] text-gold/70">{step.n}</p>
-              <h3 className="mt-3 font-serif text-2xl text-cream">{step.title}</h3>
-              <p className="mt-3 text-[14px] leading-relaxed text-cream/45">{step.body}</p>
+            <li key={step.n} className="panel px-5 py-5">
+              <p className="font-mono text-[11px] tracking-[0.18em] text-gold/70">{step.n}</p>
+              <h3 className="mt-2 font-serif text-xl text-cream sm:text-2xl">{step.title}</h3>
+              <p className="mt-2 text-[14px] leading-relaxed text-cream/45">{step.body}</p>
             </li>
           ))}
         </ol>

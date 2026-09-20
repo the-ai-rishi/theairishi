@@ -33,6 +33,10 @@ export interface LessonMetadata {
   program?: string;
   /** Optional on-site exercise id. Day 1 uses starting-assessment. */
   exercise?: string;
+  /** 3–5 concrete abilities for program days. */
+  outcomes?: string[];
+  /** Wall-clock estimate for the whole day, not reading time. */
+  estimatedMinutes?: number;
 }
 
 export interface LessonSummary {
@@ -138,6 +142,13 @@ function getLessonMetadata(data: Record<string, unknown>): LessonMetadata | null
   const phase = getString(data.phase) || undefined;
   const program = getString(data.program) || undefined;
   const exercise = getString(data.exercise) || undefined;
+  const outcomes = Array.isArray(data.outcomes)
+    ? data.outcomes
+        .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+        .map((item) => item.trim())
+        .slice(0, 5)
+    : undefined;
+  const estimatedMinutes = getPositiveNumber(data.estimatedMinutes) || undefined;
 
   return {
     title,
@@ -157,6 +168,8 @@ function getLessonMetadata(data: Record<string, unknown>): LessonMetadata | null
     phase,
     program,
     exercise,
+    outcomes,
+    estimatedMinutes,
   };
 }
 

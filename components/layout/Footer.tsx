@@ -14,7 +14,7 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
 
   return (
     <footer className="border-t border-hairline bg-ink">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-16">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-12">
         <div className="flex items-start gap-4 lg:col-span-5">
           <Logo brand={brand} variant="mark" />
           <div>

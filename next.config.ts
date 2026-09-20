@@ -13,6 +13,12 @@ require("./scripts/generate-content-data.js").generateContentData();
 const nextConfig: NextConfig = {
   // Content is compiled into the JS bundle. Production runtimes (Vercel Node
   // and Cloudflare Workers) never read content/ from disk.
+  async redirects() {
+    return [
+      { source: "/programs/devops", destination: "/learn", permanent: false },
+      { source: "/programs/devops-engineer-mastery", destination: "/learn", permanent: false },
+    ];
+  },
 };
 
 if (process.env.OPEN_NEXT_CLOUDFLARE || process.env.CLOUDFLARE || process.env.WORKERS_CI) {

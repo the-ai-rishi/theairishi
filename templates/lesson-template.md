@@ -12,6 +12,11 @@ phase: "phase-01"
 program: "devops-engineer-mastery"
 topic: "devops"
 status: "published"
+estimatedMinutes: 45
+outcomes:
+  - first concrete ability this day actually trains
+  - second ability, observable in a terminal
+  - third ability, including the production constraint
 tags: ["linux", "permissions", "foundations", "day-04"]
 ---
 
@@ -47,3 +52,8 @@ Write the lie this day is designed to catch.
 ## Interview kill
 
 The question you should be able to answer out loud, including what fails and how you troubleshoot it.
+
+## Definition of done
+
+Reading this page is not done. Name the evidence that proves the day.
+

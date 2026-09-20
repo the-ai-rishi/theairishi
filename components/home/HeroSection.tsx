@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getPlatformCopy, type TopicConfig } from "@/lib/config";
-import { getProgram } from "@/lib/programs";
+import { getLearnerCatalog, getProgram } from "@/lib/programs";
+import SmartCta from "@/components/learning/SmartCta";
 
 export interface HeroMode {
   id: string;
@@ -18,6 +19,7 @@ interface HeroSectionProps {
 export default function HeroSection({}: HeroSectionProps) {
   const copy = getPlatformCopy();
   const program = getProgram();
+  const catalog = getLearnerCatalog(program.id);
 
   const secondaryLabel = copy.heroSecondaryCta;
   const secondaryHref = copy.heroSecondaryCtaHref;
@@ -39,9 +41,11 @@ export default function HeroSection({}: HeroSectionProps) {
           {copy.heroDescription}
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-5 sm:mt-9 sm:gap-6">
-          <Link href={copy.heroPrimaryCtaHref || program.startHref || "/learn/day-01"} className="btn-primary">
-            {copy.heroPrimaryCta || "Start Day 1"}
-          </Link>
+          <SmartCta
+            catalog={catalog}
+            fallbackLabel={copy.heroPrimaryCta || "Start Day 1"}
+            fallbackHref={copy.heroPrimaryCtaHref || program.startHref || "/learn/day-01"}
+          />
           {secondary ? (
             <Link
               href={secondary.href}

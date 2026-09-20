@@ -31,7 +31,7 @@ Resolution pipeline:
 config (content/config JSON + markdown + media JSON)
   -> catalog (lib/catalog.ts counts and lists published items)
   -> visibility-core (lib/visibility-core.js)
-  -> UI (SectionRenderer, Header, Footer, search API, sitemap, channel and topic routes)
+  -> UI (ProductHome on /, ProgramCommandCenter on /learn, Header, Footer, search API, sitemap, channel and topic routes)
 
 visibility-core is plain Node. validate.js and scenario-test.js require it directly. The Next app imports it through lib/visibility.ts.
 
@@ -71,7 +71,7 @@ Resolution pipeline:
 config (content/config JSON + markdown + media JSON)
   -> catalog (lib/catalog.ts counts and lists published items)
   -> visibility-core (lib/visibility-core.js)
-  -> UI (SectionRenderer, Header, Footer, search API, sitemap, channel and topic routes)
+  -> UI (ProductHome on /, ProgramCommandCenter on /learn, Header, Footer, search API, sitemap, channel and topic routes)
 
 visibility-core is plain Node. validate.js and scenario-test.js require it directly. The Next app imports it through lib/visibility.ts.
 

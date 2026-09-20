@@ -5,6 +5,7 @@ import CourseListSection from "./CourseListSection";
 import ContentList from "./ContentList";
 import ChannelGrid from "./ChannelGrid";
 import ContinueLearning from "./ContinueLearning";
+import { getLearnerCatalog } from "@/lib/programs";
 import CallToAction from "./CallToAction";
 import ProseSection from "./ProseSection";
 import ProgramHighlight from "./ProgramHighlight";
@@ -62,7 +63,7 @@ export default function SectionRenderer({
         />
       );
     case "continue-learning":
-      return <ContinueLearning courses={(section.data.courses as Course[]) || []} />;
+      return <ContinueLearning catalog={getLearnerCatalog()} />;
     case "cta":
       return <CallToAction section={section} />;
     case "prose":

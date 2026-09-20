@@ -1,6 +1,23 @@
 # Add a daily lesson
 
-This is the normal publishing job. Tomorrow you add Day 4 by creating one markdown file.
+This is the normal publishing job. Tomorrow you add the next day by filling one markdown file. You do not edit React.
+
+## 0. Fast path
+
+Day titles already live in `content/config/programs.json` (all 120). Scaffold the draft, write the lesson, publish:
+
+```bash
+npm run new-day -- 4
+```
+
+That copies **only** the title and summary already in `programs.json`. It will not overwrite an existing file. Status starts as `draft`.
+
+Then:
+
+1. Write the body in `content/lessons/day-04.md` (keep the template H2s so the workbench/gate appear).
+2. Fill 3–5 `outcomes`.
+3. Set `status: published`.
+4. `npm run validate` then preview `/learn/day-04`.
 
 ## 1. Confirm the day already exists on the map
 
@@ -21,7 +38,7 @@ Exact path:
 content/lessons/day-04.md
 ```
 
-Filename format: `day-NN.md` with two digits. Copy `templates/lesson-template.md`.
+Filename format: `day-NN.md` with two digits. Prefer `npm run new-day -- N`. Or copy `templates/lesson-template.md`.
 
 Do **not** put daily lessons (or any public lesson) under `content/courses/`. That folder is not a `/learn` source. Course grouping lives in `content/config/courses.json`.
 
@@ -42,53 +59,46 @@ Do **not** put daily lessons (or any public lesson) under `content/courses/`. Th
 | `program` | `devops-engineer-mastery` | yes |
 | `topic` | `devops` | yes |
 | `status` | `published` (or `draft` to keep it off the site) | yes |
+| `outcomes` | 3–5 concrete abilities this day actually trains | yes for public program days |
+| `estimatedMinutes` | Number, wall-clock for the whole day | recommended |
 | `tags` | List of strings, include `day-04` | optional |
 | `enabled` | `true` / `false` | optional, default true |
 
-Optional: `duration` (e.g. `25 min`).
+Do not set `exercise` unless you are Day 1 (`starting-assessment`). No other exercise widget exists.
 
-## 4. Exact example (Day 4)
+Search indexes **title, description, tags, outcomes** — not the full markdown body.
 
-```yaml
----
-title: "Day 4 - Permissions as an incident"
-description: "namei -l, uid/gid, file 640 vs directory 755. Why chmod 777 is not a fix."
-course: "devops-engineer-mastery"
-courseTitle: "DevOps Engineer Mastery"
-courseOrder: 1
-stage: "Foundations"
-stageOrder: 1
-lesson: 4
-day: 4
-phase: "phase-01"
-program: "devops-engineer-mastery"
-topic: "devops"
-status: "published"
-tags: ["linux", "permissions", "foundations", "day-04"]
----
-```
+## 4. Headings (so the workbench appears)
 
-Use the real Day 4 title from `programs.json`, not this sample, if they differ.
+Use the template H2s. Mapping lives in `content/config/lesson-rhythm.json`, not in React.
+
+Keep at least:
+
+- `## What today is for`
+- `## Words` (or another Learn heading already in the JSON)
+- `## Practise`
+- `## Production constraint`
+- `## AI review (reject this)`
+- `## Interview kill`
+- `## Definition of done`
+
+If a future day needs a new heading alias, add a `headingRules` row in `lesson-rhythm.json`. Do not edit `lib/` for a new day.
 
 ## 5. Body
 
-Write a real lesson the learner can finish here: words, practice, production constraint, the lie to reject, the interview kill.
+Write a real lesson the learner can finish here.
 
-Do **not** tell them to open files in the private authoring repository (`daily-learning/...`, `docs/current-skills-gap.md`, `roadmap/...`). This website is the front door. See [LEARNER-MAPPING.md](./LEARNER-MAPPING.md).
+Do **not** tell them to open files in the private authoring repository. Do **not** link that repository. Learners finish the day here.
 
-Do **not** link that repository. Learners finish the day here.
+## 6. Where it appears after the next build
 
-## 6. Where it appears
-
-After the next build:
-
-- `/learn/day-04` - the lesson
-- `/learn` - under Published days and under Phase 01
-- Homepage program/phases counts go up by one
-- Search for `day 4` or `permissions`
+- `/learn/day-NN` — the lesson
+- `/learn` — This phase / the spine
+- Homepage ticket and map counts
+- Search for `day N` or a word from the title
 - Sitemap
 
-Unpublished days (5–120 until you add files) stay titles without links.
+Unpublished later days stay titles without links.
 
 ## 7. Preview and validate
 
@@ -97,9 +107,9 @@ npm run validate
 npm run dev
 ```
 
-Open `/learn/day-04`. Search for `day 4`. Confirm `/learn/day-05` is still not a page.
+Open `/learn/day-NN`. Confirm the next unpublished day is still not a page.
 
-To keep a file off the site while drafting: `status: "draft"` or `enabled: false`.
+To keep a file off the site while drafting: leave `status: "draft"`.
 
 ## 8. Deploy
 
@@ -108,36 +118,33 @@ npm run lint
 npm run build
 ```
 
-Then push the branch. Vercel and Cloudflare both rebuild from the generated catalog. You do not copy files onto the server.
+Then push the branch. Vercel and Cloudflare rebuild from the generated catalog.
 
 ## 9. Common mistakes
 
 | What went wrong | Fix |
 | --- | --- |
-| `ERROR: Lesson "day-04" references phase "phase-99"` | Set `phase` to `phase-01` (or the phase listed for that day in `programs.json`) |
+| `ERROR: Lesson "day-04" references phase "phase-99"` | Set `phase` to the id in `programs.json` |
 | `ERROR: Two lessons both claim day 4` | Only one published file may have `day: 4` |
-| `ERROR: Lesson is day 4 but course is "devops"` | Set `course` to `devops-engineer-mastery` |
-| Validate wants 120 days | Do not delete day objects from `programs.json` just because they have no lesson file yet |
-| I edited a React component | Put the file back. Daily publishing is markdown only |
-| I invented Day 13 | Copy the title from `programs.json` / the mastery repo |
+| Validate wants 120 days | Do not delete day objects from `programs.json` |
+| I edited a React component | Put the file back. Daily publishing is markdown + JSON |
+| I invented Day 13 | Copy the title from `programs.json` |
+| Workbench missing | Use the template H2s or add an alias in `lesson-rhythm.json` |
 
 ## 10. What you do not edit
 
 - `app/`
 - `components/`
 - `lib/content-data.generated.ts`
-- `main` (work on `feature/new-upgrade` until you choose to merge)
+- `main`
 
+Stay on the current feature branch until you choose to merge.
 
-## Draft, hidden, omitted status
+## Draft vs published
 
 | Frontmatter | What happens |
 | --- | --- |
 | `status: published` | Public `/learn/day-NN` if the other required fields are present |
-| `status: draft` (or `coming-soon`) | File can exist. Not a public page, not search, not sitemap |
+| `status: draft` | File can exist. Not a public page, not search, not sitemap |
 | `enabled: false` | Hidden even if status is published |
-| **omit `status`** | Not public. Publishing requires an explicit status |
-
-`title`, `stage`, `course`, `lesson`, and `status` are the publication fields. `day` / `phase` / `program` bind it to the 120-day map.
-
-After saving: `npm run validate`, then open `/learn/day-NN`. Search for `day N`. The homepage published count includes it. Unpublished days stay titles on `/learn`.
+| **omit `status`** | Not public |

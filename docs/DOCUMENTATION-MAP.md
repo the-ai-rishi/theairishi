@@ -29,7 +29,7 @@ Use the I want to table, then the What file do I edit table.
 | Add an article (this repo: a guide) | CONTENT/ADD-ARTICLE.md | content/guides/*.md, templates/guide-template.md |
 | Add a guide / essay | CONTENT/ADD-GUIDE.md | content/guides/*.md, lib/guides.ts, app/guides |
 | Add a lesson | CONTENT/ADD-LESSON.md | content/lessons/*.md, templates/lesson-template.md |
-| Add tomorrow’s DevOps day | CONTENT/ADD-DAILY-LESSON.md | content/lessons/day-NN.md, content/config/programs.json |
+| Add tomorrow’s DevOps day | CONTENT/ADD-DAILY-LESSON.md | `npm run new-day -- N`, content/lessons/day-NN.md, content/config/programs.json, content/config/lesson-rhythm.json |
 | Add a learning path | CONTENT/ADD-LEARNING-PATH.md | content/config/courses.json, lesson markdown |
 | Add a project / lab | FEATURES/PROJECTS.md | content/projects, templates/project-template.md |
 | Edit published copy | CONTENT/EDIT-CONTENT.md | the markdown file, then validate |
@@ -41,6 +41,9 @@ Use the I want to table, then the What file do I edit table.
 | Instagram (external profile) | FEATURES/INSTAGRAM.md | platform.json social id instagram |
 | Telegram (official channel) | FEATURES/TELEGRAM.md | platform.json social id telegram, url https://t.me/theairishi_official |
 | Learner mapping (repo path → website) | CONTENT/LEARNER-MAPPING.md | content/config/learner-surface.json, content/lessons |
+| Learner experience (progress, /learn, continue) | PRODUCT/LEARNER-EXPERIENCE.md | lib/learner-progress.js, lib/continue-learning.js, components/learning, components/product |
+| Learning-platform UX research | PRODUCT/LEARNING-PLATFORM-UX-RESEARCH.md | internal research; not a public page |
+| UX design decisions (redesign log) | PRODUCT/UX-DESIGN-DECISIONS.md | homepage product surface, /learn dashboard, lesson workspace, 120-day map |
 | Social configuration | CONFIGURATION/SOCIAL-CONFIGURATION.md | platform.json social[] |
 | Add a program | CONTENT/ADD-PROGRAM.md | content/config/programs.json |
 | Future operations | OPERATIONS/FUTURE-OPERATIONS.md | JSON/markdown jobs without a rewrite |
