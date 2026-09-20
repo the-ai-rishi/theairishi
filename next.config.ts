@@ -10,6 +10,17 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 const require = createRequire(import.meta.url);
 require("./scripts/generate-content-data.js").generateContentData();
 
+const canonicalHostRedirects = [
+  "theairishi.vercel.app",
+  "theairishi-the-ai-rishi.vercel.app",
+  "theairishi-git-main-the-ai-rishi.vercel.app",
+].map((host) => ({
+  source: "/:path*",
+  has: [{ type: "host" as const, value: host }],
+  destination: "https://theairishi.com/:path*",
+  permanent: true,
+}));
+
 const nextConfig: NextConfig = {
   // Content is compiled into the JS bundle. Production runtimes (Vercel Node
   // and Cloudflare Workers) never read content/ from disk.
@@ -17,6 +28,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/programs/devops", destination: "/learn", permanent: false },
       { source: "/programs/devops-engineer-mastery", destination: "/learn", permanent: false },
+      ...canonicalHostRedirects,
     ];
   },
 };
