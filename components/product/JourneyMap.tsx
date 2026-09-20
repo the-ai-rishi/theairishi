@@ -5,6 +5,54 @@ import { phaseProgress, resolveContinue, type LearnerCatalog } from "@/lib/conti
 import { formatPhaseLabel } from "@/lib/labels";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 
+function DayDots({
+  days,
+  currentSlug,
+  isCompleted,
+  hasHydrated,
+}: {
+  days: LearnerCatalog["days"];
+  currentSlug: string | null;
+  isCompleted: (slug: string) => boolean;
+  hasHydrated: boolean;
+}) {
+  return (
+    <div className="mt-2.5 flex max-w-full flex-wrap gap-1.5" role="list">
+      {days.map((day) => {
+        const done = hasHydrated && isCompleted(day.slug);
+        const current = currentSlug === day.slug;
+        const cls = done
+          ? "day-dot-done"
+          : current
+            ? "day-dot-now"
+            : day.published
+              ? "day-dot-live"
+              : "day-dot-plan";
+        const label = `Day ${day.day} — ${day.title}${done ? ", complete" : day.published ? ", available" : ", planned"}`;
+        const inner = <span className={`day-dot ${cls}`} aria-hidden="true" />;
+        return (
+          <span key={day.slug} role="listitem">
+            {day.published && day.href ? (
+              <Link
+                href={day.href}
+                className="inline-flex min-h-8 min-w-8 items-center justify-center"
+                title={label}
+                aria-label={label}
+              >
+                {inner}
+              </Link>
+            ) : (
+              <span className="inline-flex min-h-8 min-w-8 items-center justify-center" title={label} aria-label={label}>
+                {inner}
+              </span>
+            )}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function JourneyMap({
   catalog,
   showTitles = false,
@@ -19,68 +67,44 @@ export default function JourneyMap({
   const phases = phaseProgress(catalog, hasHydrated ? state : null);
 
   return (
-    <ol className={compact ? "space-y-5" : "space-y-7"} aria-label="120-day path">
+    <ol className="phase-spine" aria-label="120-day path by phase">
       {phases.map((phase) => {
         const days = catalog.days.filter((day) => day.phaseId === phase.id);
         const isCurrentPhase = target.phaseNumber === phase.number || phase.id === catalog.currentPhaseId;
-        return (
-          <li
-            key={phase.id}
-            id={showTitles ? phase.id : undefined}
-            className={`scroll-mt-24 ${isCurrentPhase ? "phase-now" : ""}`}
-          >
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold/80">
-                {formatPhaseLabel(phase.number).replace(/Phase (\d+)/, (_, n) => `Phase ${String(n).padStart(2, "0")}`)}
-                <span className="ml-2 tracking-[0.08em] text-cream/70 normal-case">{phase.name}</span>
-              </p>
-              <p className="font-mono text-[11px] tabular-nums text-cream/35">
-                Days {phase.daysLabel}
-                <span className="ml-2">
-                  {phase.completedCount}/{phase.totalDays}
-                </span>
-                {isCurrentPhase ? <span className="ml-2 text-gold/80">now</span> : null}
-              </p>
+        const fill = phase.totalDays > 0 ? Math.round((phase.completedCount / phase.totalDays) * 100) : 0;
+        const station = (
+          <div className="spine-meta">
+            <p className={`font-mono text-[11px] uppercase tracking-[0.16em] ${isCurrentPhase ? "text-gold" : "text-cream/45"}`}>
+              {formatPhaseLabel(phase.number).replace(/Phase (\d+)/, (_, n) => `Phase ${String(n).padStart(2, "0")}`)}
+              <span className={`ml-2 tracking-[0.06em] normal-case ${isCurrentPhase ? "text-cream" : "text-cream/55"}`}>
+                {phase.name}
+              </span>
+            </p>
+            <p className="font-mono text-[11px] tabular-nums text-cream/35">
+              Days {phase.daysLabel}
+              <span className="ml-2">
+                {phase.completedCount}/{phase.totalDays}
+              </span>
+              {isCurrentPhase ? <span className="ml-2 text-gold/80">you are here</span> : null}
+            </p>
+          </div>
+        );
+
+        const body = (
+          <>
+            <div className="spine-bar" aria-hidden="true">
+              <span style={{ width: `${isCurrentPhase && fill === 0 ? 8 : fill}%` }} />
             </div>
-            <div className="mt-2.5 flex max-w-full flex-wrap gap-1.5" role="list" aria-label={`${phase.name} days`}>
-              {days.map((day) => {
-                const done = hasHydrated && isCompleted(day.slug);
-                const current = target.slug === day.slug;
-                const cls = done
-                  ? "day-dot-done"
-                  : current
-                    ? "day-dot-now"
-                    : day.published
-                      ? "day-dot-live"
-                      : "day-dot-plan";
-                const label = `Day ${day.day} — ${day.title}${done ? ", complete" : day.published ? ", available" : ", planned"}`;
-                const inner = <span className={`day-dot ${cls}`} aria-hidden="true" />;
-                return (
-                  <span key={day.slug} role="listitem">
-                    {day.published && day.href ? (
-                      <Link
-                        href={day.href}
-                        className="inline-flex min-h-8 min-w-8 items-center justify-center"
-                        title={label}
-                        aria-label={label}
-                      >
-                        {inner}
-                      </Link>
-                    ) : (
-                      <span
-                        className="inline-flex min-h-8 min-w-8 items-center justify-center"
-                        title={label}
-                        aria-label={label}
-                      >
-                        {inner}
-                      </span>
-                    )}
-                  </span>
-                );
-              })}
-            </div>
+            {(isCurrentPhase || !compact) && !showTitles ? (
+              <DayDots
+                days={days}
+                currentSlug={target.slug}
+                isCompleted={isCompleted}
+                hasHydrated={hasHydrated}
+              />
+            ) : null}
             {showTitles ? (
-              <ol className="mt-4 divide-y divide-hairline border-y border-hairline">
+              <ol className="mt-3 divide-y divide-hairline border-y border-hairline">
                 {days.map((day) => {
                   const done = hasHydrated && isCompleted(day.slug);
                   const current = target.slug === day.slug;
@@ -114,6 +138,44 @@ export default function JourneyMap({
                 })}
               </ol>
             ) : null}
+          </>
+        );
+
+        if (compact && !isCurrentPhase) {
+          return (
+            <li key={phase.id} className="spine-station spine-quiet">
+              {station}
+              <div className="spine-bar" aria-hidden="true">
+                <span style={{ width: `${fill}%` }} />
+              </div>
+            </li>
+          );
+        }
+
+        if (showTitles) {
+          return (
+            <li key={phase.id} id={phase.id} className={`scroll-mt-24 ${isCurrentPhase ? "spine-now" : ""}`}>
+              {isCurrentPhase ? (
+                <>
+                  <div className="spine-quiet">{station}</div>
+                  {body}
+                </>
+              ) : (
+                <details>
+                  <summary className="spine-station list-none [&::-webkit-details-marker]:hidden">
+                    {station}
+                  </summary>
+                  {body}
+                </details>
+              )}
+            </li>
+          );
+        }
+
+        return (
+          <li key={phase.id} className={`spine-quiet ${isCurrentPhase ? "spine-now" : ""}`}>
+            {station}
+            {body}
           </li>
         );
       })}

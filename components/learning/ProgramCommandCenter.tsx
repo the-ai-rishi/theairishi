@@ -17,13 +17,23 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
   const currentPhase =
     catalog.phases.find((phase) => phase.number === target.phaseNumber) ||
     catalog.phases.find((phase) => phase.id === catalog.currentPhaseId);
+  const currentIndex = catalog.days.findIndex((day) => day.slug === target.slug);
+  const upNext =
+    currentIndex >= 0
+      ? catalog.days.slice(currentIndex + 1).find((day) => day.published) ||
+        catalog.days[currentIndex + 1] ||
+        null
+      : catalog.days.find((day) => day.published && day.slug !== target.slug) || null;
+  const phaseDays = currentPhase
+    ? catalog.days.filter((day) => day.phaseId === currentPhase.id)
+    : published;
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 sm:pt-10 lg:px-8">
       <header className="flex flex-col gap-5 border-b border-hairline pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <p className="kicker text-gold/80">Program</p>
-          <h1 className="mt-2 font-serif text-[2.1rem] leading-[0.95] text-cream sm:text-5xl lg:text-6xl">
+          <h1 className="mt-2 font-serif text-[2.1rem] leading-[0.95] text-cream sm:text-5xl">
             {catalog.title}
           </h1>
           <p className="stat-line mt-4">
@@ -44,55 +54,86 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
         </div>
       </header>
 
-      <div className="mt-7 grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
+      <section className="mt-8" aria-labelledby="today-heading">
+        <h2 id="today-heading" className="sr-only">
+          Today
+        </h2>
         <CurrentWorkCard catalog={catalog} size="hero" />
-        <div className="panel p-4 sm:p-6">
-          <p className="kicker text-gold/80">The map</p>
-          <p className="mt-3 text-[14px] leading-relaxed text-cream/45">
-            {catalog.totalDays} days. Gold means you marked it complete. A quiet square is still a title.
-          </p>
-          <div className="mt-5">
-            <JourneyMap catalog={catalog} compact />
-          </div>
-        </div>
-      </div>
+      </section>
 
-      <section className="mt-10 sm:mt-12">
-        <p className="kicker text-gold/80">Available now</p>
-        <h2 className="mt-3 font-serif text-[1.85rem] text-cream sm:text-3xl">Published days</h2>
-        {published.length === 0 ? (
+      {upNext ? (
+        <section className="mt-6" aria-labelledby="up-next-heading">
+          <p id="up-next-heading" className="kicker text-gold/80">
+            Up next
+          </p>
+          {upNext.published && upNext.href ? (
+            <Link
+              href={upNext.href}
+              className="mt-3 flex min-h-12 flex-wrap items-baseline justify-between gap-2 border-b border-hairline py-3"
+            >
+              <span className="font-serif text-xl text-cream">{upNext.title}</span>
+              <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-cream/40">
+                {formatDayLabel(upNext.day)}
+              </span>
+            </Link>
+          ) : (
+            <p className="mt-3 text-[15px] leading-relaxed text-cream/50">
+              {formatDayLabel(upNext.day)} — {upNext.title} is planned, not a page yet.
+            </p>
+          )}
+        </section>
+      ) : null}
+
+      <section className="mt-10 sm:mt-12" aria-labelledby="this-phase-heading">
+        <p className="kicker text-gold/80">This phase</p>
+        <h2 id="this-phase-heading" className="mt-3 font-serif text-[1.85rem] text-cream sm:text-3xl">
+          {currentPhase
+            ? `Phase ${String(currentPhase.number).padStart(2, "0")} · ${currentPhase.name}`
+            : "Published days"}
+        </h2>
+        {phaseDays.length === 0 ? (
           <p className="mt-6 text-cream/45">No daily lessons are published on this site yet.</p>
         ) : (
           <ol className="mt-5 divide-y divide-hairline border-y border-hairline">
-            {published.map((day) => {
+            {phaseDays.map((day) => {
               const completed = hasHydrated && isCompleted(day.slug);
               const started = hasHydrated && isStarted(day.slug) && !completed;
               const current = target.slug === day.slug;
+              const row = (
+                <span
+                  className={`group grid gap-1 py-4 sm:grid-cols-[5.5rem_1fr_auto] sm:items-center sm:gap-4 ${
+                    current ? "bg-gold/[0.04]" : ""
+                  }`}
+                >
+                  <span className="flex items-center gap-2 font-mono text-[13px] text-gold/80">
+                    <span
+                      className={`day-dot ${
+                        completed ? "day-dot-done" : current ? "day-dot-now" : day.published ? "day-dot-live" : "day-dot-plan"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    {formatDayLabel(day.day)}
+                  </span>
+                  <span>
+                    <span className={`font-serif text-xl sm:text-2xl ${day.published ? "text-cream" : "text-cream/50"}`}>
+                      {day.title}
+                    </span>
+                    <span className="mt-1 block text-[14px] leading-relaxed text-cream/45">{day.summary}</span>
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-cream/40">
+                    {completed ? "Complete" : current ? "Now" : started ? "Continue" : day.published ? "Start" : "Planned"}
+                  </span>
+                </span>
+              );
               return (
                 <li key={day.slug}>
-                  <Link
-                    href={day.href || `/learn/${day.slug}`}
-                    className={`group grid gap-1 py-4 transition sm:grid-cols-[5.5rem_1fr_auto] sm:items-center sm:gap-4 ${
-                      current ? "bg-gold/[0.04]" : "hover:bg-cream/[0.02]"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2 font-mono text-[13px] text-gold/80">
-                      <span
-                        className={`day-dot ${completed ? "day-dot-done" : current ? "day-dot-now" : "day-dot-live"}`}
-                        aria-hidden="true"
-                      />
-                      {formatDayLabel(day.day)}
-                    </span>
-                    <span>
-                      <span className="font-serif text-xl text-cream group-hover:text-gold-bright sm:text-2xl">
-                        {day.title}
-                      </span>
-                      <span className="mt-1 block text-[14px] leading-relaxed text-cream/45">{day.summary}</span>
-                    </span>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-cream/40">
-                      {completed ? "Complete" : started || current ? "Continue" : "Start"}
-                    </span>
-                  </Link>
+                  {day.published && day.href ? (
+                    <Link href={day.href} className="block hover:bg-cream/[0.02]">
+                      {row}
+                    </Link>
+                  ) : (
+                    <div aria-disabled="true">{row}</div>
+                  )}
                 </li>
               );
             })}
@@ -100,15 +141,15 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
         )}
       </section>
 
-      <section className="mt-12 sm:mt-14">
-        <p className="kicker text-gold/80">Full plan</p>
-        <h2 className="mt-3 font-serif text-[1.85rem] text-cream sm:text-3xl">
+      <section className="mt-12 sm:mt-14" aria-labelledby="spine-heading">
+        <p className="kicker text-gold/80">The spine</p>
+        <h2 id="spine-heading" className="mt-3 font-serif text-[1.85rem] text-cream sm:text-3xl">
           {catalog.mapTitle || `${catalog.phases.length} phases`}
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
-          A day becomes a page only when its lesson file is published. Planned days stay titles.
+          Open a phase to see every day. Planned days stay titles until the lesson is published.
         </p>
-        <div className="panel mt-6 p-4 sm:mt-8 sm:p-7">
+        <div className="mt-6">
           <JourneyMap catalog={catalog} showTitles />
         </div>
       </section>

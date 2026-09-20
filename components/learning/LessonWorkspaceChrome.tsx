@@ -52,7 +52,7 @@ export default function LessonWorkspaceChrome({
 
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-ink/94 backdrop-blur-md">
-      <div className="mx-auto flex h-12 max-w-6xl items-center gap-2 px-3 sm:h-[3.25rem] sm:gap-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-12 max-w-6xl items-center gap-2 px-3 sm:gap-3 sm:px-6 lg:px-8">
         <Logo brand={brand} variant="horizontal" priority />
         <p className="min-w-0 truncate font-mono text-[11px] text-cream/55 sm:text-[12px]">
           {day ? (
@@ -69,31 +69,26 @@ export default function LessonWorkspaceChrome({
             stage
           )}
         </p>
-        <p className="ml-auto shrink-0 font-mono text-[11px] tabular-nums text-cream/40 sm:text-[12px]">
-          {count}/{catalog.totalDays}
-          {completedHere ? <span className="sr-only"> This day is complete.</span> : null}
-        </p>
-        <SearchModal />
         <Link
           href="/learn"
-          className="hidden min-h-11 items-center rounded-md border border-hairline px-3 font-mono text-[11px] text-cream/60 hover:text-cream sm:inline-flex"
+          className="ml-auto shrink-0 font-mono text-[11px] tabular-nums text-cream/40 hover:text-gold sm:text-[12px]"
         >
-          120 Days
+          {count}/{catalog.totalDays}
+          <span className="sr-only"> days complete. Open the 120-day plan.</span>
         </Link>
+        {completedHere ? <span className="sr-only"> This day is complete.</span> : null}
+        <SearchModal compact />
       </div>
       {nav.length > 0 ? (
-        <nav
-          aria-label="On this day"
-          className="workspace-chips flex gap-1 overflow-x-auto px-3 pb-2 pt-0 sm:px-6 lg:px-8"
-        >
+        <nav aria-label="On this day" className="workspace-chips flex gap-0.5 overflow-x-auto px-3 pb-1.5 sm:px-6 lg:px-8">
           {nav.map((item) => {
             const isActive = active === item.href;
             return (
               <a
                 key={item.nav}
                 href={item.href}
-                className={`shrink-0 rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.14em] ${
-                  isActive ? "bg-cream/[0.07] text-cream" : "text-cream/40 hover:text-gold"
+                className={`shrink-0 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] ${
+                  isActive ? "text-cream" : "text-cream/38 hover:text-gold"
                 }`}
                 aria-current={isActive ? "location" : undefined}
               >

@@ -14,7 +14,7 @@ export interface SearchResultItem {
   badge?: string;
 }
 
-export default function SearchModal() {
+export default function SearchModal({ compact = false }: { compact?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResultItem[]>([]);
@@ -84,14 +84,20 @@ export default function SearchModal() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex min-h-11 items-center gap-2 border border-hairline bg-transparent px-3 py-1.5 font-mono text-[12px] tracking-[0.08em] text-cream/45 transition hover:border-gold/30 hover:text-cream"
+        className={
+          compact
+            ? "inline-flex h-11 w-11 items-center justify-center text-cream/50 transition hover:text-cream"
+            : "inline-flex min-h-11 items-center gap-2 border border-hairline bg-transparent px-3 py-1.5 font-mono text-[12px] tracking-[0.08em] text-cream/45 transition hover:border-gold/30 hover:text-cream"
+        }
         aria-label="Search"
       >
         <Search className="h-3.5 w-3.5 text-gold/70" aria-hidden="true" />
-        <span className="hidden sm:inline">Search</span>
-        <kbd className="hidden border border-hairline px-1.5 py-0.5 font-mono text-[10px] text-cream/35 sm:inline-block">
-          {isMac ? "⌘K" : "Ctrl K"}
-        </kbd>
+        {compact ? null : <span className="hidden sm:inline">Search</span>}
+        {compact ? null : (
+          <kbd className="hidden border border-hairline px-1.5 py-0.5 font-mono text-[10px] text-cream/35 sm:inline-block">
+            {isMac ? "⌘K" : "Ctrl K"}
+          </kbd>
+        )}
       </button>
 
       {isOpen && (

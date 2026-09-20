@@ -40,7 +40,8 @@ export default function Header({
   const headerCta = copy?.headerCta || "Start Day 1";
   const headerCtaHref = copy?.headerCtaHref || "/learn/day-01";
   const visible = navItems.filter((item) => item.href !== "/");
-  const { primary, explore } = splitPrimaryNav(visible, 3);
+  const forLinks = catalog ? visible.filter((item) => item.href !== headerCtaHref) : visible;
+  const { primary, explore } = splitPrimaryNav(forLinks, 2);
 
   useEffect(() => {
     if (!exploreOpen && !mobileMenuOpen) return;
@@ -188,7 +189,7 @@ export default function Header({
             className="relative z-40 border-b border-hairline bg-ink px-4 py-5 lg:hidden"
           >
             <div className="flex flex-col gap-1">
-              {visible.map((item) => (
+              {forLinks.map((item) => (
                 <Link
                   key={item.id}
                   href={item.href}

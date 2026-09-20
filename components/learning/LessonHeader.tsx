@@ -36,34 +36,33 @@ export default function LessonHeader({
     : stage;
 
   return (
-    <section className="panel p-5 sm:p-7">
+    <section className="shift-ticket p-5 sm:p-6">
       <p className="kicker text-gold/85">{day ? `Day ${String(day).padStart(2, "0")}` : stage}</p>
-      <h1 className="mt-3 font-serif text-[1.85rem] tracking-[0.01em] text-cream sm:text-5xl">{cleanTitle}</h1>
+      <h1 className="mt-2 font-serif text-[1.75rem] tracking-[0.01em] text-cream sm:text-4xl">{cleanTitle}</h1>
       <p className="stat-line mt-3">
         <span>{phaseLabel}</span>
-        {day ? <span>{formatDayLabel(day)} of {programTotal}</span> : null}
+        {day ? (
+          <span>
+            {formatDayLabel(day)} of {programTotal}
+          </span>
+        ) : null}
         {estimatedMinutes ? <span>~{estimatedMinutes} min</span> : null}
       </p>
 
-      <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/55 sm:text-base">{description}</p>
-
       {outcomes.length > 0 ? (
-        <div className="mt-6">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-cream/40">
-            After this day you can
-          </p>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-            {outcomes.map((outcome) => (
-              <li key={outcome} className="flex gap-3 text-[14px] leading-relaxed text-cream/70">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
-                <span>{outcome}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+        <ul className="mt-5 grid gap-2 sm:grid-cols-2">
+          {outcomes.map((outcome) => (
+            <li key={outcome} className="flex gap-3 text-[14px] leading-relaxed text-cream/70">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
+              <span>{outcome}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/55">{description}</p>
+      )}
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         {startHref ? (
           <a href={startHref} className="btn-primary btn-block">
             {day ? `Start ${formatDayLabel(day)}` : "Start"}

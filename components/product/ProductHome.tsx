@@ -33,18 +33,18 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
         estimatedMinutes={firstDay?.metadata.estimatedMinutes}
       />
 
-      <section id="path" className="scroll-mt-24 py-7 sm:py-10">
+      <section id="path" className="scroll-mt-24 py-8 sm:py-11">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <p className="kicker text-gold/80">Your path</p>
-          <h2 className="mt-3 font-serif text-[1.85rem] text-cream sm:text-4xl">
-            {catalog.totalDays} days, {catalog.phases.length} phases
+          <p className="kicker text-gold/80">The spine</p>
+          <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
+            {catalog.phases.length} phases · {catalog.totalDays} days
           </h2>
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
-            Gold is complete. The cream square is where you are. Outlined gold is a published page.
-            Quiet squares are planned titles — not empty articles.
+            You are in one phase at a time. Gold is complete. Outlined gold is a published day.
+            Quiet marks are planned titles, not empty pages.
           </p>
-          <div className="panel mt-6 p-4 sm:mt-8 sm:p-7">
-            <div className="mb-5 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">
+          <div className="mt-7">
+            <div className="mb-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">
               <span className="inline-flex items-center gap-2">
                 <span className="day-dot day-dot-done" /> Complete
               </span>
@@ -69,7 +69,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
       {path || community ? (
         <section className="py-7 sm:py-9">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="panel grid gap-6 p-5 sm:grid-cols-2 sm:p-7">
+            <div className="grid gap-8 sm:grid-cols-2">
               {path ? (
                 <div>
                   <p className="kicker text-gold/80">{path.subtitle || "Later"}</p>

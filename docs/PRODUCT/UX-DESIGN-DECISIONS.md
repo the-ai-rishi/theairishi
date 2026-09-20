@@ -214,6 +214,38 @@ Site header is 48px (56px from `sm`). Lesson chrome is 48px + a chip row. Homepa
 
 ---
 
+## 10. Distinctive idea: today is a numbered shift on a 120-day spine
+
+**Current problem (after the second pass).** The product surfaces existed, but they still read as dark SaaS: a side card, a panel of 120 dots, and every lesson H2 in a bordered box. A designer would not yet say the site is unlike Microsoft Learn or Linear.
+
+**Research signal.** roadmap.sh is memorable because the map *is* the product. KodeKloud is memorable at the moment of doing. Exercism is memorable at the gate. We needed one idea, not a collage of those.
+
+**The idea.** The AI Rishi is a 120-day spine. Today is one numbered shift on that spine. You do not leave the shift until you can prove it.
+
+**Proposed solution.**
+
+- Homepage first viewport: program identity (calm) then a full-width **shift ticket** (Today / Now / Waiting) with outcomes and the only primary CTA. An 11-tick spine under the ticket shows which phase you are in.
+- The map is **11 phase stations**. Only the current phase shows day-dots. Other phases are progress bars. `/learn` opens the current phase with titles; others are `<details>`.
+- `/learn` is Today → Up next → This phase → The spine. The old triple of card + 120-dot map + published list + titled map is gone.
+- Lesson blocks have two registers: **understand** (why/learn/predict as quiet ticks, not cards) and **do** (practice/break/fix as a gold workbench). The gate is a checkpoint: “Can you prove Day N?” / “I can prove this.”
+- Lesson chrome drops the extra “120 Days” button; the `n/120` count is the link back to the plan. Search is icon-only. Global nav no longer duplicates Start next to the Start CTA.
+
+**Why this solution.** 120 identical dots are abstract. Eleven named stations are a path. Boxing every paragraph kills reading. Practice has to look like a bench, not a callout.
+
+**Alternatives considered.**
+
+- Keep the 120-dot grid as the signature. Rejected: technically true, cognitively weak.
+- Paginate each day into Brilliant-style screens. Rejected: these days are 45-minute engineering notes.
+- Rename the product around “shift” in every CTA. Rejected: beginners need Start / Continue.
+
+**Accessibility.** Current phase labelled “you are here”. Planned rows are not links. Gate button has `aria-pressed`. Hidden program-day H1 remains `aria-hidden`; the contract header is the visible H1. Chips use `aria-current="location"`.
+
+**Responsive.** Ticket is full width at 360px, CTA full width. Phase stations stack. Workbench code still scrolls inside `pre`, not the page.
+
+**Architecture.** Same catalog, same `wrapLessonSections`, same local progress. Visual registers are CSS. Phase expand uses native `<details>`.
+
+---
+
 ## 9. Privacy and invariants (unchanged on purpose)
 
 - Private authoring repository is never a learner destination

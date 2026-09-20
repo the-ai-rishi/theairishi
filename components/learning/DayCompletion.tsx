@@ -42,32 +42,34 @@ export default function DayCompletion({
   const dayLabel = day ? formatDayLabel(day) : title;
 
   return (
-    <section
-      className="lesson-block lesson-block-gate p-0"
-      aria-labelledby="day-gate-heading"
-    >
+    <section className="lesson-block lesson-block-gate p-0" aria-labelledby="day-gate-heading">
       <header className="lesson-block-head">
-        <span className="lesson-block-label">Day gate</span>
+        <span className="lesson-block-label">Checkpoint</span>
       </header>
       <div className="p-5 sm:p-7">
         <h2 id="day-gate-heading" className="font-serif text-2xl text-cream sm:text-3xl">
-          {completed ? `${dayLabel} complete` : `Can you prove ${dayLabel}?`}
+          {completed ? `${dayLabel} proved` : `Can you prove ${dayLabel}?`}
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
           {completed
-            ? "You marked this day complete. That is a claim about work you did, not about scrolling the page."
-            : "Reading this page is not done. Mark complete only when the definition of done is true."}
+            ? "You claimed the work. That is not the same as having scrolled the page."
+            : "Completion is a claim about evidence on your machine, not about finishing the article."}
         </p>
 
         {outcomes.length > 0 ? (
-          <ul className="mt-5 space-y-2">
-            {outcomes.map((outcome) => (
-              <li key={outcome} className="flex gap-3 text-[15px] leading-relaxed text-cream/70">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
-                <span>{outcome}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-cream/40">
+              {completed ? "What you claimed" : "You should now be able to"}
+            </p>
+            <ul className="mt-3 space-y-2">
+              {outcomes.map((outcome) => (
+                <li key={outcome} className="flex gap-3 text-[15px] leading-relaxed text-cream/70">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden="true" />
+                  <span>{outcome}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : null}
 
         <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
@@ -81,7 +83,7 @@ export default function DayCompletion({
             }
             aria-pressed={completed}
           >
-            {completed ? "Completed — undo" : "Mark day complete"}
+            {completed ? "Undo complete" : "I can prove this"}
           </button>
 
           {completed && continueTarget?.href ? (
@@ -94,7 +96,7 @@ export default function DayCompletion({
         {waiting ? (
           <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-cream/50">
             {after.waitTitle
-              ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} is planned, not published yet. Come back to the 120-day map.`
+              ? `${formatDayLabel(after.waitDay || 0)} — ${after.waitTitle} is planned, not published yet.`
               : "The next day is not published yet."}{" "}
             <Link href="/learn" className="link-editorial text-gold">
               See the plan
@@ -104,10 +106,7 @@ export default function DayCompletion({
 
         {completed ? (
           <p className="mt-4">
-            <a
-              href="#main-content"
-              className="font-mono text-[12px] tracking-[0.12em] text-cream/45 hover:text-gold"
-            >
+            <a href="#main-content" className="font-mono text-[12px] tracking-[0.12em] text-cream/45 hover:text-gold">
               Review this day
             </a>
           </p>
