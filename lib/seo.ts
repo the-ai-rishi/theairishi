@@ -44,6 +44,24 @@ export function websiteJsonLd() {
   };
 }
 
+/** Child openGraph objects replace the layout images unless they repeat them. */
+export function shareImages() {
+  const brand = getBrandConfig();
+  return [
+    {
+      url: brand.ogImage || "/brand/og-image.jpg",
+      width: 1200,
+      height: 630,
+      alt: brand.name,
+    },
+  ];
+}
+
+export function shareTwitterImages() {
+  const brand = getBrandConfig();
+  return [brand.ogImage || "/brand/og-image.jpg"];
+}
+
 export function courseJsonLd(input: {
   name: string;
   description: string;

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 import { getBrandConfig, getSearchTopics } from "@/lib/config";
-import { creatorJsonLd, websiteJsonLd } from "@/lib/seo";
+import { creatorJsonLd, shareImages, shareTwitterImages, websiteJsonLd } from "@/lib/seo";
 import { canonicalUrl, getSiteOrigin } from "@/lib/urls";
 import { getGoogleSiteVerification } from "@/lib/analytics";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
@@ -65,21 +65,14 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     url: getSiteOrigin(),
-    images: [
-      {
-        url: brand.ogImage || "/brand/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: siteConfig.name,
-      },
-    ],
+    images: shareImages(),
   },
 
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [brand.ogImage || "/brand/og-image.jpg"],
+    images: shareTwitterImages(),
   },
 
   robots: {
