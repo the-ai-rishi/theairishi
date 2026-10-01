@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { phaseProgress, resolveContinue, type LearnerCatalog } from "@/lib/continue-learning";
+import { phaseProgress, resolveContinue, type LearnerCatalog, type PhaseProgress } from "@/lib/continue-learning";
 import { formatPhaseLabel } from "@/lib/labels";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 
@@ -108,6 +109,116 @@ function TitleList({
   );
 }
 
+function layoutPoint(index: number, count: number) {
+  const angle = -Math.PI / 2 + (index / Math.max(1, count)) * Math.PI * 2;
+  return {
+    x: Number((50 + Math.cos(angle) * 38).toFixed(2)),
+    y: Number((50 + Math.sin(angle) * 36).toFixed(2)),
+  };
+}
+
+function dayPoint(index: number, count: number) {
+  const angle = -Math.PI / 2 + ((index + 0.5) / Math.max(1, count)) * Math.PI * 2;
+  return {
+    x: Number((400 + Math.cos(angle) * 248).toFixed(2)),
+    y: Number((210 + Math.sin(angle) * 128).toFixed(2)),
+  };
+}
+
+function Constellation({
+  phases,
+  days,
+  activeId,
+  currentSlug,
+  isCompleted,
+  hasHydrated,
+  onSelect,
+}: {
+  phases: PhaseProgress[];
+  days: LearnerCatalog["days"];
+  activeId?: string;
+  currentSlug: string | null;
+  isCompleted: (slug: string) => boolean;
+  hasHydrated: boolean;
+  onSelect: (id: string) => void;
+}) {
+  const path = phases
+    .map((phase, index) => {
+      const point = layoutPoint(index, phases.length);
+      const x = (point.x / 100) * 800;
+      const y = (point.y / 100) * 420;
+      return `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
+    })
+    .join(" ");
+
+  return (
+    <div className="constellation">
+      <svg className="constellation-svg" viewBox="0 0 800 420" aria-hidden="true">
+        <ellipse cx="400" cy="210" rx="304" ry="151" fill="none" stroke="rgba(212,180,106,0.22)" />
+        <ellipse cx="400" cy="210" rx="220" ry="104" fill="none" stroke="rgba(139,124,255,0.2)" transform="rotate(-16 400 210)" />
+        <ellipse cx="400" cy="210" rx="248" ry="128" fill="none" stroke="rgba(103,232,249,0.16)" />
+        {days.map((day, index) => {
+          const point = dayPoint(index, days.length);
+          const done = hasHydrated && isCompleted(day.slug);
+          const now = currentSlug === day.slug;
+          return (
+            <circle
+              key={day.slug}
+              className={now ? "constellation-day is-now" : "constellation-day"}
+              cx={point.x}
+              cy={point.y}
+              r={now ? 3.4 : done ? 2.3 : 1.45}
+              fill={done ? "#f0d090" : now ? "#f3eee4" : day.published ? "rgba(212,180,106,0.72)" : "rgba(243,238,228,0.22)"}
+            />
+          );
+        })}
+        <path className="constellation-path" pathLength={1} d={`${path} Z`} />
+      </svg>
+      <div className="constellation-core">
+        {phases.filter((phase) => phase.id === activeId).map((phase) => (
+          <div key={phase.id}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold/80">
+              Phase {String(phase.number).padStart(2, "0")}
+            </p>
+            <p className="mt-1 font-serif text-xl text-cream sm:text-2xl">{phase.name}</p>
+            <p className="mt-2 hidden text-[13px] leading-relaxed text-cream/50 sm:block">{phase.summary}</p>
+            <p className="mt-2 font-mono text-[11px] text-cream/40">
+              {phase.completedCount}/{phase.totalDays} · days {phase.daysLabel}
+            </p>
+          </div>
+        ))}
+      </div>
+      {phases.map((phase, index) => {
+        const point = layoutPoint(index, phases.length);
+        const active = phase.id === activeId;
+        const tone =
+          phase.totalDays > 0 && phase.completedCount >= phase.totalDays
+            ? "is-done"
+            : phase.current
+              ? "is-now"
+              : phase.publishedCount === 0
+                ? "is-plan"
+                : "is-live";
+        const label = `${formatPhaseLabel(phase.number)} ${phase.name}, ${phase.completedCount} of ${phase.totalDays} complete`;
+        return (
+          <button
+            key={phase.id}
+            type="button"
+            className={`constellation-node ${tone} ${active ? "is-focus" : ""}`}
+            style={{ left: `${point.x}%`, top: `${point.y}%` }}
+            aria-pressed={active}
+            aria-label={label}
+            data-cursor="node"
+            onClick={() => onSelect(phase.id)}
+          >
+            <span>{String(phase.number).padStart(2, "0")}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 function PhaseRing({ percent, active }: { percent: number; active: boolean }) {
   const radius = 15;
   const circumference = 2 * Math.PI * radius;
@@ -142,9 +253,53 @@ export default function JourneyMap({
   const { state, hasHydrated, isCompleted } = useLessonProgress();
   const target = resolveContinue(hasHydrated ? state : null, catalog);
   const phases = phaseProgress(catalog, hasHydrated ? state : null);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const implied =
+    phases.find((phase) => target.phaseNumber === phase.number || phase.id === catalog.currentPhaseId) ||
+    phases[0];
+  const active = phases.find((phase) => phase.id === openId) || implied;
+  const activeDays = catalog.days.filter((day) => day.phaseId === active?.id);
+
+  const selectPhase = (id: string) => {
+    setOpenId(id);
+    if (!showTitles) return;
+    const node = document.getElementById(id);
+    if (node) node.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const map = (
+    <div className="constellation-block">
+      <Constellation
+        phases={phases}
+        days={catalog.days}
+        activeId={active?.id}
+        currentSlug={target.slug}
+        isCompleted={isCompleted}
+        hasHydrated={hasHydrated}
+        onSelect={selectPhase}
+      />
+      {active ? (
+        <div className="constellation-detail">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold/80">
+            {active.id === implied?.id ? "You are here" : "Phase focus"} · {active.name}
+          </p>
+          <DayDots
+            days={activeDays}
+            currentSlug={target.slug}
+            isCompleted={isCompleted}
+            hasHydrated={hasHydrated}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+
+  if (compact && !showTitles) return map;
 
   return (
-    <ol className="knowledge-map" aria-label="120-day path by phase">
+    <div>
+      {map}
+      <ol className="knowledge-map mt-8" aria-label="120-day path by phase">
       {phases.map((phase) => {
         const days = catalog.days.filter((day) => day.phaseId === phase.id);
         const isCurrentPhase = target.phaseNumber === phase.number || phase.id === catalog.currentPhaseId;
@@ -234,5 +389,6 @@ export default function JourneyMap({
         );
       })}
     </ol>
+    </div>
   );
 }

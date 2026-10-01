@@ -14,6 +14,7 @@ import LessonContent from "@/components/learning/LessonContent";
 import DayCompletion from "@/components/learning/DayCompletion";
 import LessonWorkspaceChrome from "@/components/learning/LessonWorkspaceChrome";
 import AmbientField from "@/components/atmosphere/AmbientField";
+import PointerHalo from "@/components/motion/PointerHalo";
 import DayRail from "@/components/learning/DayRail";
 import StartingAssessment from "@/components/learning/StartingAssessment";
 import {
@@ -136,8 +137,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
       : lessonContext.next;
 
   return (
-    <main className="relative min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
+    <main className="focus-bay relative min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
       <AmbientField />
+      <PointerHalo />
       <div className="relative z-[1]">
       <script
         type="application/ld+json"

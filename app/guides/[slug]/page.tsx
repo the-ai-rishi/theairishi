@@ -68,7 +68,7 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
   });
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="editorial">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

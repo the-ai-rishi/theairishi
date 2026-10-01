@@ -29,7 +29,7 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
     : published;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-16 pt-5 sm:px-6 sm:pt-10 lg:px-8">
+    <div className="learn-stage mx-auto max-w-6xl px-4 pb-16 pt-5 sm:px-6 sm:pt-10 lg:px-8">
       <header className="flex items-end justify-between gap-4 border-b border-hairline pb-5">
         <div className="min-w-0">
           <p className="kicker text-gold/80">Program</p>

@@ -34,7 +34,7 @@ export default function CurrentWorkCard({
   const outcomes = (day?.outcomes || []).slice(0, 3);
 
   return (
-    <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-8" : "p-5 sm:p-6"}`} aria-label="Today's shift">
+    <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-6" : "p-5 sm:p-6"}`} aria-label="Today's shift" data-tilt="">
       <div className="flex items-center justify-between gap-3">
         <p className="kicker text-gold/85">{kicker}</p>
         <div className="flex items-center gap-3">

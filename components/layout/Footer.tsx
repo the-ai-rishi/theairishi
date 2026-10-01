@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
 import DestinationLinks from "@/components/brand/DestinationLinks";
+import FooterSeed from "@/components/immersive/FooterSeed";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 
 interface FooterProps {
@@ -15,22 +16,9 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
   return (
     <footer className="relative overflow-hidden border-t border-hairline bg-ink">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-12">
+      <FooterSeed />
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 pt-2 pb-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:pb-12">
         <div className="footer-mark flex items-start gap-4 lg:col-span-5">
-          <svg viewBox="0 0 32 32" className="footer-geometry text-gold" aria-hidden="true" focusable="false">
-            <g fill="none" stroke="currentColor" strokeWidth="0.6">
-              <circle cx="16" cy="16" r="14" opacity="0.45" />
-              <circle cx="16" cy="16" r="9" opacity="0.7" />
-              {Array.from({ length: 8 }, (_, i) => (
-                <path
-                  key={i}
-                  d="M16 3.4C19.15 8.15 19.55 12.55 16 16C12.45 12.55 12.85 8.15 16 3.4Z"
-                  transform={`rotate(${i * 45} 16 16)`}
-                  opacity="0.8"
-                />
-              ))}
-            </g>
-          </svg>
           <Logo brand={brand} variant="mark" />
           <div>
             <p className="font-serif text-xl tracking-[0.02em] text-cream">{brand?.name}</p>

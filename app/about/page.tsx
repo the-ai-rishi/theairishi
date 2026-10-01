@@ -35,7 +35,7 @@ export default function AboutPage() {
   const sections = about?.sections || [];
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="brand">
       <section className="mx-auto max-w-3xl px-4 pt-16 pb-8 sm:px-6 sm:pt-24 lg:px-8">
         <p className="kicker text-gold/80">{about?.kicker || "About"}</p>
         <h1 className="mt-4 font-serif text-4xl leading-[0.95] tracking-[0.01em] text-cream sm:text-6xl">

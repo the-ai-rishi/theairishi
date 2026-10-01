@@ -12,6 +12,7 @@ interface PageShellProps {
   brand: BrandConfig;
   copy: CopyConfig;
   showSearch?: boolean;
+  tone?: "home" | "learn" | "editorial" | "engineering" | "brand";
 }
 
 export default function PageShell({
@@ -21,10 +22,11 @@ export default function PageShell({
   brand,
   copy,
   showSearch = true,
+  tone = "home",
 }: PageShellProps) {
   const catalog = getLearnerCatalog();
   return (
-    <div className="relative flex min-h-screen flex-col bg-ink text-cream/90">
+    <div className="relative flex min-h-screen flex-col bg-ink text-cream/90" data-tone={tone}>
       <AmbientField />
       <div className="relative z-[1] flex min-h-screen flex-col">
         <PointerHalo />

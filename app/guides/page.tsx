@@ -25,7 +25,7 @@ export default function GuidesPage() {
   const [feature, ...rest] = guides;
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="editorial">
       <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
         <p className="kicker text-gold/80">Essays</p>
         <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">

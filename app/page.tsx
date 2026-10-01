@@ -45,7 +45,7 @@ export default function Home() {
   const copy = getPlatformCopy();
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brandConfig} copy={copy}>
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brandConfig} copy={copy} tone="home">
       <ProductHome sections={sections} />
     </PageShell>
   );
