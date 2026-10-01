@@ -8,10 +8,11 @@ export default function ProductHero({ catalog }: { catalog: LearnerCatalog }) {
   const planned = Math.max(0, catalog.totalDays - published);
 
   return (
-    <section className="product-stage relative overflow-hidden pt-6 pb-8 sm:pt-9 sm:pb-10 lg:pt-11 lg:pb-12">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pt-10 lg:pb-14">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-none lg:px-8">
+        <div className="hero-rise">
         <p className="kicker text-gold/85">{copy.heroBadge || "Current program"}</p>
-        <h1 className="mt-3 font-serif text-[1.85rem] leading-[0.95] tracking-[0.01em] text-cream sm:text-5xl lg:text-[3.35rem]">
+        <h1 className="mt-3 font-serif text-[1.85rem] leading-[0.95] tracking-[0.01em] text-cream sm:text-5xl lg:text-[3.15rem]">
           {catalog.title}
         </h1>
         <p className="stat-line mt-4">
@@ -26,6 +27,7 @@ export default function ProductHero({ catalog }: { catalog: LearnerCatalog }) {
 
         <div className="mt-7 sm:mt-8">
           <CurrentWorkCard catalog={catalog} size="hero" />
+        </div>
         </div>
       </div>
     </section>
