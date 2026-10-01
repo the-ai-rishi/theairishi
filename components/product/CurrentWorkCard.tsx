@@ -35,11 +35,27 @@ export default function CurrentWorkCard({
 
   return (
     <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-8" : "p-5 sm:p-6"}`} aria-label="Today's shift">
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <p className="kicker text-gold/85">{kicker}</p>
-        <p className="font-mono text-[11px] tabular-nums text-cream/40">
-          {target.completedCount} / {target.totalDays} claimed
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="font-mono text-[11px] tabular-nums text-cream/40">
+            {target.completedCount} / {target.totalDays} claimed
+          </p>
+          <svg viewBox="0 0 36 36" className="h-9 w-9 text-gold" aria-hidden="true">
+            <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(243,238,228,0.12)" strokeWidth="2" />
+            <circle
+              cx="18"
+              cy="18"
+              r="14"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeDasharray={`${(percent / 100) * 87.96} 87.96`}
+              transform="rotate(-90 18 18)"
+            />
+          </svg>
+        </div>
       </div>
       {target.kind === "wait" ? (
         <>

@@ -13,6 +13,7 @@ import LessonNavigation from "@/components/learning/LessonNavigation";
 import LessonContent from "@/components/learning/LessonContent";
 import DayCompletion from "@/components/learning/DayCompletion";
 import LessonWorkspaceChrome from "@/components/learning/LessonWorkspaceChrome";
+import AmbientField from "@/components/atmosphere/AmbientField";
 import DayRail from "@/components/learning/DayRail";
 import StartingAssessment from "@/components/learning/StartingAssessment";
 import {
@@ -135,7 +136,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
       : lessonContext.next;
 
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
+    <main className="relative min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
+      <AmbientField />
+      <div className="relative z-[1]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -208,6 +211,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       </div>
 
       <Footer navItems={footerNav} brand={brand} copy={copy} />
+      </div>
     </main>
   );
 }

@@ -108,6 +108,28 @@ function TitleList({
   );
 }
 
+function PhaseRing({ percent, active }: { percent: number; active: boolean }) {
+  const radius = 15;
+  const circumference = 2 * Math.PI * radius;
+  const dash = (Math.max(0, Math.min(100, percent)) / 100) * circumference;
+  return (
+    <svg viewBox="0 0 40 40" className={`progress-ring ${active ? "text-gold" : "text-cream/45"}`} aria-hidden="true">
+      <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(243,238,228,0.12)" strokeWidth="1.5" />
+      <circle
+        cx="20"
+        cy="20"
+        r={radius}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeDasharray={`${dash} ${circumference}`}
+        transform="rotate(-90 20 20)"
+      />
+    </svg>
+  );
+}
+
 export default function JourneyMap({
   catalog,
   showTitles = false,
@@ -122,83 +144,92 @@ export default function JourneyMap({
   const phases = phaseProgress(catalog, hasHydrated ? state : null);
 
   return (
-    <ol className="phase-spine" aria-label="120-day path by phase">
+    <ol className="knowledge-map" aria-label="120-day path by phase">
       {phases.map((phase) => {
         const days = catalog.days.filter((day) => day.phaseId === phase.id);
         const isCurrentPhase = target.phaseNumber === phase.number || phase.id === catalog.currentPhaseId;
         const fill = phase.totalDays > 0 ? Math.round((phase.completedCount / phase.totalDays) * 100) : 0;
         const station = (
-          <div className="spine-meta">
-            <p className={`font-mono text-[11px] uppercase tracking-[0.16em] ${isCurrentPhase ? "text-gold" : "text-cream/45"}`}>
-              {formatPhaseLabel(phase.number).replace(/Phase (\d+)/, (_, n) => `Phase ${String(n).padStart(2, "0")}`)}
-              <span className={`ml-2 tracking-[0.06em] normal-case ${isCurrentPhase ? "text-cream" : "text-cream/55"}`}>
-                {phase.name}
-              </span>
-            </p>
-            <p className="font-mono text-[11px] tabular-nums text-cream/35">
-              Days {phase.daysLabel}
-              <span className="ml-2">
-                {phase.completedCount}/{phase.totalDays}
-              </span>
-              {isCurrentPhase ? <span className="ml-2 text-gold/80">you are here</span> : null}
-            </p>
+          <div className="min-w-0 pt-1">
+            <div className="spine-meta">
+              <p className={`font-mono text-[11px] uppercase tracking-[0.16em] ${isCurrentPhase ? "text-gold" : "text-cream/45"}`}>
+                {formatPhaseLabel(phase.number).replace(/Phase (\d+)/, (_, n) => `Phase ${String(n).padStart(2, "0")}`)}
+                <span className={`ml-2 tracking-[0.06em] normal-case ${isCurrentPhase ? "text-cream" : "text-cream/55"}`}>
+                  {phase.name}
+                </span>
+              </p>
+              <p className="font-mono text-[11px] tabular-nums text-cream/35">
+                Days {phase.daysLabel}
+                <span className="ml-2">
+                  {phase.completedCount}/{phase.totalDays}
+                </span>
+                {isCurrentPhase ? <span className="ml-2 text-gold/80">you are here</span> : null}
+              </p>
+            </div>
+          </div>
+        );
+        const orb = (
+          <div className="station-orb">
+            <PhaseRing percent={isCurrentPhase && fill === 0 ? 8 : fill} active={isCurrentPhase || fill > 0} />
           </div>
         );
 
         const dots = (
-          <DayDots
-            days={days}
-            currentSlug={target.slug}
-            isCompleted={isCompleted}
-            hasHydrated={hasHydrated}
-          />
+          <div className="node-river">
+            <DayDots
+              days={days}
+              currentSlug={target.slug}
+              isCompleted={isCompleted}
+              hasHydrated={hasHydrated}
+            />
+          </div>
         );
 
-        const body = (
-          <>
-            <div className="spine-bar" aria-hidden="true">
-              <span style={{ width: `${isCurrentPhase && fill === 0 ? 8 : fill}%` }} />
-            </div>
-            {showTitles ? (isCurrentPhase ? dots : <TitleList days={days} currentSlug={target.slug} isCompleted={isCompleted} hasHydrated={hasHydrated} />) : null}
-            {!showTitles && (isCurrentPhase || !compact) ? dots : null}
-          </>
-        );
+        const body = showTitles ? (
+          isCurrentPhase ? (
+            dots
+          ) : (
+            <TitleList
+              days={days}
+              currentSlug={target.slug}
+              isCompleted={isCompleted}
+              hasHydrated={hasHydrated}
+            />
+          )
+        ) : isCurrentPhase || !compact ? (
+          dots
+        ) : null;
 
         if (compact && !isCurrentPhase) {
           return (
-            <li key={phase.id} className="spine-station spine-quiet">
+            <li key={phase.id} className="station">
+              {orb}
               {station}
-              <div className="spine-bar" aria-hidden="true">
-                <span style={{ width: `${fill}%` }} />
-              </div>
             </li>
           );
         }
 
-        if (showTitles) {
+        if (showTitles && !isCurrentPhase) {
           return (
-            <li key={phase.id} id={phase.id} className={`scroll-mt-24 ${isCurrentPhase ? "spine-now" : ""}`}>
-              {isCurrentPhase ? (
-                <>
-                  <div className="spine-quiet">{station}</div>
-                  {body}
-                </>
-              ) : (
-                <details>
-                  <summary className="spine-station list-none [&::-webkit-details-marker]:hidden">
-                    {station}
-                  </summary>
-                  {body}
-                </details>
-              )}
+            <li key={phase.id} id={phase.id} className="scroll-mt-24">
+              <details>
+                <summary className="station list-none [&::-webkit-details-marker]:hidden">
+                  {orb}
+                  {station}
+                </summary>
+                <div className="station-fold">{body}</div>
+              </details>
             </li>
           );
         }
 
         return (
-          <li key={phase.id} className={`spine-quiet ${isCurrentPhase ? "spine-now" : ""}`}>
-            {station}
-            {body}
+          <li key={phase.id} id={showTitles ? phase.id : undefined} className={`station ${isCurrentPhase ? "station-now" : ""}`}>
+            {orb}
+            <div className="min-w-0">
+              {station}
+              {body}
+            </div>
           </li>
         );
       })}
