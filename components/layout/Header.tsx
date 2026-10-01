@@ -81,9 +81,10 @@ export default function Header({
     } ${extra}`;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-ink/92 backdrop-blur-md">
+    <header className="sticky top-0 z-40">
+      <div className="px-3 pt-2.5 sm:px-5 sm:pt-3">
       <nav
-        className="mx-auto flex h-12 max-w-7xl items-center justify-between gap-3 px-3 sm:h-14 sm:px-6 lg:px-8"
+        className="command-bar mx-auto flex h-12 max-w-6xl items-center justify-between gap-3 px-3 sm:h-[3.25rem] sm:px-4"
         aria-label="Primary"
       >
         <Logo brand={brand} variant="horizontal" />
@@ -97,6 +98,7 @@ export default function Header({
               aria-current={isCurrentHref(item.href, pathname) ? "page" : undefined}
               onClick={() => setExploreOpen(false)}
             >
+              {isCurrentHref(item.href, pathname) ? <span className="nav-now" aria-hidden="true" /> : null}
               {item.label}
             </Link>
           ))}
@@ -120,7 +122,7 @@ export default function Header({
                 <div
                   id="header-explore-menu"
                   role="menu"
-                  className="absolute right-0 mt-3 min-w-[12rem] rounded-md border border-hairline bg-ink py-2"
+                  className="absolute right-0 z-50 mt-3 min-w-[12rem] rounded-md border border-gold/25 bg-ink/95 py-2 shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur-md"
                 >
                   {explore.map((item) => (
                     <Link
@@ -172,12 +174,13 @@ export default function Header({
           </button>
         </div>
       </nav>
+      </div>
 
       {mobileMenuOpen ? (
         <>
           <button
             type="button"
-            className="fixed inset-0 top-12 z-30 bg-ink/70 lg:hidden"
+            className="fixed inset-0 top-[4.25rem] z-30 bg-ink/75 backdrop-blur-[2px] sm:top-[4.6rem] lg:hidden"
             aria-label="Close navigation menu"
             onClick={() => {
               setMobileMenuOpen(false);
@@ -186,7 +189,7 @@ export default function Header({
           />
           <div
             id="mobile-navigation"
-            className="relative z-40 border-b border-hairline bg-ink px-4 py-5 lg:hidden"
+            className="relative z-40 border-b border-hairline bg-ink/95 px-4 py-5 backdrop-blur-md lg:hidden"
           >
             <div className="flex flex-col gap-1">
               {forLinks.map((item) => (

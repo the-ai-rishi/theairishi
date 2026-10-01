@@ -139,9 +139,9 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-16 sm:pt-24">
+        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-[18vh] sm:pt-[16vh]">
           <div
-            className="fixed inset-0 bg-ink/80 backdrop-blur-sm"
+            className="search-veil fixed inset-0"
             onClick={closeSearch}
             aria-hidden="true"
           />
@@ -152,7 +152,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
             aria-modal="true"
             aria-labelledby={titleId}
             aria-describedby={hintId}
-            className="relative z-10 w-full max-w-2xl overflow-hidden border border-hairline bg-field text-cream"
+            className="search-shell relative z-10 w-full max-w-2xl overflow-hidden text-cream"
           >
             <h2 id={titleId} className="sr-only">
               Search published titles and summaries
@@ -184,6 +184,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
                 <X className="h-4 w-4" />
               </button>
             </div>
+            {isLoading ? <div className="search-scan" aria-hidden="true" /> : null}
 
             <div className="max-h-[60vh] overflow-y-auto p-3">
               {query.trim().length === 0 ? (
@@ -199,9 +200,9 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
                   No title or summary matches “{query}”.
                 </p>
               ) : (
-                <ul className="space-y-0">
-                  {results.map((item) => (
-                    <li key={item.id}>
+                <ul className="space-y-1">
+                  {results.map((item, index) => (
+                    <li key={item.id} className="search-hit" style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}>
                       <Link
                         href={item.url}
                         onClick={closeSearch}
