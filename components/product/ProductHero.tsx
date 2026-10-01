@@ -1,35 +1,30 @@
 import CurrentWorkCard from "@/components/product/CurrentWorkCard";
-import { getPlatformCopy } from "@/lib/config";
+import { getBrandConfig, getPlatformCopy } from "@/lib/config";
 import type { LearnerCatalog } from "@/lib/continue-learning";
 
 export default function ProductHero({ catalog }: { catalog: LearnerCatalog }) {
   const copy = getPlatformCopy();
+  const brand = getBrandConfig();
   const published = catalog.days.filter((day) => day.published).length;
   const planned = Math.max(0, catalog.totalDays - published);
 
   return (
-    <section className="relative overflow-hidden pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pt-10 lg:pb-14">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-none lg:px-8">
-        <div className="hero-rise">
-        <p className="kicker text-gold/85">{copy.heroBadge || "Current program"}</p>
-        <h1 className="mt-3 font-serif text-[1.85rem] leading-[0.95] tracking-[0.01em] text-cream sm:text-5xl lg:text-[3.15rem]">
-          {catalog.title}
-        </h1>
-        <p className="stat-line mt-4">
+    <div className="universe-copy">
+      <div className="universe-copy-inner">
+        <p className="universe-brand universe-in">{brand.name}</p>
+        <p className="kicker universe-in mt-3 text-gold/85">{copy.heroBadge || "Current program"}</p>
+        <h1 className="universe-title universe-in">{catalog.title}</h1>
+        <p className="stat-line universe-in mt-4">
           <span>{catalog.durationLabel}</span>
           <span>{catalog.phases.length} phases</span>
           <span>{published} available</span>
           <span>{planned} planned</span>
         </p>
-        <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/58 sm:text-[16px]">
-          {copy.heroDescription || catalog.description}
-        </p>
-
-        <div className="mt-7 sm:mt-8">
-          <CurrentWorkCard catalog={catalog} size="hero" />
-        </div>
-        </div>
+        <p className="universe-lead universe-in">{copy.heroDescription || catalog.description}</p>
       </div>
-    </section>
+      <div className="universe-dock universe-in">
+        <CurrentWorkCard catalog={catalog} size="hero" />
+      </div>
+    </div>
   );
 }

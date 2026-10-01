@@ -4,7 +4,7 @@ import WhySection from "@/components/home/WhySection";
 import MethodSection from "@/components/home/MethodSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
 import CallToAction from "@/components/home/CallToAction";
-import RishiCore from "@/components/3d/RishiCore";
+import UniverseStage from "@/components/immersive/UniverseStage";
 import SectionFrame from "@/components/motion/SectionFrame";
 import { getLearnerCatalog } from "@/lib/programs";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
@@ -25,19 +25,15 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
 
   return (
     <>
-      <div className="rishi-story product-stage">
+      <UniverseStage>
         <ProductHero catalog={catalog} />
-        <div className="rishi-story-core">
-          <div className="rishi-core-sticky">
-            <RishiCore />
-          </div>
-        </div>
+      </UniverseStage>
 
-        <section id="path" className="relative scroll-mt-24 py-4 sm:py-8 lg:py-11">
+      <section id="path" className="journey-chapter relative scroll-mt-24 py-10 sm:py-16">
           <span className="chapter-watermark" aria-hidden="true">
             02
           </span>
-          <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-none lg:px-8">
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <p className="kicker text-gold/80">The spine</p>
             <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
               {catalog.phases.length} phases · {catalog.totalDays} days
@@ -65,7 +61,6 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
             </div>
           </div>
         </section>
-      </div>
 
       <div className="geometry-rule" aria-hidden="true" />
 
