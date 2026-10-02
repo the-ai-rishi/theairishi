@@ -173,7 +173,7 @@ function ParticleField() {
     const node = points.current;
     if (!node || !sceneBus.visible) return;
     const material = node.material as THREE.PointsMaterial;
-    material.opacity = 0.15 + sceneBus.boot * 0.75;
+    material.opacity = 0.12 + sceneBus.boot * 0.7 + sceneBus.mastery * 0.15;
     node.rotation.y += delta * (0.045 + Math.abs(sceneBus.px) * 0.08);
     node.rotation.x = sceneBus.py * 0.18;
     const disperse = 0.35 + sceneBus.boot * 0.85 + smoothstep(sceneBus.scroll, 0.15, 0.7) * 0.45;
@@ -227,12 +227,22 @@ function KnowledgeNet() {
   useFrame((_, delta) => {
     const node = group.current;
     if (!node || !sceneBus.visible) return;
-    const reveal = smoothstep(sceneBus.scroll, 0.22, 0.78);
+    const reveal = Math.max(smoothstep(sceneBus.scroll, 0.22, 0.78), sceneBus.mastery);
     node.scale.setScalar(0.15 + reveal * 1.35);
     node.position.y = (1 - reveal) * -0.4;
     const lines = node.children[0] as THREE.LineSegments;
     const material = lines.material;
     if (material instanceof THREE.LineBasicMaterial) material.opacity = reveal * 0.9;
+    const lit = Math.round(sceneBus.mastery * (node.children.length - 1));
+    for (let index = 1; index < node.children.length; index += 1) {
+      const mesh = node.children[index] as THREE.Mesh;
+      const mat = mesh.material;
+      if (!(mat instanceof THREE.MeshBasicMaterial)) continue;
+      const on = index <= lit || sceneBus.scroll > 0.55;
+      mat.color.set(on ? (index === 1 ? "#f3eee4" : index % 3 === 0 ? "#67e8f9" : "#d4b46a") : "#3a3428");
+      const scale = on ? 1 : 0.45;
+      mesh.scale.setScalar(scale);
+    }
     node.rotation.y += delta * 0.1;
     node.rotation.x = sceneBus.py * 0.08;
   });
@@ -266,7 +276,7 @@ function CameraRig() {
     state.camera.lookAt(sceneBus.px * 0.2, 0.78 - sceneBus.scroll * 0.15, 0);
     if (light.current) {
       light.current.position.set(sceneBus.px * 2.6, 1.6 - sceneBus.py * 1.2, 2.2);
-      light.current.intensity = 10 + sceneBus.boot * 6 + sceneBus.scroll * 5;
+      light.current.intensity = 8 + sceneBus.boot * 6 + sceneBus.scroll * 4 + sceneBus.mastery * 10;
     }
   });
 

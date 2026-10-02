@@ -5,6 +5,7 @@ import MethodSection from "@/components/home/MethodSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
 import CallToAction from "@/components/home/CallToAction";
 import UniverseStage from "@/components/immersive/UniverseStage";
+import ProgressSignal from "@/components/immersive/ProgressSignal";
 import SectionFrame from "@/components/motion/SectionFrame";
 import { getLearnerCatalog } from "@/lib/programs";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
@@ -26,6 +27,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
   return (
     <>
       <UniverseStage>
+        <ProgressSignal total={catalog.totalDays} />
         <ProductHero catalog={catalog} />
       </UniverseStage>
 

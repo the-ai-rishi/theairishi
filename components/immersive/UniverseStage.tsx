@@ -28,6 +28,7 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
 export default function UniverseStage({ children }: { children: ReactNode }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  const veilRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<"boot" | "live" | "still">("boot");
   const [awake, setAwake] = useState(true);
 
@@ -35,7 +36,10 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     sceneBus.mobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 800;
     const frame = window.requestAnimationFrame(() => setMode(reduced ? "still" : "live"));
-    if (reduced) return () => window.cancelAnimationFrame(frame);
+    if (reduced) {
+      if (veilRef.current) veilRef.current.dataset.state = "gone";
+      return () => window.cancelAnimationFrame(frame);
+    }
 
     const track = trackRef.current;
     if (!track) return () => window.cancelAnimationFrame(frame);
@@ -94,6 +98,30 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
     window.addEventListener("pointermove", onPointer, { passive: true });
     window.addEventListener("deviceorientation", onOrient);
     document.addEventListener("visibilitychange", onVisibility);
+    const veil = veilRef.current;
+    let bootTimer = 0;
+    const dismiss = () => {
+      if (!veil) return;
+      veil.dataset.state = "gone";
+      try {
+        sessionStorage.setItem("rishi-awake", "1");
+      } catch {
+        /* private mode */
+      }
+    };
+    let seenBoot = false;
+    try {
+      seenBoot = sessionStorage.getItem("rishi-awake") === "1";
+    } catch {
+      seenBoot = true;
+    }
+    if (veil && !seenBoot) {
+      bootTimer = window.setTimeout(dismiss, 2600);
+      window.addEventListener("pointerdown", dismiss, { once: true });
+      window.addEventListener("keydown", dismiss, { once: true });
+    } else if (veil) {
+      veil.dataset.state = "gone";
+    }
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
@@ -101,6 +129,9 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
       window.removeEventListener("pointermove", onPointer);
       window.removeEventListener("deviceorientation", onOrient);
       document.removeEventListener("visibilitychange", onVisibility);
+      window.clearTimeout(bootTimer);
+      window.removeEventListener("pointerdown", dismiss);
+      window.removeEventListener("keydown", dismiss);
     };
   }, []);
 
@@ -120,6 +151,11 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
           <span>System</span>
           <span ref={labelRef}>Wisdom</span>
         </p>
+        <div ref={veilRef} className="awaken" aria-hidden="true">
+          <p>Dormant</p>
+          <p>120-day path</p>
+          <p>Signal</p>
+        </div>
         {children}
       </div>
     </div>
