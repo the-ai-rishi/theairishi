@@ -144,7 +144,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
     <main
       className="focus-bay read-room relative min-h-screen text-cream"
       data-phase={phaseNumber}
-      style={{ ["--phase" as string]: phaseTone.ink, ["--phase-wash" as string]: phaseTone.wash }}
+      style={{
+        ["--phase" as string]: phaseTone.ink,
+        ["--phase-pigment" as string]: phaseTone.pigment,
+        ["--phase-wash" as string]: phaseTone.wash,
+      }}
     >
       <div className="relative z-[1]">
       <script

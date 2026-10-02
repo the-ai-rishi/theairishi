@@ -29,7 +29,11 @@ function Chapter({
       id={phase.id}
       data-mode={retrieval ? "retrieval" : undefined}
       aria-labelledby={`${phase.id}-title`}
-      style={{ ["--phase" as string]: tone.ink, ["--phase-wash" as string]: tone.wash }}
+      style={{
+        ["--phase" as string]: tone.ink,
+        ["--phase-pigment" as string]: tone.pigment,
+        ["--phase-wash" as string]: tone.wash,
+      }}
     >
       <p className="field-kicker">
         Phase {String(phase.number).padStart(2, "0")}

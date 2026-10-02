@@ -186,7 +186,11 @@ export default function CurriculumField({
       className={mobile ? "field-track is-mobile" : "field-track"}
       ref={trackRef}
       data-phase={phase.number}
-      style={{ ["--phase" as string]: tone.ink, ["--phase-wash" as string]: tone.wash }}
+      style={{
+        ["--phase" as string]: tone.ink,
+        ["--phase-pigment" as string]: tone.pigment,
+        ["--phase-wash" as string]: tone.wash,
+      }}
     >
       <div className="field-sticky">
         <div className="field-stage">

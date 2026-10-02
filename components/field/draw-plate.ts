@@ -23,6 +23,30 @@ function mark() {
   return accent;
 }
 
+function tint(alpha: number, color = accent) {
+  const n = parseInt(color.slice(1), 16);
+  const r = (n >> 16) & 255;
+  const g = (n >> 8) & 255;
+  const b = n & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+/** A colored field behind the drawing, so the plate is a surface, not a line on paper. */
+function paintField(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
+  const g = ctx.createLinearGradient(x, y, x + w * 0.2, y + h);
+  g.addColorStop(0, tint(0.62));
+  g.addColorStop(0.48, tint(0.34));
+  g.addColorStop(1, tint(0.1));
+  ctx.fillStyle = g;
+  roundRect(ctx, x, y, w, h * 0.92, 22);
+  ctx.fill();
+  const sun = ctx.createRadialGradient(x + w * 0.78, y + h * 0.22, 8, x + w * 0.72, y + h * 0.3, Math.max(w, h) * 0.55);
+  sun.addColorStop(0, tint(0.5));
+  sun.addColorStop(1, tint(0));
+  ctx.fillStyle = sun;
+  ctx.fillRect(x, y, w, h);
+}
+
 /** Curriculum evidence classes. Same four words as forge-120 evidenceLabels. */
 const EVIDENCE = ["OPERATED", "GENERATED", "SIMULATED", "BLOCKED"] as const;
 
@@ -180,6 +204,8 @@ function foundations(
     const open = model.publishedDays.includes(day);
     const hot = model.activeDay === day || near(pointer, x + w * 0.2, yy, h / count);
     const len = w * (0.12 + (i / Math.max(1, count - 1)) * 0.4);
+    ctx.fillStyle = tint(hot || open ? 0.72 : 0.28);
+    ctx.fillRect(x, yy - 6, len, 12);
     stroke(ctx, hot || open ? mark() : INK, hot ? weight * 2.2 : open ? weight * 1.5 : weight, () => {
       ctx.moveTo(x, yy);
       ctx.lineTo(x + len, yy);
@@ -206,6 +232,8 @@ function azure(
   ctx.strokeStyle = INK;
   ctx.lineWidth = weight * 1.3;
   roundRect(ctx, outerX, outerY, outerW, outerH, 18);
+  ctx.fillStyle = tint(0.28);
+  ctx.fill();
   ctx.stroke();
   const gapY = outerY + outerH * 0.38;
   ctx.strokeStyle = "#efe8dc";
@@ -230,6 +258,8 @@ function azure(
   ctx.strokeStyle = hot ? mark() : INK;
   ctx.lineWidth = hot ? weight * 1.8 : weight;
   roundRect(ctx, inX, inY, inW, inH, 28);
+  ctx.fillStyle = tint(hot ? 0.62 : 0.4);
+  ctx.fill();
   ctx.stroke();
   text(ctx, labels[2] || "private", inX + inW / 2, inY + inH / 2, hot ? mark() : INK, 12, "center");
 
@@ -262,6 +292,8 @@ function deliveryPath(
 ) {
   const baseline = y + h * 0.46;
   const travel = time === 0 ? 0.62 : (time * 0.12) % 1;
+  ctx.fillStyle = tint(0.45);
+  ctx.fillRect(x + w * 0.06, baseline - 9, w * 0.88, 18);
   stroke(ctx, HAIR, weight, () => {
     ctx.moveTo(x + w * 0.06, baseline);
     ctx.lineTo(x + w * 0.94, baseline);
@@ -310,6 +342,8 @@ function strata(
   labels.forEach((label, index) => {
     const top = y + h * (0.1 + index * 0.18);
     const hot = near(pointer, left + width / 2, top + 12, h * 0.1);
+    ctx.fillStyle = tint(0.18 + index * 0.12);
+    ctx.fillRect(left, top - 2, width, 26);
     stroke(ctx, hot ? mark() : INK, hot ? weight * 1.7 : weight, () => {
       ctx.moveTo(left, top + 16);
       for (let i = 0; i <= 20; i += 1) {
@@ -339,12 +373,16 @@ function kubernetes(
   nodes.forEach((t, index) => {
     const cx = x + w * t;
     const hot = near(pointer, cx, cy, w * 0.1);
+    ctx.beginPath();
+    ctx.arc(cx, cy, Math.min(w, h) * 0.09, 0, Math.PI * 2);
+    ctx.fillStyle = tint(hot ? 0.7 : 0.4);
+    ctx.fill();
     stroke(ctx, hot ? mark() : INK, weight * 1.4, () => {
       ctx.arc(cx, cy, Math.min(w, h) * 0.09, 0, Math.PI * 2);
     });
     if (index < nodes.length - 1) {
       const nx = x + w * nodes[index + 1];
-      stroke(ctx, FAINT, weight, () => {
+      stroke(ctx, mark(), weight * 1.6, () => {
         ctx.moveTo(cx, cy - Math.min(w, h) * 0.09);
         ctx.quadraticCurveTo((cx + nx) / 2, cy - h * 0.22, nx, cy - Math.min(w, h) * 0.09);
       });
@@ -374,6 +412,8 @@ function aks(
 ) {
   const labels = terms(model.summary, 4);
   const bandY = y + h * 0.22;
+  ctx.fillStyle = tint(0.5);
+  ctx.fillRect(x + w * 0.08, bandY - 12, w * 0.84, 28);
   stroke(ctx, mark(), weight * 2.4, () => {
     ctx.moveTo(x + w * 0.08, bandY);
     ctx.lineTo(x + w * 0.92, bandY);
@@ -454,6 +494,14 @@ function reliability(
     ctx.moveTo(left, threshold);
     ctx.lineTo(right, threshold);
   });
+  ctx.fillStyle = tint(0.22);
+  ctx.beginPath();
+  ctx.moveTo(left, threshold);
+  ctx.lineTo(right, threshold);
+  ctx.lineTo(right, base);
+  ctx.lineTo(left, base);
+  ctx.closePath();
+  ctx.fill();
   text(ctx, "threshold", right, threshold - 12, mark(), 11, "right");
   text(ctx, "SLI", left - 8, base + 16, INK, 11, "left");
   const points: { x: number; y: number }[] = [];
@@ -505,7 +553,9 @@ function retrieval(
   lines.forEach((len, index) => {
     const yy = y + h * (0.12 + index * 0.1);
     const on = index === cited;
-    stroke(ctx, on ? SIGNAL : INK, on ? weight * 1.8 : weight, () => {
+    ctx.fillStyle = on ? tint(0.72, SIGNAL) : tint(0.35);
+    ctx.fillRect(x + w * 0.06, yy - 5, w * len * 0.48, 10);
+    stroke(ctx, on ? SIGNAL : mark(), on ? weight * 1.8 : weight, () => {
       ctx.moveTo(x + w * 0.06, yy);
       ctx.lineTo(x + w * (0.06 + len * 0.48), yy);
     });
@@ -520,9 +570,11 @@ function retrieval(
   ctx.strokeStyle = SIGNAL;
   ctx.lineWidth = weight * 1.4;
   roundRect(ctx, cardX, cardY, w * 0.28, h * 0.28, 2);
+  ctx.fillStyle = tint(0.78, SIGNAL);
+  ctx.fill();
   ctx.stroke();
-  text(ctx, "cited", cardX + 12, cardY + 22, SIGNAL, 12);
-  text(ctx, "one passage", cardX + 12, cardY + 42, INK, 11);
+  text(ctx, "cited", cardX + 12, cardY + 22, "#efe8dc", 12);
+  text(ctx, "one passage", cardX + 12, cardY + 42, "#efe8dc", 11);
 }
 
 function defence(
@@ -540,6 +592,8 @@ function defence(
   const fh = h * 0.7;
   ctx.strokeStyle = INK;
   ctx.lineWidth = weight * 1.7;
+  ctx.fillStyle = tint(0.28);
+  ctx.fillRect(fx, fy, fw, fh);
   ctx.strokeRect(fx, fy, fw, fh);
   text(ctx, "closed", fx + 10, fy + 14, INK, 11);
   EVIDENCE.forEach((label, index) => {
@@ -571,6 +625,7 @@ export function drawPlate(
   ctx.lineCap = "round";
   const weight = Math.max(1.05, Math.min(w, h) / 380);
   const { x, y, pw, ph } = bounds(w, h);
+  paintField(ctx, x, y, pw, ph);
   crops(ctx, x, y, pw, ph, weight);
   text(
     ctx,
