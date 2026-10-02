@@ -43,7 +43,7 @@ export default function MethodPath({ steps }: { steps: Step[] }) {
       style={{ "--lit": (active + 1) / Math.max(1, steps.length) } as CSSProperties}
     >
       {steps.map((step, index) => (
-        <li key={step.n} className={`method-step panel ${index <= active ? "is-lit" : ""}`} data-tilt="">
+        <li key={step.n} className={`method-step ${index <= active ? "is-lit" : ""}`}>
           <p className="font-mono text-[11px] tracking-[0.18em] text-gold/70">{step.n}</p>
           <h3 className="mt-2 font-serif text-xl text-cream sm:text-2xl">{step.title}</h3>
           <p className="mt-2 text-[14px] leading-relaxed text-cream/45">{step.body}</p>

@@ -1044,44 +1044,6 @@ body {
   mask-image: radial-gradient(ellipse at 50% 28%, #000 8%, transparent 74%);
 }
 
-.ambient-orbit {
-  position: absolute;
-  left: 50%;
-  top: -18%;
-  width: 120vmax;
-  height: 120vmax;
-  transform: translateX(-50%);
-  border: 1px solid rgba(212, 180, 106, 0.06);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 10vmax rgba(139, 124, 255, 0.015),
-    inset 0 0 0 16vmax rgba(103, 232, 249, 0.018);
-}
-
-.pointer-halo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 30;
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
-  border: 1px solid rgba(212, 180, 106, 0.75);
-  border-radius: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.pointer-halo[data-on="true"] {
-  opacity: 1;
-}
-
-@media (pointer: coarse) {
-  .pointer-halo {
-    display: none;
-  }
-}
-
 .command-bar {
   position: relative;
   border: 1px solid rgba(243, 238, 228, 0.14);
@@ -1567,49 +1529,6 @@ body {
 .about-index {
   border-top: 1px solid var(--color-hairline);
   padding-top: 0.8rem;
-}
-
-.route-dock {
-  position: fixed;
-  z-index: 36;
-  left: 50%;
-  bottom: 0.75rem;
-  display: flex;
-  gap: 0.15rem;
-  transform: translateX(-50%);
-  padding: 0.25rem;
-  border: 1px solid rgba(243, 238, 228, 0.16);
-  background: #12110e;
-}
-
-.route-dock a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.5rem;
-  padding: 0 0.8rem;
-  color: rgba(243, 238, 228, 0.62);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.route-dock a[aria-current="page"] {
-  background: var(--color-cream);
-  color: var(--color-ink);
-}
-
-@media (max-width: 719px) {
-  .route-dock {
-    display: none;
-  }
-
-  [data-tone="learn"] footer,
-  [data-tone="editorial"] footer,
-  [data-tone="engineering"] footer,
-  [data-tone="brand"] footer {
-    padding-bottom: 0;
-  }
 }
 
 /* Unlayered .btn-primary sets display, which otherwise beats Tailwind's hidden. */

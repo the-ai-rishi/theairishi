@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { LearnerCatalog } from "@/lib/continue-learning";
-import { drawPhase } from "./draw-phase";
+import { drawPlate, type PlateModel } from "./draw-plate";
+
+function clock() {
+  return performance.now();
+}
 
 export default function CurriculumField({
   catalog,
@@ -26,12 +30,32 @@ export default function CurriculumField({
   const [activeDay, setActiveDay] = useState<number | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const phaseRef = useRef(0);
   const pointerRef = useRef<{ x: number; y: number } | null>(null);
   const lockRef = useRef(0);
-  phaseRef.current = index;
+  const modelRef = useRef<PlateModel>({
+    index: 0,
+    summary: "",
+    startDay: 1,
+    endDay: 1,
+    publishedDays: [],
+    activeDay: null,
+  });
   const phase = phases[index] || phases[0];
-  const days = phase ? catalog.days.filter((day) => day.phaseId === phase.id) : [];
+  const days = useMemo(
+    () => (phase ? catalog.days.filter((day) => day.phaseId === phase.id) : []),
+    [catalog.days, phase],
+  );
+
+  useLayoutEffect(() => {
+    modelRef.current = {
+      index,
+      summary: phase?.summary || "",
+      startDay: phase?.startDay || 1,
+      endDay: phase?.endDay || 1,
+      publishedDays: days.filter((day) => day.published).map((day) => day.day),
+      activeDay,
+    };
+  }, [index, phase, days, activeDay]);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 860px)");
@@ -62,16 +86,16 @@ export default function CurriculumField({
         canvas.height = ph;
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      drawPhase(ctx, phaseRef.current, w, h, pointerRef.current, reduce ? 0 : now / 1000);
+      drawPlate(ctx, modelRef.current, w, h, pointerRef.current, reduce ? 0 : now / 1000);
       if (alive && !reduce && !document.hidden) raf = requestAnimationFrame(paint);
     };
 
-    paint(performance.now());
+    paint(clock());
     const onVis = () => {
       if (!document.hidden && !reduce) raf = requestAnimationFrame(paint);
     };
     document.addEventListener("visibilitychange", onVis);
-    const onResize = () => paint(performance.now());
+    const onResize = () => paint(clock());
     window.addEventListener("resize", onResize);
     return () => {
       alive = false;
@@ -79,7 +103,7 @@ export default function CurriculumField({
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
     };
-  }, [index]);
+  }, [index, activeDay]);
 
   useEffect(() => {
     const readout = document.getElementById("world-readout");
@@ -99,7 +123,7 @@ export default function CurriculumField({
     const track = trackRef.current;
     if (!track) return;
     const onScroll = () => {
-      if (performance.now() < lockRef.current) return;
+      if (clock() < lockRef.current) return;
       const start = track.offsetTop;
       const span = Math.max(1, track.offsetHeight - window.innerHeight);
       const progress = Math.min(0.999, Math.max(0, (window.scrollY - start) / span));
@@ -114,10 +138,11 @@ export default function CurriculumField({
   function focusPhase(next: number) {
     const clamped = Math.max(0, Math.min(phases.length - 1, next));
     setIndex(clamped);
+    setActiveDay(null);
     if (mobile) return;
     const track = trackRef.current;
     if (!track) return;
-    lockRef.current = performance.now() + 700;
+    lockRef.current = clock() + 700;
     const span = Math.max(1, track.offsetHeight - window.innerHeight);
     const top = track.offsetTop + ((clamped + 0.15) / phases.length) * span;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -146,33 +171,34 @@ export default function CurriculumField({
             ))}
           </nav>
 
-          <div className="field-copy">
-            <p className="field-kicker">
-              {catalog.title}
-              <span> {phase.daysLabel}</span>
-            </p>
-            <h1>{phase.name}</h1>
-            {phase.summary ? <p className="field-summary">{phase.summary}</p> : null}
-            <p className="field-program">{description}</p>
-            <p className="field-actions">
-              <Link href={primaryHref}>{primaryLabel}</Link>
-              <Link href={secondaryHref}>{secondaryLabel}</Link>
-            </p>
-          </div>
-
-          <div className="field-canvas-wrap">
-            <canvas
-              ref={canvasRef}
-              className="field-canvas"
-              aria-hidden="true"
-              onPointerMove={(event) => {
-                const rect = event.currentTarget.getBoundingClientRect();
-                pointerRef.current = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-              }}
-              onPointerLeave={() => {
-                pointerRef.current = null;
-              }}
-            />
+          <div className="field-plate">
+            <div className="field-copy">
+              <p className="field-kicker">
+                {catalog.title}
+                <span> {phase.daysLabel}</span>
+              </p>
+              <h1>{phase.name}</h1>
+              {phase.summary ? <p className="field-summary">{phase.summary}</p> : null}
+              <p className="field-program">{description}</p>
+              <p className="field-actions">
+                <Link href={primaryHref}>{primaryLabel}</Link>
+                <Link href={secondaryHref}>{secondaryLabel}</Link>
+              </p>
+            </div>
+            <div className="field-canvas-wrap">
+              <canvas
+                ref={canvasRef}
+                className="field-canvas"
+                aria-hidden="true"
+                onPointerMove={(event) => {
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  pointerRef.current = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+                }}
+                onPointerLeave={() => {
+                  pointerRef.current = null;
+                }}
+              />
+            </div>
           </div>
 
           <div className="field-step">

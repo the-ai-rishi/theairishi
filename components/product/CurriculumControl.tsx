@@ -41,40 +41,70 @@ const RELIABILITY_DAYS = [89, 90, 91, 92, 93, 94, 95, 96];
 
 function ReliabilityFigure({ day }: { day: number }) {
   return (
-    <svg className="reliability-figure" viewBox="0 0 640 180" aria-hidden="true" data-day={day}>
-      <line className="dim" x1="24" y1="96" x2="616" y2="96" />
+    <svg className="reliability-figure" viewBox="0 0 640 200" aria-hidden="true" data-day={day}>
       {day === 89 ? (
         <>
-          <line className="ink" x1="180" y1="36" x2="180" y2="150" />
-          <line className="gold" x1="40" y1="96" x2="160" y2="96" />
-          <line className="dim" x1="200" y1="96" x2="420" y2="96" />
+          <line className="dim" x1="48" y1="100" x2="250" y2="100" />
+          <line className="brass" x1="250" y1="48" x2="250" y2="152" />
+          <line className="dim" x1="270" y1="100" x2="560" y2="100" />
+          <text className="ink-type" x="262" y="36">gate</text>
         </>
       ) : null}
-      {day === 91 ? <line className="signal" x1="80" y1="96" x2="420" y2="96" /> : null}
       {day === 90 || day === 92 ? (
         <>
-          <line className="gold" x1="48" y1="96" x2="280" y2="96" />
-          <polyline className="gold" points="268,88 292,96 268,104" />
-          <line className="dim" x1="300" y1="96" x2="560" y2="96" />
+          <line className="ink" x1="48" y1="100" x2="280" y2="100" />
+          <path className="brass" d="M280 100 C 360 100, 360 36, 280 36 C 200 36, 200 100, 250 100" />
+          <line className="ink" x1="250" y1="100" x2="420" y2="100" />
+          <text className="ink-type" x="300" y="28">{day === 90 ? "retry" : "same request, one effect"}</text>
+        </>
+      ) : null}
+      {day === 91 ? (
+        <>
+          <line className="ink" x1="64" y1="36" x2="64" y2="150" />
+          <line className="ink" x1="64" y1="150" x2="560" y2="150" />
+          <line className="brass" x1="64" y1="96" x2="420" y2="96" />
+          <text className="ink-type" x="48" y="24">1</text>
+          <text className="ink-type" x="48" y="166">0</text>
+          <text className="ink-type" x="430" y="92">SLI</text>
         </>
       ) : null}
       {day === 93 ? (
         <>
-          <polyline className="signal" points="40,120 160,112 280,40 420,118 580,110" />
-          <rect className="signal" x="268" y="24" width="22" height="22" />
+          <line className="brass" x1="40" y1="64" x2="600" y2="64" />
+          <polyline className="ink" points="40,130 160,122 250,118 310,28 380,124 580,118" />
+          <circle className="signal" cx="310" cy="28" r="6" />
+          <text className="ink-type" x="324" y="32">page</text>
+          <text className="ink-type" x="520" y="52">threshold</text>
         </>
       ) : null}
       {day === 94 ? (
         <>
-          <polyline className="signal" points="40,120 200,118 320,48" />
-          <rect className="ink" x="300" y="36" width="28" height="28" />
+          <line className="dim" x1="80" y1="56" x2="560" y2="56" />
+          <line className="dim" x1="80" y1="100" x2="560" y2="100" />
+          <line className="dim" x1="80" y1="144" x2="560" y2="144" />
+          <text className="ink-type" x="40" y="60">01</text>
+          <text className="ink-type" x="40" y="104">02</text>
+          <text className="ink-type" x="40" y="148">03</text>
+          <text className="ink-type" x="96" y="60">detect</text>
+          <text className="ink-type" x="96" y="104">decide</text>
+          <text className="ink-type" x="96" y="148">record</text>
         </>
       ) : null}
-      {day === 95 ? <rect className="ink" x="180" y="48" width="280" height="96" /> : null}
+      {day === 95 ? (
+        <>
+          <rect className="ink" x="160" y="28" width="320" height="144" />
+          <line className="dim" x1="184" y1="64" x2="440" y2="64" />
+          <line className="dim" x1="184" y1="92" x2="400" y2="92" />
+          <line className="dim" x1="184" y1="120" x2="420" y2="120" />
+          <text className="ink-type" x="184" y="48">record</text>
+        </>
+      ) : null}
       {day === 96 ? (
         <>
-          <rect className="ink" x="200" y="56" width="220" height="72" />
-          <rect className="signal" x="160" y="32" width="300" height="120" />
+          <rect className="dim" x="120" y="24" width="400" height="152" />
+          <rect className="ink" x="200" y="56" width="240" height="88" />
+          <text className="ink-type" x="136" y="44">boundary</text>
+          <text className="ink-type" x="216" y="104">evidence</text>
         </>
       ) : null}
     </svg>

@@ -1,7 +1,7 @@
 import CurriculumField from "@/components/field/CurriculumField";
+import SpanRule from "@/components/field/SpanRule";
 import brandLanguage from "@/content/config/brand-language.json";
 import CurrentWorkCard from "@/components/product/CurrentWorkCard";
-import JourneyMap from "@/components/product/JourneyMap";
 import WhySection from "@/components/home/WhySection";
 import MethodSection from "@/components/home/MethodSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
@@ -75,32 +75,18 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
         );
       case "phases":
         return (
-          <section key={section.id} id="path" className="journey-chapter constellation-world relative scroll-mt-24">
+          <section key={section.id} id="path" className="journey-chapter relative scroll-mt-24">
             <div className="relative mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
               <p className="kicker text-gold/80">{section.subtitle || catalog.title}</p>
               <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
                 {section.title || `${catalog.phases.length} phases · ${catalog.totalDays} days`}
               </h2>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">
-                You are in one phase at a time. Gold is complete. Outlined gold is a published day. Quiet marks are
-                planned titles, not empty pages.
+              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/62">
+                Width is the number of days in the phase. Select one to read its titles. Published days open.
+                Planned days stay titles.
               </p>
               <div className="mt-7">
-                <div className="mb-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/40">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="day-dot day-dot-done" /> Complete
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <span className="day-dot day-dot-now" /> Now
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <span className="day-dot day-dot-live" /> Available
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <span className="day-dot day-dot-plan" /> Planned
-                  </span>
-                </div>
-                <JourneyMap catalog={catalog} compact />
+                <SpanRule catalog={catalog} />
               </div>
             </div>
           </section>

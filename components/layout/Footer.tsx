@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
 import DestinationLinks from "@/components/brand/DestinationLinks";
-import FooterSeed from "@/components/immersive/FooterSeed";
 import brandLanguage from "@/content/config/brand-language.json";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 
@@ -17,8 +16,7 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
   return (
     <footer className="relative overflow-hidden border-t border-hairline bg-ink">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
-      <FooterSeed />
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 pt-2 pb-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:pb-12">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-12">
         <div className="footer-mark flex items-start gap-4 lg:col-span-5">
           <Logo brand={brand} variant="mark" />
           <div>

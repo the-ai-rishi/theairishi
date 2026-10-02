@@ -24,11 +24,12 @@ The phase name is the largest type on home and learn. It is not a caption under 
 
 ## Geometry
 
-- A line is a relationship or a threshold
-- A rectangle is a unit, a document, or a station
-- A closed frame is design and defence
-- Brass marks the active part of a structure
-- Signal marks a citation
+Plates share crop marks and a day ruler. The construction above the ruler changes with the phase. Its labels are words from that phase’s summary, not a separate icon set.
+
+- A rule is a day, a threshold, or a path
+- Brass is the active day, the seal, or the state line
+- Signal is retrieval and a blocked boundary only
+- A closed frame is design and defence, with the four evidence classes
 
 No rings. No petals as scenery. The eight-petal mark is only the logo.
 
@@ -41,9 +42,10 @@ No rings. No petals as scenery. The eight-petal mark is only the logo.
 
 ## Motion
 
-- The delivery artifact and the reliability signal move only when motion is allowed
-- Phase changes replace the drawing on the next frame
-- Reduced motion: one static draw, instant scroll
+- The delivery seal and the reliability probe move only when motion is allowed
+- Hover or focus on a day marks that day on the plate
+- Phase changes replace the construction
+- Reduced motion: one static draw, the seal sits on the path, instant scroll
 - The canvas loop stops when the document is hidden
 
 ## Navigation
