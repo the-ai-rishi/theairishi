@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Component, useEffect, useRef, useState, type ReactNode } from "react";
-import { sceneBus } from "./scene-bus";
+import { sceneBus, WORLD_IDS, WORLD_LABELS, worldIndex } from "./scene-bus";
 import StillCore from "./StillCore";
 
 const RishiScene = dynamic(() => import("./RishiScene"), {
@@ -10,7 +10,7 @@ const RishiScene = dynamic(() => import("./RishiScene"), {
   loading: () => <StillCore />,
 });
 
-const BEATS = ["Wisdom", "Foundations", "Engineering", "Intelligence", "Signal"];
+const BEATS = WORLD_LABELS;
 
 class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
   state = { failed: false };
@@ -43,7 +43,25 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
 
     const track = trackRef.current;
     if (!track) return () => window.cancelAnimationFrame(frame);
-    let beat = 0;
+    let beat = -1;
+
+    const publish = (progress: number) => {
+      const index = worldIndex(progress, sceneBus.boot);
+      sceneBus.world = index;
+      const id = WORLD_IDS[index];
+      if (document.documentElement.dataset.world !== id) {
+        document.documentElement.dataset.world = id;
+      }
+      if (index !== beat && labelRef.current) {
+        beat = index;
+        labelRef.current.textContent = BEATS[index];
+      }
+      const readout = document.getElementById("world-readout");
+      if (readout) {
+        readout.hidden = false;
+        if (readout.textContent !== BEATS[index]) readout.textContent = BEATS[index];
+      }
+    };
 
     const measure = () => {
       const total = Math.max(1, track.offsetHeight - window.innerHeight);
@@ -51,11 +69,7 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
       const progress = scrolled / total;
       sceneBus.scroll = progress;
       track.style.setProperty("--awakening", progress.toFixed(3));
-      const next = Math.min(BEATS.length - 1, Math.floor(progress * BEATS.length));
-      if (next !== beat && labelRef.current) {
-        beat = next;
-        labelRef.current.textContent = BEATS[next];
-      }
+      publish(progress);
     };
 
     const onPointer = (event: PointerEvent) => {
@@ -122,6 +136,13 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
     } else if (veil) {
       veil.dataset.state = "gone";
     }
+    const bootPulse = window.setInterval(() => {
+      if (sceneBus.boot >= 1 && sceneBus.world > 0) {
+        window.clearInterval(bootPulse);
+        return;
+      }
+      measure();
+    }, 120);
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
@@ -130,8 +151,15 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
       window.removeEventListener("deviceorientation", onOrient);
       document.removeEventListener("visibilitychange", onVisibility);
       window.clearTimeout(bootTimer);
+      window.clearInterval(bootPulse);
       window.removeEventListener("pointerdown", dismiss);
       window.removeEventListener("keydown", dismiss);
+      delete document.documentElement.dataset.world;
+      const readout = document.getElementById("world-readout");
+      if (readout) {
+        readout.textContent = "";
+        readout.hidden = true;
+      }
     };
   }, []);
 
@@ -149,7 +177,7 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
         </div>
         <p className="universe-beat" aria-hidden="true">
           <span>System</span>
-          <span ref={labelRef}>Wisdom</span>
+          <span ref={labelRef}>Awaken</span>
         </p>
         <div ref={veilRef} className="awaken" aria-hidden="true">
           <p>Dormant</p>

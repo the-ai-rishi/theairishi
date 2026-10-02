@@ -37,6 +37,40 @@ function circuitLoop(radius: number, squash: number) {
   return new THREE.BufferGeometry().setFromPoints(points);
 }
 
+const SEED_VERT = `
+varying vec3 vNormal;
+varying vec3 vView;
+void main() {
+  vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
+  vView = viewPosition.xyz;
+  vNormal = normalize(normalMatrix * normal);
+  gl_Position = projectionMatrix * viewPosition;
+}
+`;
+
+const SEED_FRAG = `
+uniform float uTime;
+uniform float uBoot;
+uniform float uMastery;
+varying vec3 vNormal;
+varying vec3 vView;
+void main() {
+  float fresnel = pow(1.0 - abs(dot(normalize(vNormal), normalize(-vView))), 1.7);
+  float pulse = 0.5 + 0.5 * sin(uTime * 1.35);
+  vec3 gold = vec3(0.94, 0.82, 0.56);
+  vec3 ink = vec3(0.06, 0.05, 0.04);
+  float life = clamp(uBoot * 0.8 + uMastery * 0.9 + fresnel * 0.55, 0.0, 1.5);
+  vec3 color = mix(ink, gold, fresnel) * (0.4 + life) + gold * pulse * uMastery * 0.35;
+  gl_FragColor = vec4(color, 1.0);
+}
+`;
+
+const seedUniforms = {
+  uTime: { value: 0 },
+  uBoot: { value: 0 },
+  uMastery: { value: 0 },
+};
+
 function LotusCore() {
   const group = useRef<THREE.Group>(null);
   const wire = useRef<THREE.Mesh>(null);
@@ -45,13 +79,18 @@ function LotusCore() {
   useFrame((_, delta) => {
     const node = group.current;
     if (!node || !sceneBus.visible) return;
-    const fold = smoothstep(sceneBus.scroll, 0.34, 0.88);
-    const open = Math.max(0.08, sceneBus.boot * (1 - fold * 0.78));
-    node.scale.setScalar(open);
-    node.rotation.y += delta * (0.22 + sceneBus.scroll * 0.55);
-    node.rotation.x = 0.48 + sceneBus.py * 0.22 - fold * 0.2;
-    node.rotation.z = sceneBus.px * 0.16;
-    if (wire.current) wire.current.rotation.y -= delta * 0.35;
+    seedUniforms.uTime.value += delta;
+    seedUniforms.uBoot.value = sceneBus.boot;
+    seedUniforms.uMastery.value = sceneBus.mastery;
+    const opened = smoothstep(sceneBus.scroll, 0.02, 0.3);
+    const fold = smoothstep(sceneBus.scroll, 0.5, 0.9);
+    const scale = Math.max(0.06, sceneBus.boot * (0.32 + opened * 0.9) * (1 - fold * 0.8));
+    node.scale.setScalar(scale);
+    const engineering = smoothstep(sceneBus.scroll, 0.4, 0.58) * (1 - smoothstep(sceneBus.scroll, 0.64, 0.82));
+    node.rotation.y += delta * (0.16 + engineering * 0.95 + sceneBus.scroll * 0.12);
+    node.rotation.x = 0.42 + sceneBus.py * 0.16 - fold * 0.35;
+    node.rotation.z = sceneBus.px * 0.1;
+    if (wire.current) wire.current.rotation.y -= delta * (0.28 + engineering * 0.4);
   });
 
   return (
@@ -77,8 +116,8 @@ function LotusCore() {
         <meshBasicMaterial color="#67e8f9" transparent opacity={0.7} />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.18, 32, 32]} />
-        <meshStandardMaterial color="#fff8ea" emissive="#f0d090" emissiveIntensity={3.4} />
+        <sphereGeometry args={[0.2, 40, 40]} />
+        <shaderMaterial uniforms={seedUniforms} vertexShader={SEED_VERT} fragmentShader={SEED_FRAG} />
       </mesh>
       <mesh>
         <sphereGeometry args={[0.62, 24, 24]} />
@@ -104,10 +143,12 @@ function OrbitRings() {
   useFrame((_, delta) => {
     const node = group.current;
     if (!node || !sceneBus.visible) return;
-    const spread = 0.2 + sceneBus.boot * 0.8 + smoothstep(sceneBus.scroll, 0.04, 0.5) * 0.95;
+    const spread = 0.16 + sceneBus.boot * 0.75 + smoothstep(sceneBus.scroll, 0.08, 0.46) * 1.05;
+    const engineering = smoothstep(sceneBus.scroll, 0.36, 0.62);
     node.scale.setScalar(spread);
-    node.rotation.y += delta * (0.14 + sceneBus.px * 0.05);
-    node.rotation.x = sceneBus.py * 0.12;
+    node.rotation.y += delta * (0.1 + engineering * 0.28 + sceneBus.px * 0.04);
+    node.rotation.x = sceneBus.py * 0.1 + engineering * 0.22;
+    node.rotation.z = engineering * 0.28;
   });
 
   const rings: Array<{ radius: number; color: string; rotation: [number, number, number] }> = [
@@ -174,7 +215,8 @@ function ParticleField() {
     if (!node || !sceneBus.visible) return;
     const material = node.material as THREE.PointsMaterial;
     material.opacity = 0.12 + sceneBus.boot * 0.7 + sceneBus.mastery * 0.15;
-    node.rotation.y += delta * (0.045 + Math.abs(sceneBus.px) * 0.08);
+    const engineering = smoothstep(sceneBus.scroll, 0.4, 0.62);
+    node.rotation.y += delta * (0.04 + engineering * 0.14 + Math.abs(sceneBus.px) * 0.06);
     node.rotation.x = sceneBus.py * 0.18;
     const disperse = 0.35 + sceneBus.boot * 0.85 + smoothstep(sceneBus.scroll, 0.15, 0.7) * 0.45;
     const gather = smoothstep(sceneBus.scroll, 0.72, 1);
@@ -227,7 +269,7 @@ function KnowledgeNet() {
   useFrame((_, delta) => {
     const node = group.current;
     if (!node || !sceneBus.visible) return;
-    const reveal = Math.max(smoothstep(sceneBus.scroll, 0.22, 0.78), sceneBus.mastery);
+    const reveal = Math.max(smoothstep(sceneBus.scroll, 0.42, 0.84), sceneBus.mastery);
     node.scale.setScalar(0.15 + reveal * 1.35);
     node.position.y = (1 - reveal) * -0.4;
     const lines = node.children[0] as THREE.LineSegments;
@@ -267,15 +309,37 @@ function CameraRig() {
   useFrame((state, delta) => {
     if (!sceneBus.visible) return;
     sceneBus.boot = Math.min(1, sceneBus.boot + delta * 0.55);
-    const ease = 1 - (1 - sceneBus.boot) ** 3;
-    const depth = THREE.MathUtils.lerp(7.4, 4.35, smoothstep(sceneBus.scroll, 0, 0.85));
-    const targetZ = THREE.MathUtils.lerp(13.5, depth, ease);
-    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetZ, 0.08);
-    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, sceneBus.px * 0.85, 0.06);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 0.35 - sceneBus.py * 0.4, 0.06);
-    state.camera.lookAt(sceneBus.px * 0.2, 0.78 - sceneBus.scroll * 0.15, 0);
+    const bootEase = 1 - (1 - sceneBus.boot) ** 3;
+    const scroll = sceneBus.scroll;
+    const time = state.clock.elapsedTime;
+    const approach = smoothstep(scroll, 0, 0.42);
+    const pullback = smoothstep(scroll, 0.56, 0.86);
+    const closeZ = THREE.MathUtils.lerp(6.5, 4.55, approach);
+    const storyZ = THREE.MathUtils.lerp(closeZ, 8.15, pullback);
+    const targetZ = THREE.MathUtils.lerp(12.8, storyZ, bootEase);
+    const yaw = Math.sin(scroll * Math.PI) * 0.85 * (1 - pullback * 0.35);
+    const driftX = Math.sin(time * 0.31) * 0.1;
+    const driftY = Math.cos(time * 0.23) * 0.06;
+    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetZ, 0.07);
+    state.camera.position.x = THREE.MathUtils.lerp(
+      state.camera.position.x,
+      driftX + sceneBus.px * 0.42 + yaw,
+      0.06,
+    );
+    state.camera.position.y = THREE.MathUtils.lerp(
+      state.camera.position.y,
+      driftY + 0.08 - sceneBus.py * 0.28 - pullback * 0.15,
+      0.06,
+    );
+    state.camera.lookAt(sceneBus.px * 0.1, 0.04, 0);
+    const camera = state.camera as THREE.PerspectiveCamera;
+    const fov = THREE.MathUtils.lerp(33, 41, pullback);
+    if (Math.abs(camera.fov - fov) > 0.04) {
+      camera.fov = THREE.MathUtils.lerp(camera.fov, fov, 0.08);
+      camera.updateProjectionMatrix();
+    }
     if (light.current) {
-      light.current.position.set(sceneBus.px * 2.6, 1.6 - sceneBus.py * 1.2, 2.2);
+      light.current.position.set(sceneBus.px * 2.2, 1.4 - sceneBus.py, 2.4);
       light.current.intensity = 8 + sceneBus.boot * 6 + sceneBus.scroll * 4 + sceneBus.mastery * 10;
     }
   });
@@ -304,7 +368,7 @@ export default function RishiScene({ awake }: { awake: boolean }) {
   return (
     <Canvas
       dpr={sceneBus.mobile ? [1, 1.15] : [1, 1.5]}
-      camera={{ position: [0, 0.35, 13.5], fov: 36, near: 0.1, far: 40 }}
+      camera={{ position: [0, 0.1, 12.8], fov: 33, near: 0.1, far: 40 }}
       gl={{ antialias: !sceneBus.mobile, alpha: false, powerPreference: "high-performance" }}
       frameloop={awake ? "always" : "never"}
     >

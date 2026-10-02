@@ -88,6 +88,7 @@ export default function Header({
         aria-label="Primary"
       >
         <Logo brand={brand} variant="horizontal" />
+        <span id="world-readout" className="world-readout" hidden aria-hidden="true" />
 
         <div className="hidden items-center gap-7 lg:flex">
           {primary.map((item) => (

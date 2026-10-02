@@ -1,4 +1,5 @@
 import ProductHero from "@/components/product/ProductHero";
+import CurrentWorkCard from "@/components/product/CurrentWorkCard";
 import JourneyMap from "@/components/product/JourneyMap";
 import WhySection from "@/components/home/WhySection";
 import MethodSection from "@/components/home/MethodSection";
@@ -10,7 +11,7 @@ import SectionFrame from "@/components/motion/SectionFrame";
 import { getLearnerCatalog } from "@/lib/programs";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
 import type { SocialPlatform } from "@/lib/config";
-import { getPlatformStory } from "@/lib/config";
+import { getPlatformCopy, getPlatformStory } from "@/lib/config";
 
 export default function ProductHome({ sections }: { sections: ResolvedHomepageSection[] }) {
   const catalog = getLearnerCatalog();
@@ -23,6 +24,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
   const path = byType.get("path");
   const community = byId.get("community");
   const story = getPlatformStory();
+  const copy = getPlatformCopy();
 
   return (
     <>
@@ -31,11 +33,24 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
         <ProductHero catalog={catalog} />
       </UniverseStage>
 
-      <section id="path" className="journey-chapter relative scroll-mt-24 py-10 sm:py-16">
+      <section className="world-lock" aria-labelledby="world-lock-title">
+        <div className="world-lock-copy">
+          <p className="kicker text-gold/80">The path is open</p>
+          <h2 id="world-lock-title" className="mt-3 font-serif text-[1.75rem] leading-tight text-cream sm:text-4xl">
+            Continue from the day this system is holding.
+          </h2>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-cream/70">
+            {copy.heroDescription || catalog.description}
+          </p>
+        </div>
+        <CurrentWorkCard catalog={catalog} />
+      </section>
+
+      <section id="path" className="journey-chapter constellation-world relative scroll-mt-24">
           <span className="chapter-watermark" aria-hidden="true">
             02
           </span>
-          <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="relative mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
             <p className="kicker text-gold/80">The spine</p>
             <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
               {catalog.phases.length} phases · {catalog.totalDays} days

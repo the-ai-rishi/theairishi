@@ -3,16 +3,22 @@
 .universe-track {
   --awakening: 0;
   position: relative;
+  height: 168vh;
+  margin-top: -4.5rem;
 }
 
 .universe-sticky {
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
 }
 
 .universe-scene {
-  position: relative;
-  height: 62svh;
-  min-height: 260px;
+  position: absolute;
+  inset: 0;
+  height: auto;
+  min-height: 0;
   overflow: hidden;
   background: #08080b;
 }
@@ -112,139 +118,196 @@
   100% { opacity: 0.35; }
 }
 
-.universe-copy {
-  position: relative;
+.system-overlay {
+  position: absolute;
+  inset: 0;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin-top: -14vh;
-  padding: 0 1rem 1.25rem;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 5.5rem 8vw 7vh;
+  text-align: center;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(8, 8, 11, 0) 0%, rgba(8, 8, 11, 0.55) 22%, #08080b 46%);
+  background: linear-gradient(180deg, transparent 70%, rgba(8, 8, 11, 0.84) 100%);
 }
 
-.universe-copy-inner,
-.universe-dock {
+.system-kicker,
+.system-meta,
+.system-enter {
   pointer-events: auto;
 }
 
-.universe-brand {
-  margin: 0;
+.system-kicker {
+  margin: 0 0 0.8rem;
   color: var(--color-gold-bright);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.42em;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
 }
 
-.universe-title {
-  margin-top: 0.35rem;
+.system-title {
+  margin: 0;
+  max-width: 16ch;
   color: var(--color-cream);
   font-family: var(--font-serif);
-  font-size: clamp(2.7rem, 12vw, 4.4rem);
+  font-size: clamp(2rem, 5.2vw, 3.15rem);
   font-weight: 400;
-  letter-spacing: calc(-0.035em + var(--awakening) * 0.05em);
-  line-height: 0.92;
-  text-wrap: balance;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
 }
 
-.universe-lead {
-  max-width: 38rem;
-  margin-top: 0.9rem;
-  color: rgba(243, 238, 228, 0.68);
-  font-size: 0.98rem;
-  line-height: 1.55;
+.system-word {
+  display: inline-block;
+  margin: 0 0.14em;
+  transition: transform 700ms var(--ease-out), opacity 700ms var(--ease-out);
 }
 
-.universe-dock .shift-ticket {
+.system-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 0.9rem;
+  margin: 1rem 0 0;
+  color: rgba(243, 238, 228, 0.62);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.system-enter {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0.85rem;
+  color: var(--color-gold-bright);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(212, 180, 106, 0.45);
+}
+
+.system-title,
+.system-kicker,
+.system-meta {
+  transition: letter-spacing 700ms var(--ease-out), transform 700ms var(--ease-out), opacity 700ms var(--ease-out);
+}
+
+html[data-world="void"] .system-title { letter-spacing: 0.16em; }
+html[data-world="awaken"] .system-title { letter-spacing: 0.06em; }
+html[data-world="wisdom"] .system-title { letter-spacing: -0.04em; }
+html[data-world="foundation"] .system-word:nth-child(odd) { transform: translateY(-1.4vh); }
+html[data-world="foundation"] .system-word:nth-child(even) { transform: translateY(1.1vh); }
+html[data-world="engineering"] .system-title { letter-spacing: 0.045em; }
+html[data-world="intelligence"] .system-title { letter-spacing: -0.06em; }
+html[data-world="signal"] .system-word:nth-child(odd) { transform: translateY(-3vh); }
+html[data-world="signal"] .system-word:nth-child(even) { transform: translateY(1.5vh); }
+
+.world-readout {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-bright);
+}
+
+.world-readout:not([hidden]) {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .world-readout:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-left: 0.35rem;
+  }
+
+  .world-readout:not([hidden])::before {
+    content: "";
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 999px;
+    background: var(--color-signal);
+    box-shadow: 0 0 8px var(--color-signal);
+  }
+}
+
+.world-lock {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 1.5rem;
+  margin-top: -1px;
+  padding: 2.5rem 1.25rem 1rem;
   background:
-    linear-gradient(180deg, rgba(243, 238, 228, 0.04), transparent 30%),
-    rgba(8, 8, 11, 0.72);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(10px);
+    linear-gradient(180deg, rgba(8, 8, 11, 0.2), #08080b 1.5rem);
+}
+
+.constellation-world {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.constellation-world .constellation {
+  height: min(92vw, 560px);
+  min-height: 340px;
 }
 
 @media (min-width: 960px) {
   .universe-track {
-    height: 230vh;
-  }
-
-  .universe-sticky {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    overflow: hidden;
-  }
-
-  .universe-sticky::before,
-  .universe-sticky::after {
-    content: "";
-    position: absolute;
-    bottom: 1.15rem;
-    left: 5vw;
-    z-index: 4;
-    height: 1px;
-    pointer-events: none;
-  }
-
-  .universe-sticky::after {
-    width: min(18rem, 24vw);
-    background: rgba(243, 238, 228, 0.12);
-  }
-
-  .universe-sticky::before {
-    width: calc(min(18rem, 24vw) * var(--awakening));
-    background: linear-gradient(90deg, var(--color-gold), var(--color-signal));
-  }
-
-  .universe-scene {
-    position: absolute;
-    inset: 0;
-    height: auto;
-    min-height: 0;
+    height: 280vh;
   }
 
   .still-core {
     width: min(46vw, 560px);
-    margin-top: 16vh;
+    margin-top: 18vh;
   }
 
-  .universe-copy {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.78fr);
-    gap: 2.5rem;
+  .system-overlay {
+    padding-bottom: 8vh;
+  }
+
+  .system-title {
+    font-size: clamp(2.8rem, 4.4vw, 4.4rem);
+  }
+
+  .world-lock {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
     align-items: end;
-    margin: 0;
-    padding: 0 4vw 4.2rem 5vw;
-    background: linear-gradient(180deg, transparent 0%, rgba(8, 8, 11, 0.2) 16%, rgba(8, 8, 11, 0.88) 62%, #08080b 100%);
+    gap: 3rem;
+    padding: 3rem 5vw 1.5rem;
   }
 
-  .universe-title {
-    font-size: clamp(3.4rem, 5.6vw, 6.4rem);
-    transform: translate3d(0, calc(var(--awakening) * -18px), 0);
+  .constellation-world .constellation {
+    height: min(70vh, 680px);
+    min-height: 460px;
   }
 }
 
-@media (min-width: 960px) and (max-height: 820px) {
-  .universe-title {
-    font-size: clamp(2.6rem, 4.6vw, 4.2rem);
-  }
+.universe-sticky::before,
+.universe-sticky::after {
+  content: "";
+  position: absolute;
+  bottom: 1.15rem;
+  left: 5vw;
+  z-index: 4;
+  height: 1px;
+  pointer-events: none;
+}
 
-  .universe-lead {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
+.universe-sticky::after {
+  width: min(18rem, 42vw);
+  background: rgba(243, 238, 228, 0.12);
+}
 
-  .universe-dock .shift-ticket ul {
-    display: none;
-  }
+.universe-sticky::before {
+  width: calc(min(18rem, 42vw) * var(--awakening));
+  background: linear-gradient(90deg, var(--color-gold), var(--color-signal));
 }
 
 @media (prefers-reduced-motion: no-preference) {
