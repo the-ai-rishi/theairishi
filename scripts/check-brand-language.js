@@ -48,11 +48,14 @@ function checkBrandLanguage(rootDir) {
   if (brand.displayName !== "THE AI RISHI") {
     errors.push("brand-language.json displayName must be THE AI RISHI");
   }
-  if (brand.tagline !== "ANCIENT WISDOM · MODERN INTELLIGENCE") {
-    errors.push("brand-language.json tagline must be the official line, including the middle dot");
+  if (brand.displayTagline !== false) {
+    errors.push("brand-language.json displayTagline must be false. The site does not show a slogan.");
   }
-  if (platform.brand?.tagline !== brand.tagline) {
-    errors.push("platform.json brand.tagline must match brand-language.json tagline exactly");
+  if (platform.brand && Object.prototype.hasOwnProperty.call(platform.brand, "tagline")) {
+    errors.push("platform.json must not set brand.tagline. The visible lockup is the name only.");
+  }
+  if (platform.copy?.heroTagline) {
+    errors.push("platform.json must not set copy.heroTagline.");
   }
   if (platform.copy?.heroDescription !== brand.programmeDescription) {
     errors.push("platform.json copy.heroDescription must match brand-language.json programmeDescription");
@@ -122,6 +125,7 @@ function checkBrandLanguage(rootDir) {
   SCAN_DIRS.forEach((dir) => walk(path.join(rootDir, dir), files));
   files.push(forgePath);
   const avoid = Array.isArray(brand.avoid) ? brand.avoid : [];
+  const hidden = Array.isArray(brand.doNotDisplay) ? brand.doNotDisplay : [];
   files.forEach((file) => {
     if (path.resolve(file) === path.resolve(brandPath)) return;
     const text = fs.readFileSync(file, "utf8");
@@ -131,9 +135,11 @@ function checkBrandLanguage(rootDir) {
         errors.push(`${path.relative(rootDir, file)} contains forbidden phrase: ${phrase}`);
       }
     });
-    if (text.includes("Ancient wisdom meets")) {
-      errors.push(`${path.relative(rootDir, file)} replaces the official tagline`);
-    }
+    hidden.forEach((phrase) => {
+      if (phrase && text.includes(phrase)) {
+        errors.push(`${path.relative(rootDir, file)} displays a withheld brand line`);
+      }
+    });
   });
 
   return errors;

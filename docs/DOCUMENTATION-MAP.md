@@ -63,7 +63,7 @@ Use the I want to table, then the What file do I edit table.
 
 | Job | File | Field / what to change |
 | --- | --- | --- |
-| Homepage title | `content/config/programs.json` | `title` (live: FORGE-120). Omit `copy.heroTitle` / `copy.heroTagline`. `copy.heroBadge` is the kicker. The brand tagline lives on `brand.tagline`. |
+| Homepage title | `content/config/programs.json` | `title` (live: FORGE-120). Omit `copy.heroTitle`, `copy.heroTagline`, and `brand.tagline`. The visible lockup is THE AI RISHI with no slogan. |
 | Hero description | `content/config/platform.json` | `copy.heroDescription` (and `brand.description` if the site description should match) |
 | Enable YouTube | `content/media/youtube.json` plus `content/config/platform.json` | Real items in youtube.json first. Then `social[]` id `youtube` and `contentTypes[]` id `youtube` `status` `active`. Do not invent items. Live files are empty and coming-soon. |
 | Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |

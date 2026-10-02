@@ -1,7 +1,8 @@
 {
   "brandName": "The AI Rishi",
   "displayName": "THE AI RISHI",
-  "tagline": "ANCIENT WISDOM · MODERN INTELLIGENCE",
+  "displayTagline": false,
+  "doNotDisplay": ["ANCIENT WISDOM · MODERN INTELLIGENCE"],
   "programmeName": "FORGE-120",
   "programmeDescription": "FORGE-120 is a 120-day hands-on path from fundamentals through cloud, Kubernetes, AKS, and reliability, then retrieval and controlled tool use. The model is not the starting point.",
   "outcome": "Day 120 is an independent-engineering checkpoint, not a claim of instant mastery.",

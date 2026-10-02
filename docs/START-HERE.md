@@ -141,7 +141,7 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 9. Do not edit `lib/content-data.generated.ts`. It is generated.
 10. Project frontmatter `status` is a badge (`Completed` / `In Progress` / `Planned`). Hide a lab with `enabled: false`.
 11. Content on this site is free. Do not add pricing pages.
-12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected. Same for `copy.heroTitle` and `copy.heroTagline` - omit them; the hero uses the program title.
+12. Do not add `brand.tagline` or `copy.heroTagline`. The visible lockup is the name only. The withheld line must not return. An empty tagline field is also rejected. Omit `copy.heroTitle`; the hero uses the program title.
 13. `brand.lineage` must not exist.
 14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** - the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
 15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.

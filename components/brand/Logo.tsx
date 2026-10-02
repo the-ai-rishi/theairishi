@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { BrandConfig } from "@/lib/config";
+import brandLanguage from "@/content/config/brand-language.json";
 import BrandMark from "./BrandMark";
 
 interface LogoProps {
@@ -14,15 +15,13 @@ export default function Logo({
   variant = "horizontal",
   className = "",
 }: LogoProps) {
-  const name = brand?.name || "The AI Rishi";
-  const label = brand?.logoAlt || name;
+  const name = brand?.logoAlt || brand?.name || "The AI Rishi";
+  const lockup = brandLanguage.displayName;
 
   if (variant === "mark") {
     return (
-      <Link href="/" aria-label={`${label}, home`} className={`inline-flex items-center ${className}`}>
-      <span className="relative inline-flex">
-        <BrandMark className="relative h-8 w-8 text-gold" />
-      </span>
+      <Link href="/" aria-label={`${name}, home`} className={`inline-flex items-center ${className}`}>
+        <BrandMark className="h-8 w-8 text-gold" />
       </Link>
     );
   }
@@ -30,14 +29,12 @@ export default function Logo({
   return (
     <Link
       href="/"
-      aria-label={`${label}, home`}
+      aria-label={`${name}, home`}
       className={`inline-flex min-w-0 items-center gap-2 sm:gap-2.5 ${className}`}
     >
-      <span className="relative inline-flex shrink-0">
-        <BrandMark className="relative h-6 w-6 text-gold sm:h-7 sm:w-7" />
-      </span>
+      <BrandMark className="h-6 w-6 shrink-0 text-gold sm:h-7 sm:w-7" />
       <span className="truncate font-serif text-[15px] leading-none tracking-[0.02em] text-cream sm:text-xl">
-        {name}
+        {lockup}
       </span>
     </Link>
   );

@@ -3,7 +3,7 @@
 Date: 2026-10-02. Branch: `feature/immersive-visual-upgrade`.
 
 Source of truth for approved wording: [content/config/brand-language.json](../content/config/brand-language.json).
-`platform.json` `brand.tagline` and `copy.heroDescription` must match it. `scripts/check-brand-language.js` fails validation if they diverge, if a scanned production file reintroduces a forbidden phrase, or if phase names and key day titles drift from `data/curriculum/forge-120.json`.
+`displayTagline` must stay false. `platform.json` must not set `brand.tagline` or `copy.heroTagline`. `copy.heroDescription` must match `programmeDescription`. `scripts/check-brand-language.js` fails validation if they diverge, if a scanned production file reintroduces a forbidden phrase or the withheld line, or if phase names and key day titles drift from `data/curriculum/forge-120.json`.
 
 Classifications:
 
@@ -18,9 +18,9 @@ The internal id `devops-engineer-mastery` is a key, not a public name. It stays 
 
 | Phrase | Where | Class |
 |---|---|---|
-| THE AI RISHI | Homepage title block, from `displayName` | APPROVED |
-| The AI Rishi | `platform.json` `brand.name`, footer, logo alt, copyright | APPROVED |
-| ANCIENT WISDOM · MODERN INTELLIGENCE | `brand.tagline`, homepage kicker, footer | APPROVED |
+| THE AI RISHI | Header, footer, homepage name, from `displayName` | APPROVED |
+| The AI Rishi | `platform.json` `brand.name`, logo alt, copyright | APPROVED |
+| ANCIENT WISDOM · MODERN INTELLIGENCE | Withheld. `doNotDisplay`. Must not render | REMOVE |
 | FORGE-120 | Programme title, homepage `h1` | SOURCE-DERIVED |
 | A technology learning platform. The current program is FORGE-120… | `brand.description` | APPROVED |
 | FORGE-120 is a 120-day hands-on path… The model is not the starting point. | `copy.heroDescription` | APPROVED |

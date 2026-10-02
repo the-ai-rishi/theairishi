@@ -56,7 +56,7 @@ export default function LessonWorkspaceChrome({
   const percent = catalog.totalDays > 0 ? Math.round((count / catalog.totalDays) * 100) : 0;
 
   return (
-    <header className="sticky top-0 z-30 border-b border-hairline bg-ink/88 backdrop-blur-md">
+    <header className="sticky top-0 z-30 border-b border-hairline bg-ink">
       <div className="mx-auto flex h-12 max-w-6xl items-center gap-2 px-3 sm:gap-3 sm:px-6 lg:px-8">
         <Logo brand={brand} variant="horizontal" priority />
         <p className="min-w-0 truncate font-mono text-[11px] text-cream/55 sm:text-[12px]">

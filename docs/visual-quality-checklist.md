@@ -1,22 +1,36 @@
 # Visual quality checklist
 
-Use this on the rendered homepage, not on the build log.
+Judge the rendered pages. A green build is not acceptance.
 
-- [ ] First viewport, motion off, is still the desk: rail, ivory sheet, day panel, colophon
-- [ ] The sheet is Foundations when the page opens, not a lotus, ring, or particle field
-- [ ] THE AI RISHI and `ANCIENT WISDOM · MODERN INTELLIGENCE` are exact
-- [ ] The programme name is FORGE-120, from the catalogue
-- [ ] Choosing a phase changes the drawing, the day list, and the header readout together
-- [ ] The names are the ten real phases, including day ranges 1–12 through 106–120
-- [ ] A published day in the panel opens the lesson. A planned day does not pretend to
-- [ ] Scroll changes the same phase state. It does not play a separate animation
-- [ ] Reliability and days 97–105 are operable HTML, and the state changes when you use them
-- [ ] Fixtures are labelled as fixtures. No live-model claim. No fake counts
-- [ ] Copy has no invented tagline, no “next-generation”, no “AI-powered”, no “Rishi OS”
-- [ ] Search opens as a system surface and finds a planned day such as MCP
-- [ ] Mobile at 390px: no horizontal overflow, phase rail usable, day list available, calls to action reachable
-- [ ] Reduced motion: sheet still present, phase change does not animate
-- [ ] Disabling a homepage section in `platform.json` removes that block without a code change
-- [ ] Guides, projects, and media sections that are off do not show placeholder content
-- [ ] Lesson, learn, and about still use the same bar and field
-- [ ] The page does not read as a caption under a graphic
+## Must be true
+
+- [ ] Header mark is the eight-petal brand mark, readable at small size, with no orbit ring
+- [ ] Visible lockup is THE AI RISHI. The withheld line is absent from the hero, footer, search, and document title
+- [ ] Homepage first viewport is the desk: phase rail, ivory sheet, day panel, colophon. Foundations when the page opens
+- [ ] Choosing a phase changes the drawing, the day list, and the header readout together, without a new history entry
+- [ ] Phase names are the ten FORGE-120 phases. A planned day is not a link
+- [ ] Days 89–105 instruments change state when used, and the fixtures are labelled as fixtures
+- [ ] `/learn` is a phase place: select a phase, see that phase’s days. Days 97–105 point at the instruments
+- [ ] A lesson is a reading bay with a solid bar, not a blurred one
+- [ ] `/guides` is a numbered contents board. `/projects` is a ledger, and both say earlier notes are not FORGE-120
+- [ ] About is an index plus the configured sections, not a single stacked hero
+- [ ] Search finds a planned day such as MCP
+- [ ] 404 says the page was not found. It does not invent a place name
+- [ ] 390px: no horizontal overflow. The dock does not cover the last action
+- [ ] Reduced motion: the sheet is still there. Phase change does not animate
+- [ ] Turning a homepage section off in `platform.json` removes that block
+
+## Scorecard
+
+Concrete findings from this pass. Not a grade.
+
+| Surface | Finding |
+|---|---|
+| Home | Still the desk. The slogan is gone. The mark is the original petal drawing. The bar is a solid rectangle, not a glass pill. |
+| Learn | The duplicate “spine” map under the day list is gone. One phase is on screen at a time. This is a plan, not a second homepage. |
+| Lesson | Chrome is solid. Prose stays on graphite because the lesson CSS hard-codes cream type; an ivory lesson would have hidden the text. Measure is capped. |
+| Guides | Index uses the width. Individual essays are still a single reading column. |
+| Projects | Alternating marketing rows are gone. Status and category are columns. |
+| About | Two columns from the configured sections. The previous edit had an unclosed tag; that is fixed. |
+| Search | Top sheet, no purple veil, no scanning gradient. |
+| Not done | This is not a spatial operating system. There is no per-route 3D, and research was not padded to 1,000 rows. Future YouTube and Instagram stay configuration slots with no fake posts. |

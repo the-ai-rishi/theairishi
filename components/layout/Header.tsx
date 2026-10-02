@@ -123,7 +123,7 @@ export default function Header({
                 <div
                   id="header-explore-menu"
                   role="menu"
-                  className="absolute right-0 z-50 mt-3 min-w-[12rem] rounded-md border border-gold/25 bg-ink/95 py-2 shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur-md"
+                  className="absolute right-0 z-50 mt-3 min-w-[12rem] border border-hairline bg-ink py-2"
                 >
                   {explore.map((item) => (
                     <Link
@@ -181,7 +181,7 @@ export default function Header({
         <>
           <button
             type="button"
-            className="fixed inset-0 top-[4.25rem] z-30 bg-ink/75 backdrop-blur-[2px] sm:top-[4.6rem] lg:hidden"
+            className="fixed inset-0 top-[4.25rem] z-30 bg-ink/80 sm:top-[4.6rem] lg:hidden"
             aria-label="Close navigation menu"
             onClick={() => {
               setMobileMenuOpen(false);
@@ -190,7 +190,7 @@ export default function Header({
           />
           <div
             id="mobile-navigation"
-            className="relative z-40 border-b border-hairline bg-ink/95 px-4 py-5 backdrop-blur-md lg:hidden"
+            className="relative z-40 border-b border-hairline bg-ink px-4 py-5 lg:hidden"
           >
             <div className="flex flex-col gap-1">
               {forLinks.map((item) => (

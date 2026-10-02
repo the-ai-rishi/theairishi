@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Footer from "@/components/layout/Footer";
+import RouteDock from "@/components/layout/RouteDock";
 import ExistingNotesNote from "@/components/content/ExistingNotesNote";
-import { getBrandConfig, getFooterNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
+import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { articleJsonLd, shareImages, shareTwitterImages } from "@/lib/seo";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 import { indexRobots, isTopicIndexable } from "@/lib/indexing";
@@ -13,7 +14,6 @@ import LessonNavigation from "@/components/learning/LessonNavigation";
 import LessonContent from "@/components/learning/LessonContent";
 import DayCompletion from "@/components/learning/DayCompletion";
 import LessonWorkspaceChrome from "@/components/learning/LessonWorkspaceChrome";
-import AmbientField from "@/components/atmosphere/AmbientField";
 import PointerHalo from "@/components/motion/PointerHalo";
 import DayRail from "@/components/learning/DayRail";
 import StartingAssessment from "@/components/learning/StartingAssessment";
@@ -97,6 +97,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
   const footerNav = getFooterNavigation();
+  const mainNav = getMainNavigation();
   const showStartingAssessment = lesson.metadata.exercise === "starting-assessment";
   const catalog = getLearnerCatalog(lesson.metadata.program);
   const adjacent = getPublishedAdjacent(slug, lesson.metadata.program);
@@ -138,7 +139,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
   return (
     <main className="focus-bay relative min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
-      <AmbientField />
       <PointerHalo />
       <div className="relative z-[1]">
       <script
@@ -213,6 +213,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       </div>
 
       <Footer navItems={footerNav} brand={brand} copy={copy} />
+      <RouteDock items={mainNav} />
       </div>
     </main>
   );

@@ -12,7 +12,6 @@ export default function ProductHero({ catalog }: { catalog: LearnerCatalog }) {
     <div className="system-overlay">
       <div className="system-id">
         <p className="system-brand">{brandLanguage.displayName}</p>
-        <p className="system-kicker">{brandLanguage.tagline}</p>
       </div>
       <div className="system-program">
         <h1 className="system-title">{catalog.title}</h1>

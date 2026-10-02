@@ -2,6 +2,7 @@ import Link from "next/link";
 import Logo from "@/components/brand/Logo";
 import DestinationLinks from "@/components/brand/DestinationLinks";
 import FooterSeed from "@/components/immersive/FooterSeed";
+import brandLanguage from "@/content/config/brand-language.json";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 
 interface FooterProps {
@@ -21,12 +22,7 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
         <div className="footer-mark flex items-start gap-4 lg:col-span-5">
           <Logo brand={brand} variant="mark" />
           <div>
-            <p className="font-serif text-xl tracking-[0.02em] text-cream">{brand?.name}</p>
-            {brand?.tagline ? (
-              <p className="mt-1 font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                {brand.tagline}
-              </p>
-            ) : null}
+            <p className="font-serif text-xl tracking-[0.02em] text-cream">{brandLanguage.displayName}</p>
             <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-cream/40">
               {brand?.description}
             </p>

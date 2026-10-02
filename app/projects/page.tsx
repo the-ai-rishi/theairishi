@@ -9,8 +9,7 @@ import { canonicalAlternates } from "@/lib/urls";
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Labs",
-    description:
-      "Build write-ups and practical labs. Existing labs are earlier notes, not the current DevOps program.",
+    description: "Build write-ups and practical labs. Existing labs are earlier notes, not FORGE-120.",
     alternates: canonicalAlternates("/projects"),
   };
 }
@@ -25,62 +24,45 @@ export default function ProjectsPage() {
 
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="engineering">
-      <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
-        <p className="kicker text-gold/80">Build</p>
-        <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">
-          Labs
-        </h1>
-        <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-cream/55">
-          Hands-on architectures and open labs - tangible work, not course tiles.
-        </p>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
-        {projects.length === 0 ? (
-          <p className="border-t border-hairline py-16 text-cream/40">
-            Labs are currently in development.
+      <div className="artefact-index">
+        <header className="mb-8 max-w-xl">
+          <p className="kicker text-gold/80">Build</p>
+          <h1 className="mt-4 font-serif text-5xl leading-[0.92] tracking-[0.01em] text-cream sm:text-7xl">Labs</h1>
+          <p className="mt-5 text-[16px] leading-relaxed text-cream/55">
+            Build write-ups and practical labs. These notes are earlier work. They are not FORGE-120.
           </p>
+        </header>
+        {projects.length === 0 ? (
+          <p className="border-t border-hairline py-16 text-cream/40">Labs are currently in development.</p>
         ) : (
-          <div className="border-t border-hairline">
+          <ol className="artefact-ledger">
             {projects.map((project, index) => (
-              <article
-                key={project.slug}
-                className={`grid gap-6 border-b border-hairline py-10 lg:grid-cols-12 ${
-                  index % 2 === 1 ? "lg:text-right" : ""
-                }`}
-              >
-                <div className={`lg:col-span-2 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                  <span className="font-mono text-[13px] text-circuit-bright">
-                    Lab {String(index + 1).padStart(2, "0")}
+              <li key={project.slug}>
+                <Link href={`/projects/${project.slug}`}>
+                  <span className="font-mono text-[12px] text-gold/80">{String(index + 1).padStart(2, "0")}</span>
+                  <span>
+                    <span className="block font-serif text-2xl text-cream sm:text-3xl">{project.metadata.title}</span>
+                    <span className="mt-1 block max-w-2xl text-[15px] leading-relaxed text-cream/50">
+                      {project.metadata.description}
+                    </span>
+                    <span className="mt-2 block font-mono text-[12px] text-cream/35">
+                      {project.metadata.technologies.join(" · ")}
+                    </span>
                   </span>
-                </div>
-                <div className={`lg:col-span-8 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                  <p className="font-mono text-[12px] tracking-[0.14em] text-cream/40">
-                    {project.metadata.category} · {project.metadata.status}
-                  </p>
-                  <h2 className="mt-2 font-serif text-3xl text-cream sm:text-4xl">
-                    {project.metadata.title}
-                  </h2>
-                  <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-cream/50 lg:inline-block">
-                    {project.metadata.description}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[12px] text-cream/35">
-                    {project.metadata.technologies.map((tech) => (
-                      <span key={tech}>{tech}</span>
-                    ))}
-                  </div>
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="link-editorial mt-6 inline-block font-mono text-[14px] text-circuit-bright"
-                  >
-                    Open the lab →
-                  </Link>
-                </div>
-              </article>
+                  <span className="artefact-meta">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/45">
+                      {project.metadata.category}
+                    </span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/70">
+                      {project.metadata.status}
+                    </span>
+                  </span>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ol>
         )}
-      </section>
+      </div>
     </PageShell>
   );
 }

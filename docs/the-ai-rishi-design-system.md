@@ -1,82 +1,72 @@
 # THE AI RISHI — design system
 
-The system in the interface now. Not a kit for a different site.
+The system in the interface now.
 
-## Theme decision
+## Lockup
 
-Dark graphite is kept as the surround because the mark, gold, and long-form pages are already built for it, and a full invert would fight the logo and the lesson type. It is no longer flat black.
+Visible name: THE AI RISHI, from `brand-language.json` `displayName`.
 
-The curriculum itself sits on ivory. That split is the point: the desk is dark, the work is a sheet.
+No slogan. Do not put a tagline back in the hero, footer, metadata, or bar.
+
+Mark: `components/brand/BrandMark.tsx`, the stable eight-petal drawing from `main`. Gold via `currentColor`. It has to read at header size. Do not replace it with a column, a beam, or a new geometric symbol. Do not put a spinning ring around it.
+
+## Colour
+
+Dark graphite stays the surround. Lessons and the desk are already built for it.
 
 | Token | Value | Role |
 |---|---|---|
-| Surround | `#12110e` | Page, bar, colophon |
-| Sheet | `#f3eee4` | Phase drawing and day panel |
-| Ink on the sheet | `#1c1915` | Structure |
-| Path | `#8a6230` | Relationships, active phase, links on the sheet |
-| Signal | `#0f5f68` | A measured line or a boundary, on the sheet |
-| Gold on graphite | `#d4b46a` / `#f0d090` | Actions and metadata on the dark field |
+| Surround | `#12110e` | Page, bar, footer |
+| Sheet | `#f3eee4` | Homepage phase drawing and day panel |
+| Ink on the sheet | `#1c1915` | Structure on ivory |
+| Path | `#8a6230` | Relationships on the sheet |
+| Signal | `#0f5f68` | A measured line on the sheet; the retrieval rule on Learn |
+| Gold on graphite | `#d4b46a` / `#f0d090` | Actions and metadata |
 | Cream on graphite | `#f3eee4` | Text on the dark field |
 
-Purple (`#8b7cff`) is not a surface. Do not wash sections with it.
+Purple is not a surface. Do not wash sections with it. Do not use it as a glow.
 
 ## Typography
 
-- Serif (Instrument Serif): programme title, phase name, section titles
-- Mono: phase numbers, tagline, metadata, day numbers
+- Serif: programme title, phase name, essay titles, about headings
+- Mono: phase numbers, day numbers, status, metadata
 - Sans: summaries and lesson prose
 
-The tagline is set in mono with `text-transform: none`, so the official capitals and the middle dot are the string itself.
-
-## Spacing
-
-- Desk inset from the bar: about 4.7rem
-- Colophon height reserved: about 8.6rem on desktop, stacked on small screens
-- Rail width: 15.6rem
-- Panel width: 21.5rem
-- Section padding below the desk: the existing page rhythm, not a new scale
+Type stays readable. It is not a decoration that replaces the content.
 
 ## Surfaces
 
-- Graphite surround, no glass blur
-- Ivory sheet with a 1px light edge
-- Day rows separated by a hairline, not cards
-- Search is a top sheet, not a floating card in the middle of the page
-
-## Borders, shadow, glow
-
-- Borders are 1px. No drop shadows on the desk.
-- No glow on the phase readout.
-- Gold is a line or a type color, not a bloom.
-
-## Geometry
-
-- Structure: straight lines and rectangles
-- Path: a connection or an arrow
-- Signal: a line against a threshold
-- Boundary: a closed rectangle
-- The brand mark is a column, a beam, and a small square. Not a flower. Not a ring.
+- Bar: solid `#12110e`, 1px hairline, square corners. No blur, no gradient ring.
+- Homepage sheet: ivory, 1px edge, phase drawing
+- Day rows: hairline separators, not cards
+- Search: a top sheet, solid field, no purple veil
+- Learn: phase list plus the selected phase. Not a second copy of the same map underneath
+- Guides and labs: a ruled index that uses the width of the screen
+- About: index column and the essay
+- Lesson: the prose column stops at about 68ch
 
 ## Motion
 
-- Phase change: opacity 640ms, ease-out, only when motion is allowed
-- Scroll to a phase: smooth, unless reduced motion, then instant
-- No looping particles. No camera dolly.
-- Pointer parallax on the sheet is at most 10px, desktop, motion allowed. It is off for touch and reduced motion.
+- Reduced motion collapses animation and transition duration in `globals.css`
+- Homepage phase scroll is instant when reduced motion is on
+- No looping particles. No camera. No autoplay sound
+- The pointer mark is a small gold square. It does not replace the cursor. It is hidden for coarse pointers
 
-## Interaction states
+## States
 
-- Rail: current phase is ivory on a faint fill, `aria-current`
-- Day: published is a link. Planned is text plus “Planned”
-- Instruments: selected step uses the existing gold outline
-- Focus: the global gold outline remains
+- Published day: a link
+- Planned day: title plus “Planned”. Not an empty page
+- Progress: “claimed on this device”. Local only
+- Instruments: labelled teaching fixtures
+- Focus: gold outline
+- Empty writing: “Essays are being written.”
+- Empty labs: “Labs are currently in development.”
+- Missing page: “Page not found”
+- Missing day: “This day is not published yet”
 
 ## Responsive
 
-- At 960px and above: rail, sheet, panel, colophon
-- Below: sheet on top, phase numbers in a horizontal rail, day list behind a toggle, colophon stacked
-- The header phase name ellipsizes so long names do not break the bar
-
-## Reduced motion
-
-The same sheet, the same rail, the same panel. No opacity transition, no parallax, no smooth scroll. Globals already collapse animation duration.
+- Homepage at 960px and above: rail, sheet, panel, colophon. Below: horizontal phase numbers, day list behind a toggle
+- Learn at 1100px and above: sticky phase column, day ledger beside it. Below: horizontal phase tabs
+- Guides and about at 800px and above: sticky title or index. Below: stacked
+- The section dock sits at the bottom on every route except home. Pages pad the footer so it does not cover the last line
