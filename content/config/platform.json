@@ -489,14 +489,14 @@
       {
         "id": "continue-learning",
         "type": "continue-learning",
-        "enabled": true,
+        "enabled": false,
         "order": 2,
         "showWhenEmpty": false
       },
       {
         "id": "program",
         "type": "program",
-        "enabled": true,
+        "enabled": false,
         "order": 3,
         "title": "FORGE-120",
         "subtitle": "The current program",
@@ -506,7 +506,7 @@
       {
         "id": "phases",
         "type": "phases",
-        "enabled": true,
+        "enabled": false,
         "order": 4,
         "title": "What you will work through",
         "subtitle": "Ten stages · 120 days",
@@ -517,7 +517,7 @@
         "id": "instrument",
         "type": "instrument",
         "enabled": true,
-        "order": 4.5,
+        "order": 6,
         "title": "Reliability and controlled tool use"
       },
       {
@@ -531,7 +531,7 @@
       {
         "id": "today",
         "type": "today",
-        "enabled": true,
+        "enabled": false,
         "order": 6,
         "title": "Ready to start",
         "subtitle": "Published days",
@@ -541,7 +541,7 @@
       {
         "id": "method",
         "type": "method",
-        "enabled": true,
+        "enabled": false,
         "order": 7,
         "title": "How a day works",
         "subtitle": "Practice, not playback"
@@ -557,7 +557,7 @@
       {
         "id": "community",
         "type": "prose",
-        "enabled": true,
+        "enabled": false,
         "order": 9,
         "title": "If you want to learn with me",
         "subtitle": "Willing to practise",
@@ -566,7 +566,7 @@
       {
         "id": "cta",
         "type": "cta",
-        "enabled": true,
+        "enabled": false,
         "order": 11,
         "title": "Start at Day 1",
         "subtitle": "Contract, repo, honesty",

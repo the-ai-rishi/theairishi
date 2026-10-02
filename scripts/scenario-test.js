@@ -452,13 +452,15 @@ function runScenarioTests() {
     const liveHomeTypes = liveHome.map((section) => section.type);
     check(
       liveHomeTypes.includes("hero") &&
-        liveHomeTypes.includes("program") &&
-        liveHomeTypes.includes("phases") &&
         liveHomeTypes.includes("why") &&
-        liveHomeTypes.includes("today") &&
-        liveHomeTypes.includes("method") &&
-        liveHomeTypes.includes("path"),
-      "Production: homepage is learner-first (hero/program/phases/why/today/method/path)"
+        liveHomeTypes.includes("instrument") &&
+        liveHomeTypes.includes("path") &&
+        liveHomeTypes.includes("destinations") &&
+        !liveHomeTypes.includes("program") &&
+        !liveHomeTypes.includes("phases") &&
+        !liveHomeTypes.includes("today") &&
+        !liveHomeTypes.includes("method"),
+      "Production: homepage is identity, why, explore, what comes next — not a second copy of the plan"
     );
     check(
       !liveHome.some((s) => s.type === "topic-grid"),

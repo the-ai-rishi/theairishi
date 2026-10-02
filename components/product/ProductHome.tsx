@@ -1,5 +1,4 @@
-import CurriculumField from "@/components/field/CurriculumField";
-import SpanRule from "@/components/field/SpanRule";
+import ForgeWorld from "@/components/field/ForgeWorld";
 import brandLanguage from "@/content/config/brand-language.json";
 import CurrentWorkCard from "@/components/product/CurrentWorkCard";
 import WhySection from "@/components/home/WhySection";
@@ -44,10 +43,9 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
     switch (section.type) {
       case "hero":
         return (
-          <CurriculumField
+          <ForgeWorld
             key={section.id}
             catalog={catalog}
-            description={story?.whatBody || catalog.description}
             primaryHref={brandLanguage.ctas.primaryHref}
             primaryLabel={brandLanguage.ctas.primary}
             secondaryHref={brandLanguage.ctas.secondaryHref}
@@ -80,38 +78,30 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
           </section>
         );
       case "phases":
-        return (
-          <section key={section.id} id="path" className="journey-chapter relative scroll-mt-24">
-            <div className="relative mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
-              <p className="kicker text-gold/80">{section.subtitle || catalog.title}</p>
-              <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
-                {section.title || `${catalog.phases.length} phases · ${catalog.totalDays} days`}
-              </h2>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/62">
-                Width is the number of days in the phase. Select one to read its titles. Published days open.
-                Planned days stay titles.
-              </p>
-              <div className="mt-7">
-                <SpanRule catalog={catalog} />
-              </div>
-            </div>
-          </section>
-        );
+        return null;
       case "instrument":
-        return <Instrument key={section.id} />;
+        return (
+          <div key={section.id} className="story-band story-explore">
+            <Instrument />
+          </div>
+        );
       case "why":
-        return <WhySection key={section.id} section={section} />;
+        return (
+          <div key={section.id} className="story-band story-why">
+            <WhySection section={section} />
+          </div>
+        );
       case "method":
         return <MethodSection key={section.id} section={section} />;
       case "today":
         return <TodaySection key={section.id} section={section} />;
       case "path":
         return (
-          <section key={section.id} className="py-7 sm:py-9">
-            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-              <p className="kicker text-gold/80">{section.subtitle || "Later"}</p>
+          <section key={section.id} className="story-band story-next">
+            <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+              <p className="kicker">{section.subtitle || "Later"}</p>
               <h2 className="mt-3 font-serif text-2xl text-cream">{section.title || story.pathTitle}</h2>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/50">{section.body || story.pathBody}</p>
+              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/70">{section.body || story.pathBody}</p>
             </div>
           </section>
         );
