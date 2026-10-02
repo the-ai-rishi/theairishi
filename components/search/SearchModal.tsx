@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
+import brandLanguage from "@/content/config/brand-language.json";
 
 export interface SearchResultItem {
   id: string;
@@ -16,6 +17,44 @@ export interface SearchResultItem {
 }
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
+
+const PLACES: SearchResultItem[] = [
+  {
+    id: "go-plan",
+    title: "FORGE-120 plan",
+    description: "Overview, then a phase, then a day.",
+    type: "Go",
+    url: "/learn",
+  },
+  {
+    id: "go-guides",
+    title: "Guides",
+    description: "Writing. Some notes predate the programme.",
+    type: "Go",
+    url: "/guides",
+  },
+  {
+    id: "go-projects",
+    title: "Projects",
+    description: "Labs and build write-ups.",
+    type: "Go",
+    url: "/projects",
+  },
+  {
+    id: "go-about",
+    title: "About",
+    description: brandLanguage.displayName,
+    type: "Go",
+    url: "/about",
+  },
+  ...brandLanguage.phases.map((name, index) => ({
+    id: `go-phase-${index + 1}`,
+    title: name,
+    description: `Phase ${String(index + 1).padStart(2, "0")} on the plan.`,
+    type: "Phase",
+    url: `/learn#phase-${String(index + 1).padStart(2, "0")}`,
+  })),
+];
 
 export default function SearchModal({ compact = false }: { compact?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +70,8 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
   const hintId = useId();
   const isMac =
     typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
+  const commands = useMemo(() => PLACES, []);
+  const shown = query.trim() ? results : commands;
 
   function closeSearch() {
     setIsOpen(false);
@@ -39,9 +80,17 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      const target = e.target as HTMLElement | null;
+      const typing =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        Boolean(target?.isContentEditable);
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setIsOpen((prev) => !prev);
+      } else if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey && !typing && !isOpen) {
+        e.preventDefault();
+        setIsOpen(true);
       } else if (e.key === "Escape" && isOpen) {
         e.preventDefault();
         closeSearch();
@@ -170,13 +219,13 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
             onKeyDown={(event) => {
               if (event.key === "ArrowDown") {
                 event.preventDefault();
-                setCursor((current) => Math.min(results.length - 1, current + 1));
+                setCursor((current) => Math.min(Math.max(shown.length - 1, 0), current + 1));
               } else if (event.key === "ArrowUp") {
                 event.preventDefault();
                 setCursor((current) => Math.max(0, current - 1));
-              } else if (event.key === "Enter" && results[cursor]) {
+              } else if (event.key === "Enter" && shown[cursor]) {
                 event.preventDefault();
-                const url = results[cursor].url;
+                const url = shown[cursor].url;
                 closeSearch();
                 router.push(url);
               }
@@ -188,14 +237,15 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
           />
           <div className="command-groups">
             {query.trim().length === 0 ? (
-              <p id={hintId}>Days, phases, guides, and projects. Not the full lesson text.</p>
+              <p id={hintId}>Go somewhere, or type a day, phase, concept, guide, or lab. Not the full lesson text. / opens this. Esc closes it.</p>
             ) : isLoading && results.length === 0 ? (
-              <p>Searching titles and summaries…</p>
+              <p>Searching titles, concepts, and summaries…</p>
             ) : results.length === 0 ? (
-              <p>No title or summary matches “{query}”.</p>
-            ) : (
+              <p>No title, concept, or summary matches “{query}”.</p>
+            ) : null}
+            {shown.length > 0 && !(query.trim() && isLoading && results.length === 0) ? (
               Array.from(
-                results.reduce((map, item, index) => {
+                shown.reduce((map, item, index) => {
                   const list = map.get(item.type) || [];
                   list.push({ item, index });
                   map.set(item.type, list);
@@ -213,18 +263,19 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
                       onMouseEnter={() => setCursor(index)}
                     >
                       <span>
-                        <strong className="block font-serif text-2xl">{item.title}</strong>
+                        <strong className={`block font-serif ${query.trim() ? "text-2xl" : "text-xl"}`}>{item.title}</strong>
                         {item.description ? <span className="mt-1 block text-sm opacity-70">{item.description}</span> : null}
+                        {item.badge ? <span className="mt-1 block font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.badge}</span> : null}
                       </span>
                       <span className="font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.category || item.type}</span>
                     </Link>
                   ))}
                 </section>
               ))
-            )}
+            ) : null}
             {query.trim().length > 0 ? (
               <p id={hintId} className="sr-only">
-                Search matches titles, summaries, tags, and outcomes. Not the full lesson text.
+                Search matches titles, concepts, summaries, tags, and outcomes. Not the full lesson text.
               </p>
             ) : null}
           </div>

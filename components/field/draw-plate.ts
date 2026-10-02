@@ -590,3 +590,34 @@ export function drawPlate(
     dayRuler(ctx, x + pw * 0.06, y + ph * 0.9, pw * 0.88, model, pointer, weight);
   }
 }
+
+/** Same geometry as the plate, so a click on a day mark selects that day. */
+export function dayUnderPointer(
+  model: PlateModel,
+  w: number,
+  h: number,
+  pointer: { x: number; y: number },
+): number | null {
+  const count = Math.max(1, model.endDay - model.startDay + 1);
+  const { x, y, pw, ph } = bounds(w, h);
+  if (model.index === 0) {
+    const localH = ph * 0.82;
+    const reach = Math.max(12, localH / count);
+    for (let i = 0; i < count; i += 1) {
+      const yy = y + localH * (0.06 + (i / count) * 0.82);
+      if (Math.hypot(pointer.x - (x + pw * 0.2), pointer.y - yy) < reach) {
+        return model.startDay + i;
+      }
+    }
+    return null;
+  }
+  const rx = x + pw * 0.06;
+  const ry = y + ph * 0.9;
+  const rw = pw * 0.88;
+  const reach = Math.max(14, rw / count);
+  for (let i = 0; i < count; i += 1) {
+    const px = count === 1 ? rx + rw / 2 : rx + (rw * i) / (count - 1);
+    if (Math.hypot(pointer.x - px, pointer.y - ry) < reach) return model.startDay + i;
+  }
+  return null;
+}

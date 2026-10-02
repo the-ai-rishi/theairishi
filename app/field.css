@@ -290,7 +290,8 @@ details.practice-card summary {
   width: 100%;
   height: 100%;
   display: block;
-  touch-action: none;
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 .field-step {
@@ -346,6 +347,54 @@ details.practice-card summary {
 .field-days li.is-planned > span {
   color: rgba(26, 23, 20, 0.4);
   background: transparent;
+}
+
+.field-days li.is-focus a,
+.field-days li.is-focus > span {
+  box-shadow: inset 0 0 0 1px #8a5a2b;
+}
+
+.field-days li.is-lit a,
+.field-days li.is-lit > span {
+  background: rgba(138, 90, 43, 0.16);
+}
+
+.field-inspect {
+  max-width: 40rem;
+  margin-top: 0.85rem;
+}
+
+.field-inspect p {
+  margin-top: 0.45rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: rgba(26, 23, 20, 0.78);
+}
+
+.field-concepts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+}
+
+.field-concepts button {
+  min-height: 2.75rem;
+  max-width: 100%;
+  border: 1px solid rgba(26, 23, 20, 0.22);
+  background: transparent;
+  color: #1a1714;
+  padding: 0.35rem 0.6rem;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.field-concepts button.is-on {
+  background: #1a1714;
+  color: #efe8dc;
+  border-color: #1a1714;
 }
 
 /* Learn path ------------------------------------------------ */
@@ -768,6 +817,11 @@ details.practice-card summary {
   .field-days li.is-open a {
     background: transparent;
     color: #1a1714;
+  }
+
+  .field-days li.is-lit a,
+  .field-days li.is-lit > span {
+    background: rgba(138, 90, 43, 0.16);
   }
 
   .field-days li a span:nth-child(2),

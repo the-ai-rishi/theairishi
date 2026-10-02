@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { resolveContinue, type LearnerCatalog, type LearnerPhase } from "@/lib/continue-learning";
 import { formatDayLabel } from "@/lib/labels";
@@ -77,6 +77,22 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
     catalog.phases.find((phase) => phase.number === target.phaseNumber) || catalog.phases[0];
   const [phaseId, setPhaseId] = useState(current?.id || catalog.phases[0]?.id || "");
 
+  useEffect(() => {
+    const fromHash = () => {
+      const id = window.location.hash.replace("#", "");
+      if (id && catalog.phases.some((phase) => phase.id === id)) setPhaseId(id);
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, [catalog.phases]);
+
+  function choosePhase(id: string) {
+    setPhaseId(id);
+    const next = `${window.location.pathname}${window.location.search}#${id}`;
+    window.history.replaceState(null, "", next);
+  }
+
   return (
     <div className="path-board">
       <nav className="path-index" aria-label="Phases">
@@ -86,7 +102,7 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
             type="button"
             className={phase.id === phaseId ? "is-on" : ""}
             aria-current={phase.id === phaseId ? "true" : undefined}
-            onClick={() => setPhaseId(phase.id)}
+            onClick={() => choosePhase(phase.id)}
           >
             <span>{String(phase.number).padStart(2, "0")}</span>
             {phase.name}

@@ -52,6 +52,12 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
             primaryLabel={brandLanguage.ctas.primary}
             secondaryHref={brandLanguage.ctas.secondaryHref}
             secondaryLabel={brandLanguage.ctas.secondary}
+            facts={curriculum.days.map((day) => ({
+              day: day.day,
+              phaseId: day.phaseId,
+              goal: day.goal,
+              concepts: day.concepts,
+            }))}
           />
         );
       case "continue-learning":

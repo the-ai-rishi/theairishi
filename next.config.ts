@@ -22,7 +22,6 @@ const canonicalHostRedirects = [
 }));
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["three"],
   // Dev assets are requested from 127.0.0.1 and from the preview proxy host.
   // This does not apply to production builds.
   allowedDevOrigins: ["127.0.0.1", "**"],

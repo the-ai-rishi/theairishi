@@ -15,6 +15,7 @@ import LessonContent from "@/components/learning/LessonContent";
 import DayCompletion from "@/components/learning/DayCompletion";
 import LessonWorkspaceChrome from "@/components/learning/LessonWorkspaceChrome";
 import DayRail from "@/components/learning/DayRail";
+import LessonTrail from "@/components/learning/LessonTrail";
 import StartingAssessment from "@/components/learning/StartingAssessment";
 import {
   getAllLessonSlugs,
@@ -194,6 +195,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
             outcomes={lesson.metadata.outcomes}
             catalog={catalog}
             nextPublished={adjacent.next}
+          />
+
+          <LessonTrail
+            slug={lesson.slug}
+            day={lesson.metadata.day}
+            phaseId={catalog.days.find((item) => item.slug === slug)?.phaseId}
           />
 
           <LessonNavigation

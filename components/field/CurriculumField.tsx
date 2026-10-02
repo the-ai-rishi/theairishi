@@ -3,7 +3,16 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { LearnerCatalog } from "@/lib/continue-learning";
-import { drawPlate, type PlateModel } from "./draw-plate";
+import { resolveContinue } from "@/lib/continue-learning";
+import { useLessonProgress } from "@/components/learning/useLessonProgress";
+import { dayUnderPointer, drawPlate, type PlateModel } from "./draw-plate";
+
+export type DayFact = {
+  day: number;
+  phaseId: string;
+  goal: string;
+  concepts: string[];
+};
 
 function clock() {
   return performance.now();
@@ -16,6 +25,7 @@ export default function CurriculumField({
   primaryLabel,
   secondaryHref,
   secondaryLabel,
+  facts,
 }: {
   catalog: LearnerCatalog;
   description: string;
@@ -23,11 +33,14 @@ export default function CurriculumField({
   primaryLabel: string;
   secondaryHref: string;
   secondaryLabel: string;
+  facts: DayFact[];
 }) {
   const phases = catalog.phases;
   const [index, setIndex] = useState(0);
   const [mobile, setMobile] = useState(false);
   const [activeDay, setActiveDay] = useState<number | null>(null);
+  const [focusConcept, setFocusConcept] = useState<string | null>(null);
+  const { state, hasHydrated } = useLessonProgress();
   const trackRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerRef = useRef<{ x: number; y: number } | null>(null);
@@ -139,6 +152,7 @@ export default function CurriculumField({
     const clamped = Math.max(0, Math.min(phases.length - 1, next));
     setIndex(clamped);
     setActiveDay(null);
+    setFocusConcept(null);
     if (mobile) return;
     const track = trackRef.current;
     if (!track) return;
@@ -151,6 +165,17 @@ export default function CurriculumField({
 
   if (!phase) return null;
   const shown = days.find((day) => day.day === activeDay) || days.find((day) => day.published) || days[0];
+  const fact = facts.find((item) => item.day === shown?.day);
+  const lit = new Set(
+    focusConcept
+      ? facts
+          .filter((item) => item.phaseId === phase.id && item.concepts.includes(focusConcept))
+          .map((item) => item.day)
+      : [],
+  );
+  const continueTarget = resolveContinue(hasHydrated ? state : null, catalog);
+  const startHref = hasHydrated && continueTarget.href ? continueTarget.href : primaryHref;
+  const startLabel = hasHydrated ? continueTarget.ctaLabel : primaryLabel;
 
   return (
     <div className={mobile ? "field-track is-mobile" : "field-track"} ref={trackRef}>
@@ -181,7 +206,7 @@ export default function CurriculumField({
               {phase.summary ? <p className="field-summary">{phase.summary}</p> : null}
               <p className="field-program">{description}</p>
               <p className="field-actions">
-                <Link href={primaryHref}>{primaryLabel}</Link>
+                <Link href={startHref}>{startLabel}</Link>
                 <Link href={secondaryHref}>{secondaryLabel}</Link>
               </p>
             </div>
@@ -190,6 +215,14 @@ export default function CurriculumField({
                 ref={canvasRef}
                 className="field-canvas"
                 aria-hidden="true"
+                onClick={(event) => {
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  const day = dayUnderPointer(modelRef.current, rect.width, rect.height, {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top,
+                  });
+                  if (day != null) setActiveDay(day);
+                }}
                 onPointerMove={(event) => {
                   const rect = event.currentTarget.getBoundingClientRect();
                   pointerRef.current = { x: event.clientX - rect.left, y: event.clientY - rect.top };
@@ -225,7 +258,12 @@ export default function CurriculumField({
                   </>
                 );
                 return (
-                  <li key={day.slug} className={day.published ? "is-open" : "is-planned"}>
+                  <li
+                    key={day.slug}
+                    className={`${day.published ? "is-open" : "is-planned"}${
+                      shown?.day === day.day ? " is-focus" : ""
+                    }${lit.has(day.day) ? " is-lit" : ""}`}
+                  >
                     {day.published && day.href ? (
                       <Link
                         href={day.href}
@@ -243,6 +281,38 @@ export default function CurriculumField({
                 );
               })}
             </ol>
+            {fact && shown ? (
+              <div className="field-inspect">
+                <p>
+                  {shown.published ? "Open." : "Planned. The title is here. The lesson is not."} {fact.goal}
+                </p>
+                {fact.concepts.length > 0 ? (
+                  <div className="field-concepts" role="group" aria-label="What this day teaches">
+                    {fact.concepts.map((concept) => (
+                      <button
+                        key={concept}
+                        type="button"
+                        className={focusConcept === concept ? "is-on" : ""}
+                        aria-pressed={focusConcept === concept}
+                        onClick={() => setFocusConcept((current) => (current === concept ? null : concept))}
+                      >
+                        {concept}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                {focusConcept ? (
+                  <p>
+                    {lit.size > 1
+                      ? `Also in this phase: ${[...lit]
+                          .filter((day) => day !== shown.day)
+                          .map((day) => String(day).padStart(2, "0"))
+                          .join(", ")}.`
+                      : "Taught on this day."}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
