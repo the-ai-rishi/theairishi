@@ -49,7 +49,7 @@ Do **not** put daily lessons (or any public lesson) under `content/courses/`. Th
 | `title` | Same idea as `programs.json` `days[].title` | yes |
 | `description` | One short paragraph for listings and search | yes |
 | `course` | `devops-engineer-mastery` | yes |
-| `courseTitle` | `DevOps Engineer Mastery` | yes |
+| `courseTitle` | `FORGE-120` | yes |
 | `courseOrder` | `1` | recommended |
 | `stage` | The phase name, e.g. `Foundations` | yes |
 | `stageOrder` | Phase number, e.g. `1` | yes |

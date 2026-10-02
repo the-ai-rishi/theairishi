@@ -13,31 +13,45 @@ export const sceneBus = {
 };
 
 export const WORLD_IDS = [
-  "seed",
   "foundations",
-  "cloud",
+  "azure",
   "delivery",
-  "cluster",
+  "application",
+  "kubernetes",
+  "aks",
+  "infrastructure",
+  "reliability",
   "retrieval",
   "defence",
 ] as const;
 
 export const WORLD_LABELS = [
-  "Seed",
   "Foundations",
-  "Cloud",
-  "Delivery",
-  "Cluster",
-  "Retrieval",
-  "Defence",
+  "Azure networking and identity",
+  "CI and delivery",
+  "Terraform and application",
+  "Kubernetes",
+  "AKS",
+  "Infrastructure delivery",
+  "Reliability",
+  "RAG and controlled tool use",
+  "Design and defence",
 ] as const;
 
-export function worldIndex(progress: number, boot: number) {
-  if (boot < 0.25 && progress < 0.02) return 0;
-  if (progress < 0.08) return 1;
-  if (progress < 0.22) return 2;
-  if (progress < 0.4) return 3;
-  if (progress < 0.58) return 4;
-  if (progress < 0.78) return 5;
-  return 6;
+export const WORLD_RANGES = [
+  "1–12",
+  "13–18",
+  "19–26",
+  "27–36",
+  "37–60",
+  "61–74",
+  "75–88",
+  "89–96",
+  "97–105",
+  "106–120",
+] as const;
+
+export function worldIndex(progress: number) {
+  const clamped = Math.min(0.999, Math.max(0, progress));
+  return Math.min(WORLD_IDS.length - 1, Math.floor(clamped * WORLD_IDS.length));
 }

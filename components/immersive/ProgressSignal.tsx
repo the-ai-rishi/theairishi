@@ -16,7 +16,7 @@ export default function ProgressSignal({ total }: { total: number }) {
 
   return (
     <p className="universe-mastery" aria-live="polite">
-      {hasHydrated ? `${count} of ${safeTotal} days lit` : `${safeTotal} days dormant`}
+      {hasHydrated ? `${count} of ${safeTotal} days complete` : "Progress stays on this device"}
     </p>
   );
 }

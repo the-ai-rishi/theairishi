@@ -37,21 +37,21 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
 
       <section className="world-lock" aria-labelledby="world-lock-title">
         <div className="world-lock-copy">
-          <p className="kicker text-gold/80">The path is open</p>
+          <p className="kicker text-gold/80">{copy.heroBadge}</p>
           <h2 id="world-lock-title" className="mt-3 font-serif text-[1.75rem] leading-tight text-cream sm:text-4xl">
-            Continue from the day this system is holding.
+            {catalog.title}
           </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-cream/70">
-            {copy.heroDescription || catalog.description}
-          </p>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-cream/70">{catalog.outcome}</p>
+          {catalog.capstone ? (
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-cream/55">
+              Capstone: {catalog.capstone}
+            </p>
+          ) : null}
         </div>
         <CurrentWorkCard catalog={catalog} />
       </section>
 
       <section id="path" className="journey-chapter constellation-world relative scroll-mt-24">
-          <span className="chapter-watermark" aria-hidden="true">
-            02
-          </span>
           <div className="relative mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
             <p className="kicker text-gold/80">FORGE-120</p>
             <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
@@ -82,9 +82,13 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
         </section>
 
       <CurriculumControl
+        reliabilityName={curriculum.phases[7]?.name || "Reliability"}
+        reliabilitySummary={curriculum.phases[7]?.summary || ""}
+        controlName={curriculum.phases[8]?.name || "RAG and controlled tool use"}
+        controlSummary={curriculum.phases[8]?.summary || ""}
         days={curriculum.days
-          .filter((day) => day.day >= 97 && day.day <= 105)
-          .map((day) => ({ day: day.day, title: day.title }))}
+          .filter((day) => day.day >= 89 && day.day <= 105)
+          .map((day) => ({ day: day.day, title: day.title, goal: day.goal }))}
         gates={curriculum.gates}
         touchpoints={curriculum.touchpoints}
       />

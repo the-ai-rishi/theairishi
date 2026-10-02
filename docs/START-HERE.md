@@ -21,11 +21,11 @@ This is the only documentation entry point. There is no `START_HERE.md`.
 
 ## What a visitor should understand in ten seconds
 
-This is a structured 120-day DevOps program. Start at Day 1. AI is later. There is no guru pitch.
+This is FORGE-120. Start at Day 1. Retrieval and controlled tool use are days 97–105, not the first week.
 
 ## Domain model
 
-DevOps Engineer Mastery is a **program**. That is its canonical meaning.
+FORGE-120 is the **program**. The internal id stays `devops-engineer-mastery` so published lesson frontmatter and local progress keys do not break.
 
 | Concept | What it is | Source | Public role |
 | --- | --- | --- | --- |

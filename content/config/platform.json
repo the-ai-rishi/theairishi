@@ -10,7 +10,8 @@
     "description": "A technology learning platform. The current program is FORGE-120: 120 days from system fundamentals to cloud, Kubernetes, reliability, retrieval, and controlled tool use. Content is free.",
     "url": "https://theairishi.com",
     "email": "theairishi.official@gmail.com",
-    "shortName": "Rishi"
+    "shortName": "Rishi",
+    "tagline": "ANCIENT WISDOM · MODERN INTELLIGENCE"
   },
   "copy": {
     "heroBadge": "Current program",

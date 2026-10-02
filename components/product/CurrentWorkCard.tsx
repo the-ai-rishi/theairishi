@@ -15,7 +15,6 @@ export default function CurrentWorkCard({
   const { state, hasHydrated, isCompleted } = useLessonProgress();
   const target = resolveContinue(hasHydrated ? state : null, catalog);
   const day = catalog.days.find((item) => item.slug === target.slug) || catalog.days.find((item) => item.published);
-  const percent = target.totalDays > 0 ? Math.round((target.completedCount / target.totalDays) * 100) : 0;
   const phases = phaseProgress(catalog, hasHydrated ? state : null);
   const kicker =
     target.kind === "wait" ? "Waiting" : target.kind === "continue" ? "Now" : "Today";
@@ -34,28 +33,12 @@ export default function CurrentWorkCard({
   const outcomes = (day?.outcomes || []).slice(0, 3);
 
   return (
-    <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-6" : "p-5 sm:p-6"}`} aria-label="Today's shift" data-tilt="">
+    <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-6" : "p-5 sm:p-6"}`} aria-label="Current day">
       <div className="flex items-center justify-between gap-3">
         <p className="kicker text-gold/85">{kicker}</p>
-        <div className="flex items-center gap-3">
-          <p className="font-mono text-[11px] tabular-nums text-cream/40">
+        <p className="font-mono text-[11px] tabular-nums text-cream/40">
             {target.completedCount} / {target.totalDays} claimed
           </p>
-          <svg viewBox="0 0 36 36" className="h-9 w-9 text-gold" aria-hidden="true">
-            <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(243,238,228,0.12)" strokeWidth="2" />
-            <circle
-              cx="18"
-              cy="18"
-              r="14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeDasharray={`${(percent / 100) * 87.96} 87.96`}
-              transform="rotate(-90 18 18)"
-            />
-          </svg>
-        </div>
       </div>
       {target.kind === "wait" ? (
         <>
@@ -136,8 +119,9 @@ export default function CurrentWorkCard({
             );
           })}
         </div>
-        <p className="mt-2 font-mono text-[11px] tabular-nums text-cream/35">
-          {percent}% of {catalog.totalDays} days
+        <p className="mt-2 font-mono text-[11px] text-cream/35">
+          {formatPhaseLabel(phaseNow)}
+          {phaseName ? ` · ${phaseName}` : ""}
         </p>
       </div>
     </aside>

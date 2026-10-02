@@ -1,0 +1,48 @@
+{
+  "brandName": "The AI Rishi",
+  "displayName": "THE AI RISHI",
+  "tagline": "ANCIENT WISDOM · MODERN INTELLIGENCE",
+  "programmeName": "FORGE-120",
+  "programmeDescription": "FORGE-120 is a 120-day hands-on path from fundamentals through cloud, Kubernetes, AKS, and reliability, then retrieval and controlled tool use. The model is not the starting point.",
+  "outcome": "Day 120 is an independent-engineering checkpoint, not a claim of instant mastery.",
+  "navigation": ["Learn", "Guides", "Projects", "About"],
+  "ctas": {
+    "primary": "Start Day 1",
+    "primaryHref": "/learn/day-01",
+    "secondary": "Explore the 120-day plan",
+    "secondaryHref": "/learn"
+  },
+  "phases": [
+    "Foundations",
+    "Azure networking and identity",
+    "CI and delivery",
+    "Terraform and application",
+    "Kubernetes",
+    "AKS",
+    "Infrastructure delivery",
+    "Reliability",
+    "RAG and controlled tool use",
+    "Design and defence"
+  ],
+  "avoid": [
+    "Ancient wisdom meets modern AI",
+    "AI-powered learning",
+    "AI mastery",
+    "AI transformation",
+    "next-generation",
+    "unlock your potential",
+    "future of learning",
+    "revolutionary",
+    "supercharge",
+    "level up",
+    "become unstoppable",
+    "DevOps Engineer Mastery",
+    "Rishi Core",
+    "Rishi Engine",
+    "Rishi Intelligence",
+    "Rishi Matrix",
+    "Rishi Network",
+    "Rishi Path",
+    "Rishi System"
+  ]
+}

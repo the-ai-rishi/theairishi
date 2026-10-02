@@ -3,7 +3,7 @@
 Internal product research for The AI Rishi learner experience. Not a public page. Not a curriculum. Do not copy any product wholesale.
 
 **Date:** 2026-09-20
-**Scope:** Public learner UX on theairishi.com (DevOps Engineer Mastery, 120 days, local-first, no accounts).
+**Scope:** Historical public-learner notes from when the programme was still titled DevOps Engineer Mastery. The live programme is FORGE-120.
 **Privacy:** This document must not describe private authoring paths, private repository URLs, or author-only files as learner destinations. The website is the front door.
 
 ---

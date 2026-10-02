@@ -39,7 +39,7 @@ The learner should always be able to answer:
 
 No account. No quiz wall. No catalog of other programs.
 
-Homepage shows the current program (DevOps Engineer Mastery), a short description, and **Start Day 1**. Secondary: explore the 120-day plan (`/learn`).
+Homepage shows the current program (FORGE-120), a short description, and **Start Day 1**. Secondary: explore the 120-day plan (`/learn`).
 
 `/learn` is the program command center even on a first visit: 0 / 120, Phase 1, Day 1 as the next action, full map with Available vs Planned.
 
@@ -465,7 +465,7 @@ Search indexes title, description, tags, and outcomes - not the full body. Unpub
 
 A demanding reviewer should be able to:
 
-1. Land on `/`, know this is DevOps Engineer Mastery, start Day 1.
+1. Land on `/`, know this is FORGE-120, start Day 1.
 2. Open `/learn`, see 0 / 120, Phase 1, Start Day 1, the map.
 3. Open Day 1, see outcomes, time, assessment, practise, gate.
 4. Mark Day 1 complete, get Continue Day 2, see 1 / 120.
