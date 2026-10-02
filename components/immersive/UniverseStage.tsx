@@ -177,7 +177,7 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
         </div>
         <p className="universe-beat" aria-hidden="true">
           <span>System</span>
-          <span ref={labelRef}>Awaken</span>
+          <span ref={labelRef}>Seed</span>
         </p>
         <div ref={veilRef} className="awaken" aria-hidden="true">
           <p>Dormant</p>

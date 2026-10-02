@@ -9,9 +9,10 @@ import { getAllLessonSummaries, type LessonSummary } from "./lessons";
 import { normalizeStatus } from "./visibility-core";
 import type { LearnerCatalog, LearnerDay, LearnerPhase } from "./continue-learning";
 
-/** Featured DevOps program also answers /programs/devops. */
+/** Featured program also answers the older /programs/devops URL and /programs/forge-120. */
 const PROGRAM_SLUG_ALIASES: Record<string, string> = {
   devops: "devops-engineer-mastery",
+  "forge-120": "devops-engineer-mastery",
 };
 
 export interface ProgramPhase {

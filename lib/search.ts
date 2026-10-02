@@ -1,6 +1,8 @@
 import { getSearchIndexInputs } from "./visibility-core";
 import { loadPlatformConfig, getTopicRecord } from "./config";
 import { getLiveCatalog } from "./catalog";
+import { getLearnerCatalog } from "./programs";
+import curriculum from "../data/curriculum/forge-120.json";
 
 export interface SearchResultItem {
   id: string;
@@ -133,6 +135,33 @@ export function searchSite(query: string): SearchResultItem[] {
       url: String(item.url || "/"),
       category: item.category as string | undefined,
       badge: badgeForTopic(item.topicSlug) || (item.topicSlug as string | undefined),
+    });
+  }
+
+  const concepts = new Map(curriculum.days.map((day) => [day.day, day.concepts.join(" ")]));
+  const catalog = getLearnerCatalog();
+  const seenUrls = new Set(results.map((item) => item.url));
+  for (const day of catalog.days) {
+    const phase = catalog.phases.find((item) => item.id === day.phaseId);
+    const blob = blobOf([
+      `day ${day.day}`,
+      day.title,
+      day.summary,
+      phase?.name,
+      concepts.get(day.day),
+      "forge-120",
+    ]);
+    if (!matchesQuery(q, blob)) continue;
+    const url = day.href || `/learn#${day.phaseId}`;
+    if (seenUrls.has(url) && day.published) continue;
+    seenUrls.add(url);
+    results.push({
+      id: `plan-${day.slug}`,
+      title: `Day ${day.day} — ${day.title}`,
+      description: day.summary,
+      type: day.published ? `Day ${day.day}` : "Planned",
+      url,
+      category: phase?.name,
     });
   }
 

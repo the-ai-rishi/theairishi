@@ -304,6 +304,24 @@ function KnowledgeNet() {
   );
 }
 
+function GateRing() {
+  const mesh = useRef<THREE.Mesh>(null);
+  useFrame(() => {
+    const node = mesh.current;
+    if (!node || !sceneBus.visible) return;
+    const closed = smoothstep(sceneBus.scroll, 0.62, 0.86);
+    node.scale.setScalar(0.15 + closed * 1.55);
+    const material = node.material;
+    if (material instanceof THREE.MeshBasicMaterial) material.opacity = closed * 0.9;
+  });
+  return (
+    <mesh ref={mesh} rotation={[Math.PI / 2.15, 0.4, 0.2]}>
+      <torusGeometry args={[1.2, 0.014, 8, sceneBus.mobile ? 64 : 96]} />
+      <meshBasicMaterial color="#f3eee4" transparent opacity={0} />
+    </mesh>
+  );
+}
+
 function CameraRig() {
   const light = useRef<THREE.PointLight>(null);
   useFrame((state, delta) => {
@@ -360,6 +378,7 @@ function Space() {
       <OrbitRings />
       <ParticleField />
       <KnowledgeNet />
+      <GateRing />
     </>
   );
 }

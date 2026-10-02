@@ -11,7 +11,7 @@ export default function PhaseStrip({ section }: { section: ResolvedHomepageSecti
     <section className="scroll-mt-24 py-10 sm:py-14">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          kicker={section.subtitle || "Eleven phases · 120 days"}
+          kicker={section.subtitle || "Ten stages · 120 days"}
           title={section.title || "What you will work through"}
           actionLabel={section.ctaLabel}
           actionHref={section.ctaHref || "/learn"}

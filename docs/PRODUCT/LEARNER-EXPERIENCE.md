@@ -12,7 +12,7 @@ This is an internal product spec. It is not a public page, not a CMS rewrite, an
 
 ## 1. Product learning philosophy
 
-The AI Rishi is a technology learning platform. The current public program is **DevOps Engineer Mastery**: 120 days of practical engineering.
+The AI Rishi is a technology learning platform. The current public program is **FORGE-120**: 120 days of practical engineering, from foundations to retrieval and controlled tool use.
 
 The learner loop is:
 

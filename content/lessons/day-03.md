@@ -2,7 +2,7 @@
 title: "Day 3 - Merge vs rebase"
 description: "Diverged branches, fast-forward, merge commits, three-way conflicts, abort, and when rebase is forbidden."
 course: "devops-engineer-mastery"
-courseTitle: "DevOps Engineer Mastery"
+courseTitle: "FORGE-120"
 courseOrder: 1
 stage: "Foundations"
 stageOrder: 1
@@ -23,7 +23,7 @@ tags: ["git", "merge", "rebase", "foundations", "day-03"]
 
 # Day 3 - Merge vs rebase
 
-This is Day 3 of DevOps Engineer Mastery. Today: a real conflict, abort, and when rebase is forbidden. Private branch only for rebase practice.
+This is Day 3 of FORGE-120. Today: a real conflict, abort, and when rebase is forbidden. Private branch only for rebase practice.
 
 ## Words
 

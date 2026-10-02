@@ -2,7 +2,7 @@
 
 The AI Rishi is a technology learning and teaching platform.
 
-Right now the work is **DevOps Engineer Mastery**: 120 days, starting at the shell. AI and Agentic AI come later, after the engineering foundation. They stay off the homepage and the primary navigation until there is real material.
+Right now the work is **FORGE-120**: 120 days from system fundamentals through cloud, Kubernetes, reliability, retrieval, and controlled tool use. Deeper model-training and multiple agent stacks stay outside the core until a real requirement demands them.
 
 This is not a guru course, not a marketplace, and not an AI-first landing page.
 

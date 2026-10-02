@@ -13,23 +13,23 @@ export const sceneBus = {
 };
 
 export const WORLD_IDS = [
-  "void",
-  "awaken",
-  "wisdom",
-  "foundation",
-  "engineering",
-  "intelligence",
-  "signal",
+  "seed",
+  "foundations",
+  "cloud",
+  "delivery",
+  "cluster",
+  "retrieval",
+  "defence",
 ] as const;
 
 export const WORLD_LABELS = [
-  "Void",
-  "Awaken",
-  "Wisdom",
-  "Foundation",
-  "Engineering",
-  "Intelligence",
-  "Signal",
+  "Seed",
+  "Foundations",
+  "Cloud",
+  "Delivery",
+  "Cluster",
+  "Retrieval",
+  "Defence",
 ] as const;
 
 export function worldIndex(progress: number, boot: number) {

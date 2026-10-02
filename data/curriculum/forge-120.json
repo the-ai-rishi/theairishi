@@ -1,0 +1,2420 @@
+{
+  "programme": "FORGE-120",
+  "identity": "A 120-day hands-on path from fundamentals to strong DevOps, Kubernetes, AKS, reliability, retrieval and controlled tool-use engineering.",
+  "hours": "roughly 275 hours over 120 days",
+  "phases": [
+    {
+      "id": "phase-01",
+      "number": 1,
+      "name": "Foundations",
+      "daysLabel": "1–12",
+      "startDay": 1,
+      "endDay": 12,
+      "summary": "Linux, Git, HTTP, DNS, TLS, processes and evidence-driven practice"
+    },
+    {
+      "id": "phase-02",
+      "number": 2,
+      "name": "Azure networking and identity",
+      "daysLabel": "13–18",
+      "startDay": 13,
+      "endDay": 18,
+      "summary": "VNet, NSG, private access, DNS and identity foundations"
+    },
+    {
+      "id": "phase-03",
+      "number": 3,
+      "name": "CI and delivery",
+      "daysLabel": "19–26",
+      "startDay": 19,
+      "endDay": 26,
+      "summary": "Pipelines, artifacts, environments, OIDC and delivery portability"
+    },
+    {
+      "id": "phase-04",
+      "number": 4,
+      "name": "Terraform and application",
+      "daysLabel": "27–36",
+      "startDay": 27,
+      "endDay": 36,
+      "summary": "Terraform foundations, FastAPI, Docker and supply-chain basics"
+    },
+    {
+      "id": "phase-05",
+      "number": 5,
+      "name": "Kubernetes",
+      "daysLabel": "37–60",
+      "startDay": 37,
+      "endDay": 60,
+      "summary": "Workloads, networking, storage, scheduling, security and troubleshooting"
+    },
+    {
+      "id": "phase-06",
+      "number": 6,
+      "name": "AKS",
+      "daysLabel": "61–74",
+      "startDay": 61,
+      "endDay": 74,
+      "summary": "Azure networking, ACR, Workload Identity, Key Vault and monitoring"
+    },
+    {
+      "id": "phase-07",
+      "number": 7,
+      "name": "Infrastructure delivery",
+      "daysLabel": "75–88",
+      "startDay": 75,
+      "endDay": 88,
+      "summary": "Terraform modules/state, Helm, promotion, rollback and cost"
+    },
+    {
+      "id": "phase-08",
+      "number": 8,
+      "name": "Reliability",
+      "daysLabel": "89–96",
+      "startDay": 89,
+      "endDay": 96,
+      "summary": "Change gates, retries, SLI/SLO, alerting, incidents and evidence boundaries"
+    },
+    {
+      "id": "phase-09",
+      "number": 9,
+      "name": "RAG and controlled tool use",
+      "daysLabel": "97–105",
+      "startDay": 97,
+      "endDay": 105,
+      "summary": "Retrieval, citations, evaluation, policy checks and AI-infrastructure awareness"
+    },
+    {
+      "id": "phase-10",
+      "number": 10,
+      "name": "Design and defence",
+      "daysLabel": "106–120",
+      "startDay": 106,
+      "endDay": 120,
+      "summary": "Architecture, platform interfaces, trade-offs and closed-note war rooms"
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "title": "Contract, repo, honesty",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Set up the repository, learn the minimum terminal/Git flow, and establish how evidence is recorded honestly.",
+      "concepts": [
+        "shell navigation and basic file operations",
+        "the first Git lifecycle: working tree → staging area → commit",
+        "evidence vs claim",
+        "operated/generated/simulated/blocked",
+        "repository boundaries and least privilege"
+      ],
+      "capstoneConnection": "`projects/forge-api/` starts the longitudinal thread.",
+      "next": "D2 — Git recovery",
+      "slug": "day-01"
+    },
+    {
+      "day": 2,
+      "title": "Git recovery",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Recover local Git history without confusing pointer movement with history creation.",
+      "concepts": [
+        "soft/mixed/hard reset",
+        "reflog",
+        "recovering dangling commits",
+        "safe shared-branch behavior"
+      ],
+      "capstoneConnection": "Use Git history as the capstone's version-control base.",
+      "next": "D3 — Merge vs rebase",
+      "slug": "day-02"
+    },
+    {
+      "day": 3,
+      "title": "Merge vs rebase",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Resolve a conflict and understand how merge and rebase change history.",
+      "concepts": [
+        "conflict markers",
+        "merge commit",
+        "rebase rewrite",
+        "abort/continue",
+        "published history"
+      ],
+      "capstoneConnection": "Keep forge-api commits small enough to trace later failures to a change.",
+      "next": "D4 — Linux permissions",
+      "slug": "day-03"
+    },
+    {
+      "day": 4,
+      "title": "Linux permissions",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Control file access using ownership and mode bits without the `777` shortcut.",
+      "concepts": [
+        "read/write/execute by user/group/other",
+        "directory `+x`",
+        "`namei`",
+        "umask inheritance"
+      ],
+      "capstoneConnection": "Record the permission model used by future forge-api scripts.",
+      "next": "D5 — Processes and systemd",
+      "slug": "day-04"
+    },
+    {
+      "day": 5,
+      "title": "Processes and systemd",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Inspect process lifecycle and run a small service under systemd.",
+      "concepts": [
+        "`ps`",
+        "`top`",
+        "`kill`",
+        "exit codes",
+        "WorkingDirectory",
+        "ExecStart",
+        "Restart"
+      ],
+      "capstoneConnection": "forge-api will later depend on explicit process and working-directory assumptions.",
+      "next": "D6 — First-10 slow-host triage",
+      "slug": "day-05"
+    },
+    {
+      "day": 6,
+      "title": "First-10 slow-host triage",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Build a repeatable first-ten-minutes sequence for a slow Linux host.",
+      "concepts": [
+        "`uptime`",
+        "`free`",
+        "`vmstat`",
+        "`df`",
+        "`du`",
+        "`ps`",
+        "`dmesg`/journal",
+        "evidence ordering"
+      ],
+      "capstoneConnection": "Add the first operational troubleshooting habit to forge-api's evidence journal.",
+      "next": "D7 — Logs as search",
+      "slug": "day-06"
+    },
+    {
+      "day": 7,
+      "title": "Logs as search",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Treat logs as queryable evidence rather than a stream of text.",
+      "concepts": [
+        "time windows",
+        "grep/ripgrep",
+        "awk",
+        "JSON logs",
+        "false positives",
+        "rate vs count"
+      ],
+      "capstoneConnection": "Use the same evidence discipline in later Kubernetes and AI incidents.",
+      "next": "D8 — Bind 127 vs 0.0.0.0",
+      "slug": "day-07"
+    },
+    {
+      "day": 8,
+      "title": "Bind 127 vs 0.0.0.0",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Distinguish a running process from a reachable service.",
+      "concepts": [
+        "`ss -lntp`",
+        "curl",
+        "localhost",
+        "LAN address",
+        "bind failures"
+      ],
+      "capstoneConnection": "[daily-learning/day-008.md](../daily-learning/day-008.md)",
+      "next": "D9 — HTTP as a system",
+      "slug": "day-08"
+    },
+    {
+      "day": 9,
+      "title": "HTTP as a system",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Follow one HTTP request through its layers and status semantics.",
+      "concepts": [
+        "URL",
+        "host header",
+        "body",
+        "content type",
+        "retries",
+        "client vs server responsibility"
+      ],
+      "capstoneConnection": "The same path model will later be reused for AKS ingress and model/tool calls.",
+      "next": "D10 — DNS and TLS",
+      "slug": "day-09"
+    },
+    {
+      "day": 10,
+      "title": "DNS and TLS",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Understand name resolution and certificate identity before debugging application behavior.",
+      "concepts": [
+        "A/AAAA/CNAME",
+        "resolver path",
+        "hostname vs IP",
+        "certificate subject/SAN",
+        "trust chain"
+      ],
+      "capstoneConnection": "Record the request path assumptions that forge-api will rely on later.",
+      "next": "D11 — health.sh",
+      "slug": "day-10"
+    },
+    {
+      "day": 11,
+      "title": "health.sh",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Build a small deterministic health probe with meaningful exit behavior.",
+      "concepts": [
+        "`-f`",
+        "timeouts",
+        "stdout vs stderr",
+        "environment arguments"
+      ],
+      "capstoneConnection": "This becomes forge-api's first reusable operational artifact.",
+      "next": "D12 — M1 mock + LLM sampler",
+      "slug": "day-11"
+    },
+    {
+      "day": 12,
+      "title": "M1 mock + LLM sampler",
+      "phaseId": "phase-01",
+      "phase": "Foundations",
+      "phaseNumber": 1,
+      "goal": "Understand the minimum LLM concepts needed to use AI without treating it as an authority.",
+      "concepts": [
+        "next-token intuition",
+        "context boundary",
+        "deterministic vs stochastic behavior",
+        "untrusted output"
+      ],
+      "capstoneConnection": "[daily-learning/day-012.md](../daily-learning/day-012.md)",
+      "next": "D13 — VNet / NSG / CIDR foundations",
+      "slug": "day-12"
+    },
+    {
+      "day": 13,
+      "title": "VNet / NSG / CIDR foundations",
+      "phaseId": "phase-02",
+      "phase": "Azure networking and identity",
+      "phaseNumber": 2,
+      "goal": "Reason about Azure network boundaries, CIDR ranges, and NSG rules without accidental public exposure.",
+      "concepts": [
+        "address range and subnet sizing",
+        "node/pod/service address spaces",
+        "source and destination CIDR",
+        "NSG rule priority",
+        "Azure CNI Overlay vs legacy kubenet awareness",
+        "least exposure"
+      ],
+      "capstoneConnection": "This becomes forge-api's network-address planning baseline for later AKS networking.",
+      "next": "D14 — Private Endpoint vs public PaaS",
+      "slug": "day-13"
+    },
+    {
+      "day": 14,
+      "title": "Private Endpoint vs public PaaS",
+      "phaseId": "phase-02",
+      "phase": "Azure networking and identity",
+      "phaseNumber": 2,
+      "goal": "Compare private and public service access paths without confusing DNS with reachability.",
+      "concepts": [
+        "private IP",
+        "NIC",
+        "network path",
+        "public ingress",
+        "cost/operational trade-off"
+      ],
+      "capstoneConnection": "Use the same path model in later Key Vault and AKS lessons.",
+      "next": "D15 — Private DNS + Private Endpoint",
+      "slug": "day-14"
+    },
+    {
+      "day": 15,
+      "title": "Private DNS + Private Endpoint",
+      "phaseId": "phase-02",
+      "phase": "Azure networking and identity",
+      "phaseNumber": 2,
+      "goal": "Understand how private DNS makes a private endpoint usable by applications.",
+      "concepts": [
+        "split-horizon DNS",
+        "hostname preservation",
+        "resolution scope",
+        "common misconfiguration"
+      ],
+      "capstoneConnection": "Capture the DNS path that future forge-api cloud integrations will require.",
+      "next": "D16 — [projects/forge-api/PATH.md](../projects/forge-api/PATH.md) hop-by-hop",
+      "slug": "day-15"
+    },
+    {
+      "day": 16,
+      "title": "Capstone path hop-by-hop",
+      "phaseId": "phase-02",
+      "phase": "Azure networking and identity",
+      "phaseNumber": 2,
+      "goal": "Create a canonical request path that names every network and trust boundary.",
+      "concepts": [
+        "hop inventory",
+        "trust boundary",
+        "failure boundary",
+        "unknown/red status"
+      ],
+      "capstoneConnection": "[projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)](../projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)) becomes a capstone artifact reused throughout the 120 days.",
+      "next": "D17 — Identity vocabulary",
+      "slug": "day-16"
+    },
+    {
+      "day": 17,
+      "title": "Identity vocabulary",
+      "phaseId": "phase-02",
+      "phase": "Azure networking and identity",
+      "phaseNumber": 2,
+      "goal": "Build the vocabulary needed to reason about humans, workloads, and permissions.",
+      "concepts": [
+        "human vs workload",
+        "credential vs token",
+        "issuer vs audience",
+        "least privilege"
+      ],
+      "capstoneConnection": "[daily-learning/day-017.md](../daily-learning/day-017.md)",
+      "next": "D18 — Python foundations",
+      "slug": "day-17"
+    },
+    {
+      "day": 18,
+      "title": "Python foundations",
+      "phaseId": "phase-02",
+      "phase": "Azure networking and identity",
+      "phaseNumber": 2,
+      "goal": "Learn the Python subset required for later automation without turning this into a general CS course.",
+      "concepts": [
+        "str/int/float/bool/None",
+        "list/dict",
+        "`.get`",
+        "loops",
+        "return",
+        "`json`",
+        "`sys.exit`",
+        "requirements"
+      ],
+      "capstoneConnection": "This script is later reused by the failure parser.",
+      "next": "D19 — CI as a contract",
+      "slug": "day-18"
+    },
+    {
+      "day": 19,
+      "title": "CI as a contract",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Understand CI as a reproducible contract with inputs, steps, outputs, and policy.",
+      "concepts": [
+        "checkout",
+        "setup",
+        "test",
+        "artifact",
+        "cache boundary",
+        "status checks"
+      ],
+      "capstoneConnection": "forge-api's CI will build from this contract in D20.",
+      "next": "D20 — First pipeline",
+      "slug": "day-19"
+    },
+    {
+      "day": 20,
+      "title": "First pipeline",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Turn the health script into a reproducible GitHub Actions check.",
+      "concepts": [
+        "YAML structure",
+        "permissions",
+        "working-directory",
+        "logs",
+        "failure annotations"
+      ],
+      "capstoneConnection": "This is forge-api's first automated gate.",
+      "next": "D21 — Cache, supply chain, provenance words",
+      "slug": "day-20"
+    },
+    {
+      "day": 21,
+      "title": "Caching, artifact identity and provenance",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Understand what caches, SBOMs, digests, and provenance claims each prove.",
+      "concepts": [
+        "cache poisoning concept",
+        "immutable digest",
+        "build provenance",
+        "workflow identity"
+      ],
+      "capstoneConnection": "Research anchor: GitHub artifact attestations establish signed build provenance. See [docs/RESEARCH.md](../docs/RESEARCH.md).",
+      "next": "D22 — Environments / paved road",
+      "slug": "day-21"
+    },
+    {
+      "day": 22,
+      "title": "Environments / paved road",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Model environments as protected paths with defaults and explicit exceptions.",
+      "concepts": [
+        "promotion",
+        "configuration boundaries",
+        "approvals",
+        "exception expiry",
+        "ownership"
+      ],
+      "capstoneConnection": "Forge-api's CI/CD path will follow this pattern.",
+      "next": "D23 — Secrets and OIDC",
+      "slug": "day-22"
+    },
+    {
+      "day": 23,
+      "title": "Secrets and OIDC",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Understand secret storage and federation well enough to avoid copied credentials in CI.",
+      "concepts": [
+        "short-lived trust",
+        "workload identity",
+        "permissions",
+        "secret leakage paths",
+        "rotation"
+      ],
+      "capstoneConnection": "[daily-learning/day-023.md](../daily-learning/day-023.md)",
+      "next": "D24 — Change / rollback page",
+      "slug": "day-23"
+    },
+    {
+      "day": 24,
+      "title": "Change / rollback page",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Write a small production-style change plan with proof, rollback, and blast radius.",
+      "concepts": [
+        "pre-change checks",
+        "success criteria",
+        "rollback trigger",
+        "dependencies",
+        "communication"
+      ],
+      "capstoneConnection": "This becomes the pattern used for later Helm, Terraform, and incident work.",
+      "next": "D25 — OIDC lab or blocker",
+      "slug": "day-24"
+    },
+    {
+      "day": 25,
+      "title": "OIDC lab or blocker",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Apply the CI federation mental model in a safe lab or document a real blocker precisely.",
+      "concepts": [
+        "token issuance",
+        "claim inspection",
+        "failure modes",
+        "secretless auth"
+      ],
+      "capstoneConnection": "Forge-api CI identity path is now connected to the future Azure path.",
+      "next": "D26 — CI and delivery review",
+      "slug": "day-25"
+    },
+    {
+      "day": 26,
+      "title": "CI and delivery review",
+      "phaseId": "phase-03",
+      "phase": "CI and delivery",
+      "phaseNumber": 3,
+      "goal": "Review the first half of the CI path and test whether the design transfers across common CI systems.",
+      "concepts": [
+        "Azure DevOps pipeline structure",
+        "GitHub Actions workflow structure",
+        "build-once and promotion",
+        "identity and secret boundaries"
+      ],
+      "capstoneConnection": "forge-api now has a CI design that is understandable even when the delivery platform changes.",
+      "next": "D27 — Terraform foundations",
+      "slug": "day-26"
+    },
+    {
+      "day": 27,
+      "title": "Terraform foundations",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Write a small Terraform configuration and understand configuration, provider, resource, variable, output, state and plan.",
+      "concepts": [
+        "provider configuration and authentication",
+        "resource blocks and arguments",
+        "variables and outputs",
+        "init, validate and plan",
+        "resource versus data source"
+      ],
+      "capstoneConnection": "forge-api gets a reproducible infrastructure definition before state, modules and cloud resources become more complex.",
+      "next": "D28 — State, lock, backend",
+      "slug": "day-27"
+    },
+    {
+      "day": 28,
+      "title": "State, lock, backend",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Understand local state, remote state, locking, concurrency, and drift.",
+      "concepts": [
+        "state identity",
+        "environment keys",
+        "lock contention",
+        "stale state",
+        "`force-unlock` break-glass"
+      ],
+      "capstoneConnection": "Research anchor: HashiCorp documents backend-specific state locking behavior.",
+      "next": "D29 — FastAPI health and readiness",
+      "slug": "day-28"
+    },
+    {
+      "day": 29,
+      "title": "FastAPI health and readiness",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Build the smallest tested HTTP service with separate health and readiness endpoints.",
+      "concepts": [
+        "application object and route decorators",
+        "health versus readiness",
+        "JSON response testing",
+        "local bind address",
+        "test-first confidence"
+      ],
+      "capstoneConnection": "D39 can wire health as liveness and ready as readiness without inventing an endpoint later.",
+      "next": "D30 — Dockerfile v1",
+      "slug": "day-29"
+    },
+    {
+      "day": 30,
+      "title": "Dockerfile v1",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Package forge-api into a container and understand each Dockerfile instruction.",
+      "concepts": [
+        "build context",
+        "`.dockerignore`",
+        "process model",
+        "immutable digest"
+      ],
+      "capstoneConnection": "forge-api's artifact moves from source to image at Day 30.",
+      "next": "D31 — Docker internals",
+      "slug": "day-30"
+    },
+    {
+      "day": 31,
+      "title": "Docker internals",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Understand the process, filesystem, namespace, and resource boundaries created by a container runtime.",
+      "concepts": [
+        "PID/network/mount namespaces",
+        "cgroups",
+        "writable layer",
+        "image vs container",
+        "signals"
+      ],
+      "capstoneConnection": "forge-api becomes a containerized process with explicit runtime assumptions.",
+      "next": "D32 — Multi-stage non-root",
+      "slug": "day-31"
+    },
+    {
+      "day": 32,
+      "title": "Multi-stage non-root",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Reduce image surface and run forge-api without unnecessary root privilege.",
+      "concepts": [
+        "builder vs runtime image",
+        "COPY --from",
+        "UID/GID",
+        "read-only assumptions",
+        "minimal runtime"
+      ],
+      "capstoneConnection": "This hardens forge-api before CI and scanning.",
+      "next": "D33 — Compose + Postgres",
+      "slug": "day-32"
+    },
+    {
+      "day": 33,
+      "title": "Compose + Postgres",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Understand service composition, dependency boundaries, and persistent state using a local database.",
+      "concepts": [
+        "service discovery",
+        "startup ordering",
+        "persistent volume",
+        "health checks",
+        "configuration"
+      ],
+      "capstoneConnection": "Use the database as a stateful component for later troubleshooting concepts.",
+      "next": "D34 — Container network isolation",
+      "slug": "day-33"
+    },
+    {
+      "day": 34,
+      "title": "Container network isolation",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Control which ports are published and which services remain internal.",
+      "concepts": [
+        "localhost vs container interface",
+        "internal-only service",
+        "host port mapping",
+        "network inspection"
+      ],
+      "capstoneConnection": "The same boundary thinking is reused in Kubernetes Services and NetworkPolicy.",
+      "next": "D35 — Trivy + SBOM",
+      "slug": "day-34"
+    },
+    {
+      "day": 35,
+      "title": "Trivy + SBOM",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Scan the image and interpret vulnerabilities without turning scanning into a blind allow/deny ritual.",
+      "concepts": [
+        "package vs image layer",
+        "fix available",
+        "base image lifecycle",
+        "dated exception"
+      ],
+      "capstoneConnection": "forge-api now has an image-security evidence trail.",
+      "next": "D36 — Tests still run + digest/provenance",
+      "slug": "day-35"
+    },
+    {
+      "day": 36,
+      "title": "Tests still run + digest/provenance",
+      "phaseId": "phase-04",
+      "phase": "Terraform and application",
+      "phaseNumber": 4,
+      "goal": "Connect tests, image identity, and provenance so the artifact tested is the artifact promoted.",
+      "concepts": [
+        "tag vs digest",
+        "build once",
+        "attestation",
+        "verification boundary"
+      ],
+      "capstoneConnection": "Research anchor: GitHub artifact attestations provide signed claims about where/how an artifact was built.",
+      "next": "D37 — Kubernetes control plane",
+      "slug": "day-36"
+    },
+    {
+      "day": 37,
+      "title": "Kubernetes control plane",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Understand the Kubernetes control loop and the responsibilities of its core components.",
+      "concepts": [
+        "desired vs observed state",
+        "reconciliation",
+        "kubeconfig",
+        "node vs control plane"
+      ],
+      "capstoneConnection": "forge-api moves from image to declarative cluster state.",
+      "next": "D38 — Pod, Deployment, Service and workload choice",
+      "slug": "day-37"
+    },
+    {
+      "day": 38,
+      "title": "Pod, Deployment, Service and workload choice",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Understand Pods, controllers, Services, selectors, and when a Deployment is not the right workload primitive.",
+      "concepts": [
+        "labels and selectors",
+        "replicas and reconciliation",
+        "ClusterIP and service discovery",
+        "Deployment vs StatefulSet vs DaemonSet vs Job/CronJob",
+        "endpoint membership"
+      ],
+      "capstoneConnection": "forge-api remains the long-running service; batch is a bounded learning fixture.",
+      "next": "D39 — Probes and rollout",
+      "slug": "day-38"
+    },
+    {
+      "day": 39,
+      "title": "Probes and rollout",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Use separate liveness and readiness probes and observe how they affect traffic and restarts during a rollout.",
+      "concepts": [
+        "health endpoint for liveness",
+        "ready endpoint for readiness",
+        "probe timing and thresholds",
+        "rolling update behaviour",
+        "readiness and Service backends"
+      ],
+      "capstoneConnection": "forge-api health endpoint now has an operational contract.",
+      "next": "D40 — Empty Endpoints",
+      "slug": "day-39"
+    },
+    {
+      "day": 40,
+      "title": "Empty Endpoints",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Diagnose a Service with no ready backend using selectors, labels, readiness, and endpoints.",
+      "concepts": [
+        "`kubectl get svc`",
+        "`get endpoints`",
+        "`get endpointslices`",
+        "`get pods --show-labels`",
+        "events"
+      ],
+      "capstoneConnection": "forge-api's first Kubernetes incident is an evidence-driven troubleshooting case.",
+      "next": "D41 — YAML dry-run",
+      "slug": "day-40"
+    },
+    {
+      "day": 41,
+      "title": "YAML dry-run",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Validate Kubernetes manifests before applying them and understand what validation does and does not prove.",
+      "concepts": [
+        "syntax vs schema vs policy vs runtime",
+        "defaults",
+        "unknown fields",
+        "diff"
+      ],
+      "capstoneConnection": "Use dry-run as forge-api's pre-deployment guard.",
+      "next": "D42 — ConfigMap and Secret",
+      "slug": "day-41"
+    },
+    {
+      "day": 42,
+      "title": "ConfigMap, Secret and pod security",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Understand configuration separation and why Kubernetes Secret encoding is not a vault.",
+      "concepts": [
+        "configuration immutability",
+        "namespace scope",
+        "RBAC read access",
+        "logs",
+        "runAsNonRoot, seccomp and Linux capabilities"
+      ],
+      "capstoneConnection": "Forge-api later replaces the dummy secret path with Azure Key Vault/Workload Identity.",
+      "next": "D43 — Requests, limits, QoS, quota, OOM and eviction",
+      "slug": "day-42"
+    },
+    {
+      "day": 43,
+      "title": "Requests, limits, QoS, quota, OOM and eviction",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Separate resource requests, limits, namespace quota, runtime OOM and node-pressure eviction.",
+      "concepts": [
+        "scheduler fit from requests",
+        "limits and cgroups",
+        "Guaranteed, Burstable and BestEffort QoS",
+        "namespace and ResourceQuota",
+        "container OOM versus node-pressure eviction"
+      ],
+      "capstoneConnection": "The resource model becomes an input to later HPA, autoscaler and AKS capacity decisions.",
+      "next": "D44 — HPA and scale-to-zero",
+      "slug": "day-43"
+    },
+    {
+      "day": 44,
+      "title": "HPA and scale-to-zero",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Understand how HorizontalPodAutoscaler chooses replica counts and how current Kubernetes versions can scale suitable workloads to zero.",
+      "concepts": [
+        "resource versus object or external metrics",
+        "target utilization",
+        "stabilization behaviour",
+        "Kubernetes 1.37 scale-to-zero beta",
+        "version- and metric-dependent limits"
+      ],
+      "capstoneConnection": "forge-api now has explicit capacity and readiness reasoning instead of treating autoscaling as magic.",
+      "next": "D45 — PDB",
+      "slug": "day-44"
+    },
+    {
+      "day": 45,
+      "title": "PDB",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Understand PodDisruptionBudget as availability policy for voluntary disruption.",
+      "concepts": [
+        "minAvailable",
+        "maxUnavailable",
+        "rollout interaction",
+        "capacity"
+      ],
+      "capstoneConnection": "forge-api's reliability model now includes availability during planned disruption.",
+      "next": "D46 — NetworkPolicy deny",
+      "slug": "day-45"
+    },
+    {
+      "day": 46,
+      "title": "NetworkPolicy deny",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Use namespace/network policy to express least-connectivity rather than relying on default allow.",
+      "concepts": [
+        "default allow",
+        "policy isolation",
+        "CNI support",
+        "namespace selector",
+        "port rule"
+      ],
+      "capstoneConnection": "Use the policy boundary later when modeling AKS ingress and secret access.",
+      "next": "D47 — Ingress",
+      "slug": "day-46"
+    },
+    {
+      "day": 47,
+      "title": "Ingress and Gateway API",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Understand Ingress for existing systems and learn why Gateway API is the current Kubernetes direction for new traffic-routing designs.",
+      "concepts": [
+        "Layer 7 routing",
+        "Ingress and IngressClass for existing systems",
+        "GatewayClass, Gateway and HTTPRoute",
+        "host/path routing",
+        "TLS termination and controller ownership"
+      ],
+      "capstoneConnection": "Update forge-api [projects/forge-api/PATH.md](../projects/forge-api/PATH.md) with the L7 boundary.",
+      "next": "D48 — RBAC",
+      "slug": "day-47"
+    },
+    {
+      "day": 48,
+      "title": "RBAC",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Use Kubernetes Role/RoleBinding and `kubectl auth can-i` to prove least privilege.",
+      "concepts": [
+        "namespace scope",
+        "API groups",
+        "resourceNames",
+        "impersonation concept",
+        "authz decision"
+      ],
+      "capstoneConnection": "forge-api later uses workload-specific service accounts.",
+      "next": "D49 — Workload ServiceAccount least privilege",
+      "slug": "day-48"
+    },
+    {
+      "day": 49,
+      "title": "Workload ServiceAccount least privilege",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Separate application identity from the default service account and prepare for cloud workload identity.",
+      "concepts": [
+        "default SA risk",
+        "dedicated SA",
+        "RBAC binding",
+        "projected token concept"
+      ],
+      "capstoneConnection": "This is the Kubernetes side of the D66 identity chain.",
+      "next": "D50 — kind vs real",
+      "slug": "day-49"
+    },
+    {
+      "day": 50,
+      "title": "kind vs real",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Know exactly what a local Kubernetes cluster can prove and what it cannot.",
+      "concepts": [
+        "single-node limits",
+        "controller differences",
+        "cloud IAM",
+        "managed control plane differences"
+      ],
+      "capstoneConnection": "forge-api uses kind for safe failure labs and reserves Azure claims for Azure evidence.",
+      "next": "D51 — CrashLoopBackOff",
+      "slug": "day-50"
+    },
+    {
+      "day": 51,
+      "title": "CrashLoopBackOff",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Troubleshoot a repeatedly failing container from events, logs, and prior logs.",
+      "concepts": [
+        "command vs config failure",
+        "probe loop",
+        "missing env",
+        "exit code",
+        "backoff timing"
+      ],
+      "capstoneConnection": "Add the failure to forge-api's troubleshooting knowledge base.",
+      "next": "D52 — ImagePullBackOff",
+      "slug": "day-51"
+    },
+    {
+      "day": 52,
+      "title": "ImagePullBackOff",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Diagnose image identity and registry access problems without reaching for admin credentials.",
+      "concepts": [
+        "name mismatch",
+        "nonexistent tag",
+        "auth failure",
+        "network path",
+        "retry behavior"
+      ],
+      "capstoneConnection": "This prepares the AKS ACR identity path.",
+      "next": "D53 — Pending Pod, PVC and scheduling predicates",
+      "slug": "day-52"
+    },
+    {
+      "day": 53,
+      "title": "Pending Pod, PVC and scheduling predicates",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Diagnose Pending workloads from scheduling and storage evidence instead of changing capacity blindly.",
+      "concepts": [
+        "node capacity and resource requests",
+        "taints, tolerations and affinity",
+        "PVC and StorageClass binding",
+        "namespace quota",
+        "events as first scheduling evidence"
+      ],
+      "capstoneConnection": "forge-api remains stateless in its main path; storage is learned without turning the capstone into a Kubernetes database.",
+      "next": "D54 — Ready, live, startup and cluster DNS",
+      "slug": "day-53"
+    },
+    {
+      "day": 54,
+      "title": "Ready, live, startup and cluster DNS",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Trace readiness and Service DNS together so an application can be healthy yet still unreachable.",
+      "concepts": [
+        "health and ready endpoint semantics",
+        "Service DNS names",
+        "CoreDNS path",
+        "EndpointSlice membership",
+        "DNS failure versus application failure"
+      ],
+      "capstoneConnection": "forge-api now has health and ready semantics needed for later traffic and incident diagnosis.",
+      "next": "D55 — NetworkPolicy troubleshooting",
+      "slug": "day-54"
+    },
+    {
+      "day": 55,
+      "title": "NetworkPolicy troubleshooting",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Diagnose denied traffic using policy, labels, namespaces, and port evidence.",
+      "concepts": [
+        "policy union",
+        "default isolation",
+        "source/destination perspective",
+        "enforcement"
+      ],
+      "capstoneConnection": "Carry the learned selector debugging method into Azure NSG and private networking reasoning.",
+      "next": "D56 — RBAC 403 troubleshooting",
+      "slug": "day-55"
+    },
+    {
+      "day": 56,
+      "title": "RBAC 403 troubleshooting",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Identify which identity and verb caused an authorization failure.",
+      "concepts": [
+        "resource name",
+        "namespace",
+        "API group",
+        "service account",
+        "user vs workload"
+      ],
+      "capstoneConnection": "This reasoning becomes the model for Workload Identity 403 failures.",
+      "next": "D57 — Failure catalogue",
+      "slug": "day-56"
+    },
+    {
+      "day": 57,
+      "title": "Failure catalogue",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Build a single troubleshooting matrix for the core Kubernetes failures learned so far.",
+      "concepts": [
+        "symptom",
+        "first evidence",
+        "likely predicates",
+        "misleading clues",
+        "remediation"
+      ],
+      "capstoneConnection": "forge-api's incident knowledge now has a reusable local troubleshooting base.",
+      "next": "D58 — Failure parser",
+      "slug": "day-57"
+    },
+    {
+      "day": 58,
+      "title": "Failure parser",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Turn raw failure fixtures into structured categories with small, testable Python code.",
+      "concepts": [
+        "input schema",
+        "deterministic rules",
+        "missing keys",
+        "test cases",
+        "exit codes"
+      ],
+      "capstoneConnection": "The parser becomes the deterministic component used in the later AI helper.",
+      "next": "D59 — First LLM helper read-only",
+      "slug": "day-58"
+    },
+    {
+      "day": 59,
+      "title": "First LLM helper read-only",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Add a model-assisted explanation layer without giving the model cluster access or execution authority.",
+      "concepts": [
+        "context construction",
+        "failure fixture",
+        "response format",
+        "no shell",
+        "proposal-only"
+      ],
+      "capstoneConnection": "forge-api now has a read-only AI boundary with no live write access.",
+      "next": "D60 — M3 mock",
+      "slug": "day-59"
+    },
+    {
+      "day": 60,
+      "title": "M3 mock",
+      "phaseId": "phase-05",
+      "phase": "Kubernetes",
+      "phaseNumber": 5,
+      "goal": "Cold-test Kubernetes troubleshooting, Python parser reasoning, and AI boundary discipline.",
+      "concepts": [
+        "rapid triage",
+        "explanation",
+        "learner-first mock",
+        "security boundary"
+      ],
+      "capstoneConnection": "Gate before Azure: honest Kubernetes troubleshooting is the prerequisite.",
+      "next": "D61 — AKS cost envelope + Automatic vs Standard",
+      "slug": "day-60"
+    },
+    {
+      "day": 61,
+      "title": "AKS cost envelope + Automatic vs Standard",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Understand the main AKS cost and control boundaries and distinguish AKS Automatic from AKS Standard.",
+      "concepts": [
+        "managed control plane",
+        "system/user node pools",
+        "autoscaling",
+        "workload identity defaults",
+        "Azure RBAC",
+        "cleanup"
+      ],
+      "capstoneConnection": "Research anchor: Microsoft Learn documents Automatic as secure-by-default and Standard as more operator-configurable.",
+      "next": "D62 — AKS create and destroy",
+      "slug": "day-61"
+    },
+    {
+      "day": 62,
+      "title": "AKS create and destroy",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Create the smallest reasonable AKS lab, collect evidence, and destroy it safely.",
+      "concepts": [
+        "location",
+        "node count",
+        "credentials",
+        "tags",
+        "timeout",
+        "delete workflow"
+      ],
+      "capstoneConnection": "forge-api now has a real-cloud boundary, but no real production claim.",
+      "next": "D63 — ACR push/pull",
+      "slug": "day-62"
+    },
+    {
+      "day": 63,
+      "title": "ACR push/pull",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Understand registry identity, tags, digests, and the image path from CI to AKS.",
+      "concepts": [
+        "login methods",
+        "image naming",
+        "immutable digest",
+        "repository permissions",
+        "pull failure"
+      ],
+      "capstoneConnection": "Connect the same digest built on D36 to the AKS path.",
+      "next": "D64 — AKS pull with admin off",
+      "slug": "day-63"
+    },
+    {
+      "day": 64,
+      "title": "AKS pull with admin off",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Prove AKS can pull from ACR without a shared registry password.",
+      "concepts": [
+        "pull flow",
+        "node identity",
+        "registry audience",
+        "failure diagnosis"
+      ],
+      "capstoneConnection": "Prepare for D66 where the application identity accesses Azure resources.",
+      "next": "D65 — AKS application networking path",
+      "slug": "day-64"
+    },
+    {
+      "day": 65,
+      "title": "AKS application networking path",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Trace HTTP application traffic through AKS and distinguish Layer-4 LoadBalancer exposure from Layer-7 ingress routing.",
+      "concepts": [
+        "Layer-4 vs Layer-7 exposure",
+        "HTTP-like traffic vs TCP/UDP",
+        "health probes",
+        "DNS and TLS termination",
+        "Azure CNI Overlay and IP planning",
+        "NetworkPolicy interaction",
+        "external IP and ownership"
+      ],
+      "capstoneConnection": "forge-api's [projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)](../projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)) now has a complete application-networking boundary for later incidents.",
+      "next": "D66 — Workload Identity seven steps",
+      "slug": "day-65"
+    },
+    {
+      "day": 66,
+      "title": "Workload Identity seven steps",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Understand pod-to-Azure federation as a trust chain rather than a CLI recipe.",
+      "concepts": [
+        "issuer discovery",
+        "token projection",
+        "namespace/SA subject",
+        "annotation",
+        "Azure RBAC",
+        "Key Vault"
+      ],
+      "capstoneConnection": "Research anchor: Microsoft Learn describes projected service-account tokens and OIDC federation for Workload ID.",
+      "next": "D67 — Key Vault + Workload Identity",
+      "slug": "day-66"
+    },
+    {
+      "day": 67,
+      "title": "Key Vault + Workload Identity",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Use the workload identity chain to retrieve one non-sensitive secret from Key Vault.",
+      "concepts": [
+        "vault vs Kubernetes Secret",
+        "least privilege",
+        "secret version",
+        "client library",
+        "failure modes"
+      ],
+      "capstoneConnection": "forge-api replaces the local dummy-secret path with a cloud identity path.",
+      "next": "D68 — Private AKS architecture paper",
+      "slug": "day-67"
+    },
+    {
+      "day": 68,
+      "title": "Private AKS architecture paper",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Design a private AKS request path and identify what becomes harder operationally.",
+      "concepts": [
+        "control-plane path",
+        "private DNS",
+        "management access",
+        "outbound dependencies",
+        "trade-offs"
+      ],
+      "capstoneConnection": "Extend forge-api [projects/forge-api/PATH.md](../projects/forge-api/PATH.md) with a private variant.",
+      "next": "D69 — Node pools, taints and upgrade safety",
+      "slug": "day-68"
+    },
+    {
+      "day": 69,
+      "title": "Node pools, taints and upgrade safety",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Separate workload classes with node pools and scheduling rules, then reason about safe AKS node-pool upgrades.",
+      "concepts": [
+        "system vs user pools",
+        "taints/tolerations",
+        "labels/affinity",
+        "topology and zone-spread awareness",
+        "node-pool upgrade sequence",
+        "PDB and `maxSurge` capacity",
+        "maintenance and verification"
+      ],
+      "capstoneConnection": "forge-api's AKS reliability story now includes disruption-aware maintenance and explicit capacity checks.",
+      "next": "D70 — Cluster autoscaler words",
+      "slug": "day-69"
+    },
+    {
+      "day": 70,
+      "title": "Cluster autoscaler words",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Distinguish Pod scaling from node scaling and understand their feedback loop.",
+      "concepts": [
+        "unschedulable condition",
+        "scale-out trigger",
+        "scale-in safety",
+        "cooldown",
+        "cost"
+      ],
+      "capstoneConnection": "Connect scaling assumptions to forge-api resource requests from D43.",
+      "next": "D71 — KQL",
+      "slug": "day-70"
+    },
+    {
+      "day": 71,
+      "title": "KQL",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Use a specific Log Analytics table and time-bounded queries as evidence.",
+      "concepts": [
+        "`where`",
+        "`project`",
+        "`summarize`",
+        "`count`",
+        "`order by`",
+        "schema discovery"
+      ],
+      "capstoneConnection": "forge-api operational evidence will later map logs to incidents.",
+      "next": "D72 — OpenTelemetry three signals + AI calls",
+      "slug": "day-71"
+    },
+    {
+      "day": 72,
+      "title": "OpenTelemetry three signals + AI calls",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Understand logs, metrics, and traces and map model/tool calls onto the same observability model.",
+      "concepts": [
+        "request ID",
+        "duration",
+        "error status",
+        "model name",
+        "token usage",
+        "tool span",
+        "semantic convention maturity"
+      ],
+      "capstoneConnection": "Research anchor: OpenTelemetry is a graduated CNCF project; GenAI semantic conventions remain development-status material.",
+      "next": "D73 — Authorization: two planes",
+      "slug": "day-72"
+    },
+    {
+      "day": 73,
+      "title": "Authorization: two planes",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Separate AKS cluster API authorization from pod-to-Azure data-plane authorization.",
+      "concepts": [
+        "get-credentials",
+        "API access",
+        "resource permissions",
+        "trust chain",
+        "401/403"
+      ],
+      "capstoneConnection": "forge-api will explicitly document both planes in its identity architecture.",
+      "next": "D74 — Destroy and bill",
+      "slug": "day-73"
+    },
+    {
+      "day": 74,
+      "title": "Destroy and bill",
+      "phaseId": "phase-06",
+      "phase": "AKS",
+      "phaseNumber": 6,
+      "goal": "Close an Azure lab cleanly and turn cost from an assumption into observed evidence.",
+      "concepts": [
+        "resource group scope",
+        "orphan detection",
+        "usage time",
+        "tags",
+        "budget awareness"
+      ],
+      "capstoneConnection": "Close the first real-cloud forge-api deployment path before Terraform work expands it.",
+      "next": "D75 — Terraform modules",
+      "slug": "day-74"
+    },
+    {
+      "day": 75,
+      "title": "Terraform modules",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Design a small reusable Terraform module with a stable interface.",
+      "concepts": [
+        "root vs child module",
+        "input validation",
+        "output contract",
+        "naming",
+        "composition"
+      ],
+      "capstoneConnection": "forge-api infrastructure begins using modules instead of scattered resources.",
+      "next": "D76 — Remote state",
+      "slug": "day-75"
+    },
+    {
+      "day": 76,
+      "title": "Remote state",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Design state isolation and access patterns for multiple environments.",
+      "concepts": [
+        "locking behavior",
+        "state access",
+        "backend configuration",
+        "secret data in state"
+      ],
+      "capstoneConnection": "Tie remote state to forge-api's environment/promotion path.",
+      "next": "D77 — Human Terraform plan review",
+      "slug": "day-76"
+    },
+    {
+      "day": 77,
+      "title": "Human Terraform plan review",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Build a deterministic human review checklist before AI reviews infrastructure changes.",
+      "concepts": [
+        "address changes",
+        "replacement",
+        "unknown values",
+        "provider drift",
+        "cost",
+        "permission"
+      ],
+      "capstoneConnection": "forge-api uses the review list before later small applies.",
+      "next": "D78 — AI reviews a Terraform plan",
+      "slug": "day-77"
+    },
+    {
+      "day": 78,
+      "title": "AI reviews a Terraform plan",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Use AI to augment plan review without allowing it to override deterministic controls.",
+      "concepts": [
+        "plan summary",
+        "suspicious change",
+        "context limits",
+        "false positives",
+        "evidence links"
+      ],
+      "capstoneConnection": "forge-api's future plan-review helper remains proposal-only.",
+      "next": "D79 — Apply small + rollback",
+      "slug": "day-78"
+    },
+    {
+      "day": 79,
+      "title": "Apply small + rollback",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Execute one intentionally small Terraform change and demonstrate recovery thinking.",
+      "concepts": [
+        "plan/apply relationship",
+        "replacement",
+        "reversible vs irreversible",
+        "backup/snapshot concept"
+      ],
+      "capstoneConnection": "forge-api infrastructure now has one real or simulated controlled change cycle.",
+      "next": "D80 — Drift lab",
+      "slug": "day-79"
+    },
+    {
+      "day": 80,
+      "title": "Drift lab",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Detect and explain configuration drift between declared, recorded, and real state.",
+      "concepts": [
+        "manual change",
+        "plan refresh",
+        "unmanaged resource",
+        "source-of-truth ambiguity"
+      ],
+      "capstoneConnection": "forge-api's environment discipline now includes drift awareness.",
+      "next": "D81 — Checkov",
+      "slug": "day-80"
+    },
+    {
+      "day": 81,
+      "title": "Checkov",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Use static IaC checks as deterministic guardrails and understand their limits.",
+      "concepts": [
+        "rule IDs",
+        "false positives",
+        "exceptions",
+        "pre-commit/CI use",
+        "policy ownership"
+      ],
+      "capstoneConnection": "This is the deterministic layer beneath the future agent.",
+      "next": "D82 — Import / move",
+      "slug": "day-81"
+    },
+    {
+      "day": 82,
+      "title": "Import / move",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Understand how Terraform adopts existing resources and refactors addresses without accidental destruction.",
+      "concepts": [
+        "import identity",
+        "configuration match",
+        "refactor",
+        "plan validation"
+      ],
+      "capstoneConnection": "Prepare forge-api for module refactoring without unnecessary recreation.",
+      "next": "D83 — Module interface freeze",
+      "slug": "day-82"
+    },
+    {
+      "day": 83,
+      "title": "Module interface freeze",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Freeze a stable module contract before the capstone grows further.",
+      "concepts": [
+        "semantic versioning concept",
+        "breaking input/output",
+        "caller impact",
+        "documentation"
+      ],
+      "capstoneConnection": "forge-api infrastructure has a predictable abstraction boundary before Helm.",
+      "next": "D84 — Helm chart",
+      "slug": "day-83"
+    },
+    {
+      "day": 84,
+      "title": "Helm chart",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Package forge-api Kubernetes manifests with Helm while retaining YAML literacy.",
+      "concepts": [
+        "Chart.yaml",
+        "values.yaml",
+        "templates",
+        "`helm template`",
+        "release metadata",
+        "overrides"
+      ],
+      "capstoneConnection": "forge-api's Kubernetes layer moves from raw manifests toward controlled packaging.",
+      "next": "D85 — Helm rollback",
+      "slug": "day-84"
+    },
+    {
+      "day": 85,
+      "title": "Helm rollback",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Demonstrate a safe release change and rollback using Helm revision history.",
+      "concepts": [
+        "bad value",
+        "rendered diff",
+        "revision history",
+        "health verification"
+      ],
+      "capstoneConnection": "forge-api now has an application-release recovery story.",
+      "next": "D86 — CI deploy path",
+      "slug": "day-85"
+    },
+    {
+      "day": 86,
+      "title": "CI deploy path",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Connect source, tested image digest, deployment manifest/chart, and environment gate.",
+      "concepts": [
+        "build-once",
+        "deployment identity",
+        "gating",
+        "immutable image",
+        "rollback trigger"
+      ],
+      "capstoneConnection": "forge-api becomes a build-once/promote example.",
+      "next": "D87 — Cost review",
+      "slug": "day-86"
+    },
+    {
+      "day": 87,
+      "title": "Cost review",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Review infrastructure choices for cost without optimizing blindly.",
+      "concepts": [
+        "node utilization",
+        "logs",
+        "replicas",
+        "storage",
+        "egress",
+        "LLM token cost preview"
+      ],
+      "capstoneConnection": "Carry cost awareness into the AI/token and observability phases.",
+      "next": "D88 — PATH freeze + red boxes",
+      "slug": "day-87"
+    },
+    {
+      "day": 88,
+      "title": "PATH freeze + red boxes",
+      "phaseId": "phase-07",
+      "phase": "Infrastructure delivery",
+      "phaseNumber": 7,
+      "goal": "Freeze the known architecture path and mark unproven hops explicitly before introducing agents.",
+      "concepts": [
+        "identity check",
+        "dependency failure",
+        "blast radius",
+        "rollback edge",
+        "telemetry gap"
+      ],
+      "capstoneConnection": "This is the capstone architecture baseline before AI automation.",
+      "next": "D89 — Safety and change gates",
+      "slug": "day-88"
+    },
+    {
+      "day": 89,
+      "title": "Safety and change gates",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Put simple, deterministic quality and safety checks in front of runtime changes.",
+      "concepts": [
+        "test gate",
+        "image vulnerability gate",
+        "infrastructure policy gate",
+        "exception expiry",
+        "stop and rollback criteria"
+      ],
+      "capstoneConnection": "These gates protect the reliability exercises that follow.",
+      "next": "D90 — Retry, timeout and idempotency review",
+      "slug": "day-89"
+    },
+    {
+      "day": 90,
+      "title": "Retry, timeout and idempotency review",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Use bounded retries and timeouts without creating duplicate side effects or runaway cost.",
+      "concepts": [
+        "transient versus permanent failure",
+        "bounded timeouts",
+        "exponential backoff",
+        "jitter",
+        "idempotent versus non-idempotent operations"
+      ],
+      "capstoneConnection": "This concept becomes a hard guardrail in D99–104.",
+      "next": "D91 — Define a measurable SLI",
+      "slug": "day-90"
+    },
+    {
+      "day": 91,
+      "title": "Define a measurable SLI",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Turn a user-facing reliability idea into a signal that can actually be measured from forge-api.",
+      "concepts": [
+        "request population",
+        "success definition",
+        "SLO target and error budget",
+        "time window and baseline",
+        "what the metric cannot tell you"
+      ],
+      "capstoneConnection": "forge-api gains its first measurable reliability statement.",
+      "next": "D92 — Timeouts, retries, idempotency",
+      "slug": "day-91"
+    },
+    {
+      "day": 92,
+      "title": "Timeouts, retries, idempotency",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Design network retries that are safe for the operation being repeated.",
+      "concepts": [
+        "transient vs permanent errors",
+        "retry budgets",
+        "safe GET",
+        "unsafe POST",
+        "idempotency key"
+      ],
+      "capstoneConnection": "This is the reliability boundary for the later agent loop.",
+      "next": "D93 — Alert that pages a human",
+      "slug": "day-92"
+    },
+    {
+      "day": 93,
+      "title": "Alert that pages a human",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Design an alert that has a measurable trigger and an owner who is expected to act.",
+      "concepts": [
+        "burn-rate concept",
+        "false positive",
+        "notification routing",
+        "runbook link",
+        "severity"
+      ],
+      "capstoneConnection": "forge-api gains an operational signal that later incidents can reference.",
+      "next": "D94 — Incident tabletop",
+      "slug": "day-93"
+    },
+    {
+      "day": 94,
+      "title": "Incident tabletop",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Practice incident reasoning before automating diagnosis.",
+      "concepts": [
+        "first evidence",
+        "communication",
+        "decision log",
+        "high availability vs backup vs disaster recovery vs rollback",
+        "RTO/RPO and recovery verification",
+        "residual risk"
+      ],
+      "capstoneConnection": "This tabletop becomes the format for D95's real or simulated incident.",
+      "next": "D95 — Incident record",
+      "slug": "day-94"
+    },
+    {
+      "day": 95,
+      "title": "Incident record",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Turn one failure you actually observed or simulated into a useful incident record with evidence and recovery.",
+      "concepts": [
+        "user-visible symptom",
+        "first evidence",
+        "recovery identity",
+        "verification",
+        "prevention"
+      ],
+      "capstoneConnection": "forge-api now has a human-first incident artifact before AI-assisted troubleshooting.",
+      "next": "D96 — Make the evidence boundary explicit",
+      "slug": "day-95"
+    },
+    {
+      "day": 96,
+      "title": "Make the evidence boundary explicit",
+      "phaseId": "phase-08",
+      "phase": "Reliability",
+      "phaseNumber": 8,
+      "goal": "Make the capstone evidence boundary explicit so project work is never presented as something it did not prove.",
+      "concepts": [
+        "environment labels",
+        "evidence versus claims",
+        "cloud versus local proof",
+        "known versus unproven",
+        "honest project wording"
+      ],
+      "capstoneConnection": "This keeps later explanations tied to the evidence you actually produced.",
+      "next": "D97 — RAG terms and chunking",
+      "slug": "day-96"
+    },
+    {
+      "day": 97,
+      "title": "RAG terms and chunking",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Understand retrieval-augmented generation as retrieval plus grounded generation over an explicit corpus.",
+      "concepts": [
+        "text splitting",
+        "chunk size",
+        "overlap",
+        "metadata",
+        "similarity intuition",
+        "citation IDs"
+      ],
+      "capstoneConnection": "forge-api begins a single-stack local RAG path; no vendor database safari.",
+      "next": "D98 — Retrieve, cite, poison test",
+      "slug": "day-97"
+    },
+    {
+      "day": 98,
+      "title": "Retrieve, cite, poison test",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Measure retrieval quality enough to reject confident answers from the wrong or hostile chunk.",
+      "concepts": [
+        "top-k",
+        "context selection",
+        "source hierarchy",
+        "conflicting chunks",
+        "injected instructions"
+      ],
+      "capstoneConnection": "forge-api's RAG corpus becomes the knowledge source for the review-only agent.",
+      "next": "D99 — Review-only agent loop",
+      "slug": "day-98"
+    },
+    {
+      "day": 99,
+      "title": "Review-only agent loop",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Build the smallest safe agent loop: proposal, schema validation, allowlist, deterministic policy, then a local/read-only function.",
+      "concepts": [
+        "model proposal",
+        "argument validation",
+        "tool registry",
+        "refusal",
+        "audit record",
+        "no shell"
+      ],
+      "capstoneConnection": "forge-api's agent/loop becomes the central AI engineering artifact.",
+      "next": "D100 — Deterministic policy checks",
+      "slug": "day-99"
+    },
+    {
+      "day": 100,
+      "title": "Deterministic policy checks",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Block unsafe tool proposals with explicit, testable rules instead of relying on a persuasive explanation.",
+      "concepts": [
+        "allow and deny predicates",
+        "scope matching",
+        "dangerous action classes",
+        "rule ordering",
+        "BLOCK as a deterministic result"
+      ],
+      "capstoneConnection": "This is forge-api's hard safety boundary before MCP.",
+      "next": "D101 — MCP protocol and tool boundary",
+      "slug": "day-100"
+    },
+    {
+      "day": 101,
+      "title": "MCP protocol and tool boundary",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Understand what the current Model Context Protocol standardizes and where authorization and policy still belong.",
+      "concepts": [
+        "2026-07-28 MCP specification",
+        "stateless protocol core",
+        "tool and resource metadata",
+        "authorization hardening",
+        "what MCP does not guarantee"
+      ],
+      "capstoneConnection": "forge-api can model an MCP-shaped interface without giving it infrastructure authority.",
+      "next": "D102 — Golden eval harness",
+      "slug": "day-101"
+    },
+    {
+      "day": 102,
+      "title": "Golden eval harness",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Treat AI behavior as testable software behavior with explicit expected outcomes.",
+      "concepts": [
+        "test dataset",
+        "exact vs semantic assertions",
+        "schema checks",
+        "pass/fail",
+        "version metadata"
+      ],
+      "capstoneConnection": "forge-api's `eval/goldens` becomes evidence for the agent, not just a code sample.",
+      "next": "D103 — Injection lab",
+      "slug": "day-102"
+    },
+    {
+      "day": 103,
+      "title": "Injection lab",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Stress the RAG/agent boundary with direct and indirect injection fixtures.",
+      "concepts": [
+        "malicious document",
+        "malicious tool output",
+        "conflicting instructions",
+        "refusal"
+      ],
+      "capstoneConnection": "forge-api gains an adversarial security regression case.",
+      "next": "D104 — Pin, kill switch and AI telemetry",
+      "slug": "day-103"
+    },
+    {
+      "day": 104,
+      "title": "Pin, kill switch and AI telemetry",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Make the agent stoppable, versioned, observable, and bounded in cost.",
+      "concepts": [
+        "release artifact",
+        "model pin",
+        "prompt checksum",
+        "audit event",
+        "per-run metrics",
+        "disable path"
+      ],
+      "capstoneConnection": "Research anchor: current OpenTelemetry GenAI semantic conventions are still evolving; learn signals without coupling the curriculum to unstable attribute names.",
+      "next": "D105 — AI infrastructure awareness",
+      "slug": "day-104"
+    },
+    {
+      "day": 105,
+      "title": "AI infrastructure awareness",
+      "phaseId": "phase-09",
+      "phase": "RAG and controlled tool use",
+      "phaseNumber": 9,
+      "goal": "Understand enough AI infrastructure to design around inference without becoming an ML training engineer.",
+      "concepts": [
+        "request/response serving",
+        "batching",
+        "accelerator scarcity",
+        "node pool cost",
+        "device claims"
+      ],
+      "capstoneConnection": "[daily-learning/day-105.md](../daily-learning/day-105.md)",
+      "next": "D106 — Design one-pager",
+      "slug": "day-105"
+    },
+    {
+      "day": 106,
+      "title": "Design one-pager",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Synthesize the system into a one-page architecture that includes data path, trust, reliability, cost, and AI boundaries.",
+      "concepts": [
+        "requirements",
+        "components",
+        "dependencies",
+        "SLI",
+        "identities",
+        "network",
+        "data flow",
+        "forbid list"
+      ],
+      "capstoneConnection": "This becomes the capstone's final design artifact.",
+      "next": "D107 — Paved road + exceptions",
+      "slug": "day-106"
+    },
+    {
+      "day": 107,
+      "title": "Paved road + exceptions",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Design a platform path that makes the safe default easier than the unsafe workaround.",
+      "concepts": [
+        "defaults",
+        "policy gates",
+        "self-service",
+        "exception expiry",
+        "support model",
+        "developer experience"
+      ],
+      "capstoneConnection": "forge-api is the reference workload passing through the paved road.",
+      "next": "D108 — Platform interface and self-service",
+      "slug": "day-107"
+    },
+    {
+      "day": 108,
+      "title": "Platform interface and self-service",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Turn the paved road into a clear developer-facing interface with safe defaults and explicit exceptions.",
+      "concepts": [
+        "inputs and outputs",
+        "safe defaults",
+        "self-service flow",
+        "exception path",
+        "support and ownership"
+      ],
+      "capstoneConnection": "This is the project evidence boundary, not a new curriculum.",
+      "next": "D109 — Architecture trade-offs and failure review",
+      "slug": "day-108"
+    },
+    {
+      "day": 109,
+      "title": "Architecture trade-offs and failure review",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Review the capstone architecture and expose assumptions that matter most during failure, scale and change.",
+      "concepts": [
+        "security versus usability",
+        "reliability versus cost",
+        "capacity versus simplicity",
+        "failure ownership",
+        "alternative rejection"
+      ],
+      "capstoneConnection": "This review bridges design work and the closed-note war-room drills in D110 to D120.",
+      "next": "D110 — Closed-note Linux/Git",
+      "slug": "day-109"
+    },
+    {
+      "day": 110,
+      "title": "Closed-note Linux/Git",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Recover core Linux and Git reasoning under time pressure in a closed-note exercise.",
+      "concepts": [
+        "first-10 triage",
+        "permission diagnosis",
+        "conflict recovery",
+        "shared history"
+      ],
+      "capstoneConnection": "Revisit forge-api only to repair identified gaps.",
+      "next": "D111 — Closed-note CI/OIDC",
+      "slug": "day-110"
+    },
+    {
+      "day": 111,
+      "title": "Closed-note CI/OIDC",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Cold-test CI contract, artifact identity, secretless authentication, and trust federation.",
+      "concepts": [
+        "runner identity",
+        "workflow permissions",
+        "build-once",
+        "federation claims",
+        "provenance"
+      ],
+      "capstoneConnection": "Map the trust chain back to forge-api.",
+      "next": "D112 — Closed-note Docker/supply chain",
+      "slug": "day-111"
+    },
+    {
+      "day": 112,
+      "title": "Closed-note Docker/supply chain",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Cold-test container packaging, non-root execution, SBOM, digest, and provenance reasoning.",
+      "concepts": [
+        "build context",
+        "multi-stage",
+        "image identity",
+        "attestations",
+        "deployment identity"
+      ],
+      "capstoneConnection": "The forge-api image is treated as a traceable artifact.",
+      "next": "D113 — Closed-note Kubernetes IR",
+      "slug": "day-112"
+    },
+    {
+      "day": 113,
+      "title": "Closed-note Kubernetes incidents",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Troubleshoot Kubernetes failures from symptoms to evidence in a closed-note exercise.",
+      "concepts": [
+        "Empty Endpoints",
+        "CrashLoop",
+        "ImagePull",
+        "Pending",
+        "OOM",
+        "403",
+        "denied traffic"
+      ],
+      "capstoneConnection": "forge-api troubleshooting corpus is the basis for the drills.",
+      "next": "D114 — Closed-note identity/WI",
+      "slug": "day-113"
+    },
+    {
+      "day": 114,
+      "title": "Closed-note identity/WI",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Cold-test the two identity planes and Workload Identity flow.",
+      "concepts": [
+        "issuer",
+        "subject",
+        "audience",
+        "projected token",
+        "RBAC",
+        "401/403"
+      ],
+      "capstoneConnection": "forge-api's identity documentation becomes a defendable architecture artifact.",
+      "next": "D115 — Closed-note Terraform review",
+      "slug": "day-114"
+    },
+    {
+      "day": 115,
+      "title": "Closed-note Terraform review",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Cold-test whether you can BLOCK a dangerous infrastructure plan.",
+      "concepts": [
+        "resource address",
+        "dependency",
+        "replacement",
+        "unknowns",
+        "module scope",
+        "policy"
+      ],
+      "capstoneConnection": "forge-api's plan review is now interview-defendable.",
+      "next": "D116 — Closed-note signals",
+      "slug": "day-115"
+    },
+    {
+      "day": 116,
+      "title": "Closed-note signals",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Cold-test observability, SLI, alerts, and AI telemetry reasoning.",
+      "concepts": [
+        "correlation",
+        "time window",
+        "error rate",
+        "model/tool span",
+        "cardinality",
+        "privacy"
+      ],
+      "capstoneConnection": "forge-api observability model closes the reliability loop.",
+      "next": "D117 — Closed-note design",
+      "slug": "day-116"
+    },
+    {
+      "day": 117,
+      "title": "Closed-note design",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Produce an architecture under time pressure with explicit trade-offs and boundaries.",
+      "concepts": [
+        "constraints",
+        "owner",
+        "alternatives",
+        "unknowns",
+        "SLI",
+        "actions the system must not take"
+      ],
+      "capstoneConnection": "Use forge-api as the reference implementation, not a fictional production system.",
+      "next": "D118 — Closed-note RAG/agent/eval",
+      "slug": "day-117"
+    },
+    {
+      "day": 118,
+      "title": "Closed-note RAG/agent/eval",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Cold-test the AI engineering chain from retrieval to bounded execution and evaluation.",
+      "concepts": [
+        "retrieval fixture",
+        "schema validation",
+        "allowlist",
+        "BLOCK",
+        "golden case",
+        "kill switch"
+      ],
+      "capstoneConnection": "forge-api's AI path is now a complete review-only system.",
+      "next": "D119 — List remaining practice holes",
+      "slug": "day-118"
+    },
+    {
+      "day": 119,
+      "title": "List remaining practice holes",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Convert the whole 120-day experience into a small, evidence-backed list of remaining gaps.",
+      "concepts": [
+        "concept gap",
+        "command gap",
+        "lab gap",
+        "confidence vs proof",
+        "post-120 decision"
+      ],
+      "capstoneConnection": "Forge-api freeze depends on the gap list, not on adding more features.",
+      "next": "D120 — Freeze and speak",
+      "slug": "day-119"
+    },
+    {
+      "day": 120,
+      "title": "Final reconstruction and defence",
+      "phaseId": "phase-10",
+      "phase": "Design and defence",
+      "phaseNumber": 10,
+      "goal": "Demonstrate the complete system from memory and freeze the curriculum as an evidence-backed learning record.",
+      "concepts": [
+        "normal path",
+        "failure path",
+        "identity path",
+        "rollback",
+        "RAG citation",
+        "policy BLOCK",
+        "future gaps"
+      ],
+      "capstoneConnection": "Tag/freeze the forge-api capstone and the 120-day record.",
+      "next": "After Day 120, use the gaps you recorded to choose the next focused topic.",
+      "slug": "day-120"
+    }
+  ],
+  "gates": [
+    {
+      "id": "foundation",
+      "name": "Foundation",
+      "around": "D12",
+      "evidence": "Git recovery, slow-host triage, process/service failure and HTTP evidence"
+    },
+    {
+      "id": "ci",
+      "name": "CI",
+      "around": "D26",
+      "evidence": "blank-file pipeline work, one failure, OIDC trace and CI portability review"
+    },
+    {
+      "id": "containers",
+      "name": "Containers",
+      "around": "D36",
+      "evidence": "multi-stage non-root image, runtime diagnosis and provenance reasoning"
+    },
+    {
+      "id": "kubernetes",
+      "name": "Kubernetes",
+      "around": "D60",
+      "evidence": "empty EndpointSlice, CrashLoop, ImagePull/Pending/OOM or RBAC variation and unfamiliar diagnosis"
+    },
+    {
+      "id": "aks-identity",
+      "name": "AKS / identity",
+      "around": "D74",
+      "evidence": "AKS path, ACR pull identity, Workload Identity trace, Key Vault result/blocker and cleanup"
+    },
+    {
+      "id": "terraform-helm",
+      "name": "Terraform / Helm",
+      "around": "D88",
+      "evidence": "state/lock, module interface, dangerous-plan review and Helm render/upgrade/rollback"
+    },
+    {
+      "id": "operate",
+      "name": "Operate",
+      "around": "D96",
+      "evidence": "measurable SLI, actionable alert, incident recovery and explicit evidence boundary"
+    },
+    {
+      "id": "ai-tool-use",
+      "name": "AI / tool use",
+      "around": "D105",
+      "evidence": "grounding, injection test, schema/allowlist, deterministic block, evaluation and disable path"
+    },
+    {
+      "id": "war-room",
+      "name": "War room",
+      "around": "D120",
+      "evidence": "unfamiliar failure, evidence-first diagnosis, safe mitigation, recovery verification and design defence"
+    }
+  ],
+  "capstone": {
+    "name": "forge-api",
+    "note": "One longitudinal capstone. A learning project, not employer production experience.",
+    "sequence": [
+      "source",
+      "test",
+      "container",
+      "CI",
+      "immutable artifact",
+      "Kubernetes",
+      "AKS",
+      "workload identity",
+      "Key Vault",
+      "observability",
+      "reliability",
+      "retrieval",
+      "controlled tool use",
+      "evaluation",
+      "architecture defence"
+    ],
+    "stages": [
+      {
+        "days": "D1–18",
+        "state": "repository/evidence baseline, health script, Python utility, network and identity path notes"
+      },
+      {
+        "days": "D19–28",
+        "state": "CI workflow, artifact contract, OIDC model, Terraform plan/state foundation"
+      },
+      {
+        "days": "D29–36",
+        "state": "tested FastAPI health/readiness service, container, Compose, non-root image, scan/provenance"
+      },
+      {
+        "days": "D37–60",
+        "state": "Kubernetes workloads, probes, networking, RBAC, storage/DNS and failure troubleshooting"
+      },
+      {
+        "days": "D61–74",
+        "state": "AKS/ACR path, Workload Identity, Key Vault, monitoring and cleanup"
+      },
+      {
+        "days": "D75–88",
+        "state": "Terraform modules/state, Helm rendering/release/rollback and final system path"
+      },
+      {
+        "days": "D89–96",
+        "state": "change gates, reliability signals, SLI, alerting, incident response and evidence boundary"
+      },
+      {
+        "days": "D97–105",
+        "state": "local RAG, citations, injection tests, review-only tool flow, deterministic policy, evaluation and disable path"
+      },
+      {
+        "days": "D106–120",
+        "state": "architecture defence, platform interface, trade-offs, closed-note troubleshooting and final evidence review"
+      }
+    ],
+    "evidenceLabels": [
+      "OPERATED",
+      "GENERATED",
+      "SIMULATED",
+      "BLOCKED"
+    ]
+  },
+  "interview": {
+    "questions": [
+      "What is it?",
+      "How does it work?",
+      "What did you write?",
+      "What fails?",
+      "What is the first useful evidence?",
+      "What trade-off did you make?",
+      "Where does it exist in forge-api?"
+    ],
+    "closedNote": "Days 110–120"
+  },
+  "post120": {
+    "rule": "Deepen by real requirement. Close evidence gaps before adding new tools.",
+    "keepOptionalUntilRequired": [
+      "CUDA and model-training specialisation",
+      "multiple agent SDKs",
+      "multiple vector databases",
+      "portal implementation",
+      "service-mesh depth"
+    ]
+  },
+  "touchpoints": {
+    "day12": "M1 mock + LLM sampler",
+    "day59": "First LLM helper read-only",
+    "retrieval": "Days 97–105",
+    "awarenessLimit": "Day 105 is AI infrastructure awareness, not a claim of ML-infrastructure specialisation."
+  }
+}

@@ -1,5 +1,7 @@
 # DevOps Engineer Mastery
 
+Superseded for curriculum truth by [curriculum-migration-report.md](curriculum-migration-report.md). The public program is FORGE-120. This note remains as the operator record of how the site used to describe the old plan.
+
 ## Purpose
 
 This site publishes the 120-day DevOps Engineer Mastery plan. The conceptual source of titles is a **private authoring repository**. It is not a public learner destination.

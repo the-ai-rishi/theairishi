@@ -8,6 +8,8 @@ import CallToAction from "@/components/home/CallToAction";
 import UniverseStage from "@/components/immersive/UniverseStage";
 import ProgressSignal from "@/components/immersive/ProgressSignal";
 import SectionFrame from "@/components/motion/SectionFrame";
+import CurriculumControl from "@/components/product/CurriculumControl";
+import curriculum from "@/data/curriculum/forge-120.json";
 import { getLearnerCatalog } from "@/lib/programs";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
 import type { SocialPlatform } from "@/lib/config";
@@ -51,7 +53,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
             02
           </span>
           <div className="relative mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
-            <p className="kicker text-gold/80">The spine</p>
+            <p className="kicker text-gold/80">FORGE-120</p>
             <h2 className="mt-3 font-serif text-[1.75rem] text-cream sm:text-4xl">
               {catalog.phases.length} phases · {catalog.totalDays} days
             </h2>
@@ -78,6 +80,14 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
             </div>
           </div>
         </section>
+
+      <CurriculumControl
+        days={curriculum.days
+          .filter((day) => day.day >= 97 && day.day <= 105)
+          .map((day) => ({ day: day.day, title: day.title }))}
+        gates={curriculum.gates}
+        touchpoints={curriculum.touchpoints}
+      />
 
       <div className="geometry-rule" aria-hidden="true" />
 

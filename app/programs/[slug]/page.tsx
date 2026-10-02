@@ -26,6 +26,7 @@ export function generateStaticParams() {
     .filter((program) => program.id !== featured)
     .map((program) => ({ slug: program.slug || program.id }));
   slugs.push({ slug: "devops" });
+  slugs.push({ slug: "forge-120" });
   return slugs;
 }
 
