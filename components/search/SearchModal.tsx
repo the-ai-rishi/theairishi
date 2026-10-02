@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import brandLanguage from "@/content/config/brand-language.json";
+import { phaseColor } from "@/lib/phase-color";
 
 export interface SearchResultItem {
   id: string;
@@ -254,22 +255,29 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
               ).map(([type, items]) => (
                 <section key={type}>
                   <h3>{type}</h3>
-                  {items.map(({ item, index }) => (
-                    <Link
-                      key={item.id}
-                      href={item.url}
-                      className={index === cursor ? "is-active" : ""}
-                      onClick={closeSearch}
-                      onMouseEnter={() => setCursor(index)}
-                    >
-                      <span>
-                        <strong className={`block font-serif ${query.trim() ? "text-2xl" : "text-xl"}`}>{item.title}</strong>
-                        {item.description ? <span className="mt-1 block text-sm opacity-70">{item.description}</span> : null}
-                        {item.badge ? <span className="mt-1 block font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.badge}</span> : null}
-                      </span>
-                      <span className="font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.category || item.type}</span>
-                    </Link>
-                  ))}
+                  {items.map(({ item, index }) => {
+                    const phaseIndex = brandLanguage.phases.indexOf(item.title);
+                    const swatch = phaseIndex >= 0 ? phaseColor(phaseIndex + 1).pigment : undefined;
+                    return (
+                      <Link
+                        key={item.id}
+                        href={item.url}
+                        className={index === cursor ? "is-active" : ""}
+                        onClick={closeSearch}
+                        onMouseEnter={() => setCursor(index)}
+                      >
+                        <span>
+                          <strong className={`block font-serif ${query.trim() ? "text-2xl" : "text-xl"}`}>
+                            {swatch ? <i className="phase-swatch" style={{ background: swatch }} aria-hidden="true" /> : null}
+                            {item.title}
+                          </strong>
+                          {item.description ? <span className="mt-1 block text-sm opacity-70">{item.description}</span> : null}
+                          {item.badge ? <span className="mt-1 block font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.badge}</span> : null}
+                        </span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.category || item.type}</span>
+                      </Link>
+                    );
+                  })}
                 </section>
               ))
             ) : null}

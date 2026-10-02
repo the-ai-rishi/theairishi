@@ -71,7 +71,7 @@ export default function LessonTrail({
   if (!phase && !fact && !lab) return null;
 
   return (
-    <section aria-label="Where this day sits" className="border-t border-hairline pt-6">
+    <section aria-label="Where this day sits" className="lesson-trail">
       <p className="kicker text-gold/80">From here</p>
       {phase ? (
         <p className="mt-3 text-[15px] leading-relaxed text-cream/70">

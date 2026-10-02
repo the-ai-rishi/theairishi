@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import type { LearnerCatalog } from "@/lib/continue-learning";
+import { phaseColor } from "@/lib/phase-color";
 
 /** One measured rule. Width is the real day count, not ten equal nodes. */
 export default function SpanRule({ catalog }: { catalog: LearnerCatalog }) {
@@ -22,6 +23,7 @@ export default function SpanRule({ catalog }: { catalog: LearnerCatalog }) {
         {catalog.phases.map((item) => {
           const width = ((item.endDay - item.startDay + 1) / total) * 100;
           const on = item.id === phase.id;
+          const tone = phaseColor(item.number);
           return (
             <button
               key={item.id}
@@ -29,7 +31,7 @@ export default function SpanRule({ catalog }: { catalog: LearnerCatalog }) {
               role="option"
               aria-selected={on}
               className={on ? "is-on" : ""}
-              style={{ width: `${width}%` }}
+              style={{ width: `${width}%`, ["--swatch" as string]: tone.ink, ["--wash" as string]: tone.wash }}
               onClick={() => setFocus(item.id)}
             >
               <span>{String(item.number).padStart(2, "0")}</span>
@@ -37,7 +39,7 @@ export default function SpanRule({ catalog }: { catalog: LearnerCatalog }) {
           );
         })}
       </div>
-      <div className="span-detail">
+      <div className="span-detail" style={{ ["--phase" as string]: phaseColor(phase.number).ink }}>
         <p className="span-meta">
           {phase.daysLabel}
           <span>

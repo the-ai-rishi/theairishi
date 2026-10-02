@@ -8,13 +8,20 @@ export type PlateModel = {
   endDay: number;
   publishedDays: number[];
   activeDay: number | null;
+  /** Phase pigment. Strokes and hot marks use this, not a single brass. */
+  accent?: string;
 };
 
 const INK = "#1a1714";
 const FAINT = "rgba(26,23,20,0.28)";
 const HAIR = "rgba(26,23,20,0.14)";
-const BRASS = "#8a5a2b";
 const SIGNAL = "#0e5c62";
+const POLICY = "#6d2c2c";
+let accent = "#5c3b1c";
+
+function mark() {
+  return accent;
+}
 
 /** Curriculum evidence classes. Same four words as forge-120 evidenceLabels. */
 const EVIDENCE = ["OPERATED", "GENERATED", "SIMULATED", "BLOCKED"] as const;
@@ -128,7 +135,7 @@ function dayRuler(
     const open = model.publishedDays.includes(day);
     const hot = model.activeDay === day || near(pointer, px, y, reach);
     const tick = open || hot ? 14 : 7;
-    stroke(ctx, hot ? BRASS : open ? INK : FAINT, hot ? weight * 1.8 : weight, () => {
+    stroke(ctx, hot ? mark() : open ? INK : FAINT, hot ? weight * 1.8 : weight, () => {
       ctx.moveTo(px, y - tick);
       ctx.lineTo(px, y + (hot ? 4 : 0));
     });
@@ -173,7 +180,7 @@ function foundations(
     const open = model.publishedDays.includes(day);
     const hot = model.activeDay === day || near(pointer, x + w * 0.2, yy, h / count);
     const len = w * (0.12 + (i / Math.max(1, count - 1)) * 0.4);
-    stroke(ctx, hot || open ? BRASS : INK, hot ? weight * 2.2 : open ? weight * 1.5 : weight, () => {
+    stroke(ctx, hot || open ? mark() : INK, hot ? weight * 2.2 : open ? weight * 1.5 : weight, () => {
       ctx.moveTo(x, yy);
       ctx.lineTo(x + len, yy);
     });
@@ -207,24 +214,24 @@ function azure(
     ctx.moveTo(outerX + outerW, gapY);
     ctx.lineTo(outerX + outerW, gapY + outerH * 0.16);
   });
-  stroke(ctx, BRASS, weight * 1.6, () => {
+  stroke(ctx, mark(), weight * 1.6, () => {
     ctx.moveTo(outerX + outerW - 8, gapY);
     ctx.lineTo(outerX + outerW + 10, gapY);
     ctx.moveTo(outerX + outerW - 8, gapY + outerH * 0.16);
     ctx.lineTo(outerX + outerW + 10, gapY + outerH * 0.16);
   });
-  text(ctx, labels[1] || "NSG", outerX + outerW + 14, gapY + outerH * 0.08, BRASS, 11);
+  text(ctx, labels[1] || "NSG", outerX + outerW + 14, gapY + outerH * 0.08, mark(), 11);
 
   const inX = outerX + outerW * 0.22;
   const inY = outerY + outerH * 0.28;
   const inW = outerW * 0.42;
   const inH = outerH * 0.46;
   const hot = near(pointer, inX + inW / 2, inY + inH / 2, inW * 0.6);
-  ctx.strokeStyle = hot ? BRASS : INK;
+  ctx.strokeStyle = hot ? mark() : INK;
   ctx.lineWidth = hot ? weight * 1.8 : weight;
   roundRect(ctx, inX, inY, inW, inH, 28);
   ctx.stroke();
-  text(ctx, labels[2] || "private", inX + inW / 2, inY + inH / 2, hot ? BRASS : INK, 12, "center");
+  text(ctx, labels[2] || "private", inX + inW / 2, inY + inH / 2, hot ? mark() : INK, 12, "center");
 
   const idX = outerX + outerW * 0.78;
   const idY = outerY + outerH * 0.22;
@@ -259,21 +266,21 @@ function deliveryPath(
     ctx.moveTo(x + w * 0.06, baseline);
     ctx.lineTo(x + w * 0.94, baseline);
   });
-  stroke(ctx, BRASS, weight * 2, () => {
+  stroke(ctx, mark(), weight * 2, () => {
     ctx.moveTo(x + w * 0.06, baseline);
     ctx.lineTo(x + w * (0.06 + travel * 0.88), baseline);
   });
   labels.forEach((label, index) => {
     const px = x + w * (0.12 + index * (0.76 / Math.max(1, labels.length - 1)));
     const hot = near(pointer, px, baseline, w * 0.08);
-    stroke(ctx, hot ? BRASS : INK, weight * (hot ? 1.8 : 1.2), () => {
+    stroke(ctx, hot ? mark() : INK, weight * (hot ? 1.8 : 1.2), () => {
       ctx.moveTo(px, baseline - 18);
       ctx.lineTo(px, baseline + 18);
     });
-    text(ctx, label, px, baseline + 36, hot ? BRASS : INK, 11, "center");
+    text(ctx, label, px, baseline + 36, hot ? mark() : INK, 11, "center");
   });
   const ax = x + w * (0.06 + travel * 0.88);
-  ctx.fillStyle = BRASS;
+  ctx.fillStyle = mark();
   ctx.beginPath();
   ctx.moveTo(ax, baseline - 7);
   ctx.lineTo(ax + 8, baseline);
@@ -295,22 +302,22 @@ function strata(
 ) {
   const left = x + w * 0.14;
   const width = w * 0.72;
-  stroke(ctx, BRASS, weight * 1.8, () => {
+  stroke(ctx, mark(), weight * 1.8, () => {
     ctx.moveTo(left - 10, y + h * 0.08);
     ctx.lineTo(left - 10, y + h * 0.86);
   });
-  text(ctx, "state", left - 16, y + h * 0.94, BRASS, 11, "center");
+  text(ctx, "state", left - 16, y + h * 0.94, mark(), 11, "center");
   labels.forEach((label, index) => {
     const top = y + h * (0.1 + index * 0.18);
     const hot = near(pointer, left + width / 2, top + 12, h * 0.1);
-    stroke(ctx, hot ? BRASS : INK, hot ? weight * 1.7 : weight, () => {
+    stroke(ctx, hot ? mark() : INK, hot ? weight * 1.7 : weight, () => {
       ctx.moveTo(left, top + 16);
       for (let i = 0; i <= 20; i += 1) {
         const t = i / 20;
         ctx.lineTo(left + width * t, top + Math.sin(t * Math.PI * 2 + index) * 5);
       }
     });
-    text(ctx, label, left + 8, top + 4, hot ? BRASS : INK, 12);
+    text(ctx, label, left + 8, top + 4, hot ? mark() : INK, 12);
   });
 }
 
@@ -332,7 +339,7 @@ function kubernetes(
   nodes.forEach((t, index) => {
     const cx = x + w * t;
     const hot = near(pointer, cx, cy, w * 0.1);
-    stroke(ctx, hot ? BRASS : INK, weight * 1.4, () => {
+    stroke(ctx, hot ? mark() : INK, weight * 1.4, () => {
       ctx.arc(cx, cy, Math.min(w, h) * 0.09, 0, Math.PI * 2);
     });
     if (index < nodes.length - 1) {
@@ -347,7 +354,7 @@ function kubernetes(
     const node = nodes[(i + shift) % 3];
     const cx = x + w * node + (i - 1) * 11;
     const py = cy + (i === 1 ? -28 : 22);
-    ctx.strokeStyle = i === shift ? BRASS : INK;
+    ctx.strokeStyle = i === shift ? mark() : INK;
     ctx.lineWidth = weight;
     ctx.strokeRect(cx - 5, py - 5, 10, 10);
   }
@@ -367,7 +374,7 @@ function aks(
 ) {
   const labels = terms(model.summary, 4);
   const bandY = y + h * 0.22;
-  stroke(ctx, BRASS, weight * 2.4, () => {
+  stroke(ctx, mark(), weight * 2.4, () => {
     ctx.moveTo(x + w * 0.08, bandY);
     ctx.lineTo(x + w * 0.92, bandY);
   });
@@ -375,16 +382,16 @@ function aks(
     ctx.moveTo(x + w * 0.08, bandY + 8);
     ctx.lineTo(x + w * 0.92, bandY + 8);
   });
-  text(ctx, "managed", x + w * 0.08, bandY - 14, BRASS, 11);
+  text(ctx, "managed", x + w * 0.08, bandY - 14, mark(), 11);
   labels.forEach((label, index) => {
     const px = x + w * (0.18 + index * 0.2);
     const hot = near(pointer, px, bandY, w * 0.08);
     const ly = y + h * (0.48 + (index % 2) * 0.16);
-    stroke(ctx, hot ? BRASS : FAINT, weight, () => {
+    stroke(ctx, hot ? mark() : FAINT, weight, () => {
       ctx.moveTo(px, bandY + 8);
       ctx.lineTo(px, ly - 8);
     });
-    text(ctx, label, px, ly, hot ? BRASS : INK, 11, "center");
+    text(ctx, label, px, ly, hot ? mark() : INK, 11, "center");
   });
 }
 
@@ -403,7 +410,7 @@ function rollback(
   labels.forEach((label, index) => {
     const px = x + w * (0.12 + index * 0.24);
     const hot = near(pointer, px, baseline, w * 0.08);
-    stroke(ctx, hot ? BRASS : INK, weight * 1.2, () => {
+    stroke(ctx, hot ? mark() : INK, weight * 1.2, () => {
       ctx.arc(px, baseline, 5, 0, Math.PI * 2);
     });
     if (index < labels.length - 1) {
@@ -412,15 +419,15 @@ function rollback(
         ctx.lineTo(px + w * 0.2, baseline);
       });
     }
-    text(ctx, label, px, baseline + 28, hot ? BRASS : INK, 11, "center");
+    text(ctx, label, px, baseline + 28, hot ? mark() : INK, 11, "center");
   });
   const from = x + w * (0.12 + 3 * 0.24);
   const back = x + w * (0.12 + 1 * 0.24);
-  stroke(ctx, BRASS, weight * 1.6, () => {
+  stroke(ctx, mark(), weight * 1.6, () => {
     ctx.moveTo(from, baseline + 10);
     ctx.bezierCurveTo(from, y + h * 0.78, back, y + h * 0.78, back, baseline + 10);
   });
-  text(ctx, "return", (from + back) / 2, y + h * 0.84, BRASS, 11, "center");
+  text(ctx, "return", (from + back) / 2, y + h * 0.84, mark(), 11, "center");
 }
 
 function reliability(
@@ -443,11 +450,11 @@ function reliability(
     ctx.lineTo(left, base);
     ctx.lineTo(right, base);
   });
-  stroke(ctx, BRASS, weight * 1.4, () => {
+  stroke(ctx, mark(), weight * 1.4, () => {
     ctx.moveTo(left, threshold);
     ctx.lineTo(right, threshold);
   });
-  text(ctx, "threshold", right, threshold - 12, BRASS, 11, "right");
+  text(ctx, "threshold", right, threshold - 12, mark(), 11, "right");
   text(ctx, "SLI", left - 8, base + 16, INK, 11, "left");
   const points: { x: number; y: number }[] = [];
   for (let i = 0; i <= 40; i += 1) {
@@ -466,14 +473,14 @@ function reliability(
   });
   const breach = points[27];
   const hot = near(pointer, breach.x, breach.y, 36);
-  stroke(ctx, hot ? BRASS : SIGNAL, weight * 1.6, () => {
+  stroke(ctx, hot ? mark() : SIGNAL, weight * 1.6, () => {
     ctx.moveTo(breach.x, breach.y);
     ctx.lineTo(breach.x + 28, breach.y - 22);
   });
   text(ctx, "page", breach.x + 32, breach.y - 22, SIGNAL, 11);
   if (time > 0) {
     const probe = points[Math.floor((time * 6) % points.length)];
-    ctx.fillStyle = BRASS;
+    ctx.fillStyle = mark();
     ctx.beginPath();
     ctx.arc(probe.x, probe.y, 3.2, 0, Math.PI * 2);
     ctx.fill();
@@ -542,9 +549,9 @@ function defence(
     const cy = fy + fh * (0.38 + row * 0.34);
     const hot = near(pointer, cx, cy, fw * 0.18);
     const blocked = label === "BLOCKED";
-    text(ctx, label, cx, cy, hot ? BRASS : blocked ? SIGNAL : INK, 12, "center");
+    text(ctx, label, cx, cy, hot ? mark() : blocked ? POLICY : INK, 12, "center");
   });
-  stroke(ctx, BRASS, weight * 1.4, () => {
+  stroke(ctx, mark(), weight * 1.4, () => {
     ctx.moveTo(x, fy + fh * 0.38);
     ctx.lineTo(fx, fy + fh * 0.38);
   });
@@ -559,6 +566,7 @@ export function drawPlate(
   time: number,
 ) {
   ctx.clearRect(0, 0, w, h);
+  accent = model.accent || "#5c3b1c";
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
   const weight = Math.max(1.05, Math.min(w, h) / 380);

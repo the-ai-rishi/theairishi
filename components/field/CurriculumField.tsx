@@ -6,6 +6,7 @@ import type { LearnerCatalog } from "@/lib/continue-learning";
 import { resolveContinue } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import { dayUnderPointer, drawPlate, type PlateModel } from "./draw-plate";
+import { phaseColor } from "@/lib/phase-color";
 
 export type DayFact = {
   day: number;
@@ -67,6 +68,7 @@ export default function CurriculumField({
       endDay: phase?.endDay || 1,
       publishedDays: days.filter((day) => day.published).map((day) => day.day),
       activeDay,
+      accent: phaseColor(phase?.number || 1).ink,
     };
   }, [index, phase, days, activeDay]);
 
@@ -177,8 +179,15 @@ export default function CurriculumField({
   const startHref = hasHydrated && continueTarget.href ? continueTarget.href : primaryHref;
   const startLabel = hasHydrated ? continueTarget.ctaLabel : primaryLabel;
 
+  const tone = phaseColor(phase.number);
+
   return (
-    <div className={mobile ? "field-track is-mobile" : "field-track"} ref={trackRef}>
+    <div
+      className={mobile ? "field-track is-mobile" : "field-track"}
+      ref={trackRef}
+      data-phase={phase.number}
+      style={{ ["--phase" as string]: tone.ink, ["--phase-wash" as string]: tone.wash }}
+    >
       <div className="field-sticky">
         <div className="field-stage">
           <nav className="field-measure" aria-label="Phases">
@@ -188,8 +197,10 @@ export default function CurriculumField({
                 type="button"
                 className={itemIndex === index ? "is-on" : ""}
                 aria-current={itemIndex === index ? "true" : undefined}
+                style={{ ["--swatch" as string]: phaseColor(item.number).ink }}
                 onClick={() => focusPhase(itemIndex)}
               >
+                <i className="phase-swatch" aria-hidden="true" />
                 <span>{String(item.number).padStart(2, "0")}</span>
                 {item.name}
               </button>

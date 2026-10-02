@@ -146,6 +146,7 @@ export default function CurriculumControl({
   return (
     <section id="control" className="control-stage" aria-labelledby="control-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div data-role="reliability">
         <p className="kicker text-gold/80">Days 89–96</p>
         <h2 id="control-title" className="mt-3 max-w-3xl font-serif text-[1.75rem] leading-tight text-cream sm:text-4xl">
           {reliabilityName}
@@ -175,7 +176,9 @@ export default function CurriculumControl({
             {reliability?.goal ? <span className="mt-2 block">{reliability.goal}</span> : null}
           </figcaption>
         </figure>
+        </div>
 
+        <div data-role="retrieval">
         <p className="kicker mt-16 text-gold/80">Days 97–105</p>
         <h2 className="mt-3 max-w-3xl font-serif text-[1.75rem] leading-tight text-cream sm:text-4xl">{controlName}</h2>
         <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/70">
@@ -349,6 +352,7 @@ export default function CurriculumControl({
               {byDay(100)?.title}. {byDay(104)?.title}.
             </p>
           </article>
+        </div>
         </div>
 
         <h3 className="mt-12 font-mono text-[11px] uppercase tracking-[0.16em] text-cream/50">Capability gates</h3>

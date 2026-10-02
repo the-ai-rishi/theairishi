@@ -14,6 +14,13 @@
   --field-paper: #efe8dc;
   --field-ink: #1a1714;
   --field-brass: #8a5a2b;
+  --role-signal: #0a4449;
+  --role-plum: #4e3158;
+  --role-policy: #6d2c2c;
+  --role-pass: #1e4c31;
+  --role-guide: #7a3b48;
+  --role-lab: #653228;
+  --route: var(--phase, #5c3b1c);
 }
 
 html,
@@ -48,8 +55,33 @@ header > div {
   border-radius: 0;
 }
 
-.command-bar::after {
-  content: none;
+.command-bar a[aria-current="page"] {
+  box-shadow: inset 0 -2px 0 var(--route);
+}
+
+.phase-swatch {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.45rem;
+  background: var(--swatch, currentColor);
+  vertical-align: 0.12em;
+}
+
+[data-tone="editorial"] {
+  --route: var(--role-guide);
+}
+
+[data-tone="engineering"] {
+  --route: var(--role-lab);
+}
+
+[data-tone="learn"] {
+  --route: var(--phase, #5c3b1c);
+}
+
+[data-tone="brand"] {
+  --route: #1a1714;
 }
 
 .world-lock,
@@ -167,7 +199,7 @@ details.practice-card summary {
 
 .field-measure button {
   display: grid;
-  grid-template-columns: 1.6rem minmax(0, 1fr);
+  grid-template-columns: 0.55rem 1.6rem minmax(0, 1fr);
   gap: 0.45rem;
   min-height: 2.15rem;
   padding: 0.15rem 0;
@@ -187,8 +219,14 @@ details.practice-card summary {
 }
 
 .field-measure button.is-on {
-  color: #1a1714;
+  color: var(--phase, #1a1714);
   font-size: 1.15rem;
+}
+
+.field-measure .phase-swatch {
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: 0.42rem 0 0;
 }
 
 .field-copy {
@@ -218,7 +256,7 @@ details.practice-card summary {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--field-brass);
+  color: var(--phase, var(--field-brass));
 }
 
 .field-kicker span {
@@ -273,7 +311,7 @@ details.practice-card summary {
 }
 
 .field-actions a:first-child {
-  background: #1a1714;
+  background: var(--phase, #1a1714);
   color: #efe8dc;
   border: 0;
   padding: 0 1rem;
@@ -341,9 +379,9 @@ details.practice-card summary {
 }
 
 .field-days li.is-open a {
-  background: #1a1714;
+  background: var(--phase, #1a1714);
   color: #efe8dc;
-  border-color: #1a1714;
+  border-color: var(--phase, #1a1714);
 }
 
 .field-days li.is-planned > span {
@@ -353,12 +391,12 @@ details.practice-card summary {
 
 .field-days li.is-focus a,
 .field-days li.is-focus > span {
-  box-shadow: inset 0 0 0 1px #8a5a2b;
+  box-shadow: inset 0 0 0 2px var(--phase, #5c3b1c);
 }
 
 .field-days li.is-lit a,
 .field-days li.is-lit > span {
-  background: rgba(138, 90, 43, 0.16);
+  box-shadow: inset 0 0 0 2px var(--phase, #5c3b1c);
 }
 
 .field-inspect {
@@ -394,9 +432,9 @@ details.practice-card summary {
 }
 
 .field-concepts button.is-on {
-  background: #1a1714;
+  background: var(--phase, #1a1714);
   color: #efe8dc;
-  border-color: #1a1714;
+  border-color: var(--phase, #1a1714);
 }
 
 @media (min-width: 861px) {
@@ -442,7 +480,7 @@ details.practice-card summary {
 
 .path-index button {
   display: grid;
-  grid-template-columns: 1.8rem minmax(0, 1fr);
+  grid-template-columns: 0.55rem 1.8rem minmax(0, 1fr);
   gap: 0.5rem;
   min-height: 2.6rem;
   padding: 0.35rem 0;
@@ -461,8 +499,14 @@ details.practice-card summary {
 }
 
 .path-index button.is-on {
-  color: #1a1714;
+  color: var(--swatch, #1a1714);
   font-size: 1.25rem;
+}
+
+.path-index .phase-swatch {
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: 0.5rem 0 0;
 }
 
 .path-stage-title {
@@ -501,9 +545,9 @@ details.practice-card summary {
 }
 
 .path-nodes a {
-  background: #1a1714;
+  background: var(--phase, #1a1714);
   color: #efe8dc;
-  border-color: #1a1714;
+  border-color: var(--phase, #1a1714);
 }
 
 .path-nodes .node-day,
@@ -522,14 +566,9 @@ details.practice-card summary {
 }
 
 .path-nodes a.is-done {
-  background: #8a5a2b;
-  border-color: #8a5a2b;
+  background: color-mix(in srgb, var(--phase, #8a5a2b) 70%, #1a1714);
+  border-color: color-mix(in srgb, var(--phase, #8a5a2b) 70%, #1a1714);
   color: #efe8dc;
-}
-
-.path-stage[data-mode="retrieval"] .path-nodes a {
-  background: #0e5c62;
-  border-color: #0e5c62;
 }
 
 .path-now {
@@ -615,7 +654,7 @@ details.practice-card summary {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.14em;
-  color: var(--field-brass);
+  color: var(--route, var(--field-brass));
 }
 
 .trace {
@@ -839,6 +878,12 @@ details.practice-card summary {
   .field-days li.is-open a {
     background: transparent;
     color: #1a1714;
+    box-shadow: inset 3px 0 0 var(--phase, #1a1714);
+  }
+
+  .field-days li.is-lit a,
+  .field-days li.is-lit > span {
+    background: var(--phase-wash, transparent);
   }
 
   .field-days li.is-lit a,
@@ -924,8 +969,8 @@ details.practice-card summary {
   }
 
   .system-nav a[aria-current="page"] {
-    color: #1a1714;
-    box-shadow: inset 0 2px 0 #1a1714;
+    color: var(--route, #1a1714);
+    box-shadow: inset 0 2px 0 var(--route, #1a1714);
   }
 
   main.mode-room,
@@ -953,6 +998,50 @@ details.practice-card summary {
   .field-track {
     scroll-behavior: auto;
   }
+
+  .span-bands button,
+  .field-days li a,
+  .control-step,
+  .chunk,
+  .day-dot-now {
+    transition: none;
+    animation: none;
+  }
+}
+
+.lesson-trail {
+  border-top: 2px solid var(--phase, #5c3b1c);
+  padding-top: 1.5rem;
+}
+
+.lesson-trail .kicker {
+  color: var(--phase, #5c3b1c);
+}
+
+.day-dot {
+  border-color: rgba(26, 23, 20, 0.28);
+  background: transparent;
+}
+
+.day-dot-done {
+  background: var(--phase, #5c3b1c);
+  border-color: var(--phase, #5c3b1c);
+}
+
+.day-dot-now {
+  background: var(--phase, #1a1714);
+  border-color: var(--phase, #1a1714);
+  animation: none;
+}
+
+.day-dot-live {
+  border-color: var(--phase, #5c3b1c);
+  background: var(--phase-wash, rgba(92, 59, 28, 0.14));
+}
+
+.day-dot-plan {
+  border-color: rgba(26, 23, 20, 0.16);
+  background: transparent;
 }
 
 .btn-primary.hidden {
@@ -973,7 +1062,7 @@ details.practice-card summary {
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--field-brass);
+  color: var(--phase, var(--field-brass));
 }
 
 @media (min-width: 1024px) {
@@ -1013,9 +1102,9 @@ details.practice-card summary {
   min-height: 4.5rem;
   padding: 0.4rem 0.15rem;
   border: 0;
-  border-right: 1px solid rgba(26, 23, 20, 0.16);
-  background: transparent;
-  color: rgba(26, 23, 20, 0.45);
+  border-right: 1px solid rgba(239, 232, 220, 0.35);
+  background: var(--wash, rgba(26, 23, 20, 0.06));
+  color: #1a1714;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.04em;
@@ -1026,7 +1115,7 @@ details.practice-card summary {
 }
 
 .span-bands button.is-on {
-  background: #1a1714;
+  background: var(--swatch, #1a1714);
   color: #efe8dc;
 }
 
@@ -1035,7 +1124,7 @@ details.practice-card summary {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   line-height: 1;
-  color: #1a1714;
+  color: var(--phase, #1a1714);
 }
 
 .span-detail > p {
@@ -1054,7 +1143,7 @@ details.practice-card summary {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--field-brass);
+  color: var(--phase, var(--field-brass));
 }
 
 .span-meta span {
@@ -1241,15 +1330,15 @@ details.practice-card summary {
 }
 
 .rag-flow li.is-on {
-  border-top-color: #8a5a2b;
+  border-top-color: var(--role-plum);
   border-top-width: 2px;
   color: #1a1714;
 }
 
 .rag-flow li.is-block {
-  border-top-color: #0e5c62;
+  border-top-color: var(--role-policy);
   border-top-width: 2px;
-  color: #0e5c62;
+  color: var(--role-policy);
 }
 
 .chunk {
@@ -1276,14 +1365,14 @@ details.practice-card summary {
 }
 
 .chunk.is-on {
-  border-top-color: #8a5a2b;
+  border-top-color: var(--role-plum);
   border-top-width: 2px;
   color: #1a1714;
 }
 
 .chunk.is-block {
-  border-top-color: #0e5c62;
-  color: #1a1714;
+  border-top-color: var(--role-policy);
+  color: var(--role-policy);
 }
 
 .control-step {
@@ -1305,14 +1394,40 @@ details.practice-card summary {
   background: #1a1714;
 }
 
-.control-step.is-block,
-.control-panel.is-bound,
-.control-panel.is-alert {
-  border-color: #0e5c62;
+[data-role="reliability"] .control-step.is-on {
+  border-color: var(--role-signal);
+  color: #efe8dc;
+  background: var(--role-signal);
 }
 
-.control-panel.is-allow-panel {
-  border-color: #8a5a2b;
+[data-role="retrieval"] .control-step.is-on {
+  border-color: var(--role-plum);
+  color: #efe8dc;
+  background: var(--role-plum);
+}
+
+.control-step.is-block,
+.control-panel.is-bound {
+  border-color: var(--role-policy);
+}
+
+.control-panel.is-alert {
+  border-color: var(--role-signal);
+}
+
+.control-panel.is-allow-panel,
+.control-verdict.is-allow {
+  border-color: var(--role-pass);
+  color: var(--role-pass);
+}
+
+.control-verdict.is-block,
+.eval-grid dd.is-fail {
+  color: var(--role-policy);
+}
+
+.eval-grid dd.is-pass {
+  color: var(--role-pass);
 }
 
 .control-panel {

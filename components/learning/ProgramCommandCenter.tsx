@@ -5,6 +5,7 @@ import Link from "next/link";
 import { resolveContinue, type LearnerCatalog, type LearnerPhase } from "@/lib/continue-learning";
 import { formatDayLabel } from "@/lib/labels";
 import { useLessonProgress } from "./useLessonProgress";
+import { phaseColor } from "@/lib/phase-color";
 
 function Chapter({
   phase,
@@ -21,12 +22,14 @@ function Chapter({
 }) {
   const days = catalog.days.filter((day) => day.phaseId === phase.id);
   const retrieval = phase.number === 9;
+  const tone = phaseColor(phase.number);
   return (
     <section
       className="path-chapter"
       id={phase.id}
       data-mode={retrieval ? "retrieval" : undefined}
       aria-labelledby={`${phase.id}-title`}
+      style={{ ["--phase" as string]: tone.ink, ["--phase-wash" as string]: tone.wash }}
     >
       <p className="field-kicker">
         Phase {String(phase.number).padStart(2, "0")}
@@ -102,8 +105,10 @@ export default function ProgramCommandCenter({ catalog }: { catalog: LearnerCata
             type="button"
             className={phase.id === phaseId ? "is-on" : ""}
             aria-current={phase.id === phaseId ? "true" : undefined}
+            style={{ ["--swatch" as string]: phaseColor(phase.number).ink }}
             onClick={() => choosePhase(phase.id)}
           >
+            <i className="phase-swatch" aria-hidden="true" />
             <span>{String(phase.number).padStart(2, "0")}</span>
             {phase.name}
           </button>

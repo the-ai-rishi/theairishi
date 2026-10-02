@@ -24,6 +24,7 @@ import {
 } from "@/lib/lessons";
 import { getLearnerCatalog, getPublishedAdjacent } from "@/lib/programs";
 import { firstContentHeading, firstPracticeHeading, navFromHeadings } from "@/lib/lesson-rhythm";
+import { phaseColor } from "@/lib/phase-color";
 
 interface LessonPageProps {
   params: Promise<{
@@ -137,8 +138,14 @@ export default async function LessonPage({ params }: LessonPageProps) {
       ? null
       : lessonContext.next;
 
+  const phaseTone = phaseColor(Number(phaseNumber) || 1);
+
   return (
-    <main className="focus-bay read-room relative min-h-screen text-cream">
+    <main
+      className="focus-bay read-room relative min-h-screen text-cream"
+      data-phase={phaseNumber}
+      style={{ ["--phase" as string]: phaseTone.ink, ["--phase-wash" as string]: phaseTone.wash }}
+    >
       <div className="relative z-[1]">
       <script
         type="application/ld+json"
