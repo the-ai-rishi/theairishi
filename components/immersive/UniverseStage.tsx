@@ -1,15 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { sceneBus, WORLD_IDS, WORLD_LABELS, WORLD_RANGES, worldIndex } from "./scene-bus";
+import { sceneBus, WORLD_IDS, WORLD_LABELS, worldIndex } from "./scene-bus";
 import PhaseSheet from "./PhaseSheet";
 
 export default function UniverseStage({ children }: { children: ReactNode }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<SVGSVGElement>(null);
-  const indexRef = useRef<HTMLSpanElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
-  const rangeRef = useRef<HTMLSpanElement>(null);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -50,10 +47,7 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
       }
       if (index !== beat) {
         beat = index;
-        const numeral = String(index + 1).padStart(2, "0");
-        if (indexRef.current) indexRef.current.textContent = numeral;
-        if (labelRef.current) labelRef.current.textContent = WORLD_LABELS[index];
-        if (rangeRef.current) rangeRef.current.textContent = `Days ${WORLD_RANGES[index]}`;
+        window.dispatchEvent(new CustomEvent("forge-phase", { detail: index }));
         const readout = document.getElementById("world-readout");
         if (readout) {
           readout.hidden = false;
@@ -126,11 +120,6 @@ export default function UniverseStage({ children }: { children: ReactNode }) {
         <div className={`universe-scene ${reduced ? "is-still" : ""}`}>
           <PhaseSheet ref={sheetRef} />
         </div>
-        <p className="universe-beat" aria-hidden="true">
-          <span ref={indexRef}>01</span>
-          <span ref={labelRef}>Foundations</span>
-          <span ref={rangeRef}>Days 1–12</span>
-        </p>
         {children}
       </div>
     </div>

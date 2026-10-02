@@ -139,7 +139,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-[18vh] sm:pt-[16vh]">
+        <div className="fixed inset-0 z-50 flex items-start justify-center px-3 pt-4 sm:px-8 sm:pt-8">
           <div
             className="search-veil fixed inset-0"
             onClick={closeSearch}
@@ -152,7 +152,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
             aria-modal="true"
             aria-labelledby={titleId}
             aria-describedby={hintId}
-            className="search-shell relative z-10 w-full max-w-2xl overflow-hidden text-cream"
+            className="search-shell relative z-10 w-full max-w-3xl overflow-hidden text-cream"
           >
             <h2 id={titleId} className="sr-only">
               Search published titles and summaries
@@ -189,7 +189,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
             <div className="max-h-[60vh] overflow-y-auto p-3">
               {query.trim().length === 0 ? (
                 <p id={hintId} className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Titles and summaries of published days. Not the full lesson text.
+                  Days, phases, guides, and projects. Not the full lesson text.
                 </p>
               ) : isLoading && results.length === 0 ? (
                 <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">

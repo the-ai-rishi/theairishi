@@ -515,6 +515,13 @@
         "ctaHref": "/learn"
       },
       {
+        "id": "instrument",
+        "type": "instrument",
+        "enabled": true,
+        "order": 4.5,
+        "title": "Reliability and controlled tool use"
+      },
+      {
         "id": "why",
         "type": "why",
         "enabled": true,
