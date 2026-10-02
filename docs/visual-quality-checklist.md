@@ -1,36 +1,28 @@
 # Visual quality checklist
 
-Judge the rendered pages. A green build is not acceptance.
+Checked against the rendered paper field, not the build log.
 
-## Must be true
+## Findings
 
-- [ ] Header mark is the eight-petal brand mark, readable at small size, with no orbit ring
-- [ ] Visible lockup is THE AI RISHI. The withheld line is absent from the hero, footer, search, and document title
-- [ ] Homepage first viewport is the desk: phase rail, ivory sheet, day panel, colophon. Foundations when the page opens
-- [ ] Choosing a phase changes the drawing, the day list, and the header readout together, without a new history entry
-- [ ] Phase names are the ten FORGE-120 phases. A planned day is not a link
-- [ ] Days 89–105 instruments change state when used, and the fixtures are labelled as fixtures
-- [ ] `/learn` is a phase place: select a phase, see that phase’s days. Days 97–105 point at the instruments
-- [ ] A lesson is a reading bay with a solid bar, not a blurred one
-- [ ] `/guides` is a numbered contents board. `/projects` is a ledger, and both say earlier notes are not FORGE-120
-- [ ] About is an index plus the configured sections, not a single stacked hero
-- [ ] Search finds a planned day such as MCP
-- [ ] 404 says the page was not found. It does not invent a place name
-- [ ] 390px: no horizontal overflow. The dock does not cover the last action
-- [ ] Reduced motion: the sheet is still there. Phase change does not animate
-- [ ] Turning a homepage section off in `platform.json` removes that block
+- The first viewport is no longer the dark desk. It is paper, a phase name, a structure drawing, and the days of that phase.
+- The drawing is still simple geometry. It is meaningful, and it is not a memorable sculpture. That is an honest limit.
+- The slogan is not visible. The lockup is THE AI RISHI. The mark is the eight-petal logo.
+- Learn is a field of day tiles, not a table. Phone learn is one phase per screen.
+- Guides is a poster. Labs are posters plus the lab’s own technology stations.
+- About is chapters from the configured sections, and it is still mostly type.
+- Search is a full-screen command layer with grouped results.
+- The phone has its own composition and a bottom bar of the configured nav. It is not the desktop rail turned sideways.
+- The bottom bar can cover the last line of a screen until you scroll. Pages pad the end. The first home day row must stay above that bar.
+- Reduced motion still shows the phase, the days, and the actions.
+- Disabled homepage sections stay off. No fake YouTube or Instagram.
+- Fixtures in the instruments stay labelled. No fake counts.
 
-## Scorecard
+## Checks
 
-Concrete findings from this pass. Not a grade.
-
-| Surface | Finding |
-|---|---|
-| Home | Still the desk. The slogan is gone. The mark is the original petal drawing. The bar is a solid rectangle, not a glass pill. |
-| Learn | The duplicate “spine” map under the day list is gone. One phase is on screen at a time. This is a plan, not a second homepage. |
-| Lesson | Chrome is solid. Prose stays on graphite because the lesson CSS hard-codes cream type; an ivory lesson would have hidden the text. Measure is capped. |
-| Guides | Index uses the width. Individual essays are still a single reading column. |
-| Projects | Alternating marketing rows are gone. Status and category are columns. |
-| About | Two columns from the configured sections. The previous edit had an unclosed tag; that is fixed. |
-| Search | Top sheet, no purple veil, no scanning gradient. |
-| Not done | This is not a spatial operating system. There is no per-route 3D, and research was not padded to 1,000 rows. Future YouTube and Instagram stay configuration slots with no fake posts. |
+- [ ] First viewport, motion off, still names the phase and shows its days
+- [ ] Choosing a distant phase changes the name, the drawing, and the days together
+- [ ] A published day opens. A planned day does not
+- [ ] Phone at 320, 360, 390, and 430: no horizontal scroll, targets reachable, bar not covering the first day
+- [ ] Search for MCP groups Day 101 and can be closed
+- [ ] Lesson text is ink on paper, including a code block
+- [ ] THE AI RISHI only. No slogan

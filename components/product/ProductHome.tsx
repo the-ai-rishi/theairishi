@@ -1,4 +1,5 @@
-import ProductHero from "@/components/product/ProductHero";
+import CurriculumField from "@/components/field/CurriculumField";
+import brandLanguage from "@/content/config/brand-language.json";
 import CurrentWorkCard from "@/components/product/CurrentWorkCard";
 import JourneyMap from "@/components/product/JourneyMap";
 import WhySection from "@/components/home/WhySection";
@@ -10,9 +11,6 @@ import ContentList from "@/components/home/ContentList";
 import CourseListSection from "@/components/home/CourseListSection";
 import TopicGrid from "@/components/home/TopicGrid";
 import ChannelGrid from "@/components/home/ChannelGrid";
-import UniverseStage from "@/components/immersive/UniverseStage";
-import SystemDesk from "@/components/immersive/SystemDesk";
-import ProgressSignal from "@/components/immersive/ProgressSignal";
 import CurriculumControl from "@/components/product/CurriculumControl";
 import curriculum from "@/data/curriculum/forge-120.json";
 import { getLearnerCatalog } from "@/lib/programs";
@@ -46,12 +44,15 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
     switch (section.type) {
       case "hero":
         return (
-          <UniverseStage key={section.id}>
-            <SystemDesk catalog={catalog}>
-              <ProgressSignal total={catalog.totalDays} />
-            </SystemDesk>
-            <ProductHero catalog={catalog} />
-          </UniverseStage>
+          <CurriculumField
+            key={section.id}
+            catalog={catalog}
+            description={story?.whatBody || catalog.description}
+            primaryHref={brandLanguage.ctas.primaryHref}
+            primaryLabel={brandLanguage.ctas.primary}
+            secondaryHref={brandLanguage.ctas.secondaryHref}
+            secondaryLabel={brandLanguage.ctas.secondary}
+          />
         );
       case "continue-learning":
         return (

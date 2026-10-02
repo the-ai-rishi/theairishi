@@ -2,7 +2,8 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
 
 export interface SearchResultItem {
   id: string;
@@ -21,6 +22,8 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [cursor, setCursor] = useState(0);
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -139,105 +142,91 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center px-3 pt-4 sm:px-8 sm:pt-8">
-          <div
-            className="search-veil fixed inset-0"
-            onClick={closeSearch}
-            aria-hidden="true"
-          />
-
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          aria-describedby={hintId}
+          className="command-layer"
+        >
+          <button type="button" className="command-close" onClick={closeSearch}>
+            Close
+          </button>
+          <h2 id={titleId} className="sr-only">
+            Search published titles and summaries
+          </h2>
+          <input
+            ref={inputRef}
+            type="search"
+            value={query}
+            onChange={(e) => {
+              const value = e.target.value;
+              setQuery(value);
+              setCursor(0);
+              setIsLoading(Boolean(value.trim()));
+              if (!value.trim()) setResults([]);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowDown") {
+                event.preventDefault();
+                setCursor((current) => Math.min(results.length - 1, current + 1));
+              } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                setCursor((current) => Math.max(0, current - 1));
+              } else if (event.key === "Enter" && results[cursor]) {
+                event.preventDefault();
+                const url = results[cursor].url;
+                closeSearch();
+                router.push(url);
+              }
+            }}
+            placeholder="Search days, phases, guides, labs"
+            autoComplete="off"
+            autoCorrect="off"
             aria-describedby={hintId}
-            className="search-shell relative z-10 w-full max-w-3xl overflow-hidden text-cream"
-          >
-            <h2 id={titleId} className="sr-only">
-              Search published titles and summaries
-            </h2>
-            <div className="flex items-center border-b border-hairline px-4 py-3.5">
-              <Search className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-              <input
-                ref={inputRef}
-                type="search"
-                value={query}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setQuery(value);
-                  setIsLoading(Boolean(value.trim()));
-                  if (!value.trim()) setResults([]);
-                }}
-                placeholder="Day 2, Git, permissions…"
-                className="w-full bg-transparent px-3 text-[15px] text-cream placeholder-cream/35 outline-none"
-                autoComplete="off"
-                autoCorrect="off"
-                aria-describedby={hintId}
-              />
-              <button
-                type="button"
-                onClick={closeSearch}
-                className="flex h-10 w-10 items-center justify-center text-cream/40 hover:text-cream"
-                aria-label="Close search"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            {isLoading ? <div className="search-scan" aria-hidden="true" /> : null}
-
-            <div className="max-h-[60vh] overflow-y-auto p-3">
-              {query.trim().length === 0 ? (
-                <p id={hintId} className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Days, phases, guides, and projects. Not the full lesson text.
-                </p>
-              ) : isLoading && results.length === 0 ? (
-                <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Searching titles and summaries…
-                </p>
-              ) : results.length === 0 ? (
-                <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  No title or summary matches “{query}”.
-                </p>
-              ) : (
-                <ul className="space-y-1">
-                  {results.map((item, index) => (
-                    <li key={item.id} className="search-hit" style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}>
-                      <Link
-                        href={item.url}
-                        onClick={closeSearch}
-                        className="group flex items-center justify-between gap-4 border border-transparent p-3.5 transition hover:border-gold/30 hover:bg-ink/50"
-                      >
-                        <div className="min-w-0 space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold/80">
-                              {item.type}
-                            </span>
-                            {item.category ? (
-                              <span className="truncate font-mono text-[10px] text-cream/35">
-                                {item.category}
-                              </span>
-                            ) : null}
-                          </div>
-                          <p className="truncate font-medium text-cream group-hover:text-gold-bright">
-                            {item.title}
-                          </p>
-                          {item.description ? (
-                            <p className="line-clamp-1 text-[13px] text-cream/40">{item.description}</p>
-                          ) : null}
-                        </div>
-                        <ArrowRight className="h-4 w-4 shrink-0 text-cream/20 transition group-hover:translate-x-0.5 group-hover:text-gold" aria-hidden="true" />
-                      </Link>
-                    </li>
+          />
+          <div className="command-groups">
+            {query.trim().length === 0 ? (
+              <p id={hintId}>Days, phases, guides, and projects. Not the full lesson text.</p>
+            ) : isLoading && results.length === 0 ? (
+              <p>Searching titles and summaries…</p>
+            ) : results.length === 0 ? (
+              <p>No title or summary matches “{query}”.</p>
+            ) : (
+              Array.from(
+                results.reduce((map, item, index) => {
+                  const list = map.get(item.type) || [];
+                  list.push({ item, index });
+                  map.set(item.type, list);
+                  return map;
+                }, new Map<string, { item: SearchResultItem; index: number }[]>()),
+              ).map(([type, items]) => (
+                <section key={type}>
+                  <h3>{type}</h3>
+                  {items.map(({ item, index }) => (
+                    <Link
+                      key={item.id}
+                      href={item.url}
+                      className={index === cursor ? "is-active" : ""}
+                      onClick={closeSearch}
+                      onMouseEnter={() => setCursor(index)}
+                    >
+                      <span>
+                        <strong className="block font-serif text-2xl">{item.title}</strong>
+                        {item.description ? <span className="mt-1 block text-sm opacity-70">{item.description}</span> : null}
+                      </span>
+                      <span className="font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.category || item.type}</span>
+                    </Link>
                   ))}
-                </ul>
-              )}
-              {query.trim().length > 0 ? (
-                <p id={hintId} className="sr-only">
-                  Search matches titles, summaries, tags, and outcomes of published days. Not the full lesson text.
-                </p>
-              ) : null}
-            </div>
+                </section>
+              ))
+            )}
+            {query.trim().length > 0 ? (
+              <p id={hintId} className="sr-only">
+                Search matches titles, summaries, tags, and outcomes. Not the full lesson text.
+              </p>
+            ) : null}
           </div>
         </div>
       )}

@@ -1,51 +1,75 @@
 # THE AI RISHI — final experience
 
-What this branch is actually shipping. Not a claim that the site is a new operating system.
+What this branch actually ships. Not a claim about other sites.
 
 ## Product thesis
 
-THE AI RISHI is a learning environment. The current programme is FORGE-120. The visitor should be inside that programme, not reading a slogan about it.
+THE AI RISHI is a learning environment. The programme is FORGE-120. The visible brand is the name only. There is no slogan.
 
-Visible lockup: **THE AI RISHI** only.
+The previous dark desk (phase rail, ivory SVG sheet, day panel) was replaced. The product now sits on a paper field. The phase is set in large type. A canvas draws that phase as structure. The days of the phase are the controls.
 
-The line `ANCIENT WISDOM · MODERN INTELLIGENCE` is withheld. It is listed in `brand-language.json` `doNotDisplay`. `displayTagline` is false. `platform.json` must not set `brand.tagline` or `copy.heroTagline`. `scripts/check-brand-language.js` fails validation if that line, or those fields, come back.
+## Emotional journey
 
-The programme is not an AI course. Foundations come first. Retrieval and controlled tool use are days 97–105. Day 105 is awareness, not a specialisation claim. Day 120 is a checkpoint, not mastery.
+Open: paper, the mark, the current phase name, and a drawing of that phase.
 
-The mark in the header, footer, and lesson chrome is the stable eight-petal brand mark from `main`. The column-and-beam mark was rejected and removed. No orbit ring is drawn around it.
+Move: the ten phases are a measure. Choosing one, or scrolling the field on a laptop, changes the name, the drawing, and the days together. It does not write history.
 
-## Homepage
+Continue: published days open. Planned days stay titles.
 
-Open: a graphite field and an ivory sheet. The sheet draws the current phase as structure (column, posts, pipeline, module, cluster, platform, promotion, signal, documents, closed frame). Not a lotus scene, not particles, not a HUD.
+Leave: a lesson is a paper reading room in the same bar.
 
-Move: ten real phases on a rail. Choosing one scrolls the page. Scrolling updates the same phase. The drawing, the day list, and the header readout change together. Phase choice does not push history.
+## What the drawing means
 
-Continue: below the desk, configured sections from `platform.json`. The instrument block (`#control`) is HTML for days 89–105. Fixtures are labelled. No live model. No fake counts.
-
-The colophon is the name, FORGE-120, and the programme sentence. No second slogan.
-
-## Route modes
-
-One language, different rooms. `tone` on the shell is only the hook. The layout is the difference.
-
-| Route | What you actually get |
+| Phase | Drawing |
 |---|---|
-| Home | Desk. Phase rail, ivory sheet, day panel, colophon, then instruments. |
-| Learn | A phase is a place. The ten phases are a tab list. The selected phase shows its real day range, summary, and day ledger. Days 97–105 are marked as retrieval and link to the home instruments. |
-| Lesson | A reading bay. Solid bar, day rail, prose held to a measure, completion stays on this device. |
-| Guides | A contents board: sticky title, numbered essays, each description from the essay itself. |
-| Projects | A ledger of labs: number, title, category, status. Earlier notes, not FORGE-120. |
-| Programme aliases | `devops` and `forge-120` redirect to `/learn`. |
-| About | A manuscript: sticky section index, the configured about sections, then the real programme line. |
-| Search | A top sheet. Days, phases, guides, projects. Not full lesson text. |
-| 404 | “Page not found.” Unpublished days say the day is not published yet. |
-| Dock | Learn, Guides, Projects, About. Hidden on the homepage, where the phase rail is the navigation. |
+| Foundations | Units assemble on a baseline |
+| Azure networking and identity | Two posts, the private span marked |
+| CI and delivery | Source, CI, artifact, and a moving artifact |
+| Terraform and application | Stacked modules on one state line |
+| Kubernetes | Nodes with workloads |
+| AKS | A cluster on a platform line |
+| Infrastructure delivery | Forward steps and a rollback |
+| Reliability | A signal against a threshold |
+| RAG and controlled tool use | Documents, one cited chunk, a context |
+| Design and defence | Those structures inside one closed frame |
 
-Direct URLs, back, and keyboard focus stay.
+Retrieval uses a different colour. The instruments below the field still let a visitor operate chunk choice, policy, injection, evaluation, and the nine gates. They are labelled fixtures. There is no live model.
 
-## What this is not
+## Routes
 
-- Not 1,000 researched sites. That file was not padded.
-- Not a macOS, visionOS, Windows, or sci-fi shell.
-- Not glass, neon, glow, orbit rings, or a particle field as the experience.
-- Not a second invented curriculum. Phase names and day titles come from the FORGE-120 snapshot.
+| Route | What you do |
+|---|---|
+| Home | A phase fills the screen. Laptop: scroll or the measure. Phone: previous/next and a day list, not a shrunk rail. |
+| Learn | Each phase is a field of day tiles. Published, planned, and complete are different. Phone: phases are full-screen snap sections. |
+| Lesson | Paper reading room. Chapter chips. Completion stays local. |
+| Guides | The essay is a poster, then a reading column with a progress rule. |
+| Labs | Poster index. A lab’s recorded technologies are stations you can select. Not an invented architecture. |
+| About | One chapter per configured section. |
+| Search | A full-screen command layer. Results grouped by type. Arrow keys move. Enter opens. |
+| 404 / loading | Same paper field. Factual copy. |
+
+Phone navigation is the configured main items along the bottom. The desktop bar keeps the configured primary/explore split. The old desktop dock is gone.
+
+## Future content
+
+Homepage sections, navigation, and disabled channels still come from `platform.json`. YouTube and Instagram stay off until real items exist. Adding a lesson, guide, or project is still content plus config.
+
+## Research synthesis
+
+This is not a 1000-row catalogue. Patterns used, and what was rejected:
+
+| Reference kind | Pattern | Why it works | What we took | What we rejected |
+|---|---|---|---|---|
+| Editorial magazines | One story at poster scale | The title is the page | Guides index | Card grids of essays |
+| Technical notebooks | A measure beside the work | You always know where you are | Phase measure on home and learn | Tiny horizontal tabs |
+| Exhibition labels | State is material, not a badge | Open and planned look different | Filled versus hollow days | Fake live counters |
+| Command palettes | Search is a mode, not a popover | The query is the largest type | Full-screen search, grouped results | A small modal list |
+| Phone maps | One place per screen | The thumb moves between places | Phase snap on learn, prev/next on home | A compressed desktop desk |
+
+## Accessibility and performance
+
+Keyboard focus stays. Phase choice does not push history. Reduced motion draws the structure once and does not smooth-scroll. The canvas pauses when the tab is hidden. The drawing does not carry the only copy of a day title.
+
+## Deliberately avoided
+
+Slogan. Glass. Neon. Particles. Orbit rings. A second logo. Sci-fi labels. Fake media. Fake learner counts. Padded research files.

@@ -1,7 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import RouteDock from "@/components/layout/RouteDock";
-import PointerHalo from "@/components/motion/PointerHalo";
 import type { BrandConfig, CopyConfig, NavItem } from "@/lib/config";
 import { getLearnerCatalog } from "@/lib/programs";
 
@@ -28,7 +27,6 @@ export default function PageShell({
   return (
     <div className="relative flex min-h-screen flex-col bg-ink text-cream/90" data-tone={tone}>
       <div className="relative z-[1] flex min-h-screen flex-col">
-        <PointerHalo />
         <Header navItems={navItems} brand={brand} copy={copy} showSearch={showSearch} catalog={catalog} />
         <main id="main-content" className="mode-room flex-1" tabIndex={-1}>
           {children}

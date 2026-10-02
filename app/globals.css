@@ -1103,16 +1103,6 @@ body {
   vertical-align: 0.05em;
 }
 
-.logo-orbit {
-  position: absolute;
-  inset: -4px;
-  border: 1px solid transparent;
-  border-top-color: rgba(212, 180, 106, 0.8);
-  border-right-color: rgba(139, 124, 255, 0.4);
-  border-radius: 999px;
-  animation: spinSlow 36s linear infinite;
-}
-
 .btn-primary {
   background-image:
     linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.42) 46%, transparent 62%),

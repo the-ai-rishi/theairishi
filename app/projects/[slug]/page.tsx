@@ -5,6 +5,7 @@ import { getAllProjectSlugs, getProject } from "@/lib/projects";
 import LessonContent from "@/components/learning/LessonContent";
 import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import PageShell from "@/components/brand/PageShell";
+import ArtefactTrace from "@/components/field/ArtefactTrace";
 import { canonicalAlternates } from "@/lib/urls";
 
 interface ProjectPageProps {
@@ -79,39 +80,30 @@ export default async function ProjectSinglePage({ params }: ProjectPageProps) {
 
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-cream/50 sm:text-lg">{project.metadata.description}</p>
 
-        <div className="mt-6 flex max-w-3xl flex-wrap items-center justify-between gap-4 border-y border-hairline py-4">
-          <div className="flex flex-wrap gap-x-3 gap-y-1">
-            {project.metadata.technologies.map((tech) => (
-              <span key={tech} className="font-mono text-[12px] text-cream/50">
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4 text-xs">
-            {project.metadata.githubUrl && (
-              <a
-                href={project.metadata.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-cream/60 hover:text-cream"
-              >
-                <GithubIcon className="h-4 w-4" />
-                <span>GitHub Repository</span>
-              </a>
-            )}
-            {project.metadata.demoUrl && (
-              <a
-                href={project.metadata.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-cream/70 hover:text-cream"
-              >
-                <Globe className="h-4 w-4" />
-                <span>Live Demo</span>
-              </a>
-            )}
-          </div>
+        <ArtefactTrace technologies={project.metadata.technologies} status={project.metadata.status} />
+        <div className="mt-6 flex flex-wrap items-center gap-4 text-sm">
+          {project.metadata.githubUrl ? (
+            <a
+              href={project.metadata.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-cream/70 hover:text-cream"
+            >
+              <GithubIcon className="h-4 w-4" />
+              <span>GitHub Repository</span>
+            </a>
+          ) : null}
+          {project.metadata.demoUrl ? (
+            <a
+              href={project.metadata.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-cream/70 hover:text-cream"
+            >
+              <Globe className="h-4 w-4" />
+              <span>Live Demo</span>
+            </a>
+          ) : null}
         </div>
 
         <div className="max-w-3xl pt-10">

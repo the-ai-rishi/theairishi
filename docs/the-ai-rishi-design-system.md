@@ -2,71 +2,65 @@
 
 The system in the interface now.
 
-## Lockup
-
-Visible name: THE AI RISHI, from `brand-language.json` `displayName`.
-
-No slogan. Do not put a tagline back in the hero, footer, metadata, or bar.
-
-Mark: `components/brand/BrandMark.tsx`, the stable eight-petal drawing from `main`. Gold via `currentColor`. It has to read at header size. Do not replace it with a column, a beam, or a new geometric symbol. Do not put a spinning ring around it.
-
-## Colour
-
-Dark graphite stays the surround. Lessons and the desk are already built for it.
+## Tokens
 
 | Token | Value | Role |
 |---|---|---|
-| Surround | `#12110e` | Page, bar, footer |
-| Sheet | `#f3eee4` | Homepage phase drawing and day panel |
-| Ink on the sheet | `#1c1915` | Structure on ivory |
-| Path | `#8a6230` | Relationships on the sheet |
-| Signal | `#0f5f68` | A measured line on the sheet; the retrieval rule on Learn |
-| Gold on graphite | `#d4b46a` / `#f0d090` | Actions and metadata |
-| Cream on graphite | `#f3eee4` | Text on the dark field |
+| Paper | `#efe8dc` | The field. Pages, bar, reading |
+| Ink | `#1a1714` | Type, open days, primary action |
+| Brass | `#8a5a2b` | Active phase metadata, reading rule |
+| Signal | `#0e5c62` | Retrieval only |
+| Hairline | `rgba(26,23,20,0.14)` | Rules between items |
 
-Purple is not a surface. Do not wash sections with it. Do not use it as a glow.
+`--color-ink` and `--color-cream` are swapped so existing utilities land on paper. Do not add a second palette.
 
 ## Typography
 
-- Serif: programme title, phase name, essay titles, about headings
-- Mono: phase numbers, day numbers, status, metadata
-- Sans: summaries and lesson prose
+- Instrument Serif: phase name, essay title, day title
+- Geist: summaries and lesson prose
+- Geist Mono: numbers, states, metadata
 
-Type stays readable. It is not a decoration that replaces the content.
+The phase name is the largest type on home and learn. It is not a caption under a graphic.
+
+## Geometry
+
+- A line is a relationship or a threshold
+- A rectangle is a unit, a document, or a station
+- A closed frame is design and defence
+- Brass marks the active part of a structure
+- Signal marks a citation
+
+No rings. No petals as scenery. The eight-petal mark is only the logo.
 
 ## Surfaces
 
-- Bar: solid `#12110e`, 1px hairline, square corners. No blur, no gradient ring.
-- Homepage sheet: ivory, 1px edge, phase drawing
-- Day rows: hairline separators, not cards
-- Search: a top sheet, solid field, no purple veil
-- Learn: phase list plus the selected phase. Not a second copy of the same map underneath
-- Guides and labs: a ruled index that uses the width of the screen
-- About: index column and the essay
-- Lesson: the prose column stops at about 68ch
+- Paper is the default
+- Search is the inverse: ink field, paper type
+- Code blocks stay ink with paper type
+- There is no glass, no blur, no glow
 
 ## Motion
 
-- Reduced motion collapses animation and transition duration in `globals.css`
-- Homepage phase scroll is instant when reduced motion is on
-- No looping particles. No camera. No autoplay sound
-- The pointer mark is a small gold square. It does not replace the cursor. It is hidden for coarse pointers
+- The delivery artifact and the reliability signal move only when motion is allowed
+- Phase changes replace the drawing on the next frame
+- Reduced motion: one static draw, instant scroll
+- The canvas loop stops when the document is hidden
+
+## Navigation
+
+- Laptop: system bar. Primary items from config. The rest under Explore, also from config.
+- Phone: every enabled main item in the bottom bar. The hamburger is hidden there so it does not compete.
+- Lessons do not put a second bar over the reading. The phone bar is present; the page pads for it.
 
 ## States
 
-- Published day: a link
-- Planned day: title plus “Planned”. Not an empty page
-- Progress: “claimed on this device”. Local only
-- Instruments: labelled teaching fixtures
-- Focus: gold outline
-- Empty writing: “Essays are being written.”
-- Empty labs: “Labs are currently in development.”
-- Missing page: “Page not found”
-- Missing day: “This day is not published yet”
+- Published day: ink fill, opens
+- Planned day: outline, not a link
+- Complete on this device: brass fill
+- Current day: labelled Now
 
 ## Responsive
 
-- Homepage at 960px and above: rail, sheet, panel, colophon. Below: horizontal phase numbers, day list behind a toggle
-- Learn at 1100px and above: sticky phase column, day ledger beside it. Below: horizontal phase tabs
-- Guides and about at 800px and above: sticky title or index. Below: stacked
-- The section dock sits at the bottom on every route except home. Pages pad the footer so it does not cover the last line
+- At 861px and above: measure plus stage
+- At 860px and below: no phase rail. Previous and next phase. Days are rows with titles. Learn phases snap one screen at a time.
+- Targets are at least 44px on the phone controls.
