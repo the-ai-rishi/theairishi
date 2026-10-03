@@ -9,7 +9,7 @@ If you are not a developer, start at [START-HERE.md](./START-HERE.md).
 | Goal | Go here |
 | --- | --- |
 | Understand the product | [START-HERE.md](./START-HERE.md) |
-| Understand DevOps Engineer Mastery | [DEVOPS-ENGINEER-MASTERY.md](./DEVOPS-ENGINEER-MASTERY.md) |
+| Understand the previous programme note | [DEVOPS-ENGINEER-MASTERY.md](./DEVOPS-ENGINEER-MASTERY.md) |
 | Add tomorrow’s daily lesson | [CONTENT/ADD-DAILY-LESSON.md](./CONTENT/ADD-DAILY-LESSON.md) |
 | Add a non-daily lesson | [CONTENT/ADD-LESSON.md](./CONTENT/ADD-LESSON.md) |
 | Add a guide / essay | [CONTENT/ADD-GUIDE.md](./CONTENT/ADD-GUIDE.md) |

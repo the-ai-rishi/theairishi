@@ -1,6 +1,6 @@
 # The AI Rishi
 
-A technology learning and teaching platform. The current program is **DevOps Engineer Mastery**: 120 days, about four months, starting at the shell. AI and Agentic AI come later.
+A technology learning and teaching platform. The current program is **FORGE-120**: 120 days from system fundamentals through cloud, Kubernetes, reliability, retrieval, and controlled tool use.
 
 This is not a guru course, not a diary, and not an AI-first landing page.
 

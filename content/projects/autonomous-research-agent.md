@@ -9,7 +9,7 @@ difficulty: "Intermediate"
 status: "Completed"
 topic: "ai"
 enabled: true
-featured: true
+featured: false
 ---
 
 # Autonomous Multi-Source Research Agent

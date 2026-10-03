@@ -1,8 +1,8 @@
 ---
-title: "Day 1 - Shell from zero"
-description: "Terminal vs shell, PATH, I/O, exit codes, quoting, and the no-AI rule. Honest scores before any tool worship."
+title: "Day 1 - Contract, repo, honesty"
+description: "A small repository, the first commit, and the difference between a claim and evidence."
 course: "devops-engineer-mastery"
-courseTitle: "DevOps Engineer Mastery"
+courseTitle: "FORGE-120"
 courseOrder: 1
 stage: "Foundations"
 stageOrder: 1
@@ -15,24 +15,25 @@ status: "published"
 exercise: "starting-assessment"
 estimatedMinutes: 50
 outcomes:
-  - explain what a shell does versus a terminal
-  - inspect where you are and which file a command runs
-  - explain PATH as a search list
-  - predict a command result from quoting and exit codes
-  - write the no-AI rule and honest starting scores
-tags: ["shell", "linux", "foundations", "day-01"]
+  - explain working tree, staging area, and commit
+  - separate a claim from evidence you can show
+  - make an inspectable first commit
+  - record one honest gap
+tags: ["git", "evidence", "foundations", "day-01"]
 ---
 
-# Day 1 - Shell from zero
+# Day 1 - Contract, repo, honesty
 
-This is Day 1 of DevOps Engineer Mastery. Today is not Kubernetes. Today is: can you say what actually ran, where you are, and whether it succeeded.
+This is Day 1 of FORGE-120. The capstone thread starts here: a small repository, a first commit, and one thing you cannot yet prove.
+
+Today is not Kubernetes, and it is not a model. Today is the contract: what you ran, where you are, and whether the claim matches the evidence.
 
 ## What today is for
 
-- Honest scores in Your Starting Assessment (above). Chat is not a 5.
-- Install or confirm a toolchain you can actually use (terminal, Git, editor). Do not dump company PATH or tokens into a public place.
-- Write the no-AI rule in that same assessment: on write days, your first version is yours. AI may review later. AI does not author the first file.
-- Interview line: what you have *operated* versus what you have *authored*.
+- Create or use `projects/forge-api/` and make one small text file.
+- Inspect where you are, stage the file, commit it, and read the history.
+- Write one gap you cannot demonstrate. A tracker tick is not proof.
+- Label the result operated, generated, simulated, or blocked. Do not upgrade a claim into evidence.
 
 ## Words
 

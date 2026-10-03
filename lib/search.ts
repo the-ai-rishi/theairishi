@@ -1,6 +1,8 @@
 import { getSearchIndexInputs } from "./visibility-core";
 import { loadPlatformConfig, getTopicRecord } from "./config";
 import { getLiveCatalog } from "./catalog";
+import { getLearnerCatalog } from "./programs";
+import curriculum from "../data/curriculum/forge-120.json";
 
 export interface SearchResultItem {
   id: string;
@@ -136,11 +138,77 @@ export function searchSite(query: string): SearchResultItem[] {
     });
   }
 
-  const map = new Map<string, SearchResultItem>();
-  for (const r of results) {
-    if (!map.has(r.id)) map.set(r.id, r);
+  const concepts = new Map(curriculum.days.map((day) => [day.day, day.concepts.join(" ")]));
+  const catalog = getLearnerCatalog();
+  const seenUrls = new Set(results.map((item) => item.url));
+  for (const day of catalog.days) {
+    const phase = catalog.phases.find((item) => item.id === day.phaseId);
+    const blob = blobOf([
+      `day ${day.day}`,
+      day.title,
+      day.summary,
+      phase?.name,
+      concepts.get(day.day),
+      "forge-120",
+    ]);
+    if (!matchesQuery(q, blob)) continue;
+    const url = day.href || `/learn#${day.phaseId}`;
+    if (seenUrls.has(url) && day.published) continue;
+    seenUrls.add(url);
+    results.push({
+      id: `plan-${day.slug}`,
+      title: `Day ${day.day} — ${day.title}`,
+      description: day.summary,
+      type: day.published ? `Day ${day.day}` : "Planned",
+      url,
+      category: phase?.name,
+    });
   }
-  return Array.from(map.values()).slice(0, 12);
+
+  const map = new Map<string, SearchResultItem>();
+  const phaseHits: SearchResultItem[] = [];
+  for (const phase of curriculum.phases) {
+    const blob = blobOf([
+      phase.name,
+      phase.summary,
+      phase.daysLabel,
+      `phase ${phase.number}`,
+      "forge-120",
+    ]);
+    if (!matchesQuery(q, blob)) continue;
+    phaseHits.push({
+      id: `phase-${phase.id}`,
+      title: phase.name,
+      description: `Days ${phase.daysLabel}. ${phase.summary}`,
+      type: "Phase",
+      url: `/learn#${phase.id}`,
+      category: curriculum.programme,
+      badge: phase.daysLabel,
+    });
+  }
+
+  const conceptHits: SearchResultItem[] = [];
+  for (const day of curriculum.days) {
+    day.concepts.forEach((concept, index) => {
+      if (conceptHits.length >= 6) return;
+      if (!matchesQuery(q, blobOf([concept]))) return;
+      const learner = catalog.days.find((item) => item.day === day.day);
+      conceptHits.push({
+        id: `concept-${day.day}-${index}`,
+        title: concept,
+        description: `Day ${day.day}. ${day.title}. ${day.phase}.`,
+        type: "Concept",
+        url: learner?.href || `/learn#${day.phaseId}`,
+        category: learner?.published ? "Open" : "Planned",
+        badge: `Day ${day.day}`,
+      });
+    });
+  }
+
+  for (const item of [...phaseHits, ...conceptHits, ...results]) {
+    if (!map.has(item.id)) map.set(item.id, item);
+  }
+  return Array.from(map.values()).slice(0, 16);
 }
 
 export function searchAll(query: string): SearchResultItem[] {

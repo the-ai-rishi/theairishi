@@ -7,14 +7,14 @@
     "ogImage": "/brand/og-image.jpg",
     "faviconUrl": "/icon.png",
     "appleTouchIcon": "/apple-icon.png",
-    "description": "A technology learning platform. The current program is DevOps Engineer Mastery: 120 days of practical engineering, starting at the shell. Content is free.",
+    "description": "A technology learning platform. The current program is FORGE-120: 120 days from system fundamentals to cloud, Kubernetes, reliability, retrieval, and controlled tool use. Content is free.",
     "url": "https://theairishi.com",
     "email": "theairishi.official@gmail.com",
     "shortName": "Rishi"
   },
   "copy": {
     "heroBadge": "Current program",
-    "heroDescription": "A structured path from Linux and Git through cloud, CI/CD, containers, Kubernetes, and production engineering.",
+    "heroDescription": "FORGE-120 is a 120-day hands-on path from fundamentals through cloud, Kubernetes, AKS, and reliability, then retrieval and controlled tool use. The model is not the starting point.",
     "heroPrimaryCta": "Start Day 1",
     "heroPrimaryCtaHref": "/learn/day-01",
     "heroSecondaryCta": "Explore the 120-day plan",
@@ -25,9 +25,9 @@
   },
   "story": {
     "whatTitle": "What this is",
-    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is DevOps Engineer Mastery, a 120-day path from the shell toward production-shaped work.",
-    "whyTitle": "Why DevOps before AI",
-    "whyBody": "AI can generate the files. You still have to understand them, catch what is wrong, run them, and live with the failure.",
+    "whatBody": "The AI Rishi is a technology learning and teaching platform. The current program is FORGE-120, a 120-day path from system fundamentals to retrieval and controlled tool use.",
+    "whyTitle": "Why foundations come first",
+    "whyBody": "A model can draft the files. Days 97–105 are where retrieval, policy, evaluation, and a disable path are taught. Until then, you still have to understand what ran.",
     "whyGenerate": [
       "Code",
       "YAML",
@@ -38,10 +38,9 @@
     "whyStillNeed": [
       "Understand",
       "Review",
+      "Policy",
+      "Evaluate",
       "Debug",
-      "Test",
-      "Secure",
-      "Deploy",
       "Operate"
     ],
     "methodTitle": "How a day works",
@@ -78,8 +77,8 @@
         "body": "Check whether you can explain it. If you cannot, you do not own it yet."
       }
     ],
-    "pathTitle": "After this program",
-    "pathBody": "DevOps is the current program. Later stages stay off this site until there is real material.",
+    "pathTitle": "After day 120",
+    "pathBody": "Deepen only when a real requirement demands it. CUDA, model training, multiple agent SDKs, and multiple vector databases stay outside the 120-day core.",
     "communityTitle": "If you want to learn with me",
     "communityBody": "If you are willing to put in the hours, you can learn along with me. I may help with doubts and debugging when the question shows real work."
   },
@@ -96,7 +95,7 @@
       {
         "id": "order",
         "title": "Why this order",
-        "body": "DevOps is where I am starting. The first plan is about four months \u2014 120 days \u2014 of focused practice. AI can generate code and configs. Someone still has to review them, debug them, secure them, and run them. That someone needs the engineering underneath."
+        "body": "FORGE-120 is one path: foundations, then cloud, Kubernetes, reliability, retrieval, and controlled tool use. AI is not day 1. Day 59 is a read-only helper. Days 97–105 are the control layer. Day 105 is awareness, not an ML-infrastructure claim."
       },
       {
         "id": "teach",
@@ -111,7 +110,7 @@
       {
         "id": "expect",
         "title": "What you can expect",
-        "body": "A clear 120-day DevOps plan, starting from the shell. Honesty about what is ready and what is still a title on the map. I want to focus on people who are genuinely willing to put in the work."
+        "body": "A clear 120-day path, FORGE-120. Honesty about which days are published and which are still titles on the map. The work is still yours."
       },
       {
         "id": "not",
@@ -121,28 +120,22 @@
       {
         "id": "next",
         "title": "Where the platform is going",
-        "body": "After this DevOps foundation I want to teach AI, then AI agents. I will not put empty courses on the homepage to match the brand name. When those stages have real material, they will appear."
+        "body": "After day 120, deepen only what a real requirement demands: evaluation, observability, inference, or multi-cluster work. Those are not empty courses on this homepage."
       }
     ]
   },
   "futurePath": [
     {
-      "id": "devops",
-      "label": "DevOps",
+      "id": "forge-120",
+      "label": "FORGE-120",
       "note": "Now",
       "status": "active",
       "href": "/learn"
     },
     {
-      "id": "ai",
-      "label": "AI",
-      "note": "After the foundation",
-      "status": "planned"
-    },
-    {
-      "id": "agents",
-      "label": "Agentic AI",
-      "note": "After AI",
+      "id": "post-120",
+      "label": "After day 120",
+      "note": "Only when the work requires it",
       "status": "planned"
     }
   ],
@@ -158,7 +151,7 @@
       "slug": "ai",
       "name": "Artificial Intelligence & LLMs",
       "shortName": "AI / LLM",
-      "description": "Existing notes on neural networks, attention, RAG, and working with language models. Not the current program.",
+      "description": "Existing notes on neural networks, attention, RAG, and working with language models. Not a substitute for FORGE-120 days 97–105.",
       "badge": "AI / LLM",
       "category": "AI & Data",
       "color": "purple",
@@ -171,14 +164,14 @@
       "includeInSearch": false,
       "includeInSitemap": false,
       "searchBadge": "Existing notes",
-      "discoveryNote": "These notes are not part of the current DevOps program."
+      "discoveryNote": "These notes are not FORGE-120 days."
     },
     {
       "id": "devops",
       "slug": "devops",
-      "name": "DevOps Engineer Mastery",
-      "shortName": "DevOps",
-      "description": "Linux, Git, networking, CI/CD, containers, Kubernetes, and Azure \u2014 a 120-day production-shaped program.",
+      "name": "FORGE-120",
+      "shortName": "FORGE",
+      "description": "Linux, Git, Azure, CI, Terraform, Kubernetes, AKS, reliability, retrieval, and controlled tool use. 120 days.",
       "badge": "DevOps",
       "category": "Cloud & DevOps",
       "color": "emerald",
@@ -291,7 +284,7 @@
   "contentTypes": [
     {
       "id": "learn",
-      "title": "DevOps Engineer Mastery",
+      "title": "FORGE-120",
       "description": "The current 120-day program.",
       "badge": "Learn",
       "url": "/learn",
@@ -496,16 +489,16 @@
       {
         "id": "continue-learning",
         "type": "continue-learning",
-        "enabled": true,
+        "enabled": false,
         "order": 2,
         "showWhenEmpty": false
       },
       {
         "id": "program",
         "type": "program",
-        "enabled": true,
+        "enabled": false,
         "order": 3,
-        "title": "DevOps Engineer Mastery",
+        "title": "FORGE-120",
         "subtitle": "The current program",
         "ctaLabel": "Full plan",
         "ctaHref": "/learn"
@@ -513,25 +506,32 @@
       {
         "id": "phases",
         "type": "phases",
-        "enabled": true,
+        "enabled": false,
         "order": 4,
         "title": "What you will work through",
-        "subtitle": "Eleven phases \u00b7 120 days",
+        "subtitle": "Ten stages · 120 days",
         "ctaLabel": "Open the full plan",
         "ctaHref": "/learn"
+      },
+      {
+        "id": "instrument",
+        "type": "instrument",
+        "enabled": true,
+        "order": 6,
+        "title": "Reliability and controlled tool use"
       },
       {
         "id": "why",
         "type": "why",
         "enabled": true,
         "order": 5,
-        "title": "Why DevOps before AI",
-        "subtitle": "Generated output still needs an engineer"
+        "title": "Why foundations come first",
+        "subtitle": "Control arrives after you can operate the system"
       },
       {
         "id": "today",
         "type": "today",
-        "enabled": true,
+        "enabled": false,
         "order": 6,
         "title": "Ready to start",
         "subtitle": "Published days",
@@ -542,7 +542,7 @@
         "id": "method",
         "type": "method",
         "enabled": true,
-        "order": 7,
+        "order": 4,
         "title": "How a day works",
         "subtitle": "Practice, not playback"
       },
@@ -551,13 +551,13 @@
         "type": "path",
         "enabled": true,
         "order": 8,
-        "title": "After this program",
-        "subtitle": "Later stages stay off the site until they are real"
+        "title": "After day 120",
+        "subtitle": "Deepen only when the work requires it"
       },
       {
         "id": "community",
         "type": "prose",
-        "enabled": true,
+        "enabled": false,
         "order": 9,
         "title": "If you want to learn with me",
         "subtitle": "Willing to practise",
@@ -567,9 +567,9 @@
         "id": "cta",
         "type": "cta",
         "enabled": true,
-        "order": 11,
+        "order": 9,
         "title": "Start at Day 1",
-        "subtitle": "Shell, PATH, exit codes",
+        "subtitle": "Contract, repo, honesty",
         "ctaLabel": "Open Day 1",
         "ctaHref": "/learn/day-01"
       },

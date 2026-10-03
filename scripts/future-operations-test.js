@@ -363,14 +363,14 @@ function runFutureOperationsTests(livePlatform) {
   // K. Add / reorder a homepage section
   const tK = clone(livePlatform);
   const why = tK.homepage.sections.find((section) => section.id === "why");
-  const today = tK.homepage.sections.find((section) => section.id === "today");
+  const pathSection = tK.homepage.sections.find((section) => section.id === "path");
   const whyOrder = why.order;
-  why.order = today.order;
-  today.order = whyOrder;
+  why.order = pathSection.order;
+  pathSection.order = whyOrder;
   const homeK = vis.resolveHomepageSections(tK, emptyCat()).sections;
   const whyIndex = homeK.findIndex((section) => section.id === "why");
-  const todayIndex = homeK.findIndex((section) => section.id === "today");
-  check(todayIndex < whyIndex, "Op K: homepage order follows configuration");
+  const pathIndex = homeK.findIndex((section) => section.id === "path");
+  check(pathIndex < whyIndex, "Op K: homepage order follows configuration");
 
   // L. Change which program is featured
   const swapped = catalogOf(

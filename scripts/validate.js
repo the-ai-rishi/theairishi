@@ -11,6 +11,7 @@ const { runScenarioTests } = require("./scenario-test");
 const { runLearnerProgressTests } = require("./learner-progress-test");
 const matter = require("gray-matter");
 const { checkWorkerBundle } = require("./check-worker-bundle");
+const { checkBrandLanguage } = require("./check-brand-language");
 const { execFileSync } = require("child_process");
 const {
   generateContentData,
@@ -1058,6 +1059,9 @@ if (programConfig) {
   }
 }
 
+
+console.log("Running brand language checks...");
+checkBrandLanguage(rootDir).forEach((message) => errors.push(message));
 
 console.log("Running learner progress tests...");
 const progressOk = runLearnerProgressTests();

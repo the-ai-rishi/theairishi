@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
+import brandLanguage from "@/content/config/brand-language.json";
+import { phaseColor } from "@/lib/phase-color";
 
 export interface SearchResultItem {
   id: string;
@@ -16,11 +19,51 @@ export interface SearchResultItem {
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
 
+const PLACES: SearchResultItem[] = [
+  {
+    id: "go-plan",
+    title: "FORGE-120 plan",
+    description: "Overview, then a phase, then a day.",
+    type: "Go",
+    url: "/learn",
+  },
+  {
+    id: "go-guides",
+    title: "Guides",
+    description: "Writing. Some notes predate the programme.",
+    type: "Go",
+    url: "/guides",
+  },
+  {
+    id: "go-projects",
+    title: "Projects",
+    description: "Labs and build write-ups.",
+    type: "Go",
+    url: "/projects",
+  },
+  {
+    id: "go-about",
+    title: "About",
+    description: brandLanguage.displayName,
+    type: "Go",
+    url: "/about",
+  },
+  ...brandLanguage.phases.map((name, index) => ({
+    id: `go-phase-${index + 1}`,
+    title: name,
+    description: `Phase ${String(index + 1).padStart(2, "0")} on the plan.`,
+    type: "Phase",
+    url: `/learn#phase-${String(index + 1).padStart(2, "0")}`,
+  })),
+];
+
 export default function SearchModal({ compact = false }: { compact?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [cursor, setCursor] = useState(0);
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -28,6 +71,8 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
   const hintId = useId();
   const isMac =
     typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
+  const commands = useMemo(() => PLACES, []);
+  const shown = query.trim() ? results : commands;
 
   function closeSearch() {
     setIsOpen(false);
@@ -36,9 +81,17 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      const target = e.target as HTMLElement | null;
+      const typing =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        Boolean(target?.isContentEditable);
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setIsOpen((prev) => !prev);
+      } else if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey && !typing && !isOpen) {
+        e.preventDefault();
+        setIsOpen(true);
       } else if (e.key === "Escape" && isOpen) {
         e.preventDefault();
         closeSearch();
@@ -139,104 +192,100 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-16 sm:pt-24">
-          <div
-            className="fixed inset-0 bg-ink/80 backdrop-blur-sm"
-            onClick={closeSearch}
-            aria-hidden="true"
-          />
-
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          aria-describedby={hintId}
+          className="command-layer"
+        >
+          <button type="button" className="command-close" onClick={closeSearch}>
+            Close
+          </button>
+          <h2 id={titleId} className="sr-only">
+            Search published titles and summaries
+          </h2>
+          <input
+            ref={inputRef}
+            type="search"
+            value={query}
+            onChange={(e) => {
+              const value = e.target.value;
+              setQuery(value);
+              setCursor(0);
+              setIsLoading(Boolean(value.trim()));
+              if (!value.trim()) setResults([]);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowDown") {
+                event.preventDefault();
+                setCursor((current) => Math.min(Math.max(shown.length - 1, 0), current + 1));
+              } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                setCursor((current) => Math.max(0, current - 1));
+              } else if (event.key === "Enter" && shown[cursor]) {
+                event.preventDefault();
+                const url = shown[cursor].url;
+                closeSearch();
+                router.push(url);
+              }
+            }}
+            placeholder="Search days, phases, guides, labs"
+            autoComplete="off"
+            autoCorrect="off"
             aria-describedby={hintId}
-            className="relative z-10 w-full max-w-2xl overflow-hidden border border-hairline bg-field text-cream"
-          >
-            <h2 id={titleId} className="sr-only">
-              Search published titles and summaries
-            </h2>
-            <div className="flex items-center border-b border-hairline px-4 py-3.5">
-              <Search className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-              <input
-                ref={inputRef}
-                type="search"
-                value={query}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setQuery(value);
-                  setIsLoading(Boolean(value.trim()));
-                  if (!value.trim()) setResults([]);
-                }}
-                placeholder="Day 2, Git, permissions…"
-                className="w-full bg-transparent px-3 text-[15px] text-cream placeholder-cream/35 outline-none"
-                autoComplete="off"
-                autoCorrect="off"
-                aria-describedby={hintId}
-              />
-              <button
-                type="button"
-                onClick={closeSearch}
-                className="flex h-10 w-10 items-center justify-center text-cream/40 hover:text-cream"
-                aria-label="Close search"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <div className="max-h-[60vh] overflow-y-auto p-3">
-              {query.trim().length === 0 ? (
-                <p id={hintId} className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Titles and summaries of published days. Not the full lesson text.
-                </p>
-              ) : isLoading && results.length === 0 ? (
-                <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  Searching titles and summaries…
-                </p>
-              ) : results.length === 0 ? (
-                <p className="py-8 text-center font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                  No title or summary matches “{query}”.
-                </p>
-              ) : (
-                <ul className="space-y-0">
-                  {results.map((item) => (
-                    <li key={item.id}>
+          />
+          <div className="command-groups">
+            {query.trim().length === 0 ? (
+              <p id={hintId}>Go somewhere, or type a day, phase, concept, guide, or lab. Not the full lesson text. / opens this. Esc closes it.</p>
+            ) : isLoading && results.length === 0 ? (
+              <p>Searching titles, concepts, and summaries…</p>
+            ) : results.length === 0 ? (
+              <p>No title, concept, or summary matches “{query}”.</p>
+            ) : null}
+            {shown.length > 0 && !(query.trim() && isLoading && results.length === 0) ? (
+              Array.from(
+                shown.reduce((map, item, index) => {
+                  const list = map.get(item.type) || [];
+                  list.push({ item, index });
+                  map.set(item.type, list);
+                  return map;
+                }, new Map<string, { item: SearchResultItem; index: number }[]>()),
+              ).map(([type, items]) => (
+                <section key={type}>
+                  <h3>{type}</h3>
+                  {items.map(({ item, index }) => {
+                    const phaseIndex = brandLanguage.phases.indexOf(item.title);
+                    const swatch = phaseIndex >= 0 ? phaseColor(phaseIndex + 1).pigment : undefined;
+                    return (
                       <Link
+                        key={item.id}
                         href={item.url}
+                        className={index === cursor ? "is-active" : ""}
                         onClick={closeSearch}
-                        className="group flex items-center justify-between gap-4 border border-transparent p-3.5 transition hover:border-gold/30 hover:bg-ink/50"
+                        onMouseEnter={() => setCursor(index)}
                       >
-                        <div className="min-w-0 space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold/80">
-                              {item.type}
-                            </span>
-                            {item.category ? (
-                              <span className="truncate font-mono text-[10px] text-cream/35">
-                                {item.category}
-                              </span>
-                            ) : null}
-                          </div>
-                          <p className="truncate font-medium text-cream group-hover:text-gold-bright">
+                        <span>
+                          <strong className={`block font-serif ${query.trim() ? "text-2xl" : "text-xl"}`}>
+                            {swatch ? <i className="phase-swatch" style={{ background: swatch }} aria-hidden="true" /> : null}
                             {item.title}
-                          </p>
-                          {item.description ? (
-                            <p className="line-clamp-1 text-[13px] text-cream/40">{item.description}</p>
-                          ) : null}
-                        </div>
-                        <ArrowRight className="h-4 w-4 shrink-0 text-cream/20 transition group-hover:translate-x-0.5 group-hover:text-gold" aria-hidden="true" />
+                          </strong>
+                          {item.description ? <span className="mt-1 block text-sm opacity-70">{item.description}</span> : null}
+                          {item.badge ? <span className="mt-1 block font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.badge}</span> : null}
+                        </span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.12em] opacity-60">{item.category || item.type}</span>
                       </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {query.trim().length > 0 ? (
-                <p id={hintId} className="sr-only">
-                  Search matches titles, summaries, tags, and outcomes of published days. Not the full lesson text.
-                </p>
-              ) : null}
-            </div>
+                    );
+                  })}
+                </section>
+              ))
+            ) : null}
+            {query.trim().length > 0 ? (
+              <p id={hintId} className="sr-only">
+                Search matches titles, concepts, summaries, tags, and outcomes. Not the full lesson text.
+              </p>
+            ) : null}
           </div>
         </div>
       )}

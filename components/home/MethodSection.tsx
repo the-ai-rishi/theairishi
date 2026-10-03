@@ -1,5 +1,6 @@
 import type { ResolvedHomepageSection } from "@/lib/homepage";
 import { getPlatformStory } from "@/lib/config";
+import MethodPath from "@/components/immersive/MethodPath";
 
 const FALLBACK_STEPS = [
   { n: "01", title: "Read", body: "Understand the words. Predict before you run." },
@@ -25,15 +26,7 @@ export default function MethodSection({ section }: { section: ResolvedHomepageSe
             {story.methodBody}
           </p>
         ) : null}
-        <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {steps.map((step) => (
-            <li key={step.n} className="panel px-5 py-5">
-              <p className="font-mono text-[11px] tracking-[0.18em] text-gold/70">{step.n}</p>
-              <h3 className="mt-2 font-serif text-xl text-cream sm:text-2xl">{step.title}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-cream/45">{step.body}</p>
-            </li>
-          ))}
-        </ol>
+        <MethodPath steps={steps} />
       </div>
     </section>
   );

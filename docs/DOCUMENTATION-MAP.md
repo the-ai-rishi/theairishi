@@ -63,7 +63,7 @@ Use the I want to table, then the What file do I edit table.
 
 | Job | File | Field / what to change |
 | --- | --- | --- |
-| Homepage title | `content/config/programs.json` | `title` (live: DevOps Engineer Mastery). Omit `copy.heroTitle` / `copy.heroTagline`. `copy.heroBadge` is the kicker. |
+| Homepage title | `content/config/programs.json` | `title` (live: FORGE-120). Omit `copy.heroTitle`, `copy.heroTagline`, and `brand.tagline`. The visible lockup is THE AI RISHI with no slogan. |
 | Hero description | `content/config/platform.json` | `copy.heroDescription` (and `brand.description` if the site description should match) |
 | Enable YouTube | `content/media/youtube.json` plus `content/config/platform.json` | Real items in youtube.json first. Then `social[]` id `youtube` and `contentTypes[]` id `youtube` `status` `active`. Do not invent items. Live files are empty and coming-soon. |
 | Add guide | `content/guides/*.md` | New markdown from `templates/guide-template.md`. Loader `lib/guides.ts`, route /guides |
@@ -73,7 +73,7 @@ Use the I want to table, then the What file do I edit table.
 
 ## COMPLETE EXAMPLE
 
-Change the visible homepage title by editing `content/config/programs.json` `title` (live: DevOps Engineer Mastery). Omit `copy.heroTitle`. Then `npm run validate` and refresh the preview.
+Change the visible homepage title by editing `content/config/programs.json` `title` (live: FORGE-120). Omit `copy.heroTitle`. Then `npm run validate` and refresh the preview.
 
 Enable YouTube: only after a real video exists. Put an object with `id`, `title`, `publishedAt`, `url` in `content/media/youtube.json`. Set `social` id youtube and `contentTypes` id youtube to `status` `active`. Until then /youtube 404s. Full doc: [FEATURES/YOUTUBE.md](./FEATURES/YOUTUBE.md).
 

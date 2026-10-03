@@ -4,15 +4,15 @@
     {
       "id": "devops-engineer-mastery",
       "slug": "devops-engineer-mastery",
-      "title": "DevOps Engineer Mastery",
-      "durationLabel": "120 days · about 4 months",
+      "title": "FORGE-120",
+      "durationLabel": "120 days · about 275 hours",
       "currentPhaseId": "phase-01",
       "status": "active",
       "enabled": true,
-      "description": "120 days of practical DevOps: understand the system, write the files, break them safely, debug from evidence, and defend the work. Days are published here as they are ready.",
-      "outcome": "Designed to help you build the skills and practical foundation needed to start attempting DevOps roles.",
+      "description": "A 120-day hands-on path from fundamentals to DevOps, Kubernetes, AKS, reliability, retrieval, and controlled tool-use engineering. Days are published here as they are ready.",
+      "outcome": "Day 120 is an independent-engineering checkpoint, not a claim of instant mastery. Mastery continues through repeated practice after the programme.",
       "startHref": "/learn/day-01",
-      "capstone": "One system the whole way: FastAPI + Postgres → Docker → CI → ACR → Terraform → AKS → Helm → identity → monitor → rollback.",
+      "capstone": "forge-api, one service: source, test, container, CI, immutable artifact, Kubernetes, AKS, workload identity, Key Vault, observability, reliability, retrieval, controlled tool use, evaluation, architecture defence.",
       "phases": [
         {
           "id": "phase-01",
@@ -21,97 +21,88 @@
           "daysLabel": "1–12",
           "startDay": 1,
           "endDay": 12,
-          "summary": "Shell, Git recovery, permissions, processes, resources, logs, TCP, HTTP, DNS, TLS, then a bash health check. Zero assumed experience."
+          "summary": "Linux, Git, HTTP, DNS, TLS, processes and evidence-driven practice"
         },
         {
           "id": "phase-02",
           "number": 2,
-          "name": "Azure networking + identity",
+          "name": "Azure networking and identity",
           "daysLabel": "13–18",
           "startDay": 13,
           "endDay": 18,
-          "summary": "CIDR as AKS math, VNet/NSG, private endpoints, private DNS, and identity as a system - not a portal click-path."
+          "summary": "VNet, NSG, private access, DNS and identity foundations"
         },
         {
           "id": "phase-03",
           "number": 3,
-          "name": "Write CI",
+          "name": "CI and delivery",
           "daysLabel": "19–26",
           "startDay": 19,
           "endDay": 26,
-          "summary": "Author Azure DevOps YAML from a blank file. Build once, deploy from the artifact. Then a GitHub Actions OIDC twin."
+          "summary": "Pipelines, artifacts, environments, OIDC and delivery portability"
         },
         {
           "id": "phase-04",
           "number": 4,
-          "name": "First Terraform",
-          "daysLabel": "27–28",
+          "name": "Terraform and application",
+          "daysLabel": "27–36",
           "startDay": 27,
-          "endDay": 28,
-          "summary": "Handwrite HCL. Provider, resource, variable, output, state lock."
+          "endDay": 36,
+          "summary": "Terraform foundations, FastAPI, Docker and supply-chain basics"
         },
         {
           "id": "phase-05",
           "number": 5,
-          "name": "Containers + app",
-          "daysLabel": "29–36",
-          "startDay": 29,
-          "endDay": 36,
-          "summary": "FastAPI, Dockerfile, multi-stage non-root, compose + Postgres, forced failures, Trivy."
+          "name": "Kubernetes",
+          "daysLabel": "37–60",
+          "startDay": 37,
+          "endDay": 60,
+          "summary": "Workloads, networking, storage, scheduling, security and troubleshooting"
         },
         {
           "id": "phase-06",
           "number": 6,
-          "name": "Kubernetes",
-          "daysLabel": "37–62",
-          "startDay": 37,
-          "endDay": 62,
-          "summary": "The largest block. Objects, probes, scheduling, storage, RBAC, network policy, and failure catalogues. Break it, then describe + events + logs."
+          "name": "AKS",
+          "daysLabel": "61–74",
+          "startDay": 61,
+          "endDay": 74,
+          "summary": "Azure networking, ACR, Workload Identity, Key Vault and monitoring"
         },
         {
           "id": "phase-07",
           "number": 7,
-          "name": "AKS",
-          "daysLabel": "63–76",
-          "startDay": 63,
-          "endDay": 76,
-          "summary": "What Azure adds around Kubernetes: pools, CNI, ACR pull, ingress, workload identity, Key Vault, Monitor, KQL."
+          "name": "Infrastructure delivery",
+          "daysLabel": "75–88",
+          "startDay": 75,
+          "endDay": 88,
+          "summary": "Terraform modules/state, Helm, promotion, rollback and cost"
         },
         {
           "id": "phase-08",
           "number": 8,
-          "name": "Terraform + Helm",
-          "daysLabel": "77–88",
-          "startDay": 77,
-          "endDay": 88,
-          "summary": "Remote state, modules for this capstone, Helm values-dev / values-prod, upgrade and rollback."
+          "name": "Reliability",
+          "daysLabel": "89–96",
+          "startDay": 89,
+          "endDay": 96,
+          "summary": "Change gates, retries, SLI/SLO, alerting, incidents and evidence boundaries"
         },
         {
           "id": "phase-09",
           "number": 9,
-          "name": "Operate",
-          "daysLabel": "89–96",
-          "startDay": 89,
-          "endDay": 96,
-          "summary": "Pipeline gates, layered controls, alerts with owners, SLOs you can actually measure, then INC-001."
+          "name": "RAG and controlled tool use",
+          "daysLabel": "97–105",
+          "startDay": 97,
+          "endDay": 105,
+          "summary": "Retrieval, citations, evaluation, policy checks and AI-infrastructure awareness"
         },
         {
           "id": "phase-10",
           "number": 10,
-          "name": "Design + resume",
-          "daysLabel": "97–108",
-          "startDay": 97,
-          "endDay": 108,
-          "summary": "Defend the architecture of this system. Convert real evidence into honest claims. No new products."
-        },
-        {
-          "id": "phase-11",
-          "number": 11,
-          "name": "War room",
-          "daysLabel": "109–120",
-          "startDay": 109,
+          "name": "Design and defence",
+          "daysLabel": "106–120",
+          "startDay": 106,
           "endDay": 120,
-          "summary": "Re-break the capstone. Mocks under pressure. Close gaps. No new tools."
+          "summary": "Architecture, platform interfaces, trade-offs and closed-note war rooms"
         }
       ],
       "days": [
@@ -119,845 +110,845 @@
           "day": 1,
           "phaseId": "phase-01",
           "slug": "day-01",
-          "title": "Shell from zero",
-          "summary": "Terminal vs shell, PATH, I/O, exit codes, quoting, export. Honest scores. Write the no-AI rule."
+          "title": "Contract, repo, honesty",
+          "summary": "Set up the repository, learn the minimum terminal/Git flow, and establish how evidence is recorded honestly."
         },
         {
           "day": 2,
           "phaseId": "phase-01",
           "slug": "day-02",
           "title": "Git recovery",
-          "summary": "Happy path first, then reset --hard, reflog, revert a middle commit, restore a deleted branch."
+          "summary": "Recover local Git history without confusing pointer movement with history creation."
         },
         {
           "day": 3,
           "phaseId": "phase-01",
           "slug": "day-03",
           "title": "Merge vs rebase",
-          "summary": "Real conflict. Abort a bad rebase. When rebase is forbidden on shared main."
+          "summary": "Resolve a conflict and understand how merge and rebase change history."
         },
         {
           "day": 4,
           "phaseId": "phase-01",
           "slug": "day-04",
-          "title": "Permissions as an incident",
-          "summary": "namei -l, uid/gid, file 640 vs directory 755. Why chmod 777 is not a fix."
+          "title": "Linux permissions",
+          "summary": "Control file access using ownership and mode bits without the `777` shortcut."
         },
         {
           "day": 5,
           "phaseId": "phase-01",
           "slug": "day-05",
-          "title": "Processes + systemd",
-          "summary": "Runs by hand, dies on boot. journalctl. start vs enable, restart vs reload."
+          "title": "Processes and systemd",
+          "summary": "Inspect process lifecycle and run a small service under systemd."
         },
         {
           "day": 6,
           "phaseId": "phase-01",
           "slug": "day-06",
-          "title": "Disk, memory, CPU, iowait",
-          "summary": "First ten commands with why. High load with idle CPU. df vs inodes vs deleted-open."
+          "title": "First-10 slow-host triage",
+          "summary": "Build a repeatable first-ten-minutes sequence for a slow Linux host."
         },
         {
           "day": 7,
           "phaseId": "phase-01",
           "slug": "day-07",
           "title": "Logs as search",
-          "summary": "Time window, exit codes, rotated files. Current file clean does not mean nothing happened."
+          "summary": "Treat logs as queryable evidence rather than a stream of text."
         },
         {
           "day": 8,
           "phaseId": "phase-01",
           "slug": "day-08",
-          "title": "Host network bind",
-          "summary": "127.0.0.1 vs 0.0.0.0, ss, curl -v. Process up, not reachable."
+          "title": "Bind 127 vs 0.0.0.0",
+          "summary": "Distinguish a running process from a reachable service."
         },
         {
           "day": 9,
           "phaseId": "phase-01",
           "slug": "day-09",
           "title": "HTTP as a system",
-          "summary": "DNS → TCP → TLS → HTTP. GET vs POST. 4xx vs 5xx. HTTPS fails, HTTP works."
+          "summary": "Follow one HTTP request through its layers and status semantics."
         },
         {
           "day": 10,
           "phaseId": "phase-01",
           "slug": "day-10",
-          "title": "DNS + TLS",
-          "summary": "A/CNAME/TTL, cache, split horizon. SAN/SNI/expiry. Wrong name on the cert."
+          "title": "DNS and TLS",
+          "summary": "Understand name resolution and certificate identity before debugging application behavior."
         },
         {
           "day": 11,
           "phaseId": "phase-01",
           "slug": "day-11",
-          "title": "Bash health.sh, no-AI",
-          "summary": "set -euo pipefail. Disk + process + HTTP checks. CI cares about $?."
+          "title": "health.sh",
+          "summary": "Build a small deterministic health probe with meaningful exit behavior."
         },
         {
           "day": 12,
           "phaseId": "phase-01",
           "slug": "day-12",
-          "title": "Foundations mock",
-          "summary": "Disk full, bad reset, app up / port dead, read a curl -v trace. Re-score Linux/Git/HTTP."
+          "title": "M1 mock + LLM sampler",
+          "summary": "Understand the minimum LLM concepts needed to use AI without treating it as an authority."
         },
         {
           "day": 13,
           "phaseId": "phase-02",
           "slug": "day-13",
-          "title": "CIDR as AKS math",
-          "summary": "Nodes vs pods vs services. Overlay vs Azure CNI order-of-magnitude."
+          "title": "VNet / NSG / CIDR foundations",
+          "summary": "Reason about Azure network boundaries, CIDR ranges, and NSG rules without accidental public exposure."
         },
         {
           "day": 14,
           "phaseId": "phase-02",
           "slug": "day-14",
-          "title": "VNet, subnet, NSG",
-          "summary": "Effective routes. Prove a deny. NSG drop vs app bug."
+          "title": "Private Endpoint vs public PaaS",
+          "summary": "Compare private and public service access paths without confusing DNS with reachability."
         },
         {
           "day": 15,
           "phaseId": "phase-02",
           "slug": "day-15",
-          "title": "Private Endpoint vs service endpoint",
-          "summary": "Packet path to Storage and Key Vault. Cost and complexity trade-off."
+          "title": "Private DNS + Private Endpoint",
+          "summary": "Understand how private DNS makes a private endpoint usable by applications."
         },
         {
           "day": 16,
           "phaseId": "phase-02",
           "slug": "day-16",
-          "title": "Private DNS + VNet links",
-          "summary": "Linked vs unlinked answers. PE NIC exists, public DNS still used."
+          "title": "Capstone path hop-by-hop",
+          "summary": "Create a canonical request path that names every network and trust boundary."
         },
         {
           "day": 17,
           "phaseId": "phase-02",
           "slug": "day-17",
-          "title": "Identity as a system",
-          "summary": "User vs app vs workload. Secret vs federated credential. Azure RBAC vs data-plane."
+          "title": "Identity vocabulary",
+          "summary": "Build the vocabulary needed to reason about humans, workloads, and permissions."
         },
         {
           "day": 18,
           "phaseId": "phase-02",
           "slug": "day-18",
-          "title": "Azure net + identity weekend",
-          "summary": "Oral: works in VNet, fails on the internet. One-pager of NSG + DNS + PE."
+          "title": "Python foundations",
+          "summary": "Learn the Python subset required for later automation without turning this into a general CS course."
         },
         {
           "day": 19,
           "phaseId": "phase-03",
           "slug": "day-19",
-          "title": "First Azure DevOps pipeline, no-AI",
-          "summary": "Trigger, pool, checkout, script, publish artifact. Read the indent error yourself."
+          "title": "CI as a contract",
+          "summary": "Understand CI as a reproducible contract with inputs, steps, outputs, and policy."
         },
         {
           "day": 20,
           "phaseId": "phase-03",
           "slug": "day-20",
-          "title": "Rewrite from memory",
-          "summary": "Parameters vs variables. Compile-time vs runtime."
+          "title": "First pipeline",
+          "summary": "Turn the health script into a reproducible GitHub Actions check."
         },
         {
           "day": 21,
           "phaseId": "phase-03",
           "slug": "day-21",
-          "title": "Build once, deploy from artifact",
-          "summary": "Build stage publishes; deploy stage downloads. Prod must not rebuild."
+          "title": "Caching, artifact identity and provenance",
+          "summary": "Understand what caches, SBOMs, digests, and provenance claims each prove."
         },
         {
           "day": 22,
           "phaseId": "phase-03",
           "slug": "day-22",
-          "title": "Pipeline templates",
-          "summary": "templates/build.yml plus a caller. How you version templates for many apps."
+          "title": "Environments / paved road",
+          "summary": "Model environments as protected paths with defaults and explicit exceptions."
         },
         {
           "day": 23,
           "phaseId": "phase-03",
           "slug": "day-23",
-          "title": "Environments and secrets",
-          "summary": "Approvals, service connections, Key Vault variable group. Secret in logs - prevention + rotation."
+          "title": "Secrets and OIDC",
+          "summary": "Understand secret storage and federation well enough to avoid copied credentials in CI."
         },
         {
           "day": 24,
           "phaseId": "phase-03",
           "slug": "day-24",
-          "title": "Rollout strategy",
-          "summary": "Rolling vs blue-green vs canary. Two rollback paths. Prod failed at 40%."
+          "title": "Change / rollback page",
+          "summary": "Write a small production-style change plan with proof, rollback, and blast radius."
         },
         {
           "day": 25,
           "phaseId": "phase-03",
           "slug": "day-25",
-          "title": "GitHub Actions + OIDC",
-          "summary": "Federated credential. Login to Azure without AZURE_CLIENT_SECRET."
+          "title": "OIDC lab or blocker",
+          "summary": "Apply the CI federation mental model in a safe lab or document a real blocker precisely."
         },
         {
           "day": 26,
           "phaseId": "phase-03",
           "slug": "day-26",
-          "title": "Jenkins survival + honest ownership",
-          "summary": "Controller/agent/Jenkinsfile in 90 minutes, then stop. Annotate a sanitized work pipeline."
+          "title": "CI and delivery review",
+          "summary": "Review the first half of the CI path and test whether the design transfers across common CI systems."
         },
         {
           "day": 27,
           "phaseId": "phase-04",
           "slug": "day-27",
-          "title": "First Terraform, no-AI",
-          "summary": "Provider azurerm, resource group, storage, variables, outputs. Resource vs data source."
+          "title": "Terraform foundations",
+          "summary": "Write a small Terraform configuration and understand configuration, provider, resource, variable, output, state and plan."
         },
         {
           "day": 28,
           "phaseId": "phase-04",
           "slug": "day-28",
-          "title": "State lock on paper",
-          "summary": "Same stack from memory. Backend azurerm block. Why two pipelines on one state fail."
+          "title": "State, lock, backend",
+          "summary": "Understand local state, remote state, locking, concurrency, and drift."
         },
         {
           "day": 29,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-29",
-          "title": "FastAPI health endpoints",
-          "summary": "/, /health, /ready. Bind 0.0.0.0. Version from env."
+          "title": "FastAPI health and readiness",
+          "summary": "Build the smallest tested HTTP service with separate health and readiness endpoints."
         },
         {
           "day": 30,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-30",
-          "title": "First Dockerfile",
-          "summary": "Build. Run. Hit health."
+          "title": "Dockerfile v1",
+          "summary": "Package forge-api into a container and understand each Dockerfile instruction."
         },
         {
           "day": 31,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-31",
-          "title": "Multi-stage + non-root",
-          "summary": "Permission denied after USER - fix. Layers, cache, CMD vs ENTRYPOINT."
+          "title": "Docker internals",
+          "summary": "Understand the process, filesystem, namespace, and resource boundaries created by a container runtime."
         },
         {
           "day": 32,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-32",
-          "title": "Container internals",
-          "summary": "Namespace, cgroup, union filesystem, PID 1. Prove with docker top / inspect."
+          "title": "Multi-stage non-root",
+          "summary": "Reduce image surface and run forge-api without unnecessary root privilege."
         },
         {
           "day": 33,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-33",
           "title": "Compose + Postgres",
-          "summary": "Volume + healthcheck. App starts before DB - fix readiness."
+          "summary": "Understand service composition, dependency boundaries, and persistent state using a local database."
         },
         {
           "day": 34,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-34",
-          "title": "Forced container failures",
-          "summary": "Bad ENTRYPOINT, missing env, unpublished port. logs / inspect / exec."
+          "title": "Container network isolation",
+          "summary": "Control which ports are published and which services remain internal."
         },
         {
           "day": 35,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-35",
-          "title": "Trivy",
-          "summary": "Fail vs warn vs ticket. Registry 401 notes."
+          "title": "Trivy + SBOM",
+          "summary": "Scan the image and interpret vulnerabilities without turning scanning into a blind allow/deny ritual."
         },
         {
           "day": 36,
-          "phaseId": "phase-05",
+          "phaseId": "phase-04",
           "slug": "day-36",
-          "title": "Stranger-can-run weekend",
-          "summary": "README a stranger can run. Parse Trivy JSON, exit 1 on CRITICAL."
+          "title": "Tests still run + digest/provenance",
+          "summary": "Connect tests, image identity, and provenance so the artifact tested is the artifact promoted."
         },
         {
           "day": 37,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-37",
-          "title": "Control plane vs node",
-          "summary": "apiserver, etcd, scheduler, controller-manager, kubelet, runtime. What kubectl apply does."
+          "title": "Kubernetes control plane",
+          "summary": "Understand the Kubernetes control loop and the responsibilities of its core components."
         },
         {
           "day": 38,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-38",
-          "title": "Pod YAML, no-AI",
-          "summary": "ImagePullBackOff on purpose."
+          "title": "Pod, Deployment, Service and workload choice",
+          "summary": "Understand Pods, controllers, Services, selectors, and when a Deployment is not the right workload primitive."
         },
         {
           "day": 39,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-39",
-          "title": "Deployment + rollout",
-          "summary": "rollout and undo."
+          "title": "Probes and rollout",
+          "summary": "Use separate liveness and readiness probes and observe how they affect traffic and restarts during a rollout."
         },
         {
           "day": 40,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-40",
-          "title": "Service selector mismatch",
-          "summary": "Empty Endpoints. Fix. First apply gate."
+          "title": "Empty Endpoints",
+          "summary": "Diagnose a Service with no ready backend using selectors, labels, readiness, and endpoints."
         },
         {
           "day": 41,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-41",
-          "title": "ClusterIP / NodePort / LB",
-          "summary": "Why ClusterIP is the default."
+          "title": "YAML dry-run",
+          "summary": "Validate Kubernetes manifests before applying them and understand what validation does and does not prove."
         },
         {
           "day": 42,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-42",
-          "title": "ConfigMap + Secret",
-          "summary": "Why a Kubernetes Secret is not Key Vault. Rollout after a CM change."
+          "title": "ConfigMap, Secret and pod security",
+          "summary": "Understand configuration separation and why Kubernetes Secret encoding is not a vault."
         },
         {
           "day": 43,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-43",
-          "title": "Namespaces + quota",
-          "summary": "Pending because of quota, not nodes."
+          "title": "Requests, limits, QoS, quota, OOM and eviction",
+          "summary": "Separate resource requests, limits, namespace quota, runtime OOM and node-pressure eviction."
         },
         {
           "day": 44,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-44",
-          "title": "Probes",
-          "summary": "Running but not Ready."
+          "title": "HPA and scale-to-zero",
+          "summary": "Understand how HorizontalPodAutoscaler chooses replica counts and how current Kubernetes versions can scale suitable workloads to zero."
         },
         {
           "day": 45,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-45",
-          "title": "Requests, limits, OOMKilled",
-          "summary": "What the kubelet actually does with numbers you set."
+          "title": "PDB",
+          "summary": "Understand PodDisruptionBudget as availability policy for voluntary disruption."
         },
         {
           "day": 46,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-46",
-          "title": "HPA",
-          "summary": "Stuck because metrics-server is missing - that is the lesson."
+          "title": "NetworkPolicy deny",
+          "summary": "Use namespace/network policy to express least-connectivity rather than relying on default allow."
         },
         {
           "day": 47,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-47",
-          "title": "Ingress 404 vs 502",
-          "summary": "Trace the path before you change YAML."
+          "title": "Ingress and Gateway API",
+          "summary": "Understand Ingress for existing systems and learn why Gateway API is the current Kubernetes direction for new traffic-routing designs."
         },
         {
           "day": 48,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-48",
-          "title": "PV / PVC / StorageClass",
-          "summary": "Azure Disk vs Files as a table. PVC Pending."
+          "title": "RBAC",
+          "summary": "Use Kubernetes Role/RoleBinding and `kubectl auth can-i` to prove least privilege."
         },
         {
           "day": 49,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-49",
-          "title": "RBAC",
-          "summary": "can-i. Forbidden on deploy."
+          "title": "Workload ServiceAccount least privilege",
+          "summary": "Separate application identity from the default service account and prepare for cloud workload identity."
         },
         {
           "day": 50,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-50",
-          "title": "NetworkPolicy",
-          "summary": "Default-deny plus allow from ingress."
+          "title": "kind vs real",
+          "summary": "Know exactly what a local Kubernetes cluster can prove and what it cannot."
         },
         {
           "day": 51,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-51",
-          "title": "PDB + drain",
-          "summary": "Drain stuck. Why disruption budgets exist."
+          "title": "CrashLoopBackOff",
+          "summary": "Troubleshoot a repeatedly failing container from events, logs, and prior logs."
         },
         {
           "day": 52,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-52",
-          "title": "Taints, tolerations, affinity",
-          "summary": "Pending unschedulable."
+          "title": "ImagePullBackOff",
+          "summary": "Diagnose image identity and registry access problems without reaching for admin credentials."
         },
         {
           "day": 53,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-53",
-          "title": "Job / CronJob",
-          "summary": "When the thing is not a Deployment."
+          "title": "Pending Pod, PVC and scheduling predicates",
+          "summary": "Diagnose Pending workloads from scheduling and storage evidence instead of changing capacity blindly."
         },
         {
           "day": 54,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-54",
-          "title": "Cluster DNS",
-          "summary": "CoreDNS path. Break a Service name."
+          "title": "Ready, live, startup and cluster DNS",
+          "summary": "Trace readiness and Service DNS together so an application can be healthy yet still unreachable."
         },
         {
           "day": 55,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-55",
-          "title": "CrashLoopBackOff catalogue",
-          "summary": "logs --previous. Rank hypotheses."
+          "title": "NetworkPolicy troubleshooting",
+          "summary": "Diagnose denied traffic using policy, labels, namespaces, and port evidence."
         },
         {
           "day": 56,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-56",
-          "title": "ImagePullBackOff catalogue",
-          "summary": "Name, tag, registry, auth."
+          "title": "RBAC 403 troubleshooting",
+          "summary": "Identify which identity and verb caused an authorization failure."
         },
         {
           "day": 57,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-57",
-          "title": "Pending catalogue",
-          "summary": "CPU, taint, PVC, quota."
+          "title": "Failure catalogue",
+          "summary": "Build a single troubleshooting matrix for the core Kubernetes failures learned so far."
         },
         {
           "day": 58,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-58",
-          "title": "Ingress 502, scale-to-zero",
-          "summary": "Ingress → Service → Endpoints → Pod."
+          "title": "Failure parser",
+          "summary": "Turn raw failure fixtures into structured categories with small, testable Python code."
         },
         {
           "day": 59,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-59",
-          "title": "Local capstone deploy",
-          "summary": "Deploy, Service, Ingress, ConfigMap, probes."
+          "title": "First LLM helper read-only",
+          "summary": "Add a model-assisted explanation layer without giving the model cluster access or execution authority."
         },
         {
           "day": 60,
-          "phaseId": "phase-06",
+          "phaseId": "phase-05",
           "slug": "day-60",
-          "title": "Kubernetes interview gate",
-          "summary": "60-minute broken namespace. Re-score Kubernetes."
+          "title": "M3 mock",
+          "summary": "Cold-test Kubernetes troubleshooting, Python parser reasoning, and AI boundary discipline."
         },
         {
           "day": 61,
           "phaseId": "phase-06",
           "slug": "day-61",
-          "title": "QoS classes",
-          "summary": "Eviction vs OOM."
+          "title": "AKS cost envelope + Automatic vs Standard",
+          "summary": "Understand the main AKS cost and control boundaries and distinguish AKS Automatic from AKS Standard."
         },
         {
           "day": 62,
           "phaseId": "phase-06",
           "slug": "day-62",
-          "title": "Topology / AZ intent",
-          "summary": "All replicas on one node as the failure mode."
+          "title": "AKS create and destroy",
+          "summary": "Create the smallest reasonable AKS lab, collect evidence, and destroy it safely."
         },
         {
           "day": 63,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-63",
-          "title": "AKS inventory",
-          "summary": "Version, plugin, identity, node pools. What you do not manage."
+          "title": "ACR push/pull",
+          "summary": "Understand registry identity, tags, digests, and the image path from CI to AKS."
         },
         {
           "day": 64,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-64",
-          "title": "System vs user pool",
-          "summary": "Taints. Why they are separate."
+          "title": "AKS pull with admin off",
+          "summary": "Prove AKS can pull from ACR without a shared registry password."
         },
         {
           "day": 65,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-65",
-          "title": "CNI vs overlay",
-          "summary": "Outbound type, service CIDR."
+          "title": "AKS application networking path",
+          "summary": "Trace HTTP application traffic through AKS and distinguish Layer-4 LoadBalancer exposure from Layer-7 ingress routing."
         },
         {
           "day": 66,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-66",
-          "title": "ACR pull via kubelet identity",
-          "summary": "No admin password. ImagePullBackOff from ACR."
+          "title": "Workload Identity seven steps",
+          "summary": "Understand pod-to-Azure federation as a trust chain rather than a CLI recipe."
         },
         {
           "day": 67,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-67",
-          "title": "Ingress on AKS",
-          "summary": "External IP / NSG / DNS. AGIC vs nginx as a table."
+          "title": "Key Vault + Workload Identity",
+          "summary": "Use the workload identity chain to retrieve one non-sensitive secret from Key Vault."
         },
         {
           "day": 68,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-68",
-          "title": "Workload identity",
-          "summary": "Federated credential + SA annotation. Seven-step Key Vault trace on paper."
+          "title": "Private AKS architecture paper",
+          "summary": "Design a private AKS request path and identify what becomes harder operationally."
         },
         {
           "day": 69,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-69",
-          "title": "Finish the Key Vault path",
-          "summary": "Or write the exact blocker. Private Endpoint + DNS if KV is private."
+          "title": "Node pools, taints and upgrade safety",
+          "summary": "Separate workload classes with node pools and scheduling rules, then reason about safe AKS node-pool upgrades."
         },
         {
           "day": 70,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-70",
-          "title": "Private cluster access",
-          "summary": "How CI reaches the API server. Do not lock yourself out."
+          "title": "Cluster autoscaler words",
+          "summary": "Distinguish Pod scaling from node scaling and understand their feedback loop."
         },
         {
           "day": 71,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-71",
-          "title": "AKS upgrade runbook",
-          "summary": "Control plane then nodes, surge, PDB, N-1."
+          "title": "KQL",
+          "summary": "Use a specific Log Analytics table and time-bounded queries as evidence."
         },
         {
           "day": 72,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-72",
-          "title": "HPA + cluster autoscaler",
-          "summary": "Pending pods, CA does not add nodes (quota/SKU/zone)."
+          "title": "OpenTelemetry three signals + AI calls",
+          "summary": "Understand logs, metrics, and traces and map model/tool calls onto the same observability model."
         },
         {
           "day": 73,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-73",
-          "title": "Container Insights",
-          "summary": "Where container logs actually live."
+          "title": "Authorization: two planes",
+          "summary": "Separate AKS cluster API authorization from pod-to-Azure data-plane authorization."
         },
         {
           "day": 74,
-          "phaseId": "phase-07",
+          "phaseId": "phase-06",
           "slug": "day-74",
-          "title": "KQL",
-          "summary": "ImagePull or OOM in the right table. Five saved queries."
+          "title": "Destroy and bill",
+          "summary": "Close an Azure lab cleanly and turn cost from an assumption into observed evidence."
         },
         {
           "day": 75,
           "phaseId": "phase-07",
           "slug": "day-75",
-          "title": "Who can get-credentials",
-          "summary": "Local accounts vs Azure RBAC."
+          "title": "Terraform modules",
+          "summary": "Design a small reusable Terraform module with a stable interface."
         },
         {
           "day": 76,
           "phaseId": "phase-07",
           "slug": "day-76",
-          "title": "AKS oral + cost",
-          "summary": "ACR + KV + ingress + upgrade. Cost of leaving the cluster on."
+          "title": "Remote state",
+          "summary": "Design state isolation and access patterns for multiple environments."
         },
         {
           "day": 77,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-77",
-          "title": "Rewrite Day 27 from memory",
-          "summary": "Add tags + outputs. No-AI."
+          "title": "Human Terraform plan review",
+          "summary": "Build a deterministic human review checklist before AI reviews infrastructure changes."
         },
         {
           "day": 78,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-78",
-          "title": "Remote state + lock",
-          "summary": "Separate state key per env. Why workspaces are not prod isolation."
+          "title": "AI reviews a Terraform plan",
+          "summary": "Use AI to augment plan review without allowing it to override deterministic controls."
         },
         {
           "day": 79,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-79",
-          "title": "First real module interface",
-          "summary": "Required variables listed. Network or RG."
+          "title": "Apply small + rollback",
+          "summary": "Execute one intentionally small Terraform change and demonstrate recovery thinking."
         },
         {
           "day": 80,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-80",
-          "title": "Import + prevent_destroy",
-          "summary": "Import a hand-made RG. lifecycle.prevent_destroy on something safe."
+          "title": "Drift lab",
+          "summary": "Detect and explain configuration drift between declared, recorded, and real state."
         },
         {
           "day": 81,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-81",
-          "title": "Drift",
-          "summary": "Change a tag in portal, plan, adopt or revert. Two pipelines, one state."
+          "title": "Checkov",
+          "summary": "Use static IaC checks as deterministic guardrails and understand their limits."
         },
         {
           "day": 82,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-82",
-          "title": "Checkov + secrets in state",
-          "summary": "No tfvars secrets in git."
+          "title": "Import / move",
+          "summary": "Understand how Terraform adopts existing resources and refactors addresses without accidental destruction."
         },
         {
           "day": 83,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-83",
-          "title": "Capstone modules I",
-          "summary": "Network, AKS, ACR. Plan has no surprise destroys."
+          "title": "Module interface freeze",
+          "summary": "Freeze a stable module contract before the capstone grows further."
         },
         {
           "day": 84,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-84",
-          "title": "Capstone modules II",
-          "summary": "Key Vault + identities."
+          "title": "Helm chart",
+          "summary": "Package forge-api Kubernetes manifests with Helm while retaining YAML literacy."
         },
         {
           "day": 85,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-85",
-          "title": "Capstone modules III",
-          "summary": "Monitor. Destroy path written."
+          "title": "Helm rollback",
+          "summary": "Demonstrate a safe release change and rollback using Helm revision history."
         },
         {
           "day": 86,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-86",
-          "title": "Helm chart, no-AI",
-          "summary": "values-dev and values-prod: image tag, replicas, env."
+          "title": "CI deploy path",
+          "summary": "Connect source, tested image digest, deployment manifest/chart, and environment gate."
         },
         {
           "day": 87,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-87",
-          "title": "helm upgrade + rollback",
-          "summary": "history. Render the wrong tag on purpose."
+          "title": "Cost review",
+          "summary": "Review infrastructure choices for cost without optimizing blindly."
         },
         {
           "day": 88,
-          "phaseId": "phase-08",
+          "phaseId": "phase-07",
           "slug": "day-88",
-          "title": "Capstone path live",
-          "summary": "code → CI → ACR → TF AKS → Helm. Honest red boxes on PATH.md."
+          "title": "PATH freeze + red boxes",
+          "summary": "Freeze the known architecture path and mark unproven hops explicitly before introducing agents."
         },
         {
           "day": 89,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-89",
-          "title": "Pipeline gates",
-          "summary": "Secret scan + Trivy + Checkov. Fail on CRITICAL plus an exception process."
+          "title": "Safety and change gates",
+          "summary": "Put simple, deterministic quality and safety checks in front of runtime changes."
         },
         {
           "day": 90,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-90",
-          "title": "Identity rehearsal",
-          "summary": "From memory. Compare to Day 68."
+          "title": "Retry, timeout and idempotency review",
+          "summary": "Use bounded retries and timeouts without creating duplicate side effects or runaway cost."
         },
         {
           "day": 91,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-91",
-          "title": "Layered controls",
-          "summary": "NSG vs NetworkPolicy vs PE. We opened the NSG and pods still cannot talk."
+          "title": "Define a measurable SLI",
+          "summary": "Turn a user-facing reliability idea into a signal that can actually be measured from forge-api."
         },
         {
           "day": 92,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-92",
-          "title": "Three alerts with owners",
-          "summary": "Crashloop, 5xx, node pressure. Kill a noisy deploy alert."
+          "title": "Timeouts, retries, idempotency",
+          "summary": "Design network retries that are safe for the operation being repeated."
         },
         {
           "day": 93,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-93",
-          "title": "Timeouts, retries, idempotency",
-          "summary": "On the app and the pipeline. One paragraph each."
+          "title": "Alert that pages a human",
+          "summary": "Design an alert that has a measurable trigger and an owner who is expected to act."
         },
         {
           "day": 94,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-94",
-          "title": "SLI/SLO for this API",
-          "summary": "Availability, latency, error rate. Invalid if you cannot measure."
+          "title": "Incident tabletop",
+          "summary": "Practice incident reasoning before automating diagnosis."
         },
         {
           "day": 95,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-95",
-          "title": "Break a prod-like deploy",
-          "summary": "Bad tag. Detect with alert or KQL."
+          "title": "Incident record",
+          "summary": "Turn one failure you actually observed or simulated into a useful incident record with evidence and recovery."
         },
         {
           "day": 96,
-          "phaseId": "phase-09",
+          "phaseId": "phase-08",
           "slug": "day-96",
-          "title": "INC-001",
-          "summary": "Mitigate with Helm rollback. Write the incident. Re-score."
+          "title": "Make the evidence boundary explicit",
+          "summary": "Make the capstone evidence boundary explicit so project work is never presented as something it did not prove."
         },
         {
           "day": 97,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-97",
-          "title": "CI for many services",
-          "summary": "Golden template + exceptions. No new products."
+          "title": "RAG terms and chunking",
+          "summary": "Understand retrieval-augmented generation as retrieval plus grounded generation over an explicit corpus."
         },
         {
           "day": 98,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-98",
-          "title": "AKS for more than one team",
-          "summary": "Namespace vs cluster, quotas, identity."
+          "title": "Retrieve, cite, poison test",
+          "summary": "Measure retrieval quality enough to reject confident answers from the wrong or hostile chunk."
         },
         {
           "day": 99,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-99",
-          "title": "Private AKS + CI",
-          "summary": "How CI reaches the API server."
+          "title": "Review-only agent loop",
+          "summary": "Build the smallest safe agent loop: proposal, schema validation, allowlist, deterministic policy, then a local/read-only function."
         },
         {
           "day": 100,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-100",
-          "title": "Secrets architecture",
-          "summary": "No long-lived secret in Git or pod YAML."
+          "title": "Deterministic policy checks",
+          "summary": "Block unsafe tool proposals with explicit, testable rules instead of relying on a persuasive explanation."
         },
         {
           "day": 101,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-101",
-          "title": "Env + artifact promotion",
-          "summary": "TF state on one picture."
+          "title": "MCP protocol and tool boundary",
+          "summary": "Understand what the current Model Context Protocol standardizes and where authorization and policy still belong."
         },
         {
           "day": 102,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-102",
-          "title": "HA + rollback",
-          "summary": "PDB, HPA, zones, Helm undo, stop the pipeline."
+          "title": "Golden eval harness",
+          "summary": "Treat AI behavior as testable software behavior with explicit expected outcomes."
         },
         {
           "day": 103,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-103",
-          "title": "What you measure where",
-          "summary": "Ingress vs pod vs pipeline."
+          "title": "Injection lab",
+          "summary": "Stress the RAG/agent boundary with direct and indirect injection fixtures."
         },
         {
           "day": 104,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-104",
-          "title": "Resume v1 freeze",
-          "summary": "Only claims with evidence."
+          "title": "Pin, kill switch and AI telemetry",
+          "summary": "Make the agent stoppable, versioned, observable, and bounded in cost."
         },
         {
           "day": 105,
-          "phaseId": "phase-10",
+          "phaseId": "phase-09",
           "slug": "day-105",
-          "title": "Capstone story, 60 seconds",
-          "summary": "What you built, what broke, what you would change."
+          "title": "AI infrastructure awareness",
+          "summary": "Understand enough AI infrastructure to design around inference without becoming an ML training engineer."
         },
         {
           "day": 106,
           "phaseId": "phase-10",
           "slug": "day-106",
-          "title": "Capstone story, 10 minutes",
-          "summary": "Architecture, failure, security, cost, rollback."
+          "title": "Design one-pager",
+          "summary": "Synthesize the system into a one-page architecture that includes data path, trust, reliability, cost, and AI boundaries."
         },
         {
           "day": 107,
           "phaseId": "phase-10",
           "slug": "day-107",
-          "title": "LinkedIn About from evidence",
-          "summary": "No unverifiable lines."
+          "title": "Paved road + exceptions",
+          "summary": "Design a platform path that makes the safe default easier than the unsafe workaround."
         },
         {
           "day": 108,
           "phaseId": "phase-10",
           "slug": "day-108",
-          "title": "Tag capstone-v1",
-          "summary": "No new tools. Freeze the system you can defend."
+          "title": "Platform interface and self-service",
+          "summary": "Turn the paved road into a clear developer-facing interface with safe defaults and explicit exceptions."
         },
         {
           "day": 109,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-109",
-          "title": "Resume vs live JDs",
-          "summary": "Remove unverifiable lines."
+          "title": "Architecture trade-offs and failure review",
+          "summary": "Review the capstone architecture and expose assumptions that matter most during failure, scale and change."
         },
         {
           "day": 110,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-110",
-          "title": "Git + Linux mock",
-          "summary": "45 minutes. No notes first."
+          "title": "Closed-note Linux/Git",
+          "summary": "Recover core Linux and Git reasoning under time pressure in a closed-note exercise."
         },
         {
           "day": 111,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-111",
-          "title": "ADO + GHA blank-file",
-          "summary": "45 minutes."
+          "title": "Closed-note CI/OIDC",
+          "summary": "Cold-test CI contract, artifact identity, secretless authentication, and trust federation."
         },
         {
           "day": 112,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-112",
-          "title": "Dockerfile from memory",
-          "summary": "Multi-stage, non-root."
+          "title": "Closed-note Docker/supply chain",
+          "summary": "Cold-test container packaging, non-root execution, SBOM, digest, and provenance reasoning."
         },
         {
           "day": 113,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-113",
-          "title": "Kubernetes mock",
-          "summary": "90 minutes. Hardest block."
+          "title": "Closed-note Kubernetes incidents",
+          "summary": "Troubleshoot Kubernetes failures from symptoms to evidence in a closed-note exercise."
         },
         {
           "day": 114,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-114",
-          "title": "AKS + networking + KV trace",
-          "summary": "Seven steps out loud."
+          "title": "Closed-note identity/WI",
+          "summary": "Cold-test the two identity planes and Workload Identity flow."
         },
         {
           "day": 115,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-115",
-          "title": "Terraform blank-file + state",
-          "summary": "Lock, drift, two pipelines."
+          "title": "Closed-note Terraform review",
+          "summary": "Cold-test whether you can BLOCK a dangerous infrastructure plan."
         },
         {
           "day": 116,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-116",
-          "title": "Incident + KQL",
-          "summary": "Using INC-001."
+          "title": "Closed-note signals",
+          "summary": "Cold-test observability, SLI, alerts, and AI telemetry reasoning."
         },
         {
           "day": 117,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-117",
-          "title": "Design mock",
-          "summary": "Day 97 or 99."
+          "title": "Closed-note design",
+          "summary": "Produce an architecture under time pressure with explicit trade-offs and boundaries."
         },
         {
           "day": 118,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-118",
-          "title": "Full 90-minute loop",
-          "summary": "Unfamiliar symptoms."
+          "title": "Closed-note RAG/agent/eval",
+          "summary": "Cold-test the AI engineering chain from retrieval to bounded execution and evaluation."
         },
         {
           "day": 119,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-119",
-          "title": "Close top 3 weaknesses",
-          "summary": "Only those three. No new topics."
+          "title": "List remaining practice holes",
+          "summary": "Convert the whole 120-day experience into a small, evidence-backed list of remaining gaps."
         },
         {
           "day": 120,
-          "phaseId": "phase-11",
+          "phaseId": "phase-10",
           "slug": "day-120",
-          "title": "Re-score the matrix",
-          "summary": "Honest gaps. Evidence only."
+          "title": "Final reconstruction and defence",
+          "summary": "Demonstrate the complete system from memory and freeze the curriculum as an evidence-backed learning record."
         }
       ],
       "featured": true,
-      "mapTitle": "Eleven phases"
+      "mapTitle": "Ten stages"
     }
   ]
 }
