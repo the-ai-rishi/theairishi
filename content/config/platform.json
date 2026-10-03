@@ -516,7 +516,7 @@
       {
         "id": "instrument",
         "type": "instrument",
-        "enabled": false,
+        "enabled": true,
         "order": 6,
         "title": "Reliability and controlled tool use"
       },
@@ -541,8 +541,8 @@
       {
         "id": "method",
         "type": "method",
-        "enabled": false,
-        "order": 7,
+        "enabled": true,
+        "order": 4,
         "title": "How a day works",
         "subtitle": "Practice, not playback"
       },
@@ -566,8 +566,8 @@
       {
         "id": "cta",
         "type": "cta",
-        "enabled": false,
-        "order": 11,
+        "enabled": true,
+        "order": 9,
         "title": "Start at Day 1",
         "subtitle": "Contract, repo, honesty",
         "ctaLabel": "Open Day 1",

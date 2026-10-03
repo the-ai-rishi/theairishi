@@ -84,14 +84,16 @@ header > div {
 
 [data-role="reliability"] {
   margin-top: 0.5rem;
-  padding: 1.25rem 1rem 1.5rem;
-  background: linear-gradient(165deg, color-mix(in srgb, var(--role-signal) 28%, #efe8dc), #efe8dc 78%);
+  padding: 1.35rem 0 0.5rem;
+  background: transparent;
+  border-top: 3px solid var(--role-signal);
 }
 
 [data-role="retrieval"] {
-  margin-top: 2rem;
-  padding: 1.5rem 1rem 1rem;
-  background: linear-gradient(165deg, color-mix(in srgb, var(--role-plum) 30%, #efe8dc), #efe8dc 80%);
+  margin-top: 2.5rem;
+  padding: 1.5rem 0 0.25rem;
+  background: transparent;
+  border-top: 3px solid var(--role-plum);
 }
 
 [data-tone="editorial"] .poster-index,
@@ -1194,16 +1196,20 @@ details.practice-card summary {
   color: rgba(26, 23, 20, 0.62);
 }
 
-/* FORGE-120. One line, one accent. The rest is type. */
+/* Atlas. One field, five families, the active phase in ink. */
 
-.forge-world {
-  max-width: 76rem;
+.atlas {
+  display: grid;
+  grid-template-columns: minmax(17rem, 26rem) minmax(0, 1fr);
+  gap: 1.5rem 2.75rem;
+  align-items: start;
+  max-width: 90rem;
   margin: 0 auto;
-  padding: 2.75rem 1.5rem 3rem;
+  padding: 2rem 1.5rem 2.5rem;
   color: #1a1714;
 }
 
-.forge-brand {
+.atlas-brand {
   margin: 0;
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -1211,133 +1217,131 @@ details.practice-card summary {
   text-transform: uppercase;
 }
 
-.forge-world h1 {
-  margin: 0.4rem 0 0;
+.atlas h1 {
+  margin: 0.45rem 0 0;
   font-family: var(--font-serif);
-  font-size: clamp(3.2rem, 7.4vw, 6.25rem);
+  font-size: clamp(3.1rem, 5.6vw, 5.4rem);
   font-weight: 400;
   line-height: 0.9;
   letter-spacing: -0.02em;
   color: #1a1714;
 }
 
-.forge-lead {
-  max-width: 38rem;
-  margin: 1.15rem 0 0;
-  font-size: 1.05rem;
+.atlas-lead {
+  max-width: 26rem;
+  margin: 1.1rem 0 0;
+  font-size: 1.02rem;
   line-height: 1.5;
   color: rgba(26, 23, 20, 0.78);
 }
 
-.forge-actions {
+.atlas-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.85rem 1.25rem;
+  gap: 0.75rem 1.15rem;
   margin: 1.35rem 0 0;
 }
 
-.forge-start {
+.atlas-start {
   display: inline-flex;
   align-items: center;
   min-height: 2.85rem;
   padding: 0.65rem 1.15rem;
-  background: var(--accent, #5c3b1c);
-  color: #efe8dc;
-  font-size: 0.95rem;
-}
-
-.forge-start:hover {
+  background: var(--accent, #6b4518);
   color: #efe8dc;
 }
 
-.forge-plan {
+.atlas-start:hover { color: #efe8dc; }
+
+.atlas-plan {
   color: rgba(26, 23, 20, 0.72);
   font-size: 0.92rem;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
 
-.forge-journey {
-  margin-top: 2.75rem;
-}
-
-.forge-track {
-  display: flex;
-  align-items: center;
-  height: 0.7rem;
-}
-
-.forge-track span {
-  height: 2px;
-  background: rgba(26, 23, 20, 0.2);
-}
-
-.forge-track span.is-on {
-  height: 5px;
-  background: var(--accent, #5c3b1c);
-}
-
-.forge-index {
-  display: flex;
-  margin-top: 0.15rem;
-}
-
-.forge-index button {
-  min-width: 0;
-  min-height: 2.75rem;
-  padding: 0.35rem 0;
-  border: 0;
-  background: transparent;
-  color: rgba(26, 23, 20, 0.38);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-align: center;
-}
-
-.forge-index button.is-on {
-  color: var(--accent, #5c3b1c);
-}
-
-.forge-focus {
-  margin-top: 1.25rem;
-  max-width: 40rem;
-}
-
-.forge-focus h2 {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
-  font-weight: 400;
-  line-height: 1.15;
-  color: #1a1714;
-}
-
-.forge-focus p {
-  margin: 0.4rem 0 0;
-  color: rgba(26, 23, 20, 0.72);
-  font-size: 0.98rem;
+.atlas-where {
+  max-width: 26rem;
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(26, 23, 20, 0.12);
+  color: rgba(26, 23, 20, 0.62);
+  font-size: 0.92rem;
   line-height: 1.45;
 }
 
-.forge-focus p span {
-  color: rgba(26, 23, 20, 0.48);
+.atlas-field {
+  position: relative;
+  background: #f4efe6;
 }
 
-.forge-days {
+.atlas-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.atlas-hits {
+  position: absolute;
+  inset: 0;
+}
+
+.atlas-hits button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.atlas-hits button span:first-child {
+  position: absolute;
+  left: 0.35rem;
+  bottom: 14%;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.atlas-hit-name { display: none; }
+
+.atlas-index { display: none; }
+
+.atlas-focus { margin-top: 1.15rem; max-width: 40rem; }
+
+.atlas-focus h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 2vw, 2rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.atlas-focus p {
+  margin: 0.35rem 0 0;
+  color: rgba(26, 23, 20, 0.72);
+  font-size: 0.96rem;
+  line-height: 1.45;
+}
+
+.atlas-focus p span { color: rgba(26, 23, 20, 0.48); }
+
+.atlas-days {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.15rem 1.15rem;
-  margin: 1.1rem 0 0;
+  gap: 0.1rem 1.1rem;
+  margin: 0.85rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-.forge-days a,
-.forge-days button {
+.atlas-days a,
+.atlas-days button {
   min-height: 2.5rem;
-  padding: 0.3rem 0;
+  padding: 0.25rem 0;
   border: 0;
   background: transparent;
   color: rgba(26, 23, 20, 0.42);
@@ -1345,36 +1349,29 @@ details.practice-card summary {
   text-align: left;
 }
 
-.forge-days .is-open {
-  color: #1a1714;
+.atlas-days .is-open { color: #1a1714; }
+.atlas-days .is-focus,
+.atlas-days .is-lit {
+  color: var(--accent, #6b4518);
+  box-shadow: inset 0 -1px 0 var(--accent, #6b4518);
 }
 
-.forge-days .is-focus,
-.forge-days .is-lit {
-  color: var(--accent, #5c3b1c);
-  box-shadow: inset 0 -1px 0 var(--accent, #5c3b1c);
-}
-
-.forge-note {
-  max-width: 40rem;
-  margin-top: 0.85rem;
-}
-
-.forge-note p {
+.atlas-note { max-width: 40rem; margin-top: 0.65rem; }
+.atlas-note p {
   margin: 0;
   color: rgba(26, 23, 20, 0.72);
   font-size: 0.95rem;
   line-height: 1.45;
 }
 
-.forge-concepts {
+.atlas-concepts {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 0.9rem;
-  margin-top: 0.55rem;
+  gap: 0.3rem 0.85rem;
+  margin-top: 0.45rem;
 }
 
-.forge-concepts button {
+.atlas-concepts button {
   min-height: 2.25rem;
   padding: 0;
   border: 0;
@@ -1384,60 +1381,53 @@ details.practice-card summary {
   text-align: left;
 }
 
-.forge-concepts button.is-on {
-  color: var(--accent, #5c3b1c);
-  box-shadow: inset 0 -1px 0 var(--accent, #5c3b1c);
+.atlas-concepts button.is-on {
+  color: var(--accent, #6b4518);
+  box-shadow: inset 0 -1px 0 var(--accent, #6b4518);
 }
 
-.forge-start:focus-visible,
-.forge-plan:focus-visible,
-.forge-index button:focus-visible,
-.forge-days a:focus-visible,
-.forge-days button:focus-visible,
-.forge-concepts button:focus-visible {
-  outline: 2px solid var(--accent, #5c3b1c);
+.atlas-start:focus-visible,
+.atlas-plan:focus-visible,
+.atlas-hits button:focus-visible,
+.atlas-index button:focus-visible,
+.atlas-days a:focus-visible,
+.atlas-days button:focus-visible,
+.atlas-concepts button:focus-visible {
+  outline: 2px solid var(--accent, #6b4518);
   outline-offset: 3px;
 }
 
-@media (max-width: 720px) {
-  .forge-world {
-    padding: 1.35rem 1rem 5.25rem;
+@media (max-width: 860px) {
+  .atlas {
+    display: block;
+    padding: 1.25rem 1rem 5.25rem;
   }
 
-  .forge-world h1 {
-    font-size: clamp(2.7rem, 14vw, 3.4rem);
-  }
+  .atlas h1 { font-size: clamp(2.7rem, 14vw, 3.5rem); }
+  .atlas-field { background: #f4efe6; }
+  .atlas-hits { display: none; }
 
-  .forge-lead {
-    font-size: 0.98rem;
-  }
-
-  .forge-journey {
-    margin-top: 2rem;
-  }
-
-  .forge-index {
+  .atlas-index {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: 0.35rem;
   }
 
-  .forge-index button {
+  .atlas-index button {
     min-height: 2.75rem;
+    border: 0;
+    background: transparent;
+    color: rgba(26, 23, 20, 0.45);
+    font-family: var(--font-mono);
+    font-size: 12px;
   }
 
-  .forge-days {
-    display: grid;
-    gap: 0;
-  }
+  .atlas-index button.is-on { color: var(--accent, #6b4518); }
 
-  .forge-days a,
-  .forge-days button {
-    min-height: 2.75rem;
-  }
+  .atlas-days { display: grid; gap: 0; }
+  .atlas-days a, .atlas-days button { min-height: 2.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .forge-track span {
-    transition: none;
-  }
+  .atlas-svg path { transition: none; }
 }

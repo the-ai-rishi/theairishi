@@ -452,15 +452,16 @@ function runScenarioTests() {
     const liveHomeTypes = liveHome.map((section) => section.type);
     check(
       liveHomeTypes.includes("hero") &&
+        liveHomeTypes.includes("method") &&
         liveHomeTypes.includes("why") &&
+        liveHomeTypes.includes("instrument") &&
         liveHomeTypes.includes("path") &&
+        liveHomeTypes.includes("cta") &&
         liveHomeTypes.includes("destinations") &&
-        !liveHomeTypes.includes("instrument") &&
         !liveHomeTypes.includes("program") &&
         !liveHomeTypes.includes("phases") &&
-        !liveHomeTypes.includes("today") &&
-        !liveHomeTypes.includes("method"),
-      "Production: homepage is identity, the journey, and what comes next"
+        !liveHomeTypes.includes("today"),
+      "Production: homepage is the journey, the practice, the boundary, then the start"
     );
     check(
       !liveHome.some((s) => s.type === "topic-grid"),

@@ -31,6 +31,23 @@ export const ROLE = {
   lab: "#653228",
 } as const;
 
+/** Five fields. Phases share a field so the map is not ten unrelated colors. */
+export const FIELDS = [
+  { pigment: "#b8884a", ink: "#5c3b1c" },
+  { pigment: "#4f7ea8", ink: "#1d4468" },
+  { pigment: "#b86a4e", ink: "#6e3814" },
+  { pigment: "#3d8f86", ink: "#124e48" },
+  { pigment: "#8d6a96", ink: "#4e3158" },
+] as const;
+
+const FIELD_OF_PHASE = [0, 1, 2, 2, 3, 1, 2, 3, 4, 4] as const;
+
+export function fieldOf(phaseNumber: number) {
+  const slot = Math.min(FIELD_OF_PHASE.length, Math.max(1, phaseNumber)) - 1;
+  return FIELDS[FIELD_OF_PHASE[slot]];
+}
+
 export function phaseColor(number: number): PhasePigment {
   return PHASE_PIGMENTS[Math.min(PHASE_PIGMENTS.length, Math.max(1, number)) - 1];
 }
+
