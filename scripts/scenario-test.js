@@ -453,14 +453,14 @@ function runScenarioTests() {
     check(
       liveHomeTypes.includes("hero") &&
         liveHomeTypes.includes("why") &&
-        liveHomeTypes.includes("instrument") &&
         liveHomeTypes.includes("path") &&
         liveHomeTypes.includes("destinations") &&
+        !liveHomeTypes.includes("instrument") &&
         !liveHomeTypes.includes("program") &&
         !liveHomeTypes.includes("phases") &&
         !liveHomeTypes.includes("today") &&
         !liveHomeTypes.includes("method"),
-      "Production: homepage is identity, why, explore, what comes next — not a second copy of the plan"
+      "Production: homepage is identity, the journey, and what comes next"
     );
     check(
       !liveHome.some((s) => s.type === "topic-grid"),

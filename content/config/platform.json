@@ -516,7 +516,7 @@
       {
         "id": "instrument",
         "type": "instrument",
-        "enabled": true,
+        "enabled": false,
         "order": 6,
         "title": "Reliability and controlled tool use"
       },

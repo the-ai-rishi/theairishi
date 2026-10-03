@@ -80,24 +80,16 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
       case "phases":
         return null;
       case "instrument":
-        return (
-          <div key={section.id} className="story-band story-explore">
-            <Instrument />
-          </div>
-        );
+        return <Instrument key={section.id} />;
       case "why":
-        return (
-          <div key={section.id} className="story-band story-why">
-            <WhySection section={section} />
-          </div>
-        );
+        return <WhySection key={section.id} section={section} />;
       case "method":
         return <MethodSection key={section.id} section={section} />;
       case "today":
         return <TodaySection key={section.id} section={section} />;
       case "path":
         return (
-          <section key={section.id} className="story-band story-next">
+          <section key={section.id} className="py-8 sm:py-10">
             <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
               <p className="kicker">{section.subtitle || "Later"}</p>
               <h2 className="mt-3 font-serif text-2xl text-cream">{section.title || story.pathTitle}</h2>
