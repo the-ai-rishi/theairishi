@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import experience from "@/content/config/experience.json";
+import type { ProgramExperience } from "@/lib/program-model";
 import RegistryIcon from "@/components/icons/RegistryIcon";
 
-export function SkillsBand() {
+export function SkillsBand({ experience }: { experience: ProgramExperience }) {
   return (
     <div className="toolkit">
       {experience.skills.map((group) => (
@@ -37,7 +37,7 @@ export function SkillsBand() {
   );
 }
 
-export function OrderStory() {
+export function OrderStory({ experience }: { experience: ProgramExperience }) {
   const [current, setCurrent] = useState(experience.order[0]?.id || "");
   const selected = experience.order.find((item) => item.id === current) || experience.order[0];
 
@@ -64,7 +64,7 @@ export function OrderStory() {
   );
 }
 
-export function DayFlow() {
+export function DayFlow({ experience }: { experience: ProgramExperience }) {
   const [current, setCurrent] = useState(experience.days[0]?.id || "");
   const selected = experience.days.find((item) => item.id === current) || experience.days[0];
 
@@ -134,7 +134,7 @@ function StageFlow({
   );
 }
 
-export function ControlPrimer() {
+export function ControlPrimer({ experience }: { experience: ProgramExperience }) {
   const [retrieval, setRetrieval] = useState(experience.retrieval[2]?.id || experience.retrieval[0].id);
   const [control, setControl] = useState(experience.control[2]?.id || experience.control[0].id);
 

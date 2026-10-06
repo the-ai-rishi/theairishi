@@ -4,13 +4,9 @@ Superseded for curriculum truth by [curriculum-migration-report.md](curriculum-m
 
 ## Purpose
 
-This note is historical. The site now publishes FORGE-120. The old plan was called DevOps Engineer Mastery. The conceptual source of titles was a **private authoring repository**. It is not a public learner destination.
+This note is historical. The site now publishes FORGE-120. The old plan was called DevOps Engineer Mastery. Titles on the public site come from `content/config/programs.json` and `data/curriculum/forge-120.json`. A private authoring repository is not a learner destination and is not linked from this public repository.
 
-Operator-only (never link this from the public website, `social[]`, JSON-LD, footer, About, lessons, or navigation):
-
-https://github.com/the-ai-rishi/devops-engineer-mastery
-
-Do not invent curriculum here. Copy titles and phase names from that repo’s locked execution plan (`roadmap/120-day-execution.md`). Website titles are short headlines of those days, not a rewritten plan.
+Do not invent curriculum here. Do not copy private pack files into the public site. Website titles are the headlines already stored in the programme catalog.
 
 `lib/program-schema.js` is the only validator for `programs.json`. Runtime uses the same file.
 

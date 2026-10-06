@@ -1,42 +1,8 @@
 import Link from "next/link";
-import curriculum from "@/data/curriculum/forge-120.json";
 import { getAllGuideSummaries } from "@/lib/guides";
 import { getAllProjectSummaries } from "@/lib/projects";
+import { getProgramModel } from "@/lib/program-model";
 import { getLearnerCatalog } from "@/lib/programs";
-
-const STOP = new Set([
-  "this",
-  "that",
-  "with",
-  "from",
-  "into",
-  "your",
-  "about",
-  "than",
-  "then",
-  "only",
-  "using",
-  "used",
-  "each",
-  "what",
-  "when",
-  "where",
-  "which",
-  "their",
-  "there",
-  "have",
-  "does",
-  "day",
-  "days",
-  "phase",
-]);
-
-function words(value: string): string[] {
-  return value
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter((word) => word.length > 3 && !STOP.has(word));
-}
 
 export default function LessonTrail({
   slug,
@@ -48,27 +14,20 @@ export default function LessonTrail({
   phaseId?: string;
 }) {
   const catalog = getLearnerCatalog();
-  const fact = curriculum.days.find((item) => item.day === day);
+  const model = getProgramModel(catalog.programId);
+  const fact = model.journey.days.find((item) => item.day === day);
   const phase = catalog.phases.find((item) => item.id === (phaseId || fact?.phaseId));
   const siblings = catalog.days.filter(
     (item) => item.phaseId === phase?.id && item.slug !== slug && item.published && item.href,
   );
   const planned = catalog.days.filter((item) => item.phaseId === phase?.id && !item.published).length;
-  const conceptWords = new Set((fact?.concepts || []).flatMap((concept) => words(concept)));
-  const guides = getAllGuideSummaries()
-    .map((guide) => {
-      const hay = words(
-        [guide.metadata.title, guide.metadata.description, ...(guide.metadata.tags || [])].join(" "),
-      );
-      const score = hay.filter((word) => conceptWords.has(word)).length;
-      return { guide, score };
-    })
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 2);
-  const lab = day ? getAllProjectSummaries().find((project) => project.slug === "forge-api") : null;
+  const projects = getAllProjectSummaries().filter((project) => fact?.relatedProjects.includes(project.slug));
+  const guides = getAllGuideSummaries().filter((guide) => fact?.relatedGuides.includes(guide.slug));
+  const related = (fact?.relatedDays || [])
+    .map((number) => catalog.days.find((item) => item.day === number))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-  if (!phase && !fact && !lab) return null;
+  if (!phase && !fact && projects.length === 0) return null;
 
   return (
     <section aria-label="Where this day sits" className="lesson-trail">
@@ -97,6 +56,24 @@ export default function LessonTrail({
           ))}
         </ul>
       ) : null}
+      {related.length > 0 ? (
+        <ul className="mt-4 flex flex-col">
+          {related.map((item) => (
+            <li key={item.slug} className="text-[14px] leading-relaxed text-cream/70">
+              Related day:{" "}
+              {item.href ? (
+                <Link href={item.href} className="text-cream underline decoration-gold/50 underline-offset-4">
+                  Day {item.day}, {item.title}
+                </Link>
+              ) : (
+                <span>
+                  Day {item.day}, {item.title}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : null}
       {fact && fact.concepts.length > 0 ? (
         <ul className="mt-4 space-y-1.5">
           {fact.concepts.map((concept) => (
@@ -106,21 +83,19 @@ export default function LessonTrail({
           ))}
         </ul>
       ) : null}
-      {lab ? (
-        <p className="mt-5 text-[15px] leading-relaxed text-cream/70">
-          <Link href={`/projects/${lab.slug}`} className="text-cream underline decoration-gold/50 underline-offset-4">
-            {lab.metadata.title}
+      {projects.map((project) => (
+        <p key={project.slug} className="mt-5 text-[15px] leading-relaxed text-cream/70">
+          <Link href={`/projects/${project.slug}`} className="text-cream underline decoration-gold/50 underline-offset-4">
+            {project.metadata.title}
           </Link>
-          <span className="mt-1 block text-cream/50">{lab.metadata.description}</span>
+          <span className="mt-1 block text-cream/50">{project.metadata.description}</span>
         </p>
-      ) : null}
+      ))}
       {guides.length > 0 ? (
         <div className="mt-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-cream/40">
-            Earlier writing that shares a term. Not this day.
-          </p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-cream/40">Related writing</p>
           <ul className="mt-2">
-            {guides.map(({ guide }) => (
+            {guides.map((guide) => (
               <li key={guide.slug} className="border-b border-hairline">
                 <Link
                   href={`/guides/${guide.slug}`}

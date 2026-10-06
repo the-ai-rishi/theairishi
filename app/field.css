@@ -202,7 +202,7 @@ details.practice-card summary {
   text-align: left;
   background: transparent;
   border-bottom: 1px solid rgba(26, 23, 20, 0.1);
-  color: rgba(26, 23, 20, 0.48);
+  color: #5c564e;
   font-family: var(--font-serif);
   font-size: 1.05rem;
 }
@@ -441,7 +441,7 @@ details.practice-card summary {
 }
 
 .command-layer input::placeholder {
-  color: rgba(26, 23, 20, 0.38);
+  color: #5c564e;
 }
 
 .command-groups {
@@ -456,7 +456,7 @@ details.practice-card summary {
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.5);
+  color: #5c564e;
 }
 
 .command-groups a {
@@ -564,7 +564,7 @@ details.practice-card summary {
     font-size: 10px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: rgba(26, 23, 20, 0.55);
+    color: #5c564e;
   }
 
   .system-nav a[aria-current="page"] {
@@ -678,175 +678,7 @@ details.practice-card summary {
 }
 
 
-.method-rail {
-  --lit: 0.16;
-  position: relative;
-  display: grid;
-  gap: 0.75rem;
-  margin: 1.5rem 0 0;
-  padding: 0.85rem 0 0;
-  list-style: none;
-}
 
-.method-rail::before,
-.method-rail::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 2px;
-}
-
-.method-rail::before {
-  background: rgba(26, 23, 20, 0.12);
-}
-
-.method-rail::after {
-  background: #8a5a2b;
-  transform: scaleX(var(--lit));
-  transform-origin: left center;
-}
-
-.method-step {
-  padding-top: 0.85rem;
-  border-top: 1px solid rgba(26, 23, 20, 0.12);
-}
-
-.method-step.is-lit {
-  border-top-color: #8a5a2b;
-}
-
-@media (min-width: 960px) {
-  .method-rail {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .method-step {
-    border-top: 0;
-    padding-top: 1rem;
-  }
-}
-
-.ownership {
-  --bias: 0.5;
-  position: relative;
-  display: flex;
-  gap: 0.8rem;
-  align-items: stretch;
-  margin-top: 1.5rem;
-  padding-bottom: 2.4rem;
-}
-
-.ownership-pane {
-  min-width: 0;
-  padding: 1rem 0;
-  border: 0;
-  border-top: 1px solid rgba(26, 23, 20, 0.16);
-  background: transparent;
-}
-
-.ownership-ai {
-  flex: var(--bias) 1 9rem;
-}
-
-.ownership-you {
-  flex: calc(1 - var(--bias)) 1 9rem;
-  border-top-color: #8a5a2b;
-}
-
-.ownership-rule {
-  position: absolute;
-  top: 0;
-  bottom: 2.4rem;
-  left: calc(var(--bias) * 100%);
-  width: 1px;
-  background: #8a5a2b;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.ownership-range {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.ownership-range input {
-  width: 100%;
-  accent-color: #8a5a2b;
-}
-
-@media (max-width: 700px) {
-  .ownership {
-    flex-direction: column;
-  }
-
-  .ownership-ai,
-  .ownership-you {
-    flex: 1 1 auto;
-  }
-
-  .ownership-rule {
-    display: none;
-  }
-}
-
-.control-stage {
-  position: relative;
-  z-index: 2;
-  padding: 3.5rem 0 2.5rem;
-  background: transparent;
-  color: #1a1714;
-  border-top: 1px solid rgba(26, 23, 20, 0.14);
-}
-
-.rag-flow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 800px) {
-  .rag-flow {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-}
-
-.rag-flow li {
-  min-height: 2.75rem;
-  display: flex;
-  align-items: flex-end;
-  padding: 0.55rem 0.15rem 0.2rem;
-  border: 0;
-  border-top: 1px solid rgba(26, 23, 20, 0.18);
-  color: rgba(26, 23, 20, 0.38);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.rag-flow li.is-on {
-  border-top-color: var(--role-plum);
-  border-top-width: 0;
-  background: color-mix(in srgb, var(--role-plum) 78%, #efe8dc);
-  color: #efe8dc;
-  padding: 0.7rem 0.45rem;
-}
-
-.rag-flow li.is-block {
-  border-top-color: var(--role-policy);
-  border-top-width: 0;
-  background: var(--role-policy);
-  color: #efe8dc;
-  padding: 0.7rem 0.45rem;
-}
 
 .chunk {
   display: grid;
@@ -868,7 +700,7 @@ details.practice-card summary {
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.45);
+  color: #5c564e;
 }
 
 .chunk.is-on {
@@ -888,7 +720,7 @@ details.practice-card summary {
   padding: 0.45rem 0.7rem;
   border: 1px solid rgba(26, 23, 20, 0.18);
   background: transparent;
-  color: rgba(26, 23, 20, 0.62);
+  color: #4a453f;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.1em;
@@ -972,7 +804,7 @@ details.practice-card summary {
   font-size: 0.66rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.45);
+  color: #5c564e;
 }
 
 .reliability-figure {
@@ -1015,7 +847,7 @@ details.practice-card summary {
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.45);
+  color: #5c564e;
 }
 
 .eval-grid dd {
@@ -1060,7 +892,7 @@ details.practice-card summary {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-  color: #8a5a2b;
+  color: #6d4520;
 }
 
 .gate-list strong {
@@ -1070,13 +902,13 @@ details.practice-card summary {
 
 .gate-list em {
   font-style: normal;
-  color: rgba(26, 23, 20, 0.62);
+  color: #4a453f;
 }
 
 /* Forge Rail. Paper, graphite type, a semantic mark. Names stay visible. */
 
 :root {
-  --accent-ochre: #8a5a2b;
+  --accent-ochre: #6d4520;
   --accent-cobalt: #1d4468;
   --accent-teal: #0e5c62;
   --accent-plum: #4e3158;
@@ -1317,7 +1149,7 @@ details.practice-card summary {
   padding: 0 0.35rem;
   border: 1px solid rgba(26, 23, 20, 0.28);
   background: transparent;
-  color: rgba(26, 23, 20, 0.55);
+  color: #5c564e;
   font-family: var(--font-mono);
   font-size: 0.75rem;
 }
@@ -1686,7 +1518,7 @@ details.practice-card summary {
 .order-line > li::before { content: none; }
 
 .order-join {
-  color: rgba(26, 23, 20, 0.45);
+  color: #5c564e;
   padding: 0 0.15rem;
 }
 
@@ -1814,7 +1646,7 @@ details.practice-card summary {
   min-height: 2.15rem;
   border: 1px solid rgba(26, 23, 20, 0.22);
   background: transparent;
-  color: rgba(26, 23, 20, 0.42);
+  color: #5c564e;
   font-family: var(--font-mono);
   font-size: 0.68rem;
 }
@@ -1822,9 +1654,14 @@ details.practice-card summary {
 .plan-day.is-open { color: #1a1714; border-color: #1a1714; }
 .plan-day.is-done { background: #1a1714; color: #efe8dc; }
 .plan-day.is-now { box-shadow: inset 0 0 0 2px #8a5a2b; }
-.plan-day.is-on { background: #8a5a2b; color: #efe8dc; border-color: #8a5a2b; }
+.plan-day.is-on { background: #8a5a2b; color: #efe8dc; border-color: #6d4520; }
 .plan-day.is-gate { box-shadow: inset 0 -2px 0 #0e5c62; }
-.plan-day.is-dim { opacity: 0.28; }
+.plan-day.is-dim:not(.is-on) {
+  opacity: 1;
+  color: #5c564e;
+  background: transparent;
+  box-shadow: none;
+}
 
 .plan-split {
   display: grid;
@@ -2090,7 +1927,7 @@ details.practice-card summary {
   position: absolute;
   top: 0.7rem;
   left: -0.15rem;
-  color: rgba(26, 23, 20, 0.4);
+  color: #5c564e;
   font-size: 0.85rem;
 }
 
@@ -2593,6 +2430,24 @@ details.practice-card summary {
 }
 
 @media (max-width: 860px) {
+  html {
+    scroll-padding-top: 4.5rem;
+    scroll-padding-bottom: 5.5rem;
+  }
+
+  .flow button,
+  .day-flow button,
+  .order-line button,
+  .map-phase,
+  .tool-strip button,
+  .gate-rail button,
+  .plan-day,
+  .rail-start,
+  .rail-plan {
+    scroll-margin-top: 4.75rem;
+    scroll-margin-bottom: 5.75rem;
+  }
+
   .chapter-wrap,
   .chapter[data-layout="rail"] .chapter-head { padding-left: 1rem; padding-right: 1rem; }
   .order-line { grid-template-columns: 1fr; }
@@ -2601,8 +2456,8 @@ details.practice-card summary {
   .day-flow button { min-height: 0; border-right: 0; }
   .order-line > li + li,
   .day-flow > li + li { border-top: 1px solid rgba(26, 23, 20, 0.1); }
-  .day-flow { flex-direction: column; border-top: 0; }
-  .day-flow > li { width: 100%; }
+  .day-flow { flex-direction: column; border-top: 0; height: auto; }
+  .day-flow > li { flex: 0 0 auto; min-height: auto; width: 100%; height: auto; }
   .day-flow button { flex-direction: row; align-items: center; gap: 0.55rem; padding: 0.7rem 0.15rem; }
   .map > li { grid-template-columns: 1fr; }
   .plan { padding-bottom: 5rem; }

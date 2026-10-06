@@ -60,7 +60,6 @@ theairishi/
       TopicGrid.tsx
       WhySection.tsx
     icons/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
-      AboutIcon.tsx
       GuidesIcon.tsx
       InstagramIcon.tsx
       LearnIcon.tsx

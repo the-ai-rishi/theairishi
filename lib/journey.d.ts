@@ -5,7 +5,9 @@ export interface JourneySkill {
   icon: string;
   href: string;
   group: string;
+  kind: "skill" | "tool";
   phases: string[];
+  days: number[];
   focusDay: number | null;
 }
 
@@ -29,6 +31,10 @@ export interface JourneyDay {
   nextDay: number | null;
   gateId: string | null;
   skillIds: string[];
+  toolIds: string[];
+  relatedProjects: string[];
+  relatedGuides: string[];
+  relatedDays: number[];
 }
 
 export interface JourneyPhase {
@@ -56,6 +62,7 @@ export interface JourneySpan {
 
 export interface JourneyModel {
   hours: string;
+  totalDays: number;
   days: JourneyDay[];
   phases: JourneyPhase[];
   gates: JourneyGate[];
@@ -67,6 +74,7 @@ export interface JourneyModel {
 export interface JourneyQuery {
   phaseId?: string;
   skillId?: string;
+  toolId?: string;
   gateId?: string;
   concept?: string;
   from?: number;

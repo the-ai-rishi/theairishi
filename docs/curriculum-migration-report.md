@@ -4,13 +4,8 @@ Date: 2026-10-02.
 
 ## Sources
 
-| Role | Repository |
-|---|---|
-| Old, historical only | `the-ai-rishi/devops-engineer-mastery` |
-| Authoritative | `the-ai-rishi/ai-devops-engineer-mastery` `main` @ `7736416` |
-| Website | `the-ai-rishi/theairishi` branch `feature/immersive-visual-upgrade` |
-
-The private repository is not fetched at runtime and its URL is not stored in `programs.json`. Regeneration is `python3 scripts/import-forge-120.py /path/to/ai-devops-engineer-mastery`, which rewrites `data/curriculum/forge-120.json` and the featured program in `content/config/programs.json`.
+The public catalog is `data/curriculum/forge-120.json` and `content/config/programs.json`.
+A private authoring snapshot was used while the catalogue was prepared. This repository does not publish that snapshot's URL, commit, or pack files, and the site does not fetch it at runtime.
 
 ## Migration matrix
 

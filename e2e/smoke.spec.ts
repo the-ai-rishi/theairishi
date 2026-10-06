@@ -19,6 +19,11 @@ async function quietPage(page: Page) {
   return errors;
 }
 
+async function clickClear(locator: ReturnType<Page["getByRole"]>) {
+  await locator.evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));
+  await locator.click();
+}
+
 async function noHorizontalScroll(page: Page) {
   return page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1);
 }
@@ -42,9 +47,9 @@ test.describe("FORGE-120 smoke", () => {
     await expect(page.getByRole("heading", { name: "Ready to start?" })).toBeVisible();
     await expect(page.getByText("Fixed example. Not a live model, and not a live index.")).toBeVisible();
 
-    await page.getByRole("button", { name: /^0?3?\s*Break$/ }).click();
+    await clickClear(page.getByRole("button", { name: /^0?3?\s*Break$/ }));
     await expect(page.getByText("Break one thing safely. Write down what you saw.")).toBeVisible();
-    await page.getByRole("button", { name: "Cite", exact: true }).click();
+    await clickClear(page.getByRole("button", { name: "Cite", exact: true }));
     await expect(page.getByText("The answer points at the source. If it cannot, it should not pretend.")).toBeVisible();
 
     await page.getByRole("button", { name: /05\s*Kubernetes/ }).click();
@@ -118,7 +123,6 @@ test.describe("FORGE-120 smoke", () => {
       await page.goto(path);
       const results = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa"])
-        .disableRules(["color-contrast"])
         .analyze();
       expect(results.violations, `${path}: ${results.violations.map((item) => item.id).join(", ")}`).toEqual([]);
     }

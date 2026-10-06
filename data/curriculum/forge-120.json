@@ -111,7 +111,12 @@
       ],
       "capstoneConnection": "`projects/forge-api/` starts the longitudinal thread.",
       "next": "D2 — Git recovery",
-      "slug": "day-01"
+      "slug": "day-01",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 2,
@@ -128,7 +133,10 @@
       ],
       "capstoneConnection": "Use Git history as the capstone's version-control base.",
       "next": "D3 — Merge vs rebase",
-      "slug": "day-02"
+      "slug": "day-02",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 3,
@@ -146,7 +154,12 @@
       ],
       "capstoneConnection": "Keep forge-api commits small enough to trace later failures to a change.",
       "next": "D4 — Linux permissions",
-      "slug": "day-03"
+      "slug": "day-03",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 4,
@@ -163,7 +176,12 @@
       ],
       "capstoneConnection": "Record the permission model used by future forge-api scripts.",
       "next": "D5 — Processes and systemd",
-      "slug": "day-04"
+      "slug": "day-04",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 5,
@@ -183,7 +201,12 @@
       ],
       "capstoneConnection": "forge-api will later depend on explicit process and working-directory assumptions.",
       "next": "D6 — First-10 slow-host triage",
-      "slug": "day-05"
+      "slug": "day-05",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 6,
@@ -204,7 +227,12 @@
       ],
       "capstoneConnection": "Add the first operational troubleshooting habit to forge-api's evidence journal.",
       "next": "D7 — Logs as search",
-      "slug": "day-06"
+      "slug": "day-06",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 7,
@@ -223,7 +251,10 @@
       ],
       "capstoneConnection": "Use the same evidence discipline in later Kubernetes and AI incidents.",
       "next": "D8 — Bind 127 vs 0.0.0.0",
-      "slug": "day-07"
+      "slug": "day-07",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 8,
@@ -241,7 +272,10 @@
       ],
       "capstoneConnection": "[daily-learning/day-008.md](../daily-learning/day-008.md)",
       "next": "D9 — HTTP as a system",
-      "slug": "day-08"
+      "slug": "day-08",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 9,
@@ -260,7 +294,10 @@
       ],
       "capstoneConnection": "The same path model will later be reused for AKS ingress and model/tool calls.",
       "next": "D10 — DNS and TLS",
-      "slug": "day-09"
+      "slug": "day-09",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 10,
@@ -278,7 +315,12 @@
       ],
       "capstoneConnection": "Record the request path assumptions that forge-api will rely on later.",
       "next": "D11 — health.sh",
-      "slug": "day-10"
+      "slug": "day-10",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 11,
@@ -295,7 +337,12 @@
       ],
       "capstoneConnection": "This becomes forge-api's first reusable operational artifact.",
       "next": "D12 — M1 mock + LLM sampler",
-      "slug": "day-11"
+      "slug": "day-11",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 12,
@@ -312,7 +359,10 @@
       ],
       "capstoneConnection": "[daily-learning/day-012.md](../daily-learning/day-012.md)",
       "next": "D13 — VNet / NSG / CIDR foundations",
-      "slug": "day-12"
+      "slug": "day-12",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 13,
@@ -331,7 +381,12 @@
       ],
       "capstoneConnection": "This becomes forge-api's network-address planning baseline for later AKS networking.",
       "next": "D14 — Private Endpoint vs public PaaS",
-      "slug": "day-13"
+      "slug": "day-13",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 14,
@@ -349,7 +404,10 @@
       ],
       "capstoneConnection": "Use the same path model in later Key Vault and AKS lessons.",
       "next": "D15 — Private DNS + Private Endpoint",
-      "slug": "day-14"
+      "slug": "day-14",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 15,
@@ -366,7 +424,12 @@
       ],
       "capstoneConnection": "Capture the DNS path that future forge-api cloud integrations will require.",
       "next": "D16 — [projects/forge-api/PATH.md](../projects/forge-api/PATH.md) hop-by-hop",
-      "slug": "day-15"
+      "slug": "day-15",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 16,
@@ -383,7 +446,12 @@
       ],
       "capstoneConnection": "[projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)](../projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)) becomes a capstone artifact reused throughout the 120 days.",
       "next": "D17 — Identity vocabulary",
-      "slug": "day-16"
+      "slug": "day-16",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 17,
@@ -400,7 +468,10 @@
       ],
       "capstoneConnection": "[daily-learning/day-017.md](../daily-learning/day-017.md)",
       "next": "D18 — Python foundations",
-      "slug": "day-17"
+      "slug": "day-17",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 18,
@@ -421,7 +492,10 @@
       ],
       "capstoneConnection": "This script is later reused by the failure parser.",
       "next": "D19 — CI as a contract",
-      "slug": "day-18"
+      "slug": "day-18",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 19,
@@ -440,7 +514,12 @@
       ],
       "capstoneConnection": "forge-api's CI will build from this contract in D20.",
       "next": "D20 — First pipeline",
-      "slug": "day-19"
+      "slug": "day-19",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 20,
@@ -458,7 +537,12 @@
       ],
       "capstoneConnection": "This is forge-api's first automated gate.",
       "next": "D21 — Cache, supply chain, provenance words",
-      "slug": "day-20"
+      "slug": "day-20",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 21,
@@ -475,7 +559,10 @@
       ],
       "capstoneConnection": "Research anchor: GitHub artifact attestations establish signed build provenance. See [docs/RESEARCH.md](../docs/RESEARCH.md).",
       "next": "D22 — Environments / paved road",
-      "slug": "day-21"
+      "slug": "day-21",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 22,
@@ -493,7 +580,12 @@
       ],
       "capstoneConnection": "Forge-api's CI/CD path will follow this pattern.",
       "next": "D23 — Secrets and OIDC",
-      "slug": "day-22"
+      "slug": "day-22",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 23,
@@ -511,7 +603,10 @@
       ],
       "capstoneConnection": "[daily-learning/day-023.md](../daily-learning/day-023.md)",
       "next": "D24 — Change / rollback page",
-      "slug": "day-23"
+      "slug": "day-23",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 24,
@@ -529,7 +624,10 @@
       ],
       "capstoneConnection": "This becomes the pattern used for later Helm, Terraform, and incident work.",
       "next": "D25 — OIDC lab or blocker",
-      "slug": "day-24"
+      "slug": "day-24",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 25,
@@ -546,7 +644,12 @@
       ],
       "capstoneConnection": "Forge-api CI identity path is now connected to the future Azure path.",
       "next": "D26 — CI and delivery review",
-      "slug": "day-25"
+      "slug": "day-25",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 26,
@@ -563,7 +666,12 @@
       ],
       "capstoneConnection": "forge-api now has a CI design that is understandable even when the delivery platform changes.",
       "next": "D27 — Terraform foundations",
-      "slug": "day-26"
+      "slug": "day-26",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 27,
@@ -581,7 +689,12 @@
       ],
       "capstoneConnection": "forge-api gets a reproducible infrastructure definition before state, modules and cloud resources become more complex.",
       "next": "D28 — State, lock, backend",
-      "slug": "day-27"
+      "slug": "day-27",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 28,
@@ -599,7 +712,10 @@
       ],
       "capstoneConnection": "Research anchor: HashiCorp documents backend-specific state locking behavior.",
       "next": "D29 — FastAPI health and readiness",
-      "slug": "day-28"
+      "slug": "day-28",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 29,
@@ -617,7 +733,10 @@
       ],
       "capstoneConnection": "D39 can wire health as liveness and ready as readiness without inventing an endpoint later.",
       "next": "D30 — Dockerfile v1",
-      "slug": "day-29"
+      "slug": "day-29",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 30,
@@ -634,7 +753,12 @@
       ],
       "capstoneConnection": "forge-api's artifact moves from source to image at Day 30.",
       "next": "D31 — Docker internals",
-      "slug": "day-30"
+      "slug": "day-30",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 31,
@@ -652,7 +776,12 @@
       ],
       "capstoneConnection": "forge-api becomes a containerized process with explicit runtime assumptions.",
       "next": "D32 — Multi-stage non-root",
-      "slug": "day-31"
+      "slug": "day-31",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 32,
@@ -670,7 +799,12 @@
       ],
       "capstoneConnection": "This hardens forge-api before CI and scanning.",
       "next": "D33 — Compose + Postgres",
-      "slug": "day-32"
+      "slug": "day-32",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 33,
@@ -688,7 +822,10 @@
       ],
       "capstoneConnection": "Use the database as a stateful component for later troubleshooting concepts.",
       "next": "D34 — Container network isolation",
-      "slug": "day-33"
+      "slug": "day-33",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 34,
@@ -705,7 +842,10 @@
       ],
       "capstoneConnection": "The same boundary thinking is reused in Kubernetes Services and NetworkPolicy.",
       "next": "D35 — Trivy + SBOM",
-      "slug": "day-34"
+      "slug": "day-34",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 35,
@@ -722,7 +862,12 @@
       ],
       "capstoneConnection": "forge-api now has an image-security evidence trail.",
       "next": "D36 — Tests still run + digest/provenance",
-      "slug": "day-35"
+      "slug": "day-35",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 36,
@@ -739,7 +884,10 @@
       ],
       "capstoneConnection": "Research anchor: GitHub artifact attestations provide signed claims about where/how an artifact was built.",
       "next": "D37 — Kubernetes control plane",
-      "slug": "day-36"
+      "slug": "day-36",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 37,
@@ -756,7 +904,12 @@
       ],
       "capstoneConnection": "forge-api moves from image to declarative cluster state.",
       "next": "D38 — Pod, Deployment, Service and workload choice",
-      "slug": "day-37"
+      "slug": "day-37",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 38,
@@ -774,7 +927,12 @@
       ],
       "capstoneConnection": "forge-api remains the long-running service; batch is a bounded learning fixture.",
       "next": "D39 — Probes and rollout",
-      "slug": "day-38"
+      "slug": "day-38",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 39,
@@ -792,7 +950,12 @@
       ],
       "capstoneConnection": "forge-api health endpoint now has an operational contract.",
       "next": "D40 — Empty Endpoints",
-      "slug": "day-39"
+      "slug": "day-39",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 40,
@@ -810,7 +973,12 @@
       ],
       "capstoneConnection": "forge-api's first Kubernetes incident is an evidence-driven troubleshooting case.",
       "next": "D41 — YAML dry-run",
-      "slug": "day-40"
+      "slug": "day-40",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 41,
@@ -827,7 +995,12 @@
       ],
       "capstoneConnection": "Use dry-run as forge-api's pre-deployment guard.",
       "next": "D42 — ConfigMap and Secret",
-      "slug": "day-41"
+      "slug": "day-41",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 42,
@@ -845,7 +1018,12 @@
       ],
       "capstoneConnection": "Forge-api later replaces the dummy secret path with Azure Key Vault/Workload Identity.",
       "next": "D43 — Requests, limits, QoS, quota, OOM and eviction",
-      "slug": "day-42"
+      "slug": "day-42",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 43,
@@ -863,7 +1041,10 @@
       ],
       "capstoneConnection": "The resource model becomes an input to later HPA, autoscaler and AKS capacity decisions.",
       "next": "D44 — HPA and scale-to-zero",
-      "slug": "day-43"
+      "slug": "day-43",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 44,
@@ -881,7 +1062,12 @@
       ],
       "capstoneConnection": "forge-api now has explicit capacity and readiness reasoning instead of treating autoscaling as magic.",
       "next": "D45 — PDB",
-      "slug": "day-44"
+      "slug": "day-44",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 45,
@@ -898,7 +1084,12 @@
       ],
       "capstoneConnection": "forge-api's reliability model now includes availability during planned disruption.",
       "next": "D46 — NetworkPolicy deny",
-      "slug": "day-45"
+      "slug": "day-45",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 46,
@@ -916,7 +1107,10 @@
       ],
       "capstoneConnection": "Use the policy boundary later when modeling AKS ingress and secret access.",
       "next": "D47 — Ingress",
-      "slug": "day-46"
+      "slug": "day-46",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 47,
@@ -934,7 +1128,12 @@
       ],
       "capstoneConnection": "Update forge-api [projects/forge-api/PATH.md](../projects/forge-api/PATH.md) with the L7 boundary.",
       "next": "D48 — RBAC",
-      "slug": "day-47"
+      "slug": "day-47",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 48,
@@ -952,7 +1151,12 @@
       ],
       "capstoneConnection": "forge-api later uses workload-specific service accounts.",
       "next": "D49 — Workload ServiceAccount least privilege",
-      "slug": "day-48"
+      "slug": "day-48",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 49,
@@ -969,7 +1173,10 @@
       ],
       "capstoneConnection": "This is the Kubernetes side of the D66 identity chain.",
       "next": "D50 — kind vs real",
-      "slug": "day-49"
+      "slug": "day-49",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 50,
@@ -986,7 +1193,12 @@
       ],
       "capstoneConnection": "forge-api uses kind for safe failure labs and reserves Azure claims for Azure evidence.",
       "next": "D51 — CrashLoopBackOff",
-      "slug": "day-50"
+      "slug": "day-50",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 51,
@@ -1004,7 +1216,12 @@
       ],
       "capstoneConnection": "Add the failure to forge-api's troubleshooting knowledge base.",
       "next": "D52 — ImagePullBackOff",
-      "slug": "day-51"
+      "slug": "day-51",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 52,
@@ -1022,7 +1239,10 @@
       ],
       "capstoneConnection": "This prepares the AKS ACR identity path.",
       "next": "D53 — Pending Pod, PVC and scheduling predicates",
-      "slug": "day-52"
+      "slug": "day-52",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 53,
@@ -1040,7 +1260,12 @@
       ],
       "capstoneConnection": "forge-api remains stateless in its main path; storage is learned without turning the capstone into a Kubernetes database.",
       "next": "D54 — Ready, live, startup and cluster DNS",
-      "slug": "day-53"
+      "slug": "day-53",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 54,
@@ -1058,7 +1283,12 @@
       ],
       "capstoneConnection": "forge-api now has health and ready semantics needed for later traffic and incident diagnosis.",
       "next": "D55 — NetworkPolicy troubleshooting",
-      "slug": "day-54"
+      "slug": "day-54",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 55,
@@ -1075,7 +1305,10 @@
       ],
       "capstoneConnection": "Carry the learned selector debugging method into Azure NSG and private networking reasoning.",
       "next": "D56 — RBAC 403 troubleshooting",
-      "slug": "day-55"
+      "slug": "day-55",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 56,
@@ -1093,7 +1326,10 @@
       ],
       "capstoneConnection": "This reasoning becomes the model for Workload Identity 403 failures.",
       "next": "D57 — Failure catalogue",
-      "slug": "day-56"
+      "slug": "day-56",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 57,
@@ -1111,7 +1347,12 @@
       ],
       "capstoneConnection": "forge-api's incident knowledge now has a reusable local troubleshooting base.",
       "next": "D58 — Failure parser",
-      "slug": "day-57"
+      "slug": "day-57",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 58,
@@ -1129,7 +1370,10 @@
       ],
       "capstoneConnection": "The parser becomes the deterministic component used in the later AI helper.",
       "next": "D59 — First LLM helper read-only",
-      "slug": "day-58"
+      "slug": "day-58",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 59,
@@ -1147,7 +1391,12 @@
       ],
       "capstoneConnection": "forge-api now has a read-only AI boundary with no live write access.",
       "next": "D60 — M3 mock",
-      "slug": "day-59"
+      "slug": "day-59",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 60,
@@ -1164,7 +1413,10 @@
       ],
       "capstoneConnection": "Gate before Azure: honest Kubernetes troubleshooting is the prerequisite.",
       "next": "D61 — AKS cost envelope + Automatic vs Standard",
-      "slug": "day-60"
+      "slug": "day-60",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 61,
@@ -1183,7 +1435,10 @@
       ],
       "capstoneConnection": "Research anchor: Microsoft Learn documents Automatic as secure-by-default and Standard as more operator-configurable.",
       "next": "D62 — AKS create and destroy",
-      "slug": "day-61"
+      "slug": "day-61",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 62,
@@ -1202,7 +1457,12 @@
       ],
       "capstoneConnection": "forge-api now has a real-cloud boundary, but no real production claim.",
       "next": "D63 — ACR push/pull",
-      "slug": "day-62"
+      "slug": "day-62",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 63,
@@ -1220,7 +1480,10 @@
       ],
       "capstoneConnection": "Connect the same digest built on D36 to the AKS path.",
       "next": "D64 — AKS pull with admin off",
-      "slug": "day-63"
+      "slug": "day-63",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 64,
@@ -1237,7 +1500,10 @@
       ],
       "capstoneConnection": "Prepare for D66 where the application identity accesses Azure resources.",
       "next": "D65 — AKS application networking path",
-      "slug": "day-64"
+      "slug": "day-64",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 65,
@@ -1257,7 +1523,12 @@
       ],
       "capstoneConnection": "forge-api's [projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)](../projects/forge-api/[projects/forge-api/PATH.md](../projects/forge-api/PATH.md)) now has a complete application-networking boundary for later incidents.",
       "next": "D66 — Workload Identity seven steps",
-      "slug": "day-65"
+      "slug": "day-65",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 66,
@@ -1276,7 +1547,10 @@
       ],
       "capstoneConnection": "Research anchor: Microsoft Learn describes projected service-account tokens and OIDC federation for Workload ID.",
       "next": "D67 — Key Vault + Workload Identity",
-      "slug": "day-66"
+      "slug": "day-66",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 67,
@@ -1294,7 +1568,12 @@
       ],
       "capstoneConnection": "forge-api replaces the local dummy-secret path with a cloud identity path.",
       "next": "D68 — Private AKS architecture paper",
-      "slug": "day-67"
+      "slug": "day-67",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 68,
@@ -1312,7 +1591,12 @@
       ],
       "capstoneConnection": "Extend forge-api [projects/forge-api/PATH.md](../projects/forge-api/PATH.md) with a private variant.",
       "next": "D69 — Node pools, taints and upgrade safety",
-      "slug": "day-68"
+      "slug": "day-68",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 69,
@@ -1332,7 +1616,12 @@
       ],
       "capstoneConnection": "forge-api's AKS reliability story now includes disruption-aware maintenance and explicit capacity checks.",
       "next": "D70 — Cluster autoscaler words",
-      "slug": "day-69"
+      "slug": "day-69",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 70,
@@ -1350,7 +1639,12 @@
       ],
       "capstoneConnection": "Connect scaling assumptions to forge-api resource requests from D43.",
       "next": "D71 — KQL",
-      "slug": "day-70"
+      "slug": "day-70",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 71,
@@ -1369,7 +1663,12 @@
       ],
       "capstoneConnection": "forge-api operational evidence will later map logs to incidents.",
       "next": "D72 — OpenTelemetry three signals + AI calls",
-      "slug": "day-71"
+      "slug": "day-71",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 72,
@@ -1389,7 +1688,10 @@
       ],
       "capstoneConnection": "Research anchor: OpenTelemetry is a graduated CNCF project; GenAI semantic conventions remain development-status material.",
       "next": "D73 — Authorization: two planes",
-      "slug": "day-72"
+      "slug": "day-72",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 73,
@@ -1407,7 +1709,12 @@
       ],
       "capstoneConnection": "forge-api will explicitly document both planes in its identity architecture.",
       "next": "D74 — Destroy and bill",
-      "slug": "day-73"
+      "slug": "day-73",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 74,
@@ -1425,7 +1732,12 @@
       ],
       "capstoneConnection": "Close the first real-cloud forge-api deployment path before Terraform work expands it.",
       "next": "D75 — Terraform modules",
-      "slug": "day-74"
+      "slug": "day-74",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 75,
@@ -1443,7 +1755,12 @@
       ],
       "capstoneConnection": "forge-api infrastructure begins using modules instead of scattered resources.",
       "next": "D76 — Remote state",
-      "slug": "day-75"
+      "slug": "day-75",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 76,
@@ -1460,7 +1777,12 @@
       ],
       "capstoneConnection": "Tie remote state to forge-api's environment/promotion path.",
       "next": "D77 — Human Terraform plan review",
-      "slug": "day-76"
+      "slug": "day-76",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 77,
@@ -1479,7 +1801,12 @@
       ],
       "capstoneConnection": "forge-api uses the review list before later small applies.",
       "next": "D78 — AI reviews a Terraform plan",
-      "slug": "day-77"
+      "slug": "day-77",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 78,
@@ -1497,7 +1824,12 @@
       ],
       "capstoneConnection": "forge-api's future plan-review helper remains proposal-only.",
       "next": "D79 — Apply small + rollback",
-      "slug": "day-78"
+      "slug": "day-78",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 79,
@@ -1514,7 +1846,12 @@
       ],
       "capstoneConnection": "forge-api infrastructure now has one real or simulated controlled change cycle.",
       "next": "D80 — Drift lab",
-      "slug": "day-79"
+      "slug": "day-79",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 80,
@@ -1531,7 +1868,12 @@
       ],
       "capstoneConnection": "forge-api's environment discipline now includes drift awareness.",
       "next": "D81 — Checkov",
-      "slug": "day-80"
+      "slug": "day-80",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 81,
@@ -1549,7 +1891,10 @@
       ],
       "capstoneConnection": "This is the deterministic layer beneath the future agent.",
       "next": "D82 — Import / move",
-      "slug": "day-81"
+      "slug": "day-81",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 82,
@@ -1566,7 +1911,12 @@
       ],
       "capstoneConnection": "Prepare forge-api for module refactoring without unnecessary recreation.",
       "next": "D83 — Module interface freeze",
-      "slug": "day-82"
+      "slug": "day-82",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 83,
@@ -1583,7 +1933,12 @@
       ],
       "capstoneConnection": "forge-api infrastructure has a predictable abstraction boundary before Helm.",
       "next": "D84 — Helm chart",
-      "slug": "day-83"
+      "slug": "day-83",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 84,
@@ -1602,7 +1957,12 @@
       ],
       "capstoneConnection": "forge-api's Kubernetes layer moves from raw manifests toward controlled packaging.",
       "next": "D85 — Helm rollback",
-      "slug": "day-84"
+      "slug": "day-84",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 85,
@@ -1619,7 +1979,12 @@
       ],
       "capstoneConnection": "forge-api now has an application-release recovery story.",
       "next": "D86 — CI deploy path",
-      "slug": "day-85"
+      "slug": "day-85",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 86,
@@ -1637,7 +2002,12 @@
       ],
       "capstoneConnection": "forge-api becomes a build-once/promote example.",
       "next": "D87 — Cost review",
-      "slug": "day-86"
+      "slug": "day-86",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 87,
@@ -1656,7 +2026,10 @@
       ],
       "capstoneConnection": "Carry cost awareness into the AI/token and observability phases.",
       "next": "D88 — PATH freeze + red boxes",
-      "slug": "day-87"
+      "slug": "day-87",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 88,
@@ -1674,7 +2047,10 @@
       ],
       "capstoneConnection": "This is the capstone architecture baseline before AI automation.",
       "next": "D89 — Safety and change gates",
-      "slug": "day-88"
+      "slug": "day-88",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 89,
@@ -1692,7 +2068,10 @@
       ],
       "capstoneConnection": "These gates protect the reliability exercises that follow.",
       "next": "D90 — Retry, timeout and idempotency review",
-      "slug": "day-89"
+      "slug": "day-89",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 90,
@@ -1710,7 +2089,10 @@
       ],
       "capstoneConnection": "This concept becomes a hard guardrail in D99–104.",
       "next": "D91 — Define a measurable SLI",
-      "slug": "day-90"
+      "slug": "day-90",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 91,
@@ -1728,7 +2110,12 @@
       ],
       "capstoneConnection": "forge-api gains its first measurable reliability statement.",
       "next": "D92 — Timeouts, retries, idempotency",
-      "slug": "day-91"
+      "slug": "day-91",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 92,
@@ -1746,7 +2133,10 @@
       ],
       "capstoneConnection": "This is the reliability boundary for the later agent loop.",
       "next": "D93 — Alert that pages a human",
-      "slug": "day-92"
+      "slug": "day-92",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 93,
@@ -1764,7 +2154,12 @@
       ],
       "capstoneConnection": "forge-api gains an operational signal that later incidents can reference.",
       "next": "D94 — Incident tabletop",
-      "slug": "day-93"
+      "slug": "day-93",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 94,
@@ -1783,7 +2178,10 @@
       ],
       "capstoneConnection": "This tabletop becomes the format for D95's real or simulated incident.",
       "next": "D95 — Incident record",
-      "slug": "day-94"
+      "slug": "day-94",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 95,
@@ -1801,7 +2199,12 @@
       ],
       "capstoneConnection": "forge-api now has a human-first incident artifact before AI-assisted troubleshooting.",
       "next": "D96 — Make the evidence boundary explicit",
-      "slug": "day-95"
+      "slug": "day-95",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 96,
@@ -1819,7 +2222,10 @@
       ],
       "capstoneConnection": "This keeps later explanations tied to the evidence you actually produced.",
       "next": "D97 — RAG terms and chunking",
-      "slug": "day-96"
+      "slug": "day-96",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 97,
@@ -1838,7 +2244,14 @@
       ],
       "capstoneConnection": "forge-api begins a single-stack local RAG path; no vendor database safari.",
       "next": "D98 — Retrieve, cite, poison test",
-      "slug": "day-97"
+      "slug": "day-97",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [
+        "first-principles-ai-learning"
+      ],
+      "relatedDays": []
     },
     {
       "day": 98,
@@ -1856,7 +2269,12 @@
       ],
       "capstoneConnection": "forge-api's RAG corpus becomes the knowledge source for the review-only agent.",
       "next": "D99 — Review-only agent loop",
-      "slug": "day-98"
+      "slug": "day-98",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 99,
@@ -1875,7 +2293,12 @@
       ],
       "capstoneConnection": "forge-api's agent/loop becomes the central AI engineering artifact.",
       "next": "D100 — Deterministic policy checks",
-      "slug": "day-99"
+      "slug": "day-99",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 100,
@@ -1893,7 +2316,12 @@
       ],
       "capstoneConnection": "This is forge-api's hard safety boundary before MCP.",
       "next": "D101 — MCP protocol and tool boundary",
-      "slug": "day-100"
+      "slug": "day-100",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 101,
@@ -1911,7 +2339,12 @@
       ],
       "capstoneConnection": "forge-api can model an MCP-shaped interface without giving it infrastructure authority.",
       "next": "D102 — Golden eval harness",
-      "slug": "day-101"
+      "slug": "day-101",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 102,
@@ -1929,7 +2362,12 @@
       ],
       "capstoneConnection": "forge-api's `eval/goldens` becomes evidence for the agent, not just a code sample.",
       "next": "D103 — Injection lab",
-      "slug": "day-102"
+      "slug": "day-102",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 103,
@@ -1946,7 +2384,12 @@
       ],
       "capstoneConnection": "forge-api gains an adversarial security regression case.",
       "next": "D104 — Pin, kill switch and AI telemetry",
-      "slug": "day-103"
+      "slug": "day-103",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 104,
@@ -1965,7 +2408,10 @@
       ],
       "capstoneConnection": "Research anchor: current OpenTelemetry GenAI semantic conventions are still evolving; learn signals without coupling the curriculum to unstable attribute names.",
       "next": "D105 — AI infrastructure awareness",
-      "slug": "day-104"
+      "slug": "day-104",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 105,
@@ -1983,7 +2429,10 @@
       ],
       "capstoneConnection": "[daily-learning/day-105.md](../daily-learning/day-105.md)",
       "next": "D106 — Design one-pager",
-      "slug": "day-105"
+      "slug": "day-105",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 106,
@@ -2004,7 +2453,10 @@
       ],
       "capstoneConnection": "This becomes the capstone's final design artifact.",
       "next": "D107 — Paved road + exceptions",
-      "slug": "day-106"
+      "slug": "day-106",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 107,
@@ -2023,7 +2475,12 @@
       ],
       "capstoneConnection": "forge-api is the reference workload passing through the paved road.",
       "next": "D108 — Platform interface and self-service",
-      "slug": "day-107"
+      "slug": "day-107",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 108,
@@ -2041,7 +2498,10 @@
       ],
       "capstoneConnection": "This is the project evidence boundary, not a new curriculum.",
       "next": "D109 — Architecture trade-offs and failure review",
-      "slug": "day-108"
+      "slug": "day-108",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 109,
@@ -2059,7 +2519,10 @@
       ],
       "capstoneConnection": "This review bridges design work and the closed-note war-room drills in D110 to D120.",
       "next": "D110 — Closed-note Linux/Git",
-      "slug": "day-109"
+      "slug": "day-109",
+      "relatedProjects": [],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 110,
@@ -2076,7 +2539,12 @@
       ],
       "capstoneConnection": "Revisit forge-api only to repair identified gaps.",
       "next": "D111 — Closed-note CI/OIDC",
-      "slug": "day-110"
+      "slug": "day-110",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 111,
@@ -2094,7 +2562,12 @@
       ],
       "capstoneConnection": "Map the trust chain back to forge-api.",
       "next": "D112 — Closed-note Docker/supply chain",
-      "slug": "day-111"
+      "slug": "day-111",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 112,
@@ -2112,7 +2585,12 @@
       ],
       "capstoneConnection": "The forge-api image is treated as a traceable artifact.",
       "next": "D113 — Closed-note Kubernetes IR",
-      "slug": "day-112"
+      "slug": "day-112",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 113,
@@ -2132,7 +2610,12 @@
       ],
       "capstoneConnection": "forge-api troubleshooting corpus is the basis for the drills.",
       "next": "D114 — Closed-note identity/WI",
-      "slug": "day-113"
+      "slug": "day-113",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 114,
@@ -2151,7 +2634,12 @@
       ],
       "capstoneConnection": "forge-api's identity documentation becomes a defendable architecture artifact.",
       "next": "D115 — Closed-note Terraform review",
-      "slug": "day-114"
+      "slug": "day-114",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 115,
@@ -2170,7 +2658,12 @@
       ],
       "capstoneConnection": "forge-api's plan review is now interview-defendable.",
       "next": "D116 — Closed-note signals",
-      "slug": "day-115"
+      "slug": "day-115",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 116,
@@ -2189,7 +2682,12 @@
       ],
       "capstoneConnection": "forge-api observability model closes the reliability loop.",
       "next": "D117 — Closed-note design",
-      "slug": "day-116"
+      "slug": "day-116",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 117,
@@ -2208,7 +2706,12 @@
       ],
       "capstoneConnection": "Use forge-api as the reference implementation, not a fictional production system.",
       "next": "D118 — Closed-note RAG/agent/eval",
-      "slug": "day-117"
+      "slug": "day-117",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 118,
@@ -2227,7 +2730,12 @@
       ],
       "capstoneConnection": "forge-api's AI path is now a complete review-only system.",
       "next": "D119 — List remaining practice holes",
-      "slug": "day-118"
+      "slug": "day-118",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 119,
@@ -2245,7 +2753,12 @@
       ],
       "capstoneConnection": "Forge-api freeze depends on the gap list, not on adding more features.",
       "next": "D120 — Freeze and speak",
-      "slug": "day-119"
+      "slug": "day-119",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     },
     {
       "day": 120,
@@ -2265,7 +2778,12 @@
       ],
       "capstoneConnection": "Tag/freeze the forge-api capstone and the 120-day record.",
       "next": "After Day 120, use the gaps you recorded to choose the next focused topic.",
-      "slug": "day-120"
+      "slug": "day-120",
+      "relatedProjects": [
+        "forge-api"
+      ],
+      "relatedGuides": [],
+      "relatedDays": []
     }
   ],
   "gates": [
@@ -2273,55 +2791,64 @@
       "id": "foundation",
       "name": "Foundation",
       "around": "D12",
-      "evidence": "Git recovery, slow-host triage, process/service failure and HTTP evidence"
+      "evidence": "Git recovery, slow-host triage, process/service failure and HTTP evidence",
+      "day": 12
     },
     {
       "id": "ci",
       "name": "CI",
       "around": "D26",
-      "evidence": "blank-file pipeline work, one failure, OIDC trace and CI portability review"
+      "evidence": "blank-file pipeline work, one failure, OIDC trace and CI portability review",
+      "day": 26
     },
     {
       "id": "containers",
       "name": "Containers",
       "around": "D36",
-      "evidence": "multi-stage non-root image, runtime diagnosis and provenance reasoning"
+      "evidence": "multi-stage non-root image, runtime diagnosis and provenance reasoning",
+      "day": 36
     },
     {
       "id": "kubernetes",
       "name": "Kubernetes",
       "around": "D60",
-      "evidence": "empty EndpointSlice, CrashLoop, ImagePull/Pending/OOM or RBAC variation and unfamiliar diagnosis"
+      "evidence": "empty EndpointSlice, CrashLoop, ImagePull/Pending/OOM or RBAC variation and unfamiliar diagnosis",
+      "day": 60
     },
     {
       "id": "aks-identity",
       "name": "AKS / identity",
       "around": "D74",
-      "evidence": "AKS path, ACR pull identity, Workload Identity trace, Key Vault result/blocker and cleanup"
+      "evidence": "AKS path, ACR pull identity, Workload Identity trace, Key Vault result/blocker and cleanup",
+      "day": 74
     },
     {
       "id": "terraform-helm",
       "name": "Terraform / Helm",
       "around": "D88",
-      "evidence": "state/lock, module interface, dangerous-plan review and Helm render/upgrade/rollback"
+      "evidence": "state/lock, module interface, dangerous-plan review and Helm render/upgrade/rollback",
+      "day": 88
     },
     {
       "id": "operate",
       "name": "Operate",
       "around": "D96",
-      "evidence": "measurable SLI, actionable alert, incident recovery and explicit evidence boundary"
+      "evidence": "measurable SLI, actionable alert, incident recovery and explicit evidence boundary",
+      "day": 96
     },
     {
       "id": "ai-tool-use",
       "name": "AI / tool use",
       "around": "D105",
-      "evidence": "grounding, injection test, schema/allowlist, deterministic block, evaluation and disable path"
+      "evidence": "grounding, injection test, schema/allowlist, deterministic block, evaluation and disable path",
+      "day": 105
     },
     {
       "id": "war-room",
       "name": "War room",
       "around": "D120",
-      "evidence": "unfamiliar failure, evidence-first diagnosis, safe mitigation, recovery verification and design defence"
+      "evidence": "unfamiliar failure, evidence-first diagnosis, safe mitigation, recovery verification and design defence",
+      "day": 120
     }
   ],
   "capstone": {
@@ -2416,5 +2943,6 @@
     "day59": "First LLM helper read-only",
     "retrieval": "Days 97–105",
     "awarenessLimit": "Day 105 is AI infrastructure awareness, not a claim of ML-infrastructure specialisation."
-  }
+  },
+  "totalDays": 120
 }

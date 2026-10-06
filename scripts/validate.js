@@ -1087,6 +1087,7 @@ if (programConfig) {
 
 const { loadExperience, normalizeExperience } = require("../lib/experience");
 const { collectJourneyErrors, normalizeJourney, queryDays } = require("../lib/journey");
+const { getProgramModel, collectAlignmentErrors } = require("../lib/program-model");
 
 console.log("Running experience checks...");
 const experienceRaw = loadExperience(rootDir);
@@ -1095,10 +1096,10 @@ experienceCheck.errors.forEach((message) => errors.push(message));
 const forgeFile = JSON.parse(fs.readFileSync(path.join(rootDir, "data/curriculum/forge-120.json"), "utf8"));
 const forgePhaseIds = new Set((forgeFile.phases || []).map((phase) => phase.id));
 Object.keys(experienceRaw.phases || {}).forEach((id) => {
-  check(forgePhaseIds.has(id), "experience phase note is not a FORGE-120 phase: " + id);
+  check(forgePhaseIds.has(id), "experience phase note is not in the active curriculum: " + id);
 });
 (forgeFile.phases || []).forEach((phase) => {
-  check(experienceRaw.phases && experienceRaw.phases[phase.id], "FORGE-120 phase missing a plain explanation: " + phase.id);
+  check(experienceRaw.phases && experienceRaw.phases[phase.id], "active curriculum phase missing a plain explanation: " + phase.id);
 });
 const staticRoutes = new Set(["/", "/learn", "/guides", "/projects", "/about", "/missing-lesson"]);
 function hrefPath(href) {
@@ -1173,6 +1174,81 @@ check(
 check(queryDays(journey, { skillId: "rag" }).some((day) => day.day === 97), "RAG focus includes day 97");
 check(queryDays(journey, { concept: "Git" }).some((day) => day.day === 1), "a concept query uses the day record");
 check(queryDays(journey, { gateId: "kubernetes" }).some((day) => day.day === 60), "a gate query uses the curriculum gate");
+const activeModel = getProgramModel();
+check(activeModel.sourceId === "forge-120", "the active programme must name one curriculum source");
+check(
+  activeModel.experience && activeModel.experience.programSource === activeModel.sourceId,
+  "experience data must be scoped to that programme source"
+);
+collectAlignmentErrors(activeModel.program, activeModel.curriculum, activeModel.experience).forEach((message) => errors.push(message));
+normalizeExperience(experienceRaw, null, {
+  totalDays: activeModel.journey.totalDays,
+  phaseIds: activeModel.journey.phases.map((phase) => phase.id),
+}).errors.forEach((message) => errors.push(message));
+check(activeModel.journey.errors.length === 0, "active journey errors: " + activeModel.journey.errors.join("; "));
+const dockerfile = journey.days.find((day) => day.day === 30);
+check(
+  dockerfile && !dockerfile.toolIds.includes("terraform") && !dockerfile.skillIds.includes("terraform"),
+  "terraform must not be inferred onto every day in its phase"
+);
+check(
+  journey.days.some((day) => day.day === 27 && day.toolIds.includes("terraform")),
+  "terraform day 27 stays an explicit tool day"
+);
+check(
+  (journey.days.find((day) => day.day === 1) || {}).relatedProjects.includes("forge-api"),
+  "related projects are explicit day fields"
+);
+[
+  "components/learning/ForgePlan.tsx",
+  "components/product/ProductHome.tsx",
+  "components/field/ForgeRail.tsx",
+  "components/home/ExperienceActs.tsx",
+  "components/learning/LessonTrail.tsx",
+  "lib/search.ts",
+].forEach((rel) => {
+  const text = fs.readFileSync(path.join(rootDir, rel), "utf8");
+  check(!text.includes("data/curriculum/forge-120.json"), rel + " must use the active programme model, not a direct curriculum import");
+  check(!text.includes("content/config/experience.json"), rel + " must use the active programme model, not a direct experience import");
+});
+const unlabeledGate = JSON.parse(JSON.stringify(forgeFile));
+delete unlabeledGate.gates[0].day;
+unlabeledGate.gates[0].around = "D12";
+check(
+  collectJourneyErrors(unlabeledGate, experienceRaw).some((message) => /explicit numeric day/.test(message)),
+  "a gate day must be numeric data, not parsed from its label"
+);
+const duplicateDay = JSON.parse(JSON.stringify(forgeFile));
+duplicateDay.days.push(Object.assign({}, duplicateDay.days[0], { slug: "day-1-copy" }));
+check(
+  collectJourneyErrors(duplicateDay, experienceRaw).some((message) => /duplicate day 1/.test(message)),
+  "duplicate day numbers fail in the journey layer"
+);
+const shortCurriculum = {
+  totalDays: 3,
+  phases: [{ id: "start", number: 1, name: "Start", daysLabel: "1–3", startDay: 1, endDay: 3, summary: "Three days." }],
+  days: [1, 2, 3].map((day) => ({ day, title: "Day " + day, phaseId: "start", goal: "Do the work.", concepts: [] })),
+  gates: [{ id: "end", name: "End", day: 3, around: "D3", evidence: "A checkpoint." }],
+};
+const shortExperience = {
+  phases: { start: { plain: "Begin.", icon: "terminal", accent: "ink" } },
+  skills: [
+    {
+      id: "group",
+      title: "Group",
+      accent: "ink",
+      items: [{ id: "one", name: "One", plain: "A skill.", icon: "terminal", kind: "skill", phases: ["start"], days: [1] }],
+    },
+  ],
+  spans: [{ id: "all", name: "All", from: 1, to: 3, plain: "The short path." }],
+};
+const shortJourney = normalizeJourney(shortCurriculum, shortExperience);
+check(shortJourney.errors.length === 0, "a 3-day programme normalizes without a 120-day engine: " + shortJourney.errors.join("; "));
+check(
+  shortJourney.days[0].skillIds.includes("one") && !shortJourney.days[1].skillIds.includes("one"),
+  "day-accurate skills work for a programme that is not 120 days"
+);
+check(shortJourney.totalDays === 3 && shortJourney.days[2].nextDay === null, "programme length comes from its own days");
 
 console.log("Running brand language checks...");
 checkBrandLanguage(rootDir).forEach((message) => errors.push(message));

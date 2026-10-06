@@ -2,15 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import forge from "@/data/curriculum/forge-120.json";
-import experience from "@/content/config/experience.json";
 import brandLanguage from "@/content/config/brand-language.json";
-import { normalizeJourney, queryDays, type JourneyModel } from "@/lib/journey";
+import { queryDays, type JourneyModel } from "@/lib/journey";
 import { resolveContinue, type LearnerCatalog } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import RegistryIcon from "@/components/icons/RegistryIcon";
-
-const journey: JourneyModel = normalizeJourney(forge, experience);
 
 function dayState(published: boolean, done: boolean, current: boolean) {
   if (done) return "Completed on this device";
@@ -19,7 +15,7 @@ function dayState(published: boolean, done: boolean, current: boolean) {
   return "Planned";
 }
 
-export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
+export default function ForgePlan({ catalog, journey }: { catalog: LearnerCatalog; journey: JourneyModel }) {
   const { state, hasHydrated, toggleSaved } = useLessonProgress();
   const target = resolveContinue(hasHydrated ? state : null, catalog);
   const [phaseId, setPhaseId] = useState<string | null>(null);
@@ -38,7 +34,7 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
       const phaseMatch = /phase-(\d+)/.exec(hash);
       if (dayMatch) {
         const day = Number(dayMatch[1]);
-        const owner = record(day);
+        const owner = journey.days.find((item) => item.day === day);
         if (owner) {
           setDayNumber(day);
           setPhaseId(owner.phaseId);
@@ -56,7 +52,7 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
     readHash();
     window.addEventListener("hashchange", readHash);
     return () => window.removeEventListener("hashchange", readHash);
-  }, []);
+  }, [journey]);
 
   const phase =
     journey.phases.find((item) => item.id === phaseId) ||
@@ -70,7 +66,7 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
   const current = Boolean(live && target.slug === live.slug);
 
   const skill = journey.skills.find((item) => item.id === skillId) || null;
-  const matched = useMemo(() => (skillId ? new Set(queryDays(journey, { skillId }).map((day) => day.day)) : null), [skillId]);
+  const matched = useMemo(() => (skillId ? new Set(queryDays(journey, { skillId }).map((day) => day.day)) : null), [skillId, journey]);
 
   function selectDay(day: number, hash = "day") {
     const owner = record(day);
@@ -120,7 +116,8 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
   const phaseSkills = journey.skills.filter((item) => phase.skillIds.includes(item.id));
   const phaseGate = journey.gates.find((item) => item.id === phase.gateId) || null;
   const dayGate = journey.gates.find((item) => item.day === shown.day) || null;
-  const skills = journey.skills.filter((item) => shown.skillIds.includes(item.id));
+  const daySkills = journey.skills.filter((item) => shown.skillIds.includes(item.id));
+  const dayTools = journey.skills.filter((item) => shown.toolIds.includes(item.id));
   const previous = shown.previousDay ? record(shown.previousDay) : null;
   const nextDay = shown.nextDay ? record(shown.nextDay) : null;
   const stateLabel = dayState(Boolean(live?.published), done, current && !done);
@@ -328,10 +325,16 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
                 <dd>{shown.concepts.join(" · ")}</dd>
               </div>
             ) : null}
-            {skills.length > 0 ? (
+            {daySkills.length > 0 ? (
               <div>
-                <dt>Skills and tools</dt>
-                <dd>{skills.map((item) => item.name).join(", ")}</dd>
+                <dt>Skills</dt>
+                <dd>{daySkills.map((item) => item.name).join(", ")}</dd>
+              </div>
+            ) : null}
+            {dayTools.length > 0 ? (
+              <div>
+                <dt>Tools</dt>
+                <dd>{dayTools.map((item) => item.name).join(", ")}</dd>
               </div>
             ) : null}
             {dayGate ? (
@@ -345,15 +348,34 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
                 </dd>
               </div>
             ) : null}
+            {shown.relatedProjects.length > 0 ? (
+              <div>
+                <dt>Related projects</dt>
+                <dd>
+                  {shown.relatedProjects.map((slug) => (
+                    <Link key={slug} href={`/projects/${slug}`}>
+                      Related project: {slug}
+                    </Link>
+                  ))}
+                </dd>
+              </div>
+            ) : null}
+            {shown.relatedGuides.length > 0 ? (
+              <div>
+                <dt>Related guides</dt>
+                <dd>
+                  {shown.relatedGuides.map((slug) => (
+                    <Link key={slug} href={`/guides/${slug}`}>
+                      {slug}
+                    </Link>
+                  ))}
+                </dd>
+              </div>
+            ) : null}
             {shown.capstoneConnection ? (
               <div>
                 <dt>Capstone</dt>
-                <dd>
-                  {shown.capstoneConnection}{" "}
-                  {shown.capstoneConnection.toLowerCase().includes("forge-api") ? (
-                    <Link href="/projects/forge-api">Related project: forge-api</Link>
-                  ) : null}
-                </dd>
+                <dd>{shown.capstoneConnection}</dd>
               </div>
             ) : null}
           </dl>

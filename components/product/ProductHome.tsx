@@ -11,8 +11,8 @@ import ContentList from "@/components/home/ContentList";
 import CourseListSection from "@/components/home/CourseListSection";
 import TopicGrid from "@/components/home/TopicGrid";
 import ChannelGrid from "@/components/home/ChannelGrid";
-import curriculum from "@/data/curriculum/forge-120.json";
 import { getLearnerCatalog } from "@/lib/programs";
+import { getProgramModel } from "@/lib/program-model";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
 import type { SocialPlatform, TopicConfig } from "@/lib/config";
 import type { Course } from "@/lib/lessons";
@@ -21,6 +21,7 @@ import { getPlatformStory } from "@/lib/config";
 
 export default function ProductHome({ sections }: { sections: ResolvedHomepageSection[] }) {
   const catalog = getLearnerCatalog();
+  const model = getProgramModel(catalog.programId);
   const story = getPlatformStory();
   const frames: Record<string, { kicker: string; surface: string; accent: string; layout: string }> = {
     hero: { kicker: "The journey", surface: "base", accent: "ochre", layout: "rail" },
@@ -63,7 +64,9 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
             primaryLabel={brandLanguage.ctas.primary}
             secondaryHref={brandLanguage.ctas.secondaryHref}
             secondaryLabel={brandLanguage.ctas.secondary}
-            facts={curriculum.days.map((day) => ({
+            hero={model.experience.hero}
+            notes={model.experience.phases}
+            facts={model.journey.days.map((day) => ({
               day: day.day,
               phaseId: day.phaseId,
               goal: day.goal,
@@ -93,13 +96,13 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
       case "phases":
         return null;
       case "skills":
-        return chapter(section, index, <SkillsBand />, section.title || "What you will practise");
+        return chapter(section, index, <SkillsBand experience={model.experience} />, section.title || "What you will practise");
       case "instrument":
-        return chapter(section, index, <ControlPrimer />, section.title || "Where AI enters");
+        return chapter(section, index, <ControlPrimer experience={model.experience} />, section.title || "Where AI enters");
       case "why":
-        return chapter(section, index, <OrderStory />, section.title || "Why this order");
+        return chapter(section, index, <OrderStory experience={model.experience} />, section.title || "Why this order");
       case "method":
-        return chapter(section, index, <DayFlow />, section.title || "How one day works");
+        return chapter(section, index, <DayFlow experience={model.experience} />, section.title || "How one day works");
       case "today":
         return <TodaySection key={section.id} section={section} />;
       case "path":

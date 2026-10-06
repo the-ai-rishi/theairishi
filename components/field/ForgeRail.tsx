@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import brandLanguage from "@/content/config/brand-language.json";
-import experience from "@/content/config/experience.json";
 import type { LearnerCatalog } from "@/lib/continue-learning";
 import { resolveContinue } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
@@ -16,7 +15,7 @@ export type DayFact = {
   concepts: string[];
 };
 
-const notes = experience.phases as Record<string, { plain: string; icon: string; accent: string }>;
+export type PhaseNote = { plain: string; icon: string; accent: string };
 
 export default function ForgeRail({
   catalog,
@@ -25,6 +24,8 @@ export default function ForgeRail({
   secondaryHref,
   secondaryLabel,
   facts,
+  hero,
+  notes,
 }: {
   catalog: LearnerCatalog;
   primaryHref: string;
@@ -32,6 +33,8 @@ export default function ForgeRail({
   secondaryHref: string;
   secondaryLabel: string;
   facts: DayFact[];
+  hero: { lead: string; detail: string; because: string };
+  notes: Record<string, PhaseNote>;
 }) {
   const phases = catalog.phases;
   const [pickedIndex, setPickedIndex] = useState<number | null>(null);
@@ -131,9 +134,9 @@ export default function ForgeRail({
           <span>{publishedTotal} published</span>
           {statusLine ? <span>{statusLine}</span> : null}
         </p>
-        <p className="rail-lead">{experience.hero.lead}</p>
-        <p className="rail-detail-copy">{experience.hero.detail}</p>
-        <p className="rail-because">{experience.hero.because}</p>
+        <p className="rail-lead">{hero.lead}</p>
+        <p className="rail-detail-copy">{hero.detail}</p>
+        <p className="rail-because">{hero.because}</p>
         <p className="rail-actions">
           <Link className="rail-start" href={startHref}>
             {startLabel}

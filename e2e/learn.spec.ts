@@ -4,7 +4,13 @@ function watch(page: import("@playwright/test").Page) {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
-    if (message.type() === "error" && !/Failed to load resource/.test(message.text())) errors.push(message.text());
+    if (message.type() !== "error") return;
+    errors.push(message.text());
+  });
+  page.on("response", (response) => {
+    const url = response.url();
+    if (!url.startsWith("http://127.0.0.1:3456")) return;
+    if (response.status() >= 400) errors.push(`${response.status()} ${url}`);
   });
   return errors;
 }

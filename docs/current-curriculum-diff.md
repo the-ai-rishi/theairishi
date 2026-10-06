@@ -2,8 +2,8 @@
 
 Date: 2026-10-02.
 
-Authoritative snapshot: `data/curriculum/forge-120.json`, imported from `the-ai-rishi/ai-devops-engineer-mastery` `main` @ `7736416`.
-The old repository `the-ai-rishi/devops-engineer-mastery` is historical. The website does not read either repository at runtime.
+Authoritative snapshot: `data/curriculum/forge-120.json`.
+The website does not read a private authoring repository at runtime, and this public repository does not publish that repository's URL or history.
 
 This file is the short OLD → NEW trail. The longer matrix is [curriculum-migration-report.md](curriculum-migration-report.md).
 

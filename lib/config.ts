@@ -145,6 +145,10 @@ export interface NavItem {
   external?: boolean;
 }
 
+export type HomepageSurface = "base" | "raised" | "inset" | "tinted";
+export type HomepageAccent = "ochre" | "cobalt" | "teal" | "plum" | "ink";
+export type HomepageLayout = "rail" | "sequence" | "toolkit" | "flow" | "split" | "prose";
+
 export type HomepageSectionType =
   | "hero"
   | "topic-grid"
@@ -160,7 +164,9 @@ export type HomepageSectionType =
   | "path"
   | "why"
   | "today"
-  | "destinations";
+  | "destinations"
+  | "instrument"
+  | "skills";
 
 export type ContentSource =
   | { kind: "recent" }
@@ -182,6 +188,10 @@ export interface HomepageSection {
   showWhenEmpty?: boolean;
   bodyKey?: string;
   body?: string;
+  kicker?: string;
+  surface?: HomepageSurface;
+  accent?: HomepageAccent;
+  layout?: HomepageLayout;
   /** @deprecated Use source.kind = topic. Kept so old JSON does not explode the parser. */
   topicId?: string;
 }
@@ -547,6 +557,12 @@ export function getHomepageSections(): HomepageSection[] {
       source: s.source as ContentSource | undefined,
       maxItems: s.maxItems,
       showWhenEmpty: s.showWhenEmpty,
+      bodyKey: s.bodyKey,
+      body: s.body,
+      kicker: s.kicker,
+      surface: s.surface as HomepageSurface | undefined,
+      accent: s.accent as HomepageAccent | undefined,
+      layout: s.layout as HomepageLayout | undefined,
     }));
 }
 
