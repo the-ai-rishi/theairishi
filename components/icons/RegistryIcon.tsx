@@ -1,0 +1,58 @@
+import {
+  Activity,
+  Ban,
+  BookOpen,
+  Boxes,
+  Bug,
+  CheckCheck,
+  Circle,
+  Cloud,
+  Container,
+  FileCode,
+  GitBranch,
+  Monitor,
+  Network,
+  Plug,
+  Quote,
+  RotateCcw,
+  ScrollText,
+  Search,
+  Shield,
+  Ship,
+  Terminal,
+  Workflow,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
+
+const ICONS: Record<string, LucideIcon> = {
+  terminal: Terminal,
+  git: GitBranch,
+  network: Network,
+  cloud: Cloud,
+  workflow: Workflow,
+  blocks: Boxes,
+  container: Container,
+  azure: Cloud,
+  ship: Ship,
+  activity: Activity,
+  monitor: Monitor,
+  incident: Activity,
+  rollback: RotateCcw,
+  bug: Bug,
+  search: Search,
+  book: BookOpen,
+  chunk: FileCode,
+  quote: Quote,
+  policy: Ban,
+  check: CheckCheck,
+  tool: Wrench,
+  mcp: Plug,
+  shield: Shield,
+  source: ScrollText,
+};
+
+export default function RegistryIcon({ name, className }: { name?: string; className?: string }) {
+  const Icon = (name && ICONS[name]) || Circle;
+  return <Icon className={className} aria-hidden="true" strokeWidth={1.6} />;
+}

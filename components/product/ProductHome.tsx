@@ -1,8 +1,7 @@
-import ForgeWorld from "@/components/field/ForgeWorld";
+import ForgeRail from "@/components/field/ForgeRail";
+import { ControlPrimer, DayFlow, OrderStory, SkillsBand } from "@/components/home/ExperienceActs";
 import brandLanguage from "@/content/config/brand-language.json";
 import CurrentWorkCard from "@/components/product/CurrentWorkCard";
-import WhySection from "@/components/home/WhySection";
-import MethodSection from "@/components/home/MethodSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
 import CallToAction from "@/components/home/CallToAction";
 import TodaySection from "@/components/home/TodaySection";
@@ -10,7 +9,6 @@ import ContentList from "@/components/home/ContentList";
 import CourseListSection from "@/components/home/CourseListSection";
 import TopicGrid from "@/components/home/TopicGrid";
 import ChannelGrid from "@/components/home/ChannelGrid";
-import CurriculumControl from "@/components/product/CurriculumControl";
 import curriculum from "@/data/curriculum/forge-120.json";
 import { getLearnerCatalog } from "@/lib/programs";
 import type { ResolvedHomepageSection } from "@/lib/homepage";
@@ -18,22 +16,6 @@ import type { SocialPlatform, TopicConfig } from "@/lib/config";
 import type { Course } from "@/lib/lessons";
 import type { UniversalContentItem } from "@/lib/content";
 import { getPlatformStory } from "@/lib/config";
-
-function Instrument() {
-  return (
-    <CurriculumControl
-      reliabilityName={curriculum.phases[7]?.name || "Reliability"}
-      reliabilitySummary={curriculum.phases[7]?.summary || ""}
-      controlName={curriculum.phases[8]?.name || "RAG and controlled tool use"}
-      controlSummary={curriculum.phases[8]?.summary || ""}
-      days={curriculum.days
-        .filter((day) => day.day >= 89 && day.day <= 105)
-        .map((day) => ({ day: day.day, title: day.title, goal: day.goal }))}
-      gates={curriculum.gates}
-      touchpoints={curriculum.touchpoints}
-    />
-  );
-}
 
 export default function ProductHome({ sections }: { sections: ResolvedHomepageSection[] }) {
   const catalog = getLearnerCatalog();
@@ -43,7 +25,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
     switch (section.type) {
       case "hero":
         return (
-          <ForgeWorld
+          <ForgeRail
             key={section.id}
             catalog={catalog}
             primaryHref={brandLanguage.ctas.primaryHref}
@@ -79,12 +61,14 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
         );
       case "phases":
         return null;
+      case "skills":
+        return <SkillsBand key={section.id} />;
       case "instrument":
-        return <Instrument key={section.id} />;
+        return <ControlPrimer key={section.id} />;
       case "why":
-        return <WhySection key={section.id} section={section} />;
+        return <OrderStory key={section.id} />;
       case "method":
-        return <MethodSection key={section.id} section={section} />;
+        return <DayFlow key={section.id} />;
       case "today":
         return <TodaySection key={section.id} section={section} />;
       case "path":

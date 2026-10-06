@@ -1060,6 +1060,83 @@ if (programConfig) {
 }
 
 
+const { loadExperience, normalizeExperience } = require("../lib/experience");
+
+console.log("Running experience checks...");
+const experienceRaw = loadExperience(rootDir);
+const experienceCheck = normalizeExperience(experienceRaw);
+experienceCheck.errors.forEach((message) => errors.push(message));
+const forgeFile = JSON.parse(fs.readFileSync(path.join(rootDir, "data/curriculum/forge-120.json"), "utf8"));
+const forgePhaseIds = new Set((forgeFile.phases || []).map((phase) => phase.id));
+Object.keys(experienceRaw.phases || {}).forEach((id) => {
+  check(forgePhaseIds.has(id), "experience phase note is not a FORGE-120 phase: " + id);
+});
+(forgeFile.phases || []).forEach((phase) => {
+  check(experienceRaw.phases && experienceRaw.phases[phase.id], "FORGE-120 phase missing a plain explanation: " + phase.id);
+});
+const staticRoutes = new Set(["/", "/learn", "/guides", "/projects", "/about", "/missing-lesson"]);
+function hrefPath(href) {
+  if (!href || typeof href !== "string" || !href.startsWith("/")) return null;
+  return href.split("#")[0].split("?")[0];
+}
+function knownHref(href) {
+  const bare = hrefPath(href);
+  if (!bare) return true;
+  if (staticRoutes.has(bare)) return true;
+  const learn = /^\/learn\/([^/]+)$/.exec(bare);
+  if (learn) return lessonSlugs.has(learn[1]);
+  const guide = /^\/guides\/([^/]+)$/.exec(bare);
+  if (guide) return guideSlugs.has(guide[1]);
+  const project = /^\/projects\/([^/]+)$/.exec(bare);
+  if (project) return projectSlugs.has(project[1]);
+  const topic = /^\/topics\/([^/]+)$/.exec(bare);
+  if (topic) return definedTopicSlugs.has(topic[1]);
+  return false;
+}
+function mdSlugs(dir) {
+  const full = path.join(rootDir, dir);
+  if (!fs.existsSync(full)) return new Set();
+  return new Set(
+    fs.readdirSync(full).filter((name) => name.endsWith(".md")).map((name) => name.replace(/\.md$/, ""))
+  );
+}
+const lessonSlugs = mdSlugs("content/lessons");
+const guideSlugs = mdSlugs("content/guides");
+const projectSlugs = mdSlugs("content/projects");
+(experienceRaw.skills || []).forEach((group) => {
+  (group.items || []).forEach((item) => {
+    check(knownHref(item.href), "skill " + item.id + " links to an unknown route: " + item.href);
+  });
+});
+if (platform && platform.navigation) {
+  ["main", "footer"].forEach((listName) => {
+    (platform.navigation[listName] || []).forEach((item) => {
+      if (item && item.enabled !== false && item.href) {
+        check(knownHref(item.href), "nav " + listName + " " + item.id + " does not resolve: " + item.href);
+      }
+    });
+  });
+}
+((platform && platform.homepage && platform.homepage.sections) || []).forEach((section) => {
+  if (section && section.enabled && section.ctaHref) {
+    check(knownHref(section.ctaHref), "homepage " + section.id + " cta does not resolve: " + section.ctaHref);
+  }
+});
+const added = JSON.parse(JSON.stringify(experienceRaw));
+added.skills[0].items.push({
+  id: "future-skill",
+  name: "Future skill",
+  plain: "Added from configuration.",
+  icon: "terminal",
+  href: "/learn",
+});
+const addedCheck = normalizeExperience(added);
+check(addedCheck.errors.length === 0, "a new skill in experience.json should validate without a component change");
+check(
+  addedCheck.experience.skills[0].items.some((item) => item.id === "future-skill"),
+  "a new skill remains in the normalized experience model"
+);
+
 console.log("Running brand language checks...");
 checkBrandLanguage(rootDir).forEach((message) => errors.push(message));
 

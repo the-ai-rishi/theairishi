@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* One paper theme. The token names are historical:
+   --color-ink is the ivory page, --color-cream is graphite type.
+   field.css must not invert them. */
+
 @theme {
   --color-ink: #efe8dc;
   --color-field: #e6dece;

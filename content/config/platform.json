@@ -487,6 +487,12 @@
         "order": 1
       },
       {
+        "id": "skills",
+        "type": "skills",
+        "enabled": true,
+        "order": 2
+      },
+      {
         "id": "continue-learning",
         "type": "continue-learning",
         "enabled": false,
@@ -517,14 +523,14 @@
         "id": "instrument",
         "type": "instrument",
         "enabled": true,
-        "order": 6,
+        "order": 5,
         "title": "Reliability and controlled tool use"
       },
       {
         "id": "why",
         "type": "why",
         "enabled": true,
-        "order": 5,
+        "order": 3,
         "title": "Why foundations come first",
         "subtitle": "Control arrives after you can operate the system"
       },
@@ -550,7 +556,7 @@
         "id": "path",
         "type": "path",
         "enabled": true,
-        "order": 8,
+        "order": 6,
         "title": "After day 120",
         "subtitle": "Deepen only when the work requires it"
       },

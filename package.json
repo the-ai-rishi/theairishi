@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "eslint",
     "prelint": "node scripts/generate-content-data.js",
+    "typecheck": "tsc --noEmit",
     "validate": "node scripts/validate.js",
     "new-day": "node scripts/new-day.js",
     "prevalidate": "node scripts/generate-content-data.js",
@@ -34,12 +35,14 @@
     "remark-html": "^16.0.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.3.1",
+    "eslint-config-next": "16.3.8",
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.147.0"

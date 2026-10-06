@@ -452,8 +452,9 @@ function runScenarioTests() {
     const liveHomeTypes = liveHome.map((section) => section.type);
     check(
       liveHomeTypes.includes("hero") &&
-        liveHomeTypes.includes("method") &&
+        liveHomeTypes.includes("skills") &&
         liveHomeTypes.includes("why") &&
+        liveHomeTypes.includes("method") &&
         liveHomeTypes.includes("instrument") &&
         liveHomeTypes.includes("path") &&
         liveHomeTypes.includes("cta") &&
@@ -461,7 +462,7 @@ function runScenarioTests() {
         !liveHomeTypes.includes("program") &&
         !liveHomeTypes.includes("phases") &&
         !liveHomeTypes.includes("today"),
-      "Production: homepage is the journey, the practice, the boundary, then the start"
+      "Production: homepage explains the path, the practice, and where AI enters"
     );
     check(
       !liveHome.some((s) => s.type === "topic-grid"),
