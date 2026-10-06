@@ -484,13 +484,22 @@
         "id": "hero",
         "type": "hero",
         "enabled": true,
-        "order": 1
+        "order": 1,
+        "kicker": "The journey",
+        "surface": "base",
+        "accent": "ochre",
+        "layout": "rail"
       },
       {
         "id": "skills",
         "type": "skills",
         "enabled": true,
-        "order": 2
+        "order": 2,
+        "title": "What you will practise",
+        "kicker": "The toolkit",
+        "surface": "raised",
+        "accent": "ochre",
+        "layout": "toolkit"
       },
       {
         "id": "continue-learning",
@@ -524,15 +533,23 @@
         "type": "instrument",
         "enabled": true,
         "order": 5,
-        "title": "Reliability and controlled tool use"
+        "title": "Where AI enters",
+        "kicker": "The boundary",
+        "surface": "tinted",
+        "accent": "plum",
+        "layout": "flow"
       },
       {
         "id": "why",
         "type": "why",
         "enabled": true,
         "order": 3,
-        "title": "Why foundations come first",
-        "subtitle": "Control arrives after you can operate the system"
+        "title": "Why this order",
+        "subtitle": "Control arrives after you can operate the system",
+        "kicker": "The sequence",
+        "surface": "inset",
+        "accent": "ink",
+        "layout": "sequence"
       },
       {
         "id": "today",
@@ -549,8 +566,12 @@
         "type": "method",
         "enabled": true,
         "order": 4,
-        "title": "How a day works",
-        "subtitle": "Practice, not playback"
+        "title": "How one day works",
+        "subtitle": "Practice, not playback",
+        "kicker": "One day",
+        "surface": "base",
+        "accent": "ochre",
+        "layout": "flow"
       },
       {
         "id": "path",
@@ -558,7 +579,11 @@
         "enabled": true,
         "order": 6,
         "title": "After day 120",
-        "subtitle": "Deepen only when the work requires it"
+        "subtitle": "Deepen only when the work requires it",
+        "kicker": "After the programme",
+        "surface": "raised",
+        "accent": "teal",
+        "layout": "split"
       },
       {
         "id": "community",
@@ -574,8 +599,12 @@
         "type": "cta",
         "enabled": true,
         "order": 9,
-        "title": "Start at Day 1",
+        "title": "Ready to start?",
         "subtitle": "Contract, repo, honesty",
+        "kicker": "Begin",
+        "surface": "inset",
+        "accent": "ochre",
+        "layout": "split",
         "ctaLabel": "Open Day 1",
         "ctaHref": "/learn/day-01"
       },
@@ -648,6 +677,10 @@
         "order": 10,
         "title": "Around the work",
         "subtitle": "Instagram and Telegram",
+        "kicker": "Elsewhere",
+        "surface": "base",
+        "accent": "ink",
+        "layout": "split",
         "showWhenEmpty": false,
         "body": "Daily posts go on Instagram. Discussion happens on Telegram. The 120-day plan stays here."
       }

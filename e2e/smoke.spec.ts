@@ -35,6 +35,17 @@ test.describe("FORGE-120 smoke", () => {
     await expect(page.getByRole("button", { name: /09\s*RAG and controlled tool use/ })).toBeVisible();
     await expect(page.getByText("ANCIENT WISDOM")).toHaveCount(0);
     await expect(page.locator(".atlas")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "What you will practise" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Why this order" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How one day works" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Where AI enters" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Ready to start?" })).toBeVisible();
+    await expect(page.getByText("Fixed example. Not a live model, and not a live index.")).toBeVisible();
+
+    await page.getByRole("button", { name: /^0?3?\s*Break$/ }).click();
+    await expect(page.getByText("Break one thing safely. Write down what you saw.")).toBeVisible();
+    await page.getByRole("button", { name: "Cite", exact: true }).click();
+    await expect(page.getByText("The answer points at the source. If it cannot, it should not pretend.")).toBeVisible();
 
     await page.getByRole("button", { name: /05\s*Kubernetes/ }).click();
     await expect(page.getByRole("button", { name: /05\s*Kubernetes/ })).toHaveAttribute("aria-expanded", "true");

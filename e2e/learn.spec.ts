@@ -16,12 +16,31 @@ test.describe("120-day plan", () => {
     await expect(page.getByRole("heading", { level: 1, name: "FORGE-120" })).toBeVisible();
     await expect(page.getByRole("button", { name: /Day 1,/ })).toBeVisible();
     await expect(page.getByRole("button", { name: /Day 120,/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /05\s+Kubernetes/ })).toBeVisible();
+    await expect(page.locator(".plan-day")).toHaveCount(120);
+    const phaseNames = [
+      "01 Foundations",
+      "02 Azure networking and identity",
+      "03 CI and delivery",
+      "04 Terraform and application",
+      "05 Kubernetes",
+      "06 AKS",
+      "07 Infrastructure delivery",
+      "08 Reliability",
+      "09 RAG and controlled tool use",
+      "10 Design and defence",
+    ];
+    for (const name of phaseNames) {
+      const button = page.getByRole("button", { name: new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\\ /g, "\\s+")) });
+      await expect(button).toBeVisible();
+      await button.click();
+      await expect(button).toHaveAttribute("aria-current", "true");
+    }
 
     await page.getByRole("button", { name: /05\s+Kubernetes/ }).click();
     await page.getByRole("button", { name: /Day 37,/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: "Kubernetes control plane" })).toBeVisible();
     await expect(page.getByText("Planned. The lesson is not published.")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Open lesson" })).toHaveCount(0);
 
     await page.getByRole("button", { name: /Day 1,/ }).click();
     await page.getByRole("link", { name: "Open lesson" }).click();
@@ -46,7 +65,11 @@ test.describe("120-day plan", () => {
     await expect(page.getByRole("button", { name: /02\s+Azure networking and identity/ })).toHaveAttribute("aria-current", "true");
 
     await page.getByRole("button", { name: /Day 12,/ }).click();
-    await expect(page.getByText("Gate D12. Foundation.")).toBeVisible();
+    await expect(page.locator("#plan-detail").getByText("Gate D12. Foundation.")).toBeVisible();
+    await page.getByRole("button", { name: "D60 Kubernetes" }).click();
+    await expect(page.getByRole("heading", { level: 2, name: "M3 mock" })).toBeVisible();
+    await expect(page.locator("#plan-detail").getByText("Gate D60. Kubernetes.")).toBeVisible();
+    await page.getByRole("button", { name: /Day 12,/ }).click();
     await page.getByRole("button", { name: "Save on this device" }).click();
     await expect(page.getByRole("button", { name: "Saved on this device" })).toBeVisible();
     await page.reload();
@@ -55,6 +78,10 @@ test.describe("120-day plan", () => {
 
     await page.getByRole("button", { name: "Terraform", exact: true }).click();
     await expect(page.getByText("Create cloud infrastructure from code.")).toBeVisible();
+    await expect(page.locator(".plan-day.is-dim").first()).toBeVisible();
+    await page.getByRole("button", { name: "Clear skill" }).click();
+    await expect(page.getByText("Choose a skill to mark the days that use it.")).toBeVisible();
+    await expect(page.locator(".plan-day.is-dim")).toHaveCount(0);
 
     for (const width of [320, 390, 768, 1280]) {
       await page.setViewportSize({ width, height: 900 });

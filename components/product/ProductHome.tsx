@@ -1,5 +1,7 @@
+import type { ReactNode } from "react";
 import ForgeRail from "@/components/field/ForgeRail";
 import { ControlPrimer, DayFlow, OrderStory, SkillsBand } from "@/components/home/ExperienceActs";
+import Chapter from "@/components/home/Chapter";
 import brandLanguage from "@/content/config/brand-language.json";
 import CurrentWorkCard from "@/components/product/CurrentWorkCard";
 import DestinationsSection from "@/components/home/DestinationsSection";
@@ -20,13 +22,42 @@ import { getPlatformStory } from "@/lib/config";
 export default function ProductHome({ sections }: { sections: ResolvedHomepageSection[] }) {
   const catalog = getLearnerCatalog();
   const story = getPlatformStory();
+  const frames: Record<string, { kicker: string; surface: string; accent: string; layout: string }> = {
+    hero: { kicker: "The journey", surface: "base", accent: "ochre", layout: "rail" },
+    skills: { kicker: "The toolkit", surface: "raised", accent: "ochre", layout: "toolkit" },
+    why: { kicker: "The sequence", surface: "inset", accent: "ink", layout: "sequence" },
+    method: { kicker: "One day", surface: "base", accent: "ochre", layout: "flow" },
+    instrument: { kicker: "The boundary", surface: "tinted", accent: "plum", layout: "flow" },
+    path: { kicker: "After the programme", surface: "raised", accent: "teal", layout: "split" },
+    cta: { kicker: "Begin", surface: "inset", accent: "ochre", layout: "split" },
+    destinations: { kicker: "Elsewhere", surface: "base", accent: "ink", layout: "split" },
+  };
 
-  function renderSection(section: ResolvedHomepageSection) {
+  function chapter(section: ResolvedHomepageSection, index: number, children: ReactNode, title?: string) {
+    const preset = frames[section.type] || { kicker: "", surface: "base", accent: "ink", layout: "prose" };
+    return (
+      <Chapter
+        key={section.id}
+        index={index}
+        id={section.id}
+        kicker={section.kicker || preset.kicker}
+        title={title}
+        surface={section.surface || preset.surface}
+        accent={section.accent || preset.accent}
+        layout={section.layout || preset.layout}
+      >
+        {children}
+      </Chapter>
+    );
+  }
+
+  function renderSection(section: ResolvedHomepageSection, index: number) {
     switch (section.type) {
       case "hero":
-        return (
+        return chapter(
+          section,
+          index,
           <ForgeRail
-            key={section.id}
             catalog={catalog}
             primaryHref={brandLanguage.ctas.primaryHref}
             primaryLabel={brandLanguage.ctas.primary}
@@ -38,7 +69,7 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
               goal: day.goal,
               concepts: day.concepts,
             }))}
-          />
+          />,
         );
       case "continue-learning":
         return (
@@ -62,24 +93,21 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
       case "phases":
         return null;
       case "skills":
-        return <SkillsBand key={section.id} />;
+        return chapter(section, index, <SkillsBand />, section.title || "What you will practise");
       case "instrument":
-        return <ControlPrimer key={section.id} />;
+        return chapter(section, index, <ControlPrimer />, section.title || "Where AI enters");
       case "why":
-        return <OrderStory key={section.id} />;
+        return chapter(section, index, <OrderStory />, section.title || "Why this order");
       case "method":
-        return <DayFlow key={section.id} />;
+        return chapter(section, index, <DayFlow />, section.title || "How one day works");
       case "today":
         return <TodaySection key={section.id} section={section} />;
       case "path":
-        return (
-          <section key={section.id} className="py-8 sm:py-10">
-            <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-              <p className="kicker">{section.subtitle || "Later"}</p>
-              <h2 className="mt-3 font-serif text-2xl text-cream">{section.title || story.pathTitle}</h2>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/70">{section.body || story.pathBody}</p>
-            </div>
-          </section>
+        return chapter(
+          section,
+          index,
+          <p className="chapter-copy">{section.body || story.pathBody}</p>,
+          section.title || story.pathTitle,
         );
       case "prose":
         return (
@@ -94,15 +122,14 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
           </section>
         );
       case "destinations":
-        return (
-          <DestinationsSection
-            key={section.id}
-            section={section}
-            destinations={(section.data.destinations as SocialPlatform[]) || []}
-          />
+        return chapter(
+          section,
+          index,
+          <DestinationsSection section={section} destinations={(section.data.destinations as SocialPlatform[]) || []} />,
+          section.title || "Around the work",
         );
       case "cta":
-        return <CallToAction key={section.id} section={section} />;
+        return chapter(section, index, <CallToAction section={section} />, section.title || "Ready to start?");
       case "topic-grid":
         return <TopicGrid key={section.id} section={section} topics={(section.data.topics as TopicConfig[]) || []} />;
       case "course-list":
@@ -122,5 +149,5 @@ export default function ProductHome({ sections }: { sections: ResolvedHomepageSe
     }
   }
 
-  return <>{sections.map((section) => renderSection(section))}</>;
+  return <>{sections.map((section, index) => renderSection(section, index + 1))}</>;
 }

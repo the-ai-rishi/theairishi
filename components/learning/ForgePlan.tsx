@@ -115,194 +115,60 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
   const phaseDone = hasHydrated && phaseLive
     ? catalog.days.filter((day) => day.phaseId === phase.id && state.completed.includes(day.slug)).length
     : 0;
-  const gate = journey.gates.find((item) => item.id === phase.gateId) || journey.gates.find((item) => item.day === shown.day);
+  const phaseIndex = journey.phases.findIndex((item) => item.id === phase.id);
+  const prepares = journey.phases[phaseIndex + 1];
+  const phaseSkills = journey.skills.filter((item) => phase.skillIds.includes(item.id));
+  const phaseGate = journey.gates.find((item) => item.id === phase.gateId) || null;
+  const dayGate = journey.gates.find((item) => item.day === shown.day) || null;
   const skills = journey.skills.filter((item) => shown.skillIds.includes(item.id));
   const previous = shown.previousDay ? record(shown.previousDay) : null;
-  const next = shown.nextDay ? record(shown.nextDay) : null;
+  const nextDay = shown.nextDay ? record(shown.nextDay) : null;
   const stateLabel = dayState(Boolean(live?.published), done, current && !done);
+  const publishedTotal = catalog.days.filter((day) => day.published).length;
 
   return (
     <div className="plan">
-      <header className="plan-identity">
-        <p className="rail-brand">{brandLanguage.displayName}</p>
-        <h1>{catalog.title}</h1>
-        <p>
-          {catalog.phases.length} phases · {catalog.durationLabel}
-        </p>
-        <p>{catalog.description}</p>
-        <p className="rail-status">
-          <span>{catalog.days.filter((day) => day.published).length} published</span>
-          {hasHydrated ? <span>{target.completedCount} completed on this device</span> : null}
-          {hasHydrated ? <span>{target.ctaLabel}</span> : null}
-        </p>
-        {target.href ? (
-          <p className="rail-actions">
+      <header className="plan-bar">
+        <div>
+          <p className="rail-brand">{brandLanguage.displayName}</p>
+          <h1>{catalog.title}</h1>
+          <p className="rail-status">
+            <span>{catalog.totalDays} days</span>
+            <span>{catalog.phases.length} phases</span>
+            <span>{publishedTotal} published</span>
+            {hasHydrated ? <span>{target.completedCount} completed on this device</span> : null}
+          </p>
+        </div>
+        <div className="plan-bar-actions">
+          {target.href ? (
             <Link className="rail-start" href={target.href}>
               {hasHydrated ? target.ctaLabel : "Start Day 1"}
             </Link>
-          </p>
-        ) : null}
+          ) : null}
+          <form
+            className="plan-jump"
+            onSubmit={(event) => {
+              event.preventDefault();
+              jump(jumpValue);
+            }}
+          >
+            <label htmlFor="jump-day">Jump to day</label>
+            <input
+              id="jump-day"
+              inputMode="numeric"
+              value={jumpValue}
+              placeholder="Day 59"
+              onChange={(event) => setJumpValue(event.target.value)}
+            />
+            <button type="submit">Go</button>
+            {jumpError ? <p role="alert">{jumpError}</p> : null}
+          </form>
+        </div>
       </header>
 
-      <form
-        className="plan-jump"
-        onSubmit={(event) => {
-          event.preventDefault();
-          jump(jumpValue);
-        }}
-      >
-        <label htmlFor="jump-day">Jump to day</label>
-        <input
-          id="jump-day"
-          inputMode="numeric"
-          value={jumpValue}
-          placeholder="Day 59"
-          onChange={(event) => setJumpValue(event.target.value)}
-        />
-        <button type="submit">Go</button>
-        {jumpError ? <p role="alert">{jumpError}</p> : null}
-      </form>
-
-      <section aria-label="All 120 days">
-        <ol className="plan-year">
-          {journey.days.map((day) => {
-            const item = catalogDay(day.day);
-            const isDone = Boolean(hasHydrated && item && state.completed.includes(item.slug));
-            const isNow = item?.slug === target.slug;
-            const on = day.day === shown.day;
-            const dim = matched ? !matched.has(day.day) : false;
-            const label = `Day ${day.day}, ${day.title}. ${item?.published ? "Published" : "Planned"}${isDone ? ". Completed on this device" : ""}`;
-            return (
-              <li key={day.id}>
-                <button
-                  type="button"
-                  className={`plan-day${item?.published ? " is-open" : ""}${isDone ? " is-done" : ""}${isNow ? " is-now" : ""}${on ? " is-on" : ""}${day.gateId ? " is-gate" : ""}${dim ? " is-dim" : ""}`}
-                  aria-label={label}
-                  aria-pressed={on}
-                  onClick={() => selectDay(day.day)}
-                >
-                  {day.day}
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-      </section>
-
-      <div className="plan-split">
-        <ol
-          className="plan-phases"
-          aria-label="Ten phases"
-          onKeyDown={(event) => {
-            if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-            const currentId = (event.target as HTMLElement).closest("li")?.getAttribute("data-phase");
-            const index = journey.phases.findIndex((item) => item.id === currentId);
-            if (index < 0) return;
-            event.preventDefault();
-            const next = journey.phases[index + (event.key === "ArrowDown" ? 1 : -1)];
-            if (!next) return;
-            selectPhase(next.id);
-            window.requestAnimationFrame(() => {
-              document.getElementById(`phase-btn-${next.id}`)?.focus();
-            });
-          }}
-        >
-          {journey.phases.map((item) => {
-            const livePhase = catalog.phases.find((phaseItem) => phaseItem.id === item.id);
-            const completed = hasHydrated
-              ? catalog.days.filter((day) => day.phaseId === item.id && state.completed.includes(day.slug)).length
-              : 0;
-            const itemGate = journey.gates.find((gateItem) => gateItem.id === item.gateId);
-            return (
-              <li key={item.id} data-phase={item.id} data-accent={item.accent}>
-                <button
-                  id={`phase-btn-${item.id}`}
-                  type="button"
-                  className={item.id === phase.id ? "is-on" : ""}
-                  aria-current={item.id === phase.id ? "true" : undefined}
-                  onClick={() => selectPhase(item.id)}
-                >
-                  <span>{String(item.number).padStart(2, "0")}</span>
-                  <strong>{item.name}</strong>
-                  <span>Days {item.daysLabel}</span>
-                  <span>{item.plain}</span>
-                  <span>
-                    {livePhase?.publishedCount || 0} published
-                    {hasHydrated ? ` · ${completed} completed on this device` : ""}
-                    {itemGate ? ` · Gate ${itemGate.around}` : ""}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-
-        <article className="plan-detail" id="plan-detail" aria-live="polite">
-          <p className="rail-num">
-            Day {shown.day}
-            <span> · {phase.name}</span>
-          </p>
-          <h2>{shown.title}</h2>
-          <p className="plan-state">{stateLabel}</p>
-          {shown.goal ? <p>{shown.goal}</p> : null}
-          {shown.concepts.length > 0 ? (
-            <ul className="plan-concepts">
-              {shown.concepts.map((concept) => (
-                <li key={concept}>{concept}</li>
-              ))}
-            </ul>
-          ) : null}
-          {skills.length > 0 ? (
-            <p>
-              Skills and tools: {skills.map((item) => item.name).join(", ")}
-            </p>
-          ) : null}
-          {shown.capstoneConnection ? <p>{shown.capstoneConnection}</p> : null}
-          {shown.capstoneConnection.toLowerCase().includes("forge-api") ? (
-            <p>
-              <Link href="/projects/forge-api">Related project: forge-api</Link>
-            </p>
-          ) : null}
-          {gate && gate.day === shown.day ? (
-            <p>
-              <strong>Gate {gate.around}. {gate.name}.</strong> {gate.evidence}
-            </p>
-          ) : null}
-          <p className="plan-actions">
-            {live?.published && live.href ? (
-              <Link className="rail-start" href={live.href}>
-                Open lesson
-              </Link>
-            ) : (
-              <span>Planned. The lesson is not published.</span>
-            )}
-            {live ? (
-              <button type="button" aria-pressed={saved} onClick={() => toggleSaved(live.slug)}>
-                {saved ? "Saved on this device" : "Save on this device"}
-              </button>
-            ) : null}
-          </p>
-          <p className="plan-neighbors">
-            {previous ? (
-              <button type="button" onClick={() => selectDay(previous.day)}>
-                Previous · Day {previous.day}
-              </button>
-            ) : null}
-            {next ? (
-              <button type="button" onClick={() => selectDay(next.day)}>
-                Next · Day {next.day}
-              </button>
-            ) : null}
-          </p>
-          <p className="plan-phase-note">
-            {phase.plain} {phaseDone ? `${phaseDone} completed in this phase on this device.` : ""}
-          </p>
-        </article>
-      </div>
-
       <section className="plan-tools" aria-label="Skills and tools">
-        <h2>Look by skill</h2>
-        <div className="stage-row">
+        <div className="tool-strip">
+          <span>Skill</span>
           {journey.skills.map((item) => (
             <button
               key={item.id}
@@ -315,20 +181,223 @@ export default function ForgePlan({ catalog }: { catalog: LearnerCatalog }) {
               {item.name}
             </button>
           ))}
+          {skillId ? (
+            <button type="button" onClick={() => setSkillId(null)}>
+              Clear skill
+            </button>
+          ) : null}
         </div>
-        {skill ? <p>{skill.plain}</p> : <p>Choose a skill to mark the days that use it.</p>}
+        <p>{skill ? skill.plain : "Choose a skill to mark the days that use it."}</p>
       </section>
+
+      <ol className="span-key" aria-label="Journey boundaries">
+        {journey.spans.map((span) => (
+          <li key={span.id} data-span={span.id}>
+            <span>
+              D{span.from}–{span.to}
+            </span>
+            {span.name}
+          </li>
+        ))}
+      </ol>
+
+      <section aria-label="All 120 days">
+        <ol
+          className="map"
+          onKeyDown={(event) => {
+            if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+            if (!(event.target as HTMLElement).classList.contains("map-phase")) return;
+            const currentId = (event.target as HTMLElement).closest("li[data-phase]")?.getAttribute("data-phase");
+            const index = journey.phases.findIndex((item) => item.id === currentId);
+            if (index < 0) return;
+            event.preventDefault();
+            const nextPhase = journey.phases[index + (event.key === "ArrowDown" ? 1 : -1)];
+            if (!nextPhase) return;
+            selectPhase(nextPhase.id);
+            window.requestAnimationFrame(() => {
+              document.getElementById(`phase-btn-${nextPhase.id}`)?.focus();
+            });
+          }}
+        >
+          {journey.phases.map((item) => {
+            const span = journey.spans.find((entry) => item.startDay >= entry.from && item.endDay <= entry.to);
+            const bandDays = journey.days.filter((day) => day.phaseId === item.id);
+            return (
+              <li
+                key={item.id}
+                data-phase={item.id}
+                data-accent={item.accent}
+                data-span={span?.id || "system"}
+                className={item.id === phase.id ? "is-on" : ""}
+              >
+                <button
+                  id={`phase-btn-${item.id}`}
+                  type="button"
+                  className="map-phase"
+                  aria-current={item.id === phase.id ? "true" : undefined}
+                  onClick={() => selectPhase(item.id)}
+                >
+                  <span>{String(item.number).padStart(2, "0")}</span>
+                  <strong>{item.name}</strong>
+                  <span>Days {item.daysLabel}</span>
+                </button>
+                <ol className="map-days">
+                  {bandDays.map((day) => {
+                    const itemDay = catalogDay(day.day);
+                    const isDone = Boolean(hasHydrated && itemDay && state.completed.includes(itemDay.slug));
+                    const isNow = itemDay?.slug === target.slug;
+                    const on = day.day === shown.day;
+                    const dim = matched ? !matched.has(day.day) : false;
+                    const label = `Day ${day.day}, ${day.title}. ${itemDay?.published ? "Published" : "Planned"}${isDone ? ". Completed on this device" : ""}`;
+                    return (
+                      <li key={day.id}>
+                        <button
+                          type="button"
+                          className={`plan-day${itemDay?.published ? " is-open" : ""}${isDone ? " is-done" : ""}${isNow ? " is-now" : ""}${on ? " is-on" : ""}${day.gateId ? " is-gate" : ""}${dim ? " is-dim" : ""}`}
+                          aria-label={label}
+                          aria-pressed={on}
+                          onClick={() => selectDay(day.day)}
+                        >
+                          {String(day.day).padStart(2, "0")}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <div className="plan-focus">
+        <article key={phase.id} className="plan-card" data-accent={phase.accent} aria-label="This phase">
+          <p className="phase-mark">
+            <RegistryIcon name={phase.icon} className="skill-icon" />
+            <span>{String(phase.number).padStart(2, "0")}</span>
+          </p>
+          <h2>{phase.name}</h2>
+          <p className="phase-range">Days {phase.daysLabel}</p>
+          <p>{phase.plain}</p>
+          <dl>
+            <div>
+              <dt>Published</dt>
+              <dd>{phaseLive?.publishedCount || 0}</dd>
+            </div>
+            <div>
+              <dt>Planned</dt>
+              <dd>{(phaseLive?.totalDays || 0) - (phaseLive?.publishedCount || 0)}</dd>
+            </div>
+            {hasHydrated ? (
+              <div>
+                <dt>Completed on this device</dt>
+                <dd>{phaseDone}</dd>
+              </div>
+            ) : null}
+          </dl>
+          {phaseSkills.length > 0 ? <p>Skills and tools: {phaseSkills.map((item) => item.name).join(", ")}</p> : null}
+          {phaseGate ? (
+            <p>
+              Gate {phaseGate.around}. {phaseGate.name}.
+            </p>
+          ) : null}
+          {prepares ? <p>Prepares you for {prepares.name}.</p> : <p>This is the last phase.</p>}
+        </article>
+
+        <article key={shown.day} className="plan-card" id="plan-detail" aria-live="polite">
+          <p className="rail-num">Day {String(shown.day).padStart(2, "0")}</p>
+          <h2>{shown.title}</h2>
+          <dl>
+            <div>
+              <dt>Status</dt>
+              <dd>{stateLabel}</dd>
+            </div>
+            <div>
+              <dt>Phase</dt>
+              <dd>{phase.name}</dd>
+            </div>
+            {shown.goal ? (
+              <div>
+                <dt>Goal</dt>
+                <dd>{shown.goal}</dd>
+              </div>
+            ) : null}
+            {shown.concepts.length > 0 ? (
+              <div>
+                <dt>Concepts</dt>
+                <dd>{shown.concepts.join(" · ")}</dd>
+              </div>
+            ) : null}
+            {skills.length > 0 ? (
+              <div>
+                <dt>Skills and tools</dt>
+                <dd>{skills.map((item) => item.name).join(", ")}</dd>
+              </div>
+            ) : null}
+            {dayGate ? (
+              <div>
+                <dt>Gate</dt>
+                <dd>
+                  <strong>
+                    Gate {dayGate.around}. {dayGate.name}.
+                  </strong>{" "}
+                  {dayGate.evidence}
+                </dd>
+              </div>
+            ) : null}
+            {shown.capstoneConnection ? (
+              <div>
+                <dt>Capstone</dt>
+                <dd>
+                  {shown.capstoneConnection}{" "}
+                  {shown.capstoneConnection.toLowerCase().includes("forge-api") ? (
+                    <Link href="/projects/forge-api">Related project: forge-api</Link>
+                  ) : null}
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+          <p className="plan-actions">
+            {live?.published && live.href ? (
+              <Link className="rail-start" href={live.href}>
+                Open lesson
+              </Link>
+            ) : (
+              <span>Planned. The lesson is not published.</span>
+            )}
+            {previous ? (
+              <button type="button" onClick={() => selectDay(previous.day)}>
+                Previous
+              </button>
+            ) : null}
+            {nextDay ? (
+              <button type="button" onClick={() => selectDay(nextDay.day)}>
+                Next
+              </button>
+            ) : null}
+            {live ? (
+              <button type="button" aria-pressed={saved} onClick={() => toggleSaved(live.slug)}>
+                {saved ? "Saved on this device" : "Save on this device"}
+              </button>
+            ) : null}
+          </p>
+        </article>
+      </div>
 
       <section className="plan-gates" aria-label="Gates">
         <h2>Gates</h2>
-        <div className="stage-row">
-          {journey.gates.map((item) => (
-            <button key={item.id} type="button" aria-pressed={shown.gateId === item.id} onClick={() => item.day && selectDay(item.day)}>
-              {item.around} {item.name}
-            </button>
+        <ol className="gate-rail">
+          {journey.gates.map((item, index) => (
+            <li key={item.id}>
+              {index > 0 ? <span aria-hidden="true">→</span> : null}
+              <button type="button" aria-pressed={shown.day === item.day} onClick={() => item.day && selectDay(item.day)}>
+                {item.around}
+                <span>{item.name}</span>
+              </button>
+            </li>
           ))}
-        </div>
-        {shown.gateId ? null : <p>A gate is a checkpoint in the curriculum. It is not a score.</p>}
+        </ol>
+        <p>A gate is a checkpoint, not a score.</p>
       </section>
     </div>
   );

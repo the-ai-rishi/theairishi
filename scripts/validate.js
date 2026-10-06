@@ -179,6 +179,24 @@ if (platform) {
       s.type && vis.SECTION_TYPES.includes(s.type),
       "Homepage section '" + s.id + "' has unknown type: " + s.type
     );
+    if (s.surface) {
+      check(
+        ["base", "raised", "inset", "tinted"].includes(s.surface),
+        "Homepage section '" + s.id + "' has unknown surface: " + s.surface
+      );
+    }
+    if (s.accent) {
+      check(
+        ["ochre", "cobalt", "teal", "plum", "ink"].includes(s.accent),
+        "Homepage section '" + s.id + "' has unknown accent: " + s.accent
+      );
+    }
+    if (s.layout) {
+      check(
+        ["rail", "sequence", "toolkit", "flow", "split", "prose"].includes(s.layout),
+        "Homepage section '" + s.id + "' has unknown layout: " + s.layout
+      );
+    }
     if (s.source && s.source.kind === "topic") {
       check(
         definedTopicIds.has(s.source.topicId) || definedTopicSlugs.has(s.source.topicId),
@@ -196,6 +214,13 @@ if (platform) {
       warn(found, "Section '" + s.id + "' format '" + s.source.format + "' has no matching contentType");
     }
   }
+
+  const homeResolved = vis.resolveHomepageSections(platform, vis.emptyCatalog()).sections;
+  const skillsResolved = homeResolved.find((section) => section.id === "skills");
+  check(
+    Boolean(skillsResolved && skillsResolved.surface === "raised" && skillsResolved.layout === "toolkit"),
+    "skills surface and layout must resolve from homepage config"
+  );
 
   for (const listName of ["main", "footer"]) {
     const list = (platform.navigation && platform.navigation[listName]) || [];
