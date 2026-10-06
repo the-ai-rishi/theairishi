@@ -3,6 +3,7 @@ import { loadPlatformConfig, getTopicRecord } from "./config";
 import { getLiveCatalog } from "./catalog";
 import { getLearnerCatalog } from "./programs";
 import curriculum from "../data/curriculum/forge-120.json";
+import experience from "../content/config/experience.json";
 
 export interface SearchResultItem {
   id: string;
@@ -16,6 +17,7 @@ export interface SearchResultItem {
 
 const SEARCH_TYPE_LABELS: Record<string, string> = {
   lesson: "Lesson",
+  skill: "Skill",
   guide: "Guide",
   project: "Project",
   article: "Article",
@@ -141,6 +143,21 @@ export function searchSite(query: string): SearchResultItem[] {
   const concepts = new Map(curriculum.days.map((day) => [day.day, day.concepts.join(" ")]));
   const catalog = getLearnerCatalog();
   const seenUrls = new Set(results.map((item) => item.url));
+  for (const group of experience.skills) {
+    for (const item of group.items) {
+      const blob = blobOf([item.name, item.plain, group.title, "skill", "tool"]);
+      if (!matchesQuery(q, blob)) continue;
+      results.push({
+        id: `skill-${item.id}`,
+        title: item.name,
+        description: item.plain,
+        type: "skill",
+        url: item.href || "/learn",
+        category: group.title,
+      });
+    }
+  }
+
   for (const day of catalog.days) {
     const phase = catalog.phases.find((item) => item.id === day.phaseId);
     const blob = blobOf([

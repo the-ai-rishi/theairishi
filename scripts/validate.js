@@ -1061,6 +1061,7 @@ if (programConfig) {
 
 
 const { loadExperience, normalizeExperience } = require("../lib/experience");
+const { collectJourneyErrors, normalizeJourney, queryDays } = require("../lib/journey");
 
 console.log("Running experience checks...");
 const experienceRaw = loadExperience(rootDir);
@@ -1136,6 +1137,17 @@ check(
   addedCheck.experience.skills[0].items.some((item) => item.id === "future-skill"),
   "a new skill remains in the normalized experience model"
 );
+const journeyErrors = collectJourneyErrors(forgeFile, experienceRaw);
+journeyErrors.forEach((message) => errors.push(message));
+const journey = normalizeJourney(forgeFile, experienceRaw);
+const terraformDays = queryDays(journey, { skillId: "terraform" });
+check(
+  terraformDays.some((day) => day.phaseId === "phase-04") && terraformDays.some((day) => day.phaseId === "phase-07"),
+  "a skill can point at more than one phase without a page rewrite"
+);
+check(queryDays(journey, { skillId: "rag" }).some((day) => day.day === 97), "RAG focus includes day 97");
+check(queryDays(journey, { concept: "Git" }).some((day) => day.day === 1), "a concept query uses the day record");
+check(queryDays(journey, { gateId: "kubernetes" }).some((day) => day.day === 60), "a gate query uses the curriculum gate");
 
 console.log("Running brand language checks...");
 checkBrandLanguage(rootDir).forEach((message) => errors.push(message));

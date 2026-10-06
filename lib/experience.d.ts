@@ -5,6 +5,16 @@ export interface ExperienceItem {
   icon?: string;
   href?: string;
   accent?: string;
+  phases?: string[];
+  focusDay?: number;
+}
+
+export interface PathSpan {
+  id: string;
+  name: string;
+  from: number;
+  to: number;
+  plain: string;
 }
 
 export interface SkillGroup {
@@ -28,6 +38,7 @@ export interface ExperienceConfig {
   days: ExperienceItem[];
   retrieval: ExperienceItem[];
   control: ExperienceItem[];
+  spans: PathSpan[];
   fixtureLabel: string;
 }
 

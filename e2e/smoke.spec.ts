@@ -89,7 +89,7 @@ test.describe("FORGE-120 smoke", () => {
     for (const width of [320, 360, 390, 430]) {
       await page.setViewportSize({ width, height: 800 });
       await page.goto("/");
-      await expect(page.getByRole("button", { name: /Kubernetes/ })).toBeVisible();
+      await expect(page.getByRole("button", { name: /05 Kubernetes/ })).toBeVisible();
       await expect(page.getByRole("link", { name: "Start Day 1" }).first()).toBeVisible();
       expect(await noHorizontalScroll(page), `overflow at ${width}`).toBe(true);
     }

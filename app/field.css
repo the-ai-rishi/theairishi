@@ -1617,3 +1617,332 @@ details.practice-card summary {
     transition: none;
   }
 }
+
+.rail-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--mark, #6d4520);
+}
+
+.rail-range,
+.rail-state {
+  display: block;
+  margin-top: 0.2rem;
+  color: #3f3a34;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.rail-range {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.rail-state .rail-ticks {
+  display: flex;
+  margin-top: 0.35rem;
+}
+
+.rail-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin: 0.85rem 0 0;
+  color: #3f3a34;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.skill-where {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--mark, #6d4520);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.order-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 0;
+}
+
+.order-line > li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+}
+
+.order-line > li::before { content: none; }
+
+.order-join {
+  color: rgba(26, 23, 20, 0.45);
+  padding: 0 0.15rem;
+}
+
+.order-line button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.15rem;
+  border: 0;
+  background: transparent;
+  color: #1a1714;
+  font: inherit;
+}
+
+.order-line button.is-on {
+  box-shadow: inset 0 -2px 0 var(--mark, #1a1714);
+}
+
+.order-because {
+  max-width: 40rem;
+  margin: 0.8rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.span-line {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0 0 1.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.span-line li {
+  display: grid;
+  gap: 0.15rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid #1a1714;
+}
+
+.span-line li[data-accent="plum"] { border-left-color: var(--accent-plum); }
+
+.span-line li > span:first-child {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.span-line strong {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+.plan {
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2rem;
+  color: #1a1714;
+}
+
+.plan-identity h1 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.plan-identity p {
+  max-width: 42rem;
+  margin: 0.7rem 0 0;
+  line-height: 1.5;
+}
+
+.plan-jump {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.plan-jump label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.plan-jump input {
+  min-height: 2.75rem;
+  width: 8rem;
+  border: 1px solid rgba(26, 23, 20, 0.28);
+  background: transparent;
+  color: #1a1714;
+  padding: 0 0.6rem;
+}
+
+.plan-jump button,
+.plan-actions button,
+.plan-neighbors button,
+.plan-phases button,
+.plan-tools button,
+.plan-gates button {
+  min-height: 2.75rem;
+  border: 0;
+  background: transparent;
+  color: #1a1714;
+  font: inherit;
+  text-align: left;
+}
+
+.plan-year {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.15rem, 1fr));
+  gap: 3px;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-day {
+  width: 100%;
+  min-height: 2.15rem;
+  border: 1px solid rgba(26, 23, 20, 0.22);
+  background: transparent;
+  color: rgba(26, 23, 20, 0.42);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.plan-day.is-open { color: #1a1714; border-color: #1a1714; }
+.plan-day.is-done { background: #1a1714; color: #efe8dc; }
+.plan-day.is-now { box-shadow: inset 0 0 0 2px #8a5a2b; }
+.plan-day.is-on { background: #8a5a2b; color: #efe8dc; border-color: #8a5a2b; }
+.plan-day.is-gate { box-shadow: inset 0 -2px 0 #0e5c62; }
+.plan-day.is-dim { opacity: 0.28; }
+
+.plan-split {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  margin-top: 1.5rem;
+}
+
+.plan-phases {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-phases button {
+  display: grid;
+  gap: 0.12rem;
+  width: 100%;
+  padding: 0.65rem 0.2rem;
+  border-bottom: 1px solid rgba(26, 23, 20, 0.1);
+}
+
+.plan-phases button.is-on { box-shadow: inset 3px 0 0 var(--mark, #1a1714); }
+
+.plan-phases li[data-accent="ochre"] { --mark: var(--accent-ochre); }
+.plan-phases li[data-accent="cobalt"] { --mark: var(--accent-cobalt); }
+.plan-phases li[data-accent="teal"] { --mark: var(--accent-teal); }
+.plan-phases li[data-accent="plum"] { --mark: var(--accent-plum); }
+.plan-phases li[data-accent="ink"] { --mark: #1a1714; }
+
+.plan-phases strong {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.plan-detail h2 {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 400;
+}
+
+.plan-state {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.plan-concepts {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.plan-actions,
+.plan-neighbors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+}
+
+.plan-actions .rail-start { color: #efe8dc; }
+
+.plan-tools,
+.plan-gates {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(26, 23, 20, 0.12);
+}
+
+.plan-tools h2,
+.plan-gates h2 {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.plan-tools .stage-row button,
+.plan-gates .stage-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@media (max-width: 860px) {
+  .plan { padding: 1.1rem 1rem 5rem; }
+  .plan-split { grid-template-columns: 1fr; }
+  .plan-day { min-height: 2.4rem; }
+  .order-line { display: grid; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rail-start:active,
+  .plan-day:active,
+  .plan-phases button:active {
+    transform: translateY(1px);
+  }
+
+  .rail-panel,
+  .plan-detail {
+    animation: rail-in 180ms ease;
+  }
+}
+
+@keyframes rail-in {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-panel,
+  .plan-detail,
+  .rail-start,
+  .plan-day {
+    animation: none;
+    transform: none;
+  }
+}
+

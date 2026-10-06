@@ -15,12 +15,16 @@ export function SkillsBand() {
             <h3>{group.title}</h3>
             <ul>
               {group.items.map((item) => {
+                const phases = (item.phases || [])
+                  .map((id) => id.replace("phase-", ""))
+                  .join(" and ");
                 const body = (
                   <>
                     <RegistryIcon name={item.icon} className="skill-icon" />
                     <span>
                       <strong>{item.name}</strong>
                       <span>{item.plain}</span>
+                      {phases ? <span className="skill-where">Phase {phases}</span> : null}
                     </span>
                   </>
                 );
@@ -39,21 +43,35 @@ export function SkillsBand() {
 }
 
 export function OrderStory() {
+  const [current, setCurrent] = useState(experience.order[0]?.id || "");
+  const selected = experience.order.find((item) => item.id === current) || experience.order[0];
+
   return (
     <section className="act" aria-labelledby="order-title">
       <div className="act-wrap">
         <h2 id="order-title">Why this order</h2>
         <ol className="order-line">
-          {experience.order.map((item) => (
+          {experience.order.map((item, index) => (
             <li key={item.id} data-accent={item.accent || "ink"}>
-              <RegistryIcon name={item.icon} className="skill-icon" />
-              <span>
+              {index > 0 ? <span className="order-join" aria-hidden="true">→</span> : null}
+              <button
+                type="button"
+                className={item.id === selected?.id ? "is-on" : ""}
+                aria-pressed={item.id === selected?.id}
+                onClick={() => setCurrent(item.id)}
+              >
+                <RegistryIcon name={item.icon} className="skill-icon" />
                 <strong>{item.name}</strong>
-                <span>{item.plain}</span>
-              </span>
+              </button>
             </li>
           ))}
         </ol>
+        {selected ? (
+          <p className="order-because">
+            <strong>{selected.name},</strong> because {selected.plain.charAt(0).toLowerCase()}
+            {selected.plain.slice(1).replace(/\.$/, "")}.
+          </p>
+        ) : null}
       </div>
     </section>
   );
@@ -89,6 +107,17 @@ export function ControlPrimer() {
       <div className="act-wrap">
         <h2 id="control-title">Where AI enters</h2>
         <p className="act-fixture">{experience.fixtureLabel}</p>
+        <ol className="span-line">
+          {experience.spans.map((span) => (
+            <li key={span.id} data-accent={span.id === "controlled" ? "plum" : "ink"}>
+              <span>
+                D{span.from}–{span.to}
+              </span>
+              <strong>{span.name}</strong>
+              <span>{span.plain}</span>
+            </li>
+          ))}
+        </ol>
         <h3>Retrieval</h3>
         <div className="stage-row" role="group" aria-label="Retrieval">
           {experience.retrieval.map((item) => (

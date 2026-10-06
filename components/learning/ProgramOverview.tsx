@@ -1,7 +1,7 @@
-import ProgramCommandCenter from "@/components/learning/ProgramCommandCenter";
+import ForgePlan from "@/components/learning/ForgePlan";
 import { getLearnerCatalog, type ProgramConfig } from "@/lib/programs";
 
 export default function ProgramOverview({ program }: { program: ProgramConfig }) {
   const catalog = getLearnerCatalog(program.id);
-  return <ProgramCommandCenter catalog={catalog} />;
+  return <ForgePlan catalog={catalog} />;
 }

@@ -111,12 +111,26 @@ export default function ForgeRail({
   const startHref = hasHydrated && continueTarget.href ? continueTarget.href : primaryHref;
   const startLabel = hasHydrated ? continueTarget.ctaLabel : primaryLabel;
   const openCount = days.filter((day) => day.published).length;
+  const publishedTotal = catalog.days.filter((day) => day.published).length;
+  const statusLine = !hasHydrated
+    ? ""
+    : continueTarget.kind === "continue"
+      ? continueTarget.ctaLabel
+      : continueTarget.kind === "wait"
+        ? `Next title is Day ${continueTarget.waitDay}`
+        : "Start at Day 1";
 
   return (
     <section className="rail-home" aria-label={`${brandLanguage.displayName}. ${brandLanguage.programmeName}`}>
       <header className="rail-identity">
         <p className="rail-brand">{brandLanguage.displayName}</p>
         <h1>{brandLanguage.programmeName}</h1>
+        <p className="rail-status">
+          <span>{catalog.totalDays} days</span>
+          <span>{phases.length} phases</span>
+          <span>{publishedTotal} published</span>
+          {statusLine ? <span>{statusLine}</span> : null}
+        </p>
         <p className="rail-lead">{experience.hero.lead}</p>
         <p className="rail-detail-copy">{experience.hero.detail}</p>
         <p className="rail-because">{experience.hero.because}</p>
@@ -145,6 +159,9 @@ export default function ForgeRail({
         {phases.map((item, itemIndex) => {
           const itemNote = notes[item.id];
           const phaseDays = catalog.days.filter((day) => day.phaseId === item.id);
+          const published = phaseDays.filter((day) => day.published).length;
+          const planned = phaseDays.length - published;
+          const done = hasHydrated ? phaseDays.filter((day) => state.completed.includes(day.slug)).length : 0;
           const on = itemIndex === index;
           return (
             <li key={item.id} id={item.id} className={on ? "is-on" : ""} data-accent={itemNote?.accent || "ink"} data-phase={item.id}>
@@ -157,18 +174,25 @@ export default function ForgeRail({
               >
                 <RegistryIcon name={itemNote?.icon} className="rail-icon" />
                 <span className="rail-copy">
-                  <span className="rail-name">
-                    <span>{String(item.number).padStart(2, "0")}</span>
-                    {item.name}
-                  </span>
+                  <span className="rail-num">{String(item.number).padStart(2, "0")}</span>
+                  <span className="rail-name">{item.name}</span>
+                  <span className="rail-range">Days {item.daysLabel}</span>
                   <span className="rail-plain">{itemNote?.plain || item.summary}</span>
-                </span>
-                <span className="rail-meta">
-                  Days {item.daysLabel}
-                  <span className="rail-ticks" aria-hidden="true">
-                    {phaseDays.map((day) => (
-                      <i key={day.slug} className={day.published ? "is-open" : ""} />
-                    ))}
+                  <span className="rail-state">
+                    {published} published
+                    <span aria-hidden="true"> · </span>
+                    {planned} planned
+                    {hasHydrated ? (
+                      <>
+                        <span aria-hidden="true"> · </span>
+                        {done} completed on this device
+                      </>
+                    ) : null}
+                    <span className="rail-ticks" aria-hidden="true">
+                      {phaseDays.map((day) => (
+                        <i key={day.slug} className={day.published ? "is-open" : ""} />
+                      ))}
+                    </span>
                   </span>
                 </span>
               </button>
