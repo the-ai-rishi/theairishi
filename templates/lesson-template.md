@@ -2,7 +2,7 @@
 title: "Day 4 - Permissions as an incident"
 description: "namei -l, uid/gid, file 640 vs directory 755. Why chmod 777 is not a fix."
 course: "devops-engineer-mastery"
-courseTitle: "DevOps Engineer Mastery"
+courseTitle: "FORGE-120"
 courseOrder: 1
 stage: "Foundations"
 stageOrder: 1

@@ -26,6 +26,7 @@ export function generateStaticParams() {
     .filter((program) => program.id !== featured)
     .map((program) => ({ slug: program.slug || program.id }));
   slugs.push({ slug: "devops" });
+  slugs.push({ slug: "forge-120" });
   return slugs;
 }
 
@@ -57,7 +58,7 @@ export default async function ProgramPage({ params }: ProgramPageProps) {
   const copy = getPlatformCopy();
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="learn">
       <ProgramOverview program={program} />
     </PageShell>
   );

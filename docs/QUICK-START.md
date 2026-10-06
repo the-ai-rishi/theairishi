@@ -11,7 +11,7 @@ Run the site locally and confirm the live public surfaces before you edit JSON o
 3. Open the Local URL Next prints (usually http://localhost:3000)
 4. Confirm the hero:
    - Kicker: Current program (`copy.heroBadge`) - not the brand name (that is already in the header)
-   - Headline: DevOps Engineer Mastery (`programs.json` `title`)
+   - Headline: FORGE-120 (`programs.json` `title`)
    - Duration: 120 days · about 4 months
    - One short description (`copy.heroDescription`)
    - Primary button: **Start Day 1** → `/learn/day-01`

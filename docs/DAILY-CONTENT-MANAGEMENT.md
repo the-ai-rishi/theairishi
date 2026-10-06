@@ -2,7 +2,7 @@
 
 ## PURPOSE
 
-A one-day operator loop for **the next DevOps Engineer Mastery lesson**. The 120-day map already exists. Tomorrow’s job is one markdown file.
+A one-day operator loop for **the next FORGE-120 lesson**. The 120-day map already exists. Tomorrow’s job is one markdown file.
 
 ## WHEN TO USE
 

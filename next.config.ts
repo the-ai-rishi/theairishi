@@ -22,6 +22,9 @@ const canonicalHostRedirects = [
 }));
 
 const nextConfig: NextConfig = {
+  // Dev assets are requested from 127.0.0.1 and from the preview proxy host.
+  // This does not apply to production builds.
+  allowedDevOrigins: ["127.0.0.1", "**"],
   // Content is compiled into the JS bundle. Production runtimes (Vercel Node
   // and Cloudflare Workers) never read content/ from disk.
   async redirects() {

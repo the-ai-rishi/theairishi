@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import "./field.css";
 import { siteConfig } from "@/lib/site";
 import { getBrandConfig, getSearchTopics } from "@/lib/config";
 import { creatorJsonLd, shareImages, shareTwitterImages, websiteJsonLd } from "@/lib/seo";

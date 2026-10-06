@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
+/* One paper theme. The token names are historical:
+   --color-ink is the ivory page, --color-cream is graphite type.
+   field.css must not invert them. */
+
 @theme {
-  --color-ink: #08080b;
-  --color-field: #101016;
-  --color-raised: #17171f;
-  --color-gold: #d4b46a;
-  --color-gold-bright: #f0d090;
-  --color-circuit: #8b7cff;
-  --color-circuit-bright: #6ea8ff;
-  --color-lotus: #c084fc;
-  --color-signal: #67e8f9;
-  --color-cream: #f3eee4;
-  --color-muted: rgba(243, 238, 228, 0.58);
-  --color-subtle: rgba(243, 238, 228, 0.4);
-  --color-hairline: rgba(244, 239, 228, 0.1);
-  --color-ok: #b7d5b0;
-  --color-danger: #e8a0a0;
+  --color-ink: #efe8dc;
+  --color-field: #e6dece;
+  --color-raised: #f6f1e6;
+  --color-gold: #6d4520;
+  --color-gold-bright: #4e3018;
+  --color-circuit: #1d4468;
+  --color-circuit-bright: #2c5d8a;
+  --color-lotus: #4e3158;
+  --color-signal: #0e5c62;
+  --color-cream: #1a1714;
+  --color-muted: #4a453f;
+  --color-subtle: #5c564e;
+  --color-hairline: rgba(26, 23, 20, 0.14);
+  --color-ok: #1e4c31;
+  --color-danger: #6d2c2c;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), "Iowan Old Style", Palatino, Georgia, serif;
@@ -33,14 +37,14 @@
 @layer base {
   html {
     background-color: var(--color-ink);
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: var(--color-ink);
-    color: rgba(243, 238, 228, 0.92);
+    color: var(--color-cream);
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
     font-size: 1.0625rem;
@@ -61,8 +65,8 @@
   }
 
   ::selection {
-    background-color: rgba(212, 180, 106, 0.28);
-    color: #08080b;
+    background-color: rgba(138, 90, 43, 0.28);
+    color: #1a1714;
   }
 }
 
@@ -76,7 +80,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(244, 239, 228, 0.12);
+  background: rgba(26, 23, 20, 0.22);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -173,7 +177,7 @@
 
 .btn-ghost:hover {
   border-color: rgba(212, 180, 106, 0.45);
-  background: rgba(243, 238, 228, 0.03);
+  background: rgba(26, 23, 20, 0.04);
 }
 
 .btn-block {
@@ -194,7 +198,7 @@
 }
 
 .panel-hero {
-  background: linear-gradient(180deg, rgba(243, 238, 228, 0.035) 0%, rgba(16, 16, 22, 1) 42%);
+  background: linear-gradient(180deg, rgba(138, 90, 43, 0.08) 0%, var(--color-field) 42%);
   border-color: rgba(212, 180, 106, 0.22);
 }
 
@@ -231,7 +235,7 @@
 .shift-tick {
   display: block;
   height: 100%;
-  background: rgba(244, 239, 228, 0.1);
+  background: rgba(26, 23, 20, 0.14);
 }
 
 .shift-tick-done {
@@ -255,7 +259,7 @@
   font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(243, 238, 228, 0.42);
+  color: #5c564e;
 }
 
 .stat-line span {
@@ -304,8 +308,8 @@
 }
 
 @keyframes dayNowPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(243, 238, 228, 0.4); }
-  50% { box-shadow: 0 0 0 5px rgba(243, 238, 228, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 23, 20, 0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(26, 23, 20, 0); }
 }
 
 .animate-spin-slow {
@@ -346,7 +350,7 @@
   padding: 1rem 1.15rem;
   border-radius: var(--radius-md);
   border-left-width: 2px;
-  background-color: rgba(243, 238, 228, 0.02);
+  background-color: rgba(26, 23, 20, 0.02);
   border: 1px solid var(--color-hairline);
 }
 
@@ -370,12 +374,12 @@
   margin: 0 !important;
   font-size: 0.9375rem !important;
   line-height: 1.7 !important;
-  color: rgba(243, 238, 228, 0.72) !important;
+  color: rgba(26, 23, 20, 0.72) !important;
 }
 
 .callout-note {
   border-left-color: var(--color-circuit);
-  background-color: rgba(139, 124, 255, 0.04);
+  background-color: rgba(29, 68, 104, 0.08);
 }
 .callout-note .callout-badge {
   color: var(--color-circuit);
@@ -383,7 +387,7 @@
 
 .callout-tip {
   border-left-color: var(--color-gold);
-  background-color: rgba(212, 180, 106, 0.04);
+  background-color: rgba(138, 90, 43, 0.1);
 }
 .callout-tip .callout-badge {
   color: var(--color-gold-bright);
@@ -391,7 +395,7 @@
 
 .callout-important {
   border-left-color: var(--color-circuit-bright);
-  background-color: rgba(110, 168, 255, 0.04);
+  background-color: rgba(44, 93, 138, 0.08);
 }
 .callout-important .callout-badge {
   color: var(--color-circuit-bright);
@@ -399,7 +403,7 @@
 
 .callout-warning {
   border-left-color: var(--color-gold);
-  background-color: rgba(212, 180, 106, 0.04);
+  background-color: rgba(138, 90, 43, 0.1);
 }
 .callout-warning .callout-badge {
   color: var(--color-gold-bright);
@@ -407,7 +411,7 @@
 
 .callout-caution {
   border-left-color: var(--color-danger);
-  background-color: rgba(232, 160, 160, 0.04);
+  background-color: rgba(109, 44, 44, 0.08);
 }
 .callout-caution .callout-badge {
   color: var(--color-danger);
@@ -415,13 +419,13 @@
 
 .callout-key-idea {
   border-left-color: var(--color-gold);
-  background: linear-gradient(90deg, rgba(212, 180, 106, 0.08) 0%, rgba(8, 8, 11, 0.2) 100%);
+  background: linear-gradient(90deg, rgba(138, 90, 43, 0.12) 0%, rgba(26, 23, 20, 0.06) 100%);
 }
 .callout-key-idea .callout-badge {
   color: var(--color-gold-bright);
 }
 .callout-key-idea .callout-content {
-  color: rgba(243, 238, 228, 0.85);
+  color: rgba(26, 23, 20, 0.85);
   font-weight: 500;
 }
 
@@ -452,13 +456,13 @@
   padding: 0.875rem 1.25rem;
   font-weight: 600;
   color: var(--color-cream);
-  background-color: rgba(243, 238, 228, 0.04);
+  background-color: rgba(26, 23, 20, 0.04);
   border-bottom: 1px solid var(--color-hairline);
   letter-spacing: -0.01em;
 }
 .table-container td {
   padding: 0.875rem 1.25rem;
-  color: rgba(243, 238, 228, 0.6);
+  color: #4a453f;
   border-bottom: 1px solid rgba(244, 239, 228, 0.06);
   line-height: 1.6;
 }
@@ -466,7 +470,7 @@
   border-bottom: none;
 }
 .table-container tr:hover td {
-  background-color: rgba(243, 238, 228, 0.02);
+  background-color: rgba(26, 23, 20, 0.02);
 }
 
 details.practice-card {
@@ -481,7 +485,7 @@ details.practice-card {
 
 details.practice-card[open] {
   border-color: rgba(212, 180, 106, 0.45);
-  background: rgba(212, 180, 106, 0.08);
+  background: rgba(138, 90, 43, 0.12);
 }
 
 details.practice-card summary {
@@ -512,7 +516,7 @@ details.practice-card summary::after {
   font-family: var(--font-mono);
   color: var(--color-gold);
   background: transparent;
-  border: 1px solid rgba(244, 239, 228, 0.12);
+  border: 1px solid rgba(26, 23, 20, 0.22);
   padding: 0.25rem 0.75rem;
   transition: color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
@@ -529,7 +533,7 @@ details.practice-card .practice-body {
   border-top: 1px solid var(--color-hairline);
   font-size: 0.9375rem;
   line-height: 1.7;
-  color: rgba(243, 238, 228, 0.75);
+  color: rgba(26, 23, 20, 0.75);
 }
 
 .plate {
@@ -674,7 +678,7 @@ textarea:focus-visible,
   font-size: 0.6875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(243, 238, 228, 0.45);
+  color: #5c564e;
 }
 
 .lesson-block-body {
@@ -685,7 +689,7 @@ textarea:focus-visible,
 .lesson-block-why,
 .lesson-block-learn {
   padding-left: 0.85rem;
-  border-left: 2px solid rgba(243, 238, 228, 0.16);
+  border-left: 2px solid rgba(26, 23, 20, 0.16);
 }
 
 .lesson-block-why .lesson-block-head,
@@ -702,7 +706,7 @@ textarea:focus-visible,
 .lesson-block-predict {
   padding: 0.85rem 1rem;
   border-left: 2px dashed var(--color-circuit);
-  background: rgba(139, 124, 255, 0.04);
+  background: rgba(29, 68, 104, 0.08);
 }
 
 .lesson-block-predict .lesson-block-label {
@@ -712,7 +716,7 @@ textarea:focus-visible,
 .lesson-block-evidence,
 .lesson-block-verify {
   padding-left: 0.85rem;
-  border-left: 2px solid rgba(110, 168, 255, 0.45);
+  border-left: 2px solid rgba(44, 93, 138, 0.55);
 }
 
 .lesson-block-verify .lesson-block-label,
@@ -731,21 +735,22 @@ textarea:focus-visible,
 
 .lesson-block-interview {
   padding-left: 0.85rem;
-  border-left: 2px solid rgba(103, 232, 249, 0.4);
+  border-left: 2px solid rgba(14, 92, 98, 0.45);
 }
 
 .lesson-block-interview .lesson-block-label {
   color: var(--color-signal);
 }
 
-/* Doing register: workbench */
+/* Doing register: a paper workbench, not a dark slab. */
 .lesson-block-try,
 .lesson-block-break,
 .lesson-block-fix {
-  border: 1px solid rgba(212, 180, 106, 0.34);
-  background: #0b0b10;
+  border: 1px solid rgba(109, 69, 32, 0.35);
+  background: #f3ecdf;
   border-radius: var(--radius-md);
   overflow: hidden;
+  color: #1a1714;
 }
 
 .lesson-block-try .lesson-block-head,
@@ -753,14 +758,14 @@ textarea:focus-visible,
 .lesson-block-fix .lesson-block-head {
   min-height: 2.4rem;
   padding: 0.4rem 1rem;
-  border-bottom: 1px solid rgba(212, 180, 106, 0.22);
-  background: rgba(212, 180, 106, 0.08);
+  border-bottom: 1px solid rgba(109, 69, 32, 0.22);
+  background: rgba(109, 69, 32, 0.08);
 }
 
 .lesson-block-try .lesson-block-label,
 .lesson-block-break .lesson-block-label,
 .lesson-block-fix .lesson-block-label {
-  color: var(--color-gold-bright);
+  color: #4a453f;
 }
 
 .lesson-block-try .lesson-block-body,
@@ -772,7 +777,7 @@ textarea:focus-visible,
 /* Checkpoint */
 .lesson-block-gate {
   border: 1px solid rgba(212, 180, 106, 0.5);
-  background: linear-gradient(180deg, rgba(212, 180, 106, 0.09), rgba(8, 8, 11, 0.2));
+  background: linear-gradient(180deg, rgba(212, 180, 106, 0.09), rgba(26, 23, 20, 0.06));
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -856,7 +861,7 @@ textarea:focus-visible,
   margin-top: 0.7rem;
   font-size: 0.98rem;
   line-height: 1.7;
-  color: rgba(243, 238, 228, 0.62);
+  color: #4a453f;
 }
 
 .workspace-prose ul,
@@ -866,7 +871,7 @@ textarea:focus-visible,
 }
 
 .workspace-prose li {
-  color: rgba(243, 238, 228, 0.62);
+  color: #4a453f;
   line-height: 1.65;
 }
 
@@ -924,7 +929,7 @@ textarea:focus-visible,
 }
 
 .day-dot-plan {
-  border-color: rgba(244, 239, 228, 0.1);
+  border-color: rgba(26, 23, 20, 0.14);
   background: rgba(244, 239, 228, 0.03);
 }
 
@@ -1009,4 +1014,351 @@ textarea:focus-visible,
   .lesson-block-body {
     padding: 0.85rem 0.8rem 1.05rem;
   }
+}
+
+/* ── Rishi interface ──────────────────────────────────────── */
+
+body {
+  overflow-x: clip;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 4.75rem;
+}
+
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 48% 36% at 90% -8%, rgba(212, 180, 106, 0.1), transparent 62%),
+    radial-gradient(ellipse 42% 42% at -10% 88%, rgba(139, 124, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse 34% 28% at 74% 110%, rgba(103, 232, 249, 0.05), transparent 56%);
+}
+
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(26, 23, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 23, 20, 0.04) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: radial-gradient(ellipse at 50% 28%, #000 8%, transparent 74%);
+}
+
+.command-bar {
+  position: relative;
+  border: 1px solid var(--color-hairline);
+  border-radius: 0;
+  background: var(--color-ink);
+}
+
+.command-bar::after {
+  content: none;
+}
+
+.nav-now {
+  display: inline-block;
+  width: 0.32rem;
+  height: 0.32rem;
+  margin-right: 0.45rem;
+  background: var(--color-gold);
+  transform: rotate(45deg);
+  vertical-align: 0.05em;
+}
+
+.btn-primary {
+  background-image:
+    linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.42) 46%, transparent 62%),
+    linear-gradient(var(--color-cream), var(--color-cream));
+  background-repeat: no-repeat;
+  background-size: 220% 100%, 100% 100%;
+  background-position: 130% 0, 0 0;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    background-position 0.6s var(--ease-out),
+    transform var(--duration-quick) var(--ease-out);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-gold-bright);
+  background-image:
+    linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.45) 46%, transparent 62%),
+    linear-gradient(var(--color-gold-bright), var(--color-gold-bright));
+  background-position: -30% 0, 0 0;
+}
+
+.panel,
+.shift-ticket {
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.panel:hover,
+.shift-ticket:hover {
+  border-color: rgba(212, 180, 106, 0.38);
+  box-shadow: 0 0 0 1px rgba(138, 90, 43, 0.12);
+}
+
+
+.footer-mark {
+  position: relative;
+}
+
+.footer-geometry {
+  position: absolute;
+  top: -1.4rem;
+  left: -1.6rem;
+  width: 7.5rem;
+  height: 7.5rem;
+  opacity: 0.28;
+  animation: spinSlow 72s linear infinite;
+  pointer-events: none;
+}
+
+.lesson-meter {
+  height: 2px;
+  background: rgba(26, 23, 20, 0.08);
+}
+
+.lesson-meter > span {
+  display: block;
+  height: 100%;
+  background: var(--color-gold);
+}
+
+/* Route modes. Home stays the desk. These rules are the other rooms. */
+
+.learn-stage {
+  width: min(100% - 1.5rem, 96rem);
+  margin-inline: auto;
+  padding: 1.25rem 0 2rem;
+}
+
+.learn-mast {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.phase-switch {
+  display: flex;
+  gap: 0;
+  margin-top: 0.75rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.phase-switch button {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: 1.6rem minmax(8rem, auto);
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.85rem 0.55rem 0.15rem;
+  border: 0;
+  border-right: 1px solid var(--color-hairline);
+  background: transparent;
+  color: #4a453f;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.phase-switch button > span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #5c564e;
+  padding-top: 0.2rem;
+}
+
+.phase-switch button.is-on {
+  color: var(--color-cream);
+  background: rgba(26, 23, 20, 0.04);
+}
+
+.phase-switch button.is-on > span {
+  color: var(--color-gold);
+}
+
+.phase-place {
+  min-width: 0;
+  padding-top: 1.25rem;
+  padding-bottom: 5.5rem;
+}
+
+.phase-place[data-mode="retrieval"] {
+  box-shadow: inset 2px 0 0 #0f5f68;
+  padding-left: 1rem;
+}
+
+.contents-board,
+.artefact-index,
+.about-sheet {
+  width: min(100% - 1.5rem, 92rem);
+  margin-inline: auto;
+  padding: 2.5rem 0 3rem;
+}
+
+.contents-board {
+  display: grid;
+  gap: 2rem;
+}
+
+.contents-index,
+.artefact-ledger {
+  border-top: 1px solid var(--color-hairline);
+}
+
+.contents-index a,
+.artefact-ledger a {
+  display: grid;
+  gap: 0.35rem 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.about-sheet {
+  display: grid;
+  gap: 2rem;
+}
+
+.about-index {
+  border-top: 1px solid var(--color-hairline);
+  padding-top: 0.8rem;
+}
+
+/* Unlayered .btn-primary sets display, which otherwise beats Tailwind's hidden. */
+.btn-primary.hidden {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .btn-primary.sm\:inline-flex {
+    display: inline-flex;
+  }
+}
+
+[data-tone="learn"] footer,
+[data-tone="editorial"] footer,
+[data-tone="engineering"] footer,
+[data-tone="brand"] footer,
+.focus-bay {
+  padding-bottom: 4.5rem;
+}
+
+.focus-bay .workspace-prose {
+  max-width: 68ch;
+}
+
+@media (min-width: 800px) {
+  .contents-board {
+    grid-template-columns: 16rem minmax(0, 1fr);
+    align-items: start;
+    min-height: calc(100dvh - 8rem);
+  }
+
+  .contents-mast {
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .contents-index a {
+    grid-template-columns: 2.5rem minmax(0, 1fr) 6.5rem;
+    align-items: baseline;
+  }
+
+  .artefact-ledger a {
+    grid-template-columns: 3.5rem minmax(0, 1fr) 12rem;
+    align-items: start;
+  }
+
+  .artefact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-top: 0.45rem;
+  }
+
+  .about-sheet {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    align-items: start;
+    min-height: calc(100dvh - 8rem);
+  }
+
+  .about-index {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .learn-stage {
+    display: grid;
+    grid-template-columns: 18.5rem minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 2.25rem;
+    align-items: start;
+    min-height: calc(100dvh - 7rem);
+    padding-top: 1.5rem;
+  }
+
+  .learn-mast {
+    grid-column: 1 / -1;
+  }
+
+  .phase-switch {
+    position: sticky;
+    top: 5.25rem;
+    flex-direction: column;
+    margin-top: 1.25rem;
+    overflow: visible;
+    border-bottom: 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .phase-switch button {
+    grid-template-columns: 1.7rem minmax(0, 1fr);
+    border-right: 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+}
+
+/* Quiet type is solid so it stays at or above 4.5:1 on the darkest paper. Opacity utilities composite too light. */
+.text-cream\/20,
+.text-cream\/25,
+.text-cream\/30,
+.text-cream\/35,
+.text-cream\/38,
+.text-cream\/40,
+.text-cream\/45,
+.placeholder\:text-cream\/25::placeholder {
+  color: #5c564e;
+}
+
+.text-cream\/50,
+.text-cream\/55,
+.text-cream\/60,
+.text-cream\/62,
+.text-cream\/65 {
+  color: #4a453f;
+}
+
+.text-gold,
+.text-gold\/60,
+.text-gold\/70,
+.text-gold\/80,
+.text-gold\/85,
+.hover\:text-gold:hover,
+.group-hover\:text-gold:hover {
+  color: #6d4520;
 }

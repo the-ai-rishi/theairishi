@@ -1,20 +1,22 @@
 ---
 title: "Autonomous Multi-Source Research Agent"
-description: "A self-directed AI research agent built from scratch using ReAct planning loops, grounded web search, and vector synthesis."
+description: "An earlier lab note about a research-agent sketch. It is not a live system on this site, and it is not part of FORGE-120."
 slug: "autonomous-research-agent"
 date: "2026-08-16"
 category: "Artificial Intelligence"
 technologies: ["TypeScript", "LLMs", "Vector DB", "ReAct", "Node.js"]
 difficulty: "Intermediate"
-status: "Completed"
+status: "Lab note"
 topic: "ai"
 enabled: true
-featured: true
+featured: false
 ---
 
 # Autonomous Multi-Source Research Agent
 
-An open-source, modular research agent designed to demonstrate function calling, planning loops, and grounded knowledge retrieval without high-level black-box frameworks.
+This is an archived lab note, not a finished product and not a system this site runs. It sketches how a research loop could call a search tool, read a result, and write a report. FORGE-120 teaches a different rule: a model does not get a tool until a fixed check allows it.
+
+The diagram below is a design sketch. It is not evidence that an autonomous agent is operating here.
 
 ---
 
