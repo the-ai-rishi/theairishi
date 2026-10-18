@@ -28,7 +28,7 @@ export default function SmartCta({
     (variant === "header" ? "btn-primary hidden sm:inline-flex" : "btn-primary");
 
   return (
-    <Link href={href} className={classes}>
+    <Link href={href} className={classes} data-magnetic="">
       {label}
     </Link>
   );

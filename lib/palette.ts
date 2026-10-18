@@ -8,30 +8,30 @@ export interface TopicTone {
 }
 
 const GOLD: TopicTone = {
-  accent: "#d4b46a",
-  accentBright: "#f0d090",
-  wash: "rgba(212,180,106,0.10)",
+  accent: "#5c3b1c",
+  accentBright: "#8a5a2b",
+  wash: "rgba(138, 90, 43, 0.12)",
   name: "gold",
 };
 
 const CIRCUIT: TopicTone = {
-  accent: "#8b7cff",
-  accentBright: "#6ea8ff",
-  wash: "rgba(139,124,255,0.10)",
+  accent: "#1d4468",
+  accentBright: "#2c5d8a",
+  wash: "rgba(44, 93, 138, 0.12)",
   name: "circuit",
 };
 
 const LOTUS: TopicTone = {
-  accent: "#c084fc",
-  accentBright: "#d4b46a",
-  wash: "rgba(192,132,252,0.10)",
+  accent: "#4e3158",
+  accentBright: "#6b4578",
+  wash: "rgba(107, 69, 120, 0.12)",
   name: "lotus",
 };
 
 const SIGNAL: TopicTone = {
-  accent: "#67e8f9",
-  accentBright: "#6ea8ff",
-  wash: "rgba(103,232,249,0.08)",
+  accent: "#0a4449",
+  accentBright: "#0e5c62",
+  wash: "rgba(14, 92, 98, 0.12)",
   name: "signal",
 };
 

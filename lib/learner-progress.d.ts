@@ -10,6 +10,7 @@ export interface LearnerProgressState {
   started: string[];
   lastVisited: string | null;
   completedAt: Record<string, string>;
+  saved: string[];
 }
 
 export function emptyState(): LearnerProgressState;
@@ -23,6 +24,8 @@ export function markCompleted(state: unknown, slug: string, at?: string): Learne
 export function unmarkCompleted(state: unknown, slug: string): LearnerProgressState;
 export function toggleCompleted(state: unknown, slug: string, at?: string): LearnerProgressState;
 export function setLastVisited(state: unknown, slug: string): LearnerProgressState;
+export function toggleSaved(state: unknown, slug: string): LearnerProgressState;
+export function isSaved(state: unknown, slug: string): boolean;
 export function isCompleted(state: unknown, slug: string): boolean;
 export function isStarted(state: unknown, slug: string): boolean;
 export function countCompleted(state: unknown, catalogSlugs: string[]): number;
@@ -33,4 +36,5 @@ export function storeMarkCompleted(slug: string): LearnerProgressState;
 export function storeUnmarkCompleted(slug: string): LearnerProgressState;
 export function storeToggleCompleted(slug: string): boolean;
 export function storeSetLastVisited(slug: string): LearnerProgressState;
+export function storeToggleSaved(slug: string): boolean;
 export function resetStoreForTests(): void;

@@ -197,7 +197,7 @@ export default function LessonContent({ content }: LessonContentProps) {
           [&_code]:py-0.5
           [&_code]:font-mono
           [&_code]:text-[0.86em]
-          [&_code]:text-circuit-bright/90
+          [&_code]:text-circuit
 
           [&_pre_code]:bg-transparent
           [&_pre_code]:p-0

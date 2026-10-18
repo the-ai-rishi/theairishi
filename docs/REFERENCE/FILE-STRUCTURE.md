@@ -52,15 +52,14 @@ theairishi/
       CallToAction.tsx
       ChannelGrid.tsx
       ContentList.tsx
-      ContinueLearning.tsx
       CourseListSection.tsx
+      DestinationsSection.tsx
       FeaturedPath.tsx
-      HeroSection.tsx
-      SectionRenderer.tsx
-      TechnologyOrbit.tsx
+      MethodSection.tsx
+      TodaySection.tsx
       TopicGrid.tsx
+      WhySection.tsx
     icons/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
-      AboutIcon.tsx
       GuidesIcon.tsx
       InstagramIcon.tsx
       LearnIcon.tsx
@@ -81,11 +80,10 @@ theairishi/
       ProgramOverview.tsx
       SmartCta.tsx
       StartingAssessment.tsx
+      LessonTrail.tsx
       useLessonProgress.ts
     search/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
       SearchModal.tsx
-    ui/  🔴 CODE - DO NOT EDIT UNLESS ADVANCED
-      button.tsx
   content/  🟢 SAFE FOR CONTENT EDITING
     config/  🟡 CONFIGURATION - FOLLOW DOCUMENTATION
       courses.json

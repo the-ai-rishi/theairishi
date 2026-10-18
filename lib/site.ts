@@ -13,11 +13,9 @@ function buildSiteConfig() {
   }
 
   const publicTopics = getSearchTopics();
-  const tagline = brand.tagline?.trim() || "";
 
   return {
     name: brand.name,
-    tagline,
     description: brand.description,
     url: getSiteOrigin(),
     author: {

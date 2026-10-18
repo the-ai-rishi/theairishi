@@ -1,6 +1,6 @@
 # Add a lesson
 
-If you are adding the next DevOps Engineer Mastery day, stop. Use [ADD-DAILY-LESSON.md](./ADD-DAILY-LESSON.md) instead.
+If you are adding the next FORGE-120 day, stop. Use [ADD-DAILY-LESSON.md](./ADD-DAILY-LESSON.md) instead.
 
 Use this page only for a lesson that is **not** one of the 120 program days (for example an older note you are keeping at a stable URL).
 

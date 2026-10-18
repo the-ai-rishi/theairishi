@@ -15,7 +15,6 @@ export default function CurrentWorkCard({
   const { state, hasHydrated, isCompleted } = useLessonProgress();
   const target = resolveContinue(hasHydrated ? state : null, catalog);
   const day = catalog.days.find((item) => item.slug === target.slug) || catalog.days.find((item) => item.published);
-  const percent = target.totalDays > 0 ? Math.round((target.completedCount / target.totalDays) * 100) : 0;
   const phases = phaseProgress(catalog, hasHydrated ? state : null);
   const kicker =
     target.kind === "wait" ? "Waiting" : target.kind === "continue" ? "Now" : "Today";
@@ -34,12 +33,12 @@ export default function CurrentWorkCard({
   const outcomes = (day?.outcomes || []).slice(0, 3);
 
   return (
-    <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-8" : "p-5 sm:p-6"}`} aria-label="Today's shift">
-      <div className="flex items-baseline justify-between gap-3">
+    <aside className={`shift-ticket ${size === "hero" ? "p-5 sm:p-6" : "p-5 sm:p-6"}`} aria-label="Current day">
+      <div className="flex items-center justify-between gap-3">
         <p className="kicker text-gold/85">{kicker}</p>
         <p className="font-mono text-[11px] tabular-nums text-cream/40">
-          {target.completedCount} / {target.totalDays} claimed
-        </p>
+            {target.completedCount} / {target.totalDays} claimed
+          </p>
       </div>
       {target.kind === "wait" ? (
         <>
@@ -120,8 +119,9 @@ export default function CurrentWorkCard({
             );
           })}
         </div>
-        <p className="mt-2 font-mono text-[11px] tabular-nums text-cream/35">
-          {percent}% of {catalog.totalDays} days
+        <p className="mt-2 font-mono text-[11px] text-cream/35">
+          {formatPhaseLabel(phaseNow)}
+          {phaseName ? ` · ${phaseName}` : ""}
         </p>
       </div>
     </aside>

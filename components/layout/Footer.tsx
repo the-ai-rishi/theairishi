@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
 import DestinationLinks from "@/components/brand/DestinationLinks";
+import brandLanguage from "@/content/config/brand-language.json";
 import type { NavItem, BrandConfig, CopyConfig } from "@/lib/config";
 
 interface FooterProps {
@@ -13,17 +14,13 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
   const copyright = copy?.footerCopyright || brand?.name || "";
 
   return (
-    <footer className="border-t border-hairline bg-ink">
+    <footer className="relative overflow-hidden border-t border-hairline bg-ink">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-12">
-        <div className="flex items-start gap-4 lg:col-span-5">
+        <div className="footer-mark flex items-start gap-4 lg:col-span-5">
           <Logo brand={brand} variant="mark" />
           <div>
-            <p className="font-serif text-xl tracking-[0.02em] text-cream">{brand?.name}</p>
-            {brand?.tagline ? (
-              <p className="mt-1 font-mono text-[12px] tracking-[0.08em] text-cream/40">
-                {brand.tagline}
-              </p>
-            ) : null}
+            <p className="font-serif text-xl tracking-[0.02em] text-cream">{brandLanguage.displayName}</p>
             <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-cream/40">
               {brand?.description}
             </p>

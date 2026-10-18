@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Footer from "@/components/layout/Footer";
+import RouteDock from "@/components/layout/RouteDock";
 import ExistingNotesNote from "@/components/content/ExistingNotesNote";
-import { getBrandConfig, getFooterNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
+import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { articleJsonLd, shareImages, shareTwitterImages } from "@/lib/seo";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
 import { indexRobots, isTopicIndexable } from "@/lib/indexing";
@@ -14,6 +15,7 @@ import LessonContent from "@/components/learning/LessonContent";
 import DayCompletion from "@/components/learning/DayCompletion";
 import LessonWorkspaceChrome from "@/components/learning/LessonWorkspaceChrome";
 import DayRail from "@/components/learning/DayRail";
+import LessonTrail from "@/components/learning/LessonTrail";
 import StartingAssessment from "@/components/learning/StartingAssessment";
 import {
   getAllLessonSlugs,
@@ -22,6 +24,7 @@ import {
 } from "@/lib/lessons";
 import { getLearnerCatalog, getPublishedAdjacent } from "@/lib/programs";
 import { firstContentHeading, firstPracticeHeading, navFromHeadings } from "@/lib/lesson-rhythm";
+import { phaseColor } from "@/lib/phase-color";
 
 interface LessonPageProps {
   params: Promise<{
@@ -95,6 +98,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
   const footerNav = getFooterNavigation();
+  const mainNav = getMainNavigation();
   const showStartingAssessment = lesson.metadata.exercise === "starting-assessment";
   const catalog = getLearnerCatalog(lesson.metadata.program);
   const adjacent = getPublishedAdjacent(slug, lesson.metadata.program);
@@ -134,8 +138,19 @@ export default async function LessonPage({ params }: LessonPageProps) {
       ? null
       : lessonContext.next;
 
+  const phaseTone = phaseColor(Number(phaseNumber) || 1);
+
   return (
-    <main className="min-h-screen bg-ink text-cream selection:bg-gold/25 selection:text-ink">
+    <main
+      className="focus-bay read-room relative min-h-screen text-cream"
+      data-phase={phaseNumber}
+      style={{
+        ["--phase" as string]: phaseTone.ink,
+        ["--phase-pigment" as string]: phaseTone.pigment,
+        ["--phase-wash" as string]: phaseTone.wash,
+      }}
+    >
+      <div className="relative z-[1]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -193,6 +208,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
             nextPublished={adjacent.next}
           />
 
+          <LessonTrail
+            slug={lesson.slug}
+            day={lesson.metadata.day}
+            phaseId={catalog.days.find((item) => item.slug === slug)?.phaseId}
+          />
+
           <LessonNavigation
             previous={previous}
             next={next}
@@ -208,6 +229,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
       </div>
 
       <Footer navItems={footerNav} brand={brand} copy={copy} />
+      <RouteDock items={mainNav} />
+      </div>
     </main>
   );
 }

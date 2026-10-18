@@ -5,6 +5,7 @@ import { getAllGuideSlugs, getGuide } from "@/lib/guides";
 import LessonContent from "@/components/learning/LessonContent";
 import { getBrandConfig, getFooterNavigation, getMainNavigation, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import PageShell from "@/components/brand/PageShell";
+import ReadRule from "@/components/field/ReadRule";
 import ExistingNotesNote from "@/components/content/ExistingNotesNote";
 import { articleJsonLd, shareImages, shareTwitterImages } from "@/lib/seo";
 import { canonicalAlternates, canonicalUrl } from "@/lib/urls";
@@ -68,12 +69,13 @@ export default async function GuideSinglePage({ params }: GuidePageProps) {
   });
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="editorial">
+      <ReadRule />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="mx-auto max-w-3xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24 lg:px-8">
+      <article className="read-room mx-auto max-w-3xl px-4 pt-12 pb-24 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center gap-3 font-mono text-xs text-cream/40">
           <span className="uppercase tracking-[0.16em] text-gold">
             {guide.metadata.category}

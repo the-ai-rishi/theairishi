@@ -2,7 +2,7 @@
 title: "Day 2 - Git recovery"
 description: "Worktree, index, commit, HEAD. Then reset --hard, reflog, revert a middle commit, and restore a deleted branch."
 course: "devops-engineer-mastery"
-courseTitle: "DevOps Engineer Mastery"
+courseTitle: "FORGE-120"
 courseOrder: 1
 stage: "Foundations"
 stageOrder: 1
@@ -23,7 +23,7 @@ tags: ["git", "foundations", "day-02"]
 
 # Day 2 - Git recovery
 
-This is Day 2 of DevOps Engineer Mastery. Practise on a throwaway repository you create yourself. Do not force-push shared `main`. Do not practise destructive Git on a work remote.
+This is Day 2 of FORGE-120. Practise on a throwaway repository you create yourself. Do not force-push shared `main`. Do not practise destructive Git on a work remote.
 
 ## Happy path first
 

@@ -1,0 +1,700 @@
+{
+  "hero": {
+    "lead": "FORGE-120 is a 120-day hands-on learning path.",
+    "detail": "You start with Linux, Git and networking. Then you move to cloud, CI, Terraform and Kubernetes. Later you learn reliability and safe AI tool use.",
+    "because": "AI comes later because you should understand your system before depending on a model."
+  },
+  "fixtureLabel": "Fixed example. Not a live model, and not a live index.",
+  "phases": {
+    "phase-01": {
+      "plain": "Linux, Git, HTTP, DNS, and how you record what you actually saw.",
+      "icon": "terminal",
+      "accent": "ochre"
+    },
+    "phase-02": {
+      "plain": "Azure networks, private access, DNS and identity.",
+      "icon": "cloud",
+      "accent": "cobalt"
+    },
+    "phase-03": {
+      "plain": "Pipelines, artifacts, and how a change gets delivered.",
+      "icon": "workflow",
+      "accent": "ochre"
+    },
+    "phase-04": {
+      "plain": "Terraform, a small application, and Docker.",
+      "icon": "blocks",
+      "accent": "cobalt"
+    },
+    "phase-05": {
+      "plain": "Workloads, networking, storage and troubleshooting on Kubernetes.",
+      "icon": "container",
+      "accent": "cobalt"
+    },
+    "phase-06": {
+      "plain": "AKS networking, container registry, identity and monitoring.",
+      "icon": "azure",
+      "accent": "cobalt"
+    },
+    "phase-07": {
+      "plain": "Terraform modules, Helm, promotion and rollback.",
+      "icon": "ship",
+      "accent": "cobalt"
+    },
+    "phase-08": {
+      "plain": "Change gates, measurements, alerts and incidents.",
+      "icon": "activity",
+      "accent": "teal"
+    },
+    "phase-09": {
+      "plain": "Retrieval, citations, evaluation, and checks before a tool runs.",
+      "icon": "search",
+      "accent": "plum"
+    },
+    "phase-10": {
+      "plain": "Architecture, trade-offs, and a closed-note review.",
+      "icon": "shield",
+      "accent": "ink"
+    }
+  },
+  "skills": [
+    {
+      "id": "build",
+      "title": "Build",
+      "accent": "ochre",
+      "items": [
+        {
+          "id": "linux",
+          "name": "Linux",
+          "plain": "Use the machine from the command line.",
+          "icon": "terminal",
+          "href": "/learn#phase-01",
+          "phases": [
+            "phase-01",
+            "phase-10"
+          ],
+          "kind": "skill",
+          "days": [
+            1,
+            4,
+            5,
+            6,
+            7,
+            8,
+            11,
+            110
+          ]
+        },
+        {
+          "id": "git",
+          "name": "Git",
+          "plain": "Track changes and recover work safely.",
+          "icon": "git",
+          "href": "/learn#phase-01",
+          "phases": [
+            "phase-01",
+            "phase-10"
+          ],
+          "kind": "tool",
+          "days": [
+            1,
+            2,
+            3,
+            110
+          ]
+        },
+        {
+          "id": "networking",
+          "name": "Networking",
+          "plain": "See how a request moves between machines.",
+          "icon": "network",
+          "href": "/learn#phase-01",
+          "phases": [
+            "phase-01",
+            "phase-02",
+            "phase-04",
+            "phase-05",
+            "phase-06"
+          ],
+          "kind": "skill",
+          "days": [
+            8,
+            9,
+            10,
+            13,
+            14,
+            15,
+            16,
+            34,
+            46,
+            47,
+            55,
+            65
+          ]
+        },
+        {
+          "id": "azure",
+          "name": "Azure",
+          "plain": "Put a network and an identity in the cloud.",
+          "icon": "cloud",
+          "href": "/learn#phase-02",
+          "phases": [
+            "phase-02"
+          ],
+          "kind": "skill",
+          "days": [
+            13,
+            14,
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "id": "terraform",
+          "name": "Terraform",
+          "plain": "Create cloud infrastructure from code.",
+          "icon": "blocks",
+          "href": "/learn#phase-04",
+          "phases": [
+            "phase-04",
+            "phase-07",
+            "phase-10"
+          ],
+          "kind": "tool",
+          "days": [
+            27,
+            28,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            115
+          ]
+        },
+        {
+          "id": "docker",
+          "name": "Docker",
+          "plain": "Package an application so it runs the same way.",
+          "icon": "container",
+          "href": "/learn#phase-04",
+          "phases": [
+            "phase-04",
+            "phase-10"
+          ],
+          "kind": "tool",
+          "days": [
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            112
+          ]
+        },
+        {
+          "id": "kubernetes",
+          "name": "Kubernetes",
+          "plain": "Run and manage containers reliably.",
+          "icon": "container",
+          "href": "/learn#phase-05",
+          "phases": [
+            "phase-05",
+            "phase-10"
+          ],
+          "kind": "tool",
+          "days": [
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            60,
+            113
+          ]
+        },
+        {
+          "id": "aks",
+          "name": "AKS",
+          "plain": "Run Kubernetes on Azure.",
+          "icon": "azure",
+          "href": "/learn#phase-06",
+          "phases": [
+            "phase-06"
+          ],
+          "kind": "tool",
+          "days": [
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            74
+          ]
+        }
+      ]
+    },
+    {
+      "id": "operate",
+      "title": "Operate",
+      "accent": "teal",
+      "items": [
+        {
+          "id": "cicd",
+          "name": "CI/CD",
+          "plain": "Build and deliver a change the same way each time.",
+          "icon": "workflow",
+          "href": "/learn#phase-03",
+          "phases": [
+            "phase-03",
+            "phase-07",
+            "phase-10"
+          ],
+          "kind": "skill",
+          "days": [
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            86,
+            111
+          ]
+        },
+        {
+          "id": "monitoring",
+          "name": "Monitoring",
+          "plain": "Notice when the system is unhealthy.",
+          "icon": "monitor",
+          "href": "/learn#phase-08",
+          "phases": [
+            "phase-06",
+            "phase-08",
+            "phase-09"
+          ],
+          "kind": "skill",
+          "days": [
+            71,
+            72,
+            91,
+            93,
+            104
+          ]
+        },
+        {
+          "id": "reliability",
+          "name": "Reliability",
+          "plain": "Decide what good looks like before you are on call.",
+          "icon": "activity",
+          "href": "/learn#phase-08",
+          "phases": [
+            "phase-08"
+          ],
+          "kind": "skill",
+          "days": [
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96
+          ]
+        },
+        {
+          "id": "incidents",
+          "name": "Incidents",
+          "plain": "Respond from evidence, then write down what happened.",
+          "icon": "incident",
+          "href": "/learn#phase-08",
+          "phases": [
+            "phase-08"
+          ],
+          "kind": "skill",
+          "days": [
+            94,
+            95
+          ]
+        },
+        {
+          "id": "rollback",
+          "name": "Rollback",
+          "plain": "Return to a known good version.",
+          "icon": "rollback",
+          "href": "/learn#phase-07",
+          "phases": [
+            "phase-03",
+            "phase-07"
+          ],
+          "kind": "skill",
+          "days": [
+            24,
+            79,
+            85
+          ]
+        },
+        {
+          "id": "debugging",
+          "name": "Debugging",
+          "plain": "Find the failing part with a recorded observation.",
+          "icon": "bug",
+          "href": "/learn#phase-01",
+          "phases": [
+            "phase-01",
+            "phase-05"
+          ],
+          "kind": "skill",
+          "days": [
+            6,
+            7,
+            40,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        }
+      ]
+    },
+    {
+      "id": "use-ai",
+      "title": "Use AI safely",
+      "accent": "plum",
+      "items": [
+        {
+          "id": "rag",
+          "name": "RAG",
+          "plain": "Answer from retrieved text, not from memory alone.",
+          "icon": "search",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09",
+            "phase-10"
+          ],
+          "focusDay": 97,
+          "kind": "skill",
+          "days": [
+            97,
+            98,
+            118
+          ]
+        },
+        {
+          "id": "retrieval",
+          "name": "Retrieval",
+          "plain": "Find the useful parts of a source before answering.",
+          "icon": "book",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09"
+          ],
+          "kind": "skill",
+          "days": [
+            97,
+            98
+          ]
+        },
+        {
+          "id": "citations",
+          "name": "Citations",
+          "plain": "Show which source the answer came from.",
+          "icon": "quote",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09"
+          ],
+          "kind": "skill",
+          "days": [
+            98
+          ]
+        },
+        {
+          "id": "policy",
+          "name": "Policy checks",
+          "plain": "A fixed check decides what is allowed. A prompt does not.",
+          "icon": "policy",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09"
+          ],
+          "kind": "skill",
+          "days": [
+            100,
+            103
+          ]
+        },
+        {
+          "id": "mcp",
+          "name": "MCP",
+          "plain": "A tool connection the policy can allow or refuse.",
+          "icon": "mcp",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09"
+          ],
+          "kind": "tool",
+          "days": [
+            101
+          ]
+        },
+        {
+          "id": "evaluation",
+          "name": "Evaluation",
+          "plain": "Compare the output with an expected result.",
+          "icon": "check",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09",
+            "phase-10"
+          ],
+          "kind": "skill",
+          "days": [
+            102,
+            118
+          ]
+        },
+        {
+          "id": "controlled-tools",
+          "name": "Controlled tools",
+          "plain": "The model may call only a tool the policy allowed.",
+          "icon": "tool",
+          "href": "/learn#phase-09",
+          "phases": [
+            "phase-09"
+          ],
+          "kind": "skill",
+          "days": [
+            99,
+            100,
+            101,
+            104
+          ]
+        }
+      ]
+    }
+  ],
+  "order": [
+    {
+      "id": "basics",
+      "name": "Basics",
+      "plain": "You must understand the machine.",
+      "icon": "terminal",
+      "accent": "ochre"
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud and networking",
+      "plain": "Applications need safe connections.",
+      "icon": "network",
+      "accent": "cobalt"
+    },
+    {
+      "id": "delivery",
+      "name": "CI and Terraform",
+      "plain": "Delivery should be repeatable.",
+      "icon": "workflow",
+      "accent": "ochre"
+    },
+    {
+      "id": "workloads",
+      "name": "Kubernetes and AKS",
+      "plain": "Workloads need a place to run and a way to recover.",
+      "icon": "container",
+      "accent": "cobalt"
+    },
+    {
+      "id": "reliability",
+      "name": "Reliability",
+      "plain": "Systems fail. You practise noticing and recording.",
+      "icon": "activity",
+      "accent": "teal"
+    },
+    {
+      "id": "boundaries",
+      "name": "RAG and controlled tool use",
+      "plain": "AI should work inside clear boundaries.",
+      "icon": "search",
+      "accent": "plum"
+    }
+  ],
+  "days": [
+    {
+      "id": "read",
+      "name": "Read",
+      "plain": "Understand the words. Predict what will happen before you run it.",
+      "icon": "book"
+    },
+    {
+      "id": "try",
+      "name": "Try",
+      "plain": "Do the task yourself. On write days, the first version is yours.",
+      "icon": "terminal"
+    },
+    {
+      "id": "break",
+      "name": "Break",
+      "plain": "Break one thing safely. Write down what you saw.",
+      "icon": "bug"
+    },
+    {
+      "id": "debug",
+      "name": "Debug",
+      "plain": "Evidence goes in a file. A chat is not evidence.",
+      "icon": "search"
+    },
+    {
+      "id": "practise",
+      "name": "Practise",
+      "plain": "Answer out loud, including the case that fails.",
+      "icon": "check"
+    },
+    {
+      "id": "review",
+      "name": "Review",
+      "plain": "If you cannot explain it, you do not own it yet.",
+      "icon": "quote"
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "source",
+      "name": "Source",
+      "plain": "Start from a document you are willing to trust.",
+      "icon": "source"
+    },
+    {
+      "id": "chunk",
+      "name": "Chunk",
+      "plain": "Split that document into smaller pieces.",
+      "icon": "chunk"
+    },
+    {
+      "id": "retrieve",
+      "name": "Retrieve",
+      "plain": "The system finds the useful parts of the source before the model answers.",
+      "icon": "search"
+    },
+    {
+      "id": "context",
+      "name": "Context",
+      "plain": "Those parts are handed to the model with the question.",
+      "icon": "book"
+    },
+    {
+      "id": "cite",
+      "name": "Cite",
+      "plain": "The answer points at the source. If it cannot, it should not pretend.",
+      "icon": "quote"
+    }
+  ],
+  "control": [
+    {
+      "id": "request",
+      "name": "Request",
+      "plain": "A person asks for something the service is allowed to do.",
+      "icon": "terminal"
+    },
+    {
+      "id": "model",
+      "name": "Model",
+      "plain": "The model proposes a next step. It does not skip the checks.",
+      "icon": "search"
+    },
+    {
+      "id": "policy",
+      "name": "Policy",
+      "plain": "A fixed rule decides what is allowed. Another prompt does not.",
+      "icon": "policy"
+    },
+    {
+      "id": "validation",
+      "name": "Validation",
+      "plain": "The proposed tool must match a known schema and an allowlist.",
+      "icon": "check"
+    },
+    {
+      "id": "tool",
+      "name": "Tool",
+      "plain": "Only the allowed tool runs. An unknown shell does not.",
+      "icon": "tool"
+    },
+    {
+      "id": "result",
+      "name": "Result",
+      "plain": "The tool returns evidence. The model does not invent that evidence.",
+      "icon": "book"
+    },
+    {
+      "id": "evaluation",
+      "name": "Evaluation",
+      "plain": "Compare the output with a known expected result.",
+      "icon": "check"
+    },
+    {
+      "id": "audit",
+      "name": "Audit",
+      "plain": "Record the path. A switch can stop it.",
+      "icon": "shield"
+    }
+  ],
+  "spans": [
+    {
+      "id": "system",
+      "name": "Understand and operate the system",
+      "from": 1,
+      "to": 96,
+      "plain": "Days 1–96. Learn the machine, the cloud, delivery, Kubernetes and reliability before a model is in the path."
+    },
+    {
+      "id": "controlled",
+      "name": "Retrieval, policy, controlled tools and evaluation",
+      "from": 97,
+      "to": 105,
+      "plain": "Days 97–105. Retrieval, citations, policy, evaluation and tools that can be refused."
+    },
+    {
+      "id": "defence",
+      "name": "Design and defence",
+      "from": 106,
+      "to": 120,
+      "plain": "Days 106–120. Architecture, trade-offs and a closed-note review."
+    }
+  ],
+  "programSource": "forge-120"
+}

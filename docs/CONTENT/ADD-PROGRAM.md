@@ -1,6 +1,6 @@
 # Add a program
 
-The current program is DevOps Engineer Mastery. AI and Agentic AI stay off the homepage until they have real material.
+The current program is FORGE-120. Do not add a separate AI course or agent course until it has its own material.
 
 Programs live in `content/config/programs.json`.
 

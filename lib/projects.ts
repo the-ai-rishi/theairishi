@@ -13,7 +13,7 @@ export interface ProjectMetadata {
   difficulty?: "Beginner" | "Intermediate" | "Advanced";
   githubUrl?: string;
   demoUrl?: string;
-  status: "Completed" | "In Progress" | "Planned";
+  status: "Completed" | "In Progress" | "Planned" | "Lab note";
   featured?: boolean;
   topic?: string;
   topicSlug?: string;
@@ -104,7 +104,8 @@ export function getAllProjectSummaries(): ProjectSummary[] {
       const status =
         data.status === "Completed" ||
         data.status === "In Progress" ||
-        data.status === "Planned"
+        data.status === "Planned" ||
+        data.status === "Lab note"
           ? data.status
           : "In Progress";
 

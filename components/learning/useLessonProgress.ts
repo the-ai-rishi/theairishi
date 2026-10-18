@@ -6,9 +6,11 @@ import {
   getState,
   isCompleted as stateIsCompleted,
   isStarted as stateIsStarted,
+  isSaved as stateIsSaved,
   storeMarkCompleted,
   storeSetLastVisited,
   storeToggleCompleted,
+  storeToggleSaved,
   subscribe,
 } from "@/lib/learner-progress";
 
@@ -29,10 +31,9 @@ export function useLessonProgress() {
     [state]
   );
 
-  const isStarted = useCallback(
-    (slug: string) => stateIsStarted(state, slug),
-    [state]
-  );
+  const isStarted = useCallback((slug: string) => stateIsStarted(state, slug), [state]);
+
+  const isSaved = useCallback((slug: string) => stateIsSaved(state, slug), [state]);
 
   const getCompletedCount = useCallback(
     (lessons: { slug: string }[]) => lessons.filter((lesson) => completedSet.has(lesson.slug)).length,
@@ -54,10 +55,12 @@ export function useLessonProgress() {
     startedSlugs: state.started,
     isCompleted,
     isStarted,
+    isSaved,
     getCompletedCount,
     getProgressPercent,
     markComplete: storeMarkCompleted,
     toggleComplete: storeToggleCompleted,
+    toggleSaved: storeToggleSaved,
     lastVisited: state.lastVisited,
     setLastVisited: storeSetLastVisited,
     completedSet,

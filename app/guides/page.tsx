@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Writing",
     description:
-      "In-depth technical essays, architecture deep-dives, and practical engineering writing. Some notes predate the current DevOps program.",
+      "In-depth technical essays, architecture deep-dives, and practical engineering writing. Some notes predate FORGE-120.",
     alternates: canonicalAlternates("/guides"),
   };
 }
@@ -22,59 +22,31 @@ export default function GuidesPage() {
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
-  const [feature, ...rest] = guides;
 
   return (
-    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
-      <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
-        <p className="kicker text-gold/80">Essays</p>
-        <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">
-          Writing
-        </h1>
-        <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-cream/55">
-          First-principles essays, mental frameworks, and architectural deep dives.
-        </p>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
+    <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="editorial">
+      <div className="poster-index">
         {guides.length === 0 ? (
-          <p className="border-t border-hairline py-16 text-cream/40">
-            Essays are being written. Check back soon.
-          </p>
+          <p className="border-t border-hairline py-16 text-cream/50">Essays are being written. Check back soon.</p>
         ) : (
           <>
-            {feature ? (
-              <article className="border-t border-hairline pt-10">
-                <p className="font-mono text-[13px] tracking-[0.14em] text-cream/40">
-                  {feature.metadata.category} · {feature.metadata.date}
-                </p>
-                <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-[0.01em] text-cream sm:text-5xl">
-                  <Link href={`/guides/${feature.slug}`} className="hover:text-gold-bright">
-                    {feature.metadata.title}
-                  </Link>
-                </h2>
-                <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-cream/50">
-                  {feature.metadata.description}
-                </p>
-                <Link
-                  href={`/guides/${feature.slug}`}
-                  className="link-editorial mt-6 inline-block font-mono text-[14px] text-gold"
-                >
-                  Read the essay →
-                </Link>
-              </article>
-            ) : null}
-            {rest.length > 0 ? (
-              <ol className="mt-12 divide-y divide-hairline border-t border-hairline">
-                {rest.map((guide) => (
+            <Link href={`/guides/${guides[0].slug}`} className="poster-feature">
+              <p className="field-kicker">
+                Essay 01 <span>{guides[0].metadata.category}</span>
+              </p>
+              <h1>{guides[0].metadata.title}</h1>
+              <p className="max-w-xl text-[17px] leading-relaxed text-cream/70">{guides[0].metadata.description}</p>
+              <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">Read</p>
+            </Link>
+            {guides.length > 1 ? (
+              <ol className="poster-list">
+                {guides.slice(1).map((guide, index) => (
                   <li key={guide.slug}>
-                    <Link
-                      href={`/guides/${guide.slug}`}
-                      className="group grid gap-2 py-5 sm:grid-cols-[7.5rem_1fr] sm:items-baseline"
-                    >
-                      <span className="font-mono text-[13px] text-cream/40">{guide.metadata.date}</span>
-                      <span className="font-serif text-2xl text-cream group-hover:text-gold-bright">
-                        {guide.metadata.title}
+                    <Link href={`/guides/${guide.slug}`}>
+                      <span className="font-mono text-[12px] text-cream/45">{String(index + 2).padStart(2, "0")}</span>
+                      <span>
+                        <h2>{guide.metadata.title}</h2>
+                        <p className="mt-2 text-[15px] text-cream/60">{guide.metadata.description}</p>
                       </span>
                     </Link>
                   </li>
@@ -83,7 +55,7 @@ export default function GuidesPage() {
             ) : null}
           </>
         )}
-      </section>
+      </div>
     </PageShell>
   );
 }

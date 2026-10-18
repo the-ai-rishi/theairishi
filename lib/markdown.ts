@@ -46,7 +46,7 @@ export function enhanceHtml(rawHtml: string): string {
         .toLowerCase()
         .replace(/[^\w\s-]/g, "")
         .replace(/\s+/g, "-");
-      return `<h${level} id="${id}" class="group scroll-mt-28"><a href="#${id}" class="anchor-link" aria-hidden="true">#</a><span>${text}</span></h${level}>`;
+      return `<h${level} id="${id}" class="group scroll-mt-28"><a href="#${id}" class="anchor-link" tabindex="-1" aria-hidden="true">#</a><span>${text}</span></h${level}>`;
     }
   );
 

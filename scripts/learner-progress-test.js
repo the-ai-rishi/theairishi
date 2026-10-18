@@ -106,6 +106,11 @@ function runLearnerProgressTests() {
   check(dupes.completedAt.nope === undefined, "completedAt drops unknown slugs");
 
   // mutations do not auto-complete on visit
+  const saved = progress.toggleSaved(progress.emptyState(), "day-02");
+  check(saved.saved.includes("day-02"), "a day can be saved on this device");
+  check(!progress.toggleSaved(saved, "day-02").saved.includes("day-02"), "saving again removes the bookmark");
+  check(progress.parseProgress({ v: 2, completed: ["day-01"], saved: ["day-03"] }).completed.includes("day-01"), "a newer progress version keeps completed days");
+  check(progress.parseProgress({ v: 2, completed: ["day-01"], saved: ["day-03"] }).saved.includes("day-03"), "a newer progress version keeps saved days");
   const started = progress.markStarted(progress.emptyState(), "day-01");
   check(started.started.includes("day-01"), "visit starts a day");
   check(started.completed.length === 0, "visit does not complete a day");
@@ -298,9 +303,8 @@ function runLearnerProgressTests() {
     "components/learning/LessonWorkspaceChrome.tsx",
     "components/learning/DayRail.tsx",
     "components/product/ProductHome.tsx",
-    "components/product/ProductHero.tsx",
+    "components/field/ForgeRail.tsx",
     "components/product/CurrentWorkCard.tsx",
-    "components/product/JourneyMap.tsx",
     "docs/PRODUCT/LEARNER-EXPERIENCE.md",
     "docs/PRODUCT/LEARNING-PLATFORM-UX-RESEARCH.md",
     "docs/PRODUCT/UX-DESIGN-DECISIONS.md",

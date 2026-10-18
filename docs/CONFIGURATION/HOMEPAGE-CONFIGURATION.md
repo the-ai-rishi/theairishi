@@ -11,7 +11,7 @@ You do not edit React to hide a section. Set `"enabled": false`.
 A visitor should understand, in about ten seconds:
 
 - this is a technology learning platform
-- the current program is DevOps Engineer Mastery
+- the current program is FORGE-120
 - it is 120 days / about four months
 - start at Day 1
 - AI comes later
@@ -47,7 +47,7 @@ Unknown type is skipped. `npm run validate` errors.
 
 ## Live order
 
-1. hero - DevOps Engineer Mastery, 120 days, Start Day 1
+1. hero - FORGE-120, 120 days, Start Day 1
 2. continue-learning (only if the visitor has progress)
 3. program - facts strip
 4. phases - what you will work through

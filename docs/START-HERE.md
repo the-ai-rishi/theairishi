@@ -2,7 +2,7 @@
 
 The AI Rishi is a technology learning and teaching platform.
 
-Right now the work is **DevOps Engineer Mastery**: 120 days, starting at the shell. AI and Agentic AI come later, after the engineering foundation. They stay off the homepage and the primary navigation until there is real material.
+Right now the work is **FORGE-120**: 120 days from system fundamentals through cloud, Kubernetes, reliability, retrieval, and controlled tool use. Deeper model-training and multiple agent stacks stay outside the core until a real requirement demands them.
 
 This is not a guru course, not a marketplace, and not an AI-first landing page.
 
@@ -21,11 +21,11 @@ This is the only documentation entry point. There is no `START_HERE.md`.
 
 ## What a visitor should understand in ten seconds
 
-This is a structured 120-day DevOps program. Start at Day 1. AI is later. There is no guru pitch.
+This is FORGE-120. Start at Day 1. Retrieval and controlled tool use are days 97–105, not the first week.
 
 ## Domain model
 
-DevOps Engineer Mastery is a **program**. That is its canonical meaning.
+FORGE-120 is the **program**. The internal id stays `devops-engineer-mastery` so published lesson frontmatter and local progress keys do not break.
 
 | Concept | What it is | Source | Public role |
 | --- | --- | --- | --- |
@@ -141,7 +141,7 @@ If validate fails, do not deploy. Read the `ERROR:` / `Fix:` block. It names the
 9. Do not edit `lib/content-data.generated.ts`. It is generated.
 10. Project frontmatter `status` is a badge (`Completed` / `In Progress` / `Planned`). Hide a lab with `enabled: false`.
 11. Content on this site is free. Do not add pricing pages.
-12. Do not add `brand.tagline` unless you intend a real slogan. An empty tagline field is rejected. Same for `copy.heroTitle` and `copy.heroTagline` - omit them; the hero uses the program title.
+12. Do not add `brand.tagline` or `copy.heroTagline`. The visible lockup is the name only. The withheld line must not return. An empty tagline field is also rejected. Omit `copy.heroTitle`; the hero uses the program title.
 13. `brand.lineage` must not exist.
 14. `defaults.authorName` is the public Person in structured data. It is currently **The AI Rishi** - the brand as Person, set on purpose. Change the config if you want a different public name indexed. Do not infer a private legal name.
 15. Never edit generated catalogs. `lib/content-data.generated.ts` and `lib/published-lesson-slugs.generated.ts` are written before every Next compile. They are rewritten only when content actually changes, so the Next watcher does not loop.

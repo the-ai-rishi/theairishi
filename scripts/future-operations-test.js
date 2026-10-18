@@ -363,14 +363,14 @@ function runFutureOperationsTests(livePlatform) {
   // K. Add / reorder a homepage section
   const tK = clone(livePlatform);
   const why = tK.homepage.sections.find((section) => section.id === "why");
-  const today = tK.homepage.sections.find((section) => section.id === "today");
+  const pathSection = tK.homepage.sections.find((section) => section.id === "path");
   const whyOrder = why.order;
-  why.order = today.order;
-  today.order = whyOrder;
+  why.order = pathSection.order;
+  pathSection.order = whyOrder;
   const homeK = vis.resolveHomepageSections(tK, emptyCat()).sections;
   const whyIndex = homeK.findIndex((section) => section.id === "why");
-  const todayIndex = homeK.findIndex((section) => section.id === "today");
-  check(todayIndex < whyIndex, "Op K: homepage order follows configuration");
+  const pathIndex = homeK.findIndex((section) => section.id === "path");
+  check(pathIndex < whyIndex, "Op K: homepage order follows configuration");
 
   // L. Change which program is featured
   const swapped = catalogOf(
@@ -547,6 +547,52 @@ function runFutureOperationsTests(livePlatform) {
       /repoUrl/i.test(err)
     ),
     "Public programs.json must not carry repoUrl"
+  );
+
+  const experienceLib = require("../lib/experience");
+  const liveExperience = experienceLib.loadExperience(path.join(__dirname, ".."));
+  const withSkill = clone(liveExperience);
+  withSkill.skills[0].items.push({
+    id: "future-skill",
+    name: "Future skill",
+    plain: "Added from configuration.",
+    icon: "terminal",
+    href: "/learn",
+  });
+  check(
+    experienceLib.normalizeExperience(withSkill).errors.length === 0,
+    "Op O: a new skill with an existing icon key validates without a React change"
+  );
+  const withTool = clone(liveExperience);
+  const operate = withTool.skills.find((group) => group.id === "operate");
+  operate.items.push({
+    id: "future-tool",
+    name: "Future tool",
+    plain: "A tool added from configuration.",
+    icon: "tool",
+    href: "/learn#phase-08",
+  });
+  check(
+    experienceLib.normalizeExperience(withTool).errors.length === 0,
+    "Op P: a new tool validates without a React change"
+  );
+  const badIcon = clone(liveExperience);
+  badIcon.skills[0].items[0].icon = "not-a-real-icon";
+  check(
+    experienceLib.normalizeExperience(badIcon).errors.length > 0,
+    "Op O: an unknown icon key is rejected"
+  );
+  const clearer = clone(liveExperience);
+  clearer.phases["phase-01"].plain = "A clearer sentence from configuration.";
+  check(
+    experienceLib.normalizeExperience(clearer).errors.length === 0,
+    "Op O: a phase explanation is configuration"
+  );
+  const hideSkills = clone(livePlatform);
+  hideSkills.homepage.sections.find((section) => section.id === "skills").enabled = false;
+  check(
+    !vis.resolveHomepageSections(hideSkills, emptyCat()).sections.some((section) => section.type === "skills"),
+    "Disabling the skills module is enabled: false"
   );
 
   if (failures.length) {
