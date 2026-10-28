@@ -1,6 +1,7 @@
-/* Cutaway world plus one glass material.
-   Loaded last so shared shells cannot paint an opaque sheet over the ground.
-   Mineral objects stay solid. Reading type stays solid. */
+/* Cutaway world on a night field, so glass has color to frost.
+   Author only the unprefixed backdrop-filter. Lightning CSS keeps that
+   property and adds the prefix. Writing both makes it drop the standard
+   property, and production Chrome then paints no frost. */
 
 .chapter[data-layout="rail"] {
   background: #241c16;
@@ -321,7 +322,9 @@
   color: #f4efe6;
   margin: 0.75rem auto;
   width: min(100% - 1.25rem, 72rem);
-  padding: 1.4rem 1.15rem 1.5rem;
+  min-height: min(62vh, 32rem);
+  align-content: end;
+  padding: 1.6rem 1.25rem 1.7rem;
   box-shadow: 0.55rem 0.55rem 0 #c4843c;
 }
 
@@ -329,12 +332,6 @@
 [data-tone="brand"] .story-reel > .story-chapter:first-child p,
 [data-tone="brand"] .story-reel > .story-chapter:first-child .story-num {
   color: #f4efe6;
-}
-
-[data-tone="editorial"] .poster-feature,
-[data-tone="engineering"] .poster-index > header {
-  box-shadow: 0.45rem 0.45rem 0 rgba(36, 28, 22, 0.12);
-  border-top: 6px solid #241c16;
 }
 
 .room-404 {
@@ -403,33 +400,30 @@
   }
 }
 
-/* Glass is the default surface. Tokens live here so every route shares one material.
-   Do not paint an opaque page colour on a shell — that is what hid the last pass. */
+/* One material, different compositions. Shells stay transparent so the field shows. */
 
 :root {
-  --ground: #e4d8c6;
+  --field-night: #14110e;
   --glass-solid: #f6f1e7;
   --glass-fill: rgba(246, 241, 231, 0.86);
-  --glass-fill-strong: rgba(246, 241, 231, 0.92);
-  --glass-edge: rgba(255, 252, 246, 0.78);
-  --glass-line: rgba(26, 23, 20, 0.14);
-  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), 0 18px 40px rgba(36, 28, 22, 0.08), 0.4rem 0.4rem 0 rgba(36, 28, 22, 0.06);
-  --glass-blur: 18px;
-  --glass-focus: #6d4520;
+  --glass-edge: rgba(255, 252, 246, 0.66);
+  --glass-filter: blur(22px) saturate(1.45);
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78), 0 24px 50px rgba(0, 0, 0, 0.38);
 }
 
 html,
 body.site-ground {
-  background-color: var(--ground);
+  background-color: var(--field-night);
   background-image:
-    linear-gradient(rgba(26, 23, 20, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26, 23, 20, 0.035) 1px, transparent 1px),
-    radial-gradient(ellipse 58% 42% at 4% -6%, rgba(226, 181, 122, 0.42), transparent 58%),
-    radial-gradient(ellipse 46% 36% at 104% 0%, rgba(158, 196, 222, 0.38), transparent 52%),
-    radial-gradient(ellipse 40% 34% at 92% 108%, rgba(224, 183, 212, 0.28), transparent 50%),
-    radial-gradient(ellipse 34% 30% at -8% 72%, rgba(143, 208, 200, 0.24), transparent 48%),
-    linear-gradient(165deg, #efe4d4 0%, var(--ground) 46%, #ddd0bc 100%);
-  background-size: 72px 72px, 72px 72px, auto, auto, auto, auto, auto;
+    radial-gradient(ellipse 62% 46% at 50% -12%, rgba(226, 181, 122, 0.78), transparent 58%),
+    radial-gradient(ellipse 42% 38% at 108% 16%, rgba(126, 176, 214, 0.62), transparent 56%),
+    radial-gradient(ellipse 36% 32% at -8% 46%, rgba(196, 112, 64, 0.42), transparent 54%),
+    radial-gradient(ellipse 40% 34% at 86% 72%, rgba(143, 208, 200, 0.34), transparent 56%),
+    radial-gradient(ellipse 34% 30% at 8% 96%, rgba(224, 183, 212, 0.4), transparent 52%),
+    linear-gradient(rgba(244, 239, 230, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 239, 230, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, #211912 0%, #14110e 40%, #18141a 100%);
+  background-size: auto, auto, auto, auto, auto, 72px 72px, 72px 72px, auto;
   background-attachment: fixed;
   color: #1a1714;
 }
@@ -444,102 +438,252 @@ main.focus-bay.read-room,
 [data-tone="engineering"] .poster-index,
 [data-tone="engineering"] .artefact-page,
 [data-tone="brand"] .story-reel,
-[data-tone="learn"] .path-chapter,
 .glass-stage {
   background-color: transparent;
   background-image: none;
 }
 
-.glass-sheet,
-.glass-bar,
+/* Frost. Unprefixed only — the bundler emits the prefix itself. */
 .command-bar,
-.command-layer,
+header.glass-bar,
+main.focus-bay header.sticky,
+footer.glass-bar,
+.system-nav,
 .chapter:not([data-layout="rail"]),
-main.mode-room > section:not([data-layout="rail"]),
+main.mode-room > section:not(.chapter):not([data-layout="rail"]),
 [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
-.poster-feature,
-.poster-index > header,
 .poster-list a,
-article.artefact-index,
-article.read-room,
 .plan-tools,
 .plan-gates,
 .plan-map,
 .plan-card,
 .plan-focus .plan-card:first-child,
 .panel,
-main.focus-bay #main-content,
-nav[aria-label="Published days"] > div,
-header[class~="bg-ink"],
-a.group[class~="bg-ink"] {
+.glass-sheet,
+.command-panel,
+nav[aria-label="Published days"] > div {
   background-color: var(--glass-fill);
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 42%);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.15);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.15);
   border: 1px solid var(--glass-edge);
   box-shadow: var(--glass-shadow);
   color: #1a1714;
+  backdrop-filter: var(--glass-filter);
 }
 
-footer.glass-bar,
-header.glass-bar,
-.command-bar {
-  background-color: var(--glass-fill-strong);
-}
-
-footer.glass-bar,
-header.glass-bar {
-  width: auto;
-  margin: 0;
-  border-right: 0;
-  border-left: 0;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
-}
-
-.text-cream\/70,
-.text-cream\/75,
-.text-cream\/80,
-.text-cream\/90 {
-  color: #4a453f;
-}
-
-.command-bar {
-  width: min(100%, 88rem);
-  margin-inline: auto;
-  border-radius: 0;
+header.sticky {
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 header.sticky > div:first-child {
-  padding: 0.55rem 0.7rem 0.4rem;
+  padding: 0.55rem 0.85rem 0.2rem;
 }
 
-.command-bar::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0.75rem;
-  right: 38%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), transparent);
-  pointer-events: none;
+/* The bar is a lens over the top lamp, not a recolored strip. */
+.command-bar {
+  width: min(100% - 0.5rem, 76rem);
+  height: auto;
+  min-height: 3.15rem;
+  margin-inline: auto;
+  border-radius: 999px;
+  background-color: rgba(246, 241, 231, 0.8);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 46%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 14px 40px rgba(0, 0, 0, 0.38);
 }
 
-.glass-scrim {
-  background-color: rgba(36, 28, 22, 0.36);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.command-bar :is(
+  .text-cream\/20,
+  .text-cream\/25,
+  .text-cream\/30,
+  .text-cream\/35,
+  .text-cream\/38,
+  .text-cream\/40,
+  .text-cream\/45,
+  kbd
+) {
+  color: #3f3a34;
+}
+
+footer.glass-bar {
+  width: auto;
+  margin: 1.5rem 0 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 0;
+  background-color: rgba(246, 241, 231, 0.92);
+  background-image: none;
+}
+
+main.focus-bay header.sticky {
+  background-color: rgba(246, 241, 231, 0.92);
+  background-image: none;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  width: auto;
+}
+
+.system-nav {
+  background-color: rgba(246, 241, 231, 0.92);
+  background-image: none;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
 }
 
 .chapter:not([data-layout="rail"]),
 main.mode-room > section:not(.chapter):not([data-layout="rail"]) {
-  width: min(100% - 1.25rem, 88rem);
-  margin: 0.8rem auto;
+  width: min(100% - 1.5rem, 88rem);
+  margin: 1.15rem auto;
+  border-radius: 1.35rem;
+}
+
+.chapter[data-layout="toolkit"] {
+  width: min(100% - 1rem, 92rem);
+  border-radius: 0 2.75rem 1.25rem 1.25rem;
+}
+
+.chapter[data-layout="toolkit"] .toolkit .skill-group {
+  background-color: rgba(255, 252, 246, 0.55);
+  border: 1px solid rgba(255, 252, 246, 0.75);
+  border-radius: 0.9rem;
+  padding: 0.85rem 0.8rem 0.35rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.chapter[data-layout="sequence"] {
+  width: min(100% - 2rem, 52rem);
+  margin-left: auto;
+  margin-right: 0.75rem;
+  border-radius: 1.75rem;
+}
+
+.chapter[data-layout="sequence"] .chapter-index {
+  font-size: clamp(4.4rem, 12vw, 8rem);
+  color: #6d4520;
+  letter-spacing: -0.06em;
+}
+
+.chapter[data-layout="flow"][data-accent="ochre"] {
+  border-radius: 0.4rem;
+  border-top: 6px solid #c4843c;
+}
+
+.chapter[data-layout="flow"][data-accent="plum"] {
+  width: min(100% - 2rem, 80rem);
+  margin-left: 0.75rem;
+  margin-right: auto;
+  border-radius: 1.6rem 0.35rem 1.6rem 0.35rem;
+  border-top: 6px solid #c9a0c4;
+}
+
+.chapter[data-layout="split"][data-accent="teal"] {
+  width: min(100% - 2rem, 68rem);
+  margin-right: auto;
+  margin-left: 0.75rem;
+  border-left: 0;
+  border-bottom: 5px solid #1d6a62;
+  border-radius: 1.2rem 1.2rem 0.35rem 1.2rem;
+}
+
+.chapter[data-layout="split"][data-accent="ochre"] {
+  width: min(100% - 2rem, 62rem);
+  margin-left: auto;
+  margin-right: 0.75rem;
+  border-radius: 0.35rem 1.4rem 1.4rem 1.4rem;
+}
+
+.chapter[data-layout="split"][data-accent="ink"] {
+  width: min(100% - 2rem, 74rem);
+  border-radius: 1.6rem;
+}
+
+/* Guides: a dark poster, then a glass index. */
+[data-tone="editorial"] .poster-feature {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  min-height: min(72vh, 36rem);
+  margin: 0.75rem 0.6rem 1rem;
+  padding: 1.8rem 1.35rem 1.9rem;
+  background-color: #241c16;
+  background-image: linear-gradient(155deg, rgba(226, 181, 122, 0.2), transparent 46%);
+  color: #f4efe6;
+  border: 0;
+  border-radius: 0;
+  box-shadow: 0.85rem 0.85rem 0 #c4843c;
+  backdrop-filter: none;
+}
+
+[data-tone="editorial"] .poster-feature h1 {
+  max-width: 14ch;
+  font-size: clamp(3.1rem, 8vw, 6.2rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+}
+
+[data-tone="editorial"] .poster-feature :is(h1, p, span, .field-kicker) {
+  color: #f4efe6;
+}
+
+[data-tone="editorial"] .poster-feature .text-gold,
+[data-tone="editorial"] .poster-feature .field-kicker {
+  color: #e2b57a;
+}
+
+[data-tone="editorial"] .poster-list {
+  width: min(100% - 1.25rem, 68rem);
+  margin-inline: auto;
+}
+
+/* Labs: a short dark bench, then the ledger. */
+[data-tone="engineering"] .poster-index > header {
+  margin: 0.75rem 0.6rem 1rem;
+  padding: 1.5rem 1.2rem 1.6rem;
+  background-color: #1c2422;
+  color: #f4efe6;
+  border: 0;
+  border-radius: 0;
+  box-shadow: 0.7rem 0.7rem 0 #1d6a62;
+}
+
+[data-tone="engineering"] .poster-index > header h1 {
+  font-size: clamp(3.4rem, 9vw, 6.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+}
+
+[data-tone="engineering"] .poster-index > header :is(h1, p, span) {
+  color: #f4efe6;
+}
+
+[data-tone="engineering"] .poster-index > header .text-gold,
+[data-tone="engineering"] .poster-index > header .kicker {
+  color: #8fd0c8;
+}
+
+[data-tone="engineering"] .poster-list {
+  width: min(100% - 1.25rem, 72rem);
+  margin-inline: auto;
+}
+
+.poster-list a {
+  margin-top: 0.65rem;
+  padding: 1rem 0.95rem;
+  border-radius: 0.9rem;
+  background-color: rgba(246, 241, 231, 0.9);
 }
 
 [data-tone="brand"] .story-reel > .story-chapter:not(:first-child) {
   min-height: 0;
-  margin: 0.75rem 0;
-  padding: 1.6rem 1.2rem;
+  margin: 0.85rem 0;
+  padding: 1.6rem 1.25rem;
+  border-radius: 1.2rem;
 }
 
 [data-tone="brand"] .story-reel > .story-chapter:not(:first-child) h2,
@@ -551,34 +695,64 @@ main.mode-room > section:not(.chapter):not([data-layout="rail"]) {
   color: #3f3a34;
 }
 
-.poster-feature {
-  min-height: min(58vh, 32rem);
-  align-content: end;
-  margin-bottom: 0.8rem;
-  padding: 1.4rem 1.15rem 1.5rem;
+@media (min-width: 900px) {
+  [data-tone="brand"] .story-reel > .story-chapter:nth-child(even) {
+    width: 86%;
+    margin-left: 10%;
+  }
+
+  [data-tone="brand"] .story-reel > .story-chapter:nth-child(odd):not(:first-child) {
+    width: 86%;
+    margin-right: 10%;
+  }
 }
 
-.poster-index > header {
-  margin-bottom: 0.8rem;
-  padding: 1.2rem 1.1rem 1.3rem;
-}
-
-.poster-list a {
-  margin-top: 0.55rem;
-  padding: 1.05rem 0.95rem;
-}
-
+/* Long reading is a paper document on the night field, not frosted type. */
 article.read-room,
+article.artefact-index,
+main.focus-bay #main-content {
+  background-color: #f7f3ea;
+  background-image: none;
+  backdrop-filter: none;
+  border: 1px solid rgba(255, 252, 246, 0.45);
+  border-radius: 1.15rem;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+  color: #1a1714;
+}
+
+article.read-room {
+  border-top: 8px solid #c4843c;
+  margin-top: 1.15rem;
+  padding: 1.7rem 1.25rem 2.8rem;
+}
+
 article.artefact-index {
-  margin-top: 0.8rem;
-  padding: 1.5rem 1.15rem 2.5rem;
+  border-top: 8px solid #1d6a62;
+  margin-top: 1.15rem;
+  padding: 1.7rem 1.25rem 2.8rem;
+}
+
+main.focus-bay #main-content {
+  padding: 1.25rem 1.1rem 1.9rem;
 }
 
 .plan-tools,
 .plan-gates,
-.plan-map {
-  margin-top: 0.8rem;
-  padding: 0.9rem 0.85rem 1rem;
+.plan-map,
+.span-key {
+  margin-top: 0.85rem;
+  padding: 0.95rem 0.85rem 1.05rem;
+  border-radius: 1.15rem;
+}
+
+.span-key {
+  width: min(100% - 1.5rem, 88rem);
+  margin-inline: auto;
+  background-color: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow);
+  color: #1a1714;
+  backdrop-filter: var(--glass-filter);
 }
 
 .plan-card,
@@ -588,20 +762,79 @@ article.artefact-index {
   animation: none;
 }
 
-main.focus-bay #main-content {
-  padding: 1.15rem 1rem 1.6rem;
+.room-404 .kicker {
+  font-family: var(--font-serif);
+  font-size: clamp(5rem, 18vw, 9rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: #e2b57a;
 }
 
-nav[aria-label="Published days"] > div {
-  padding: 0.55rem 0.35rem;
+.room-404 h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 0.95;
 }
 
-.chapter:not([data-layout="rail"]) .toolkit .skill-group a,
-.chapter:not([data-layout="rail"]) .toolkit .skill-group li > div {
-  background-color: rgba(255, 252, 246, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
-  padding: 0.65rem 0.7rem;
+/* Search is a lens: dim the field, frost a command panel. */
+.command-layer {
+  align-items: flex-start;
+  justify-content: center;
+  padding: 8vh 1.1rem 2rem;
+  background-color: rgba(12, 10, 8, 0.62);
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: var(--glass-filter);
+}
+
+.command-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(46rem, 100%);
+  max-height: min(74vh, 42rem);
+  overflow: auto;
+  padding: 0.75rem 1.15rem 1.15rem;
+  border-radius: 1.15rem;
+  background-color: rgba(246, 241, 231, 0.92);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 22%);
+}
+
+.command-layer input {
+  appearance: none;
+  border-radius: 0;
+  background: transparent;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+}
+
+.command-layer input::-webkit-search-cancel-button,
+.command-layer input::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
+.command-layer .command-groups p {
+  max-width: 38rem;
+  color: #3f3a34;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.command-groups a span,
+.command-groups a strong {
+  opacity: 1;
+}
+
+.command-groups a span {
+  color: #4a453f;
+}
+
+.command-groups a strong {
+  color: #1a1714;
+}
+
+.glass-scrim {
+  background-color: rgba(20, 17, 14, 0.46);
+  backdrop-filter: var(--glass-filter);
 }
 
 textarea[class~="bg-ink"],
@@ -610,66 +843,23 @@ input[class~="bg-ink"] {
   color: #1a1714;
 }
 
-header.sticky,
-header.glass-bar {
-  background-color: #f3eee4;
-  background-image: none;
-}
-
-.command-bar,
-footer.glass-bar,
-header.glass-bar,
-.system-nav,
-.command-layer {
-  /* Nearly solid. This Chromium build drops backdrop-filter, and a sticky
-     bar must not let scrolling type show through. */
-  background-color: rgba(247, 243, 234, 0.98);
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 46%);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-.command-layer {
-  background-color: #f7f3ea;
-  background-image: none;
-}
-
-.command-groups a span {
-  opacity: 1;
+.text-cream\/70,
+.text-cream\/75,
+.text-cream\/80,
+.text-cream\/90 {
   color: #4a453f;
 }
 
-.command-groups a strong {
-  opacity: 1;
-  color: #1a1714;
+nav[aria-label="Published days"] > div {
+  border-radius: 1rem;
+  padding: 0.65rem 0.35rem;
 }
 
-.system-nav {
-  background-color: var(--glass-fill-strong);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
-  border-top: 1px solid var(--glass-edge);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .poster-list a,
-  .poster-feature,
-  .chapter:not([data-layout="rail"]) .toolkit a,
-  .plan-card {
-    transition: transform 180ms ease, box-shadow 180ms ease;
-  }
-
-  .poster-list a:hover,
-  .chapter:not([data-layout="rail"]) .toolkit a:hover {
-    transform: translateY(-2px);
-  }
-
-  .poster-list a:active,
-  .chapter:not([data-layout="rail"]) .toolkit a:active,
-  .command-bar a:active {
-    transform: translateY(1px);
-  }
+@media (min-width: 1400px) {
+  .chapter[data-layout="sequence"] { margin-right: 8vw; }
+  .chapter[data-layout="flow"][data-accent="plum"] { margin-left: 3vw; }
+  .chapter[data-layout="split"][data-accent="teal"] { margin-left: 6vw; }
+  .chapter[data-layout="split"][data-accent="ochre"] { margin-right: 9vw; }
 }
 
 @media (max-width: 860px) {
@@ -679,117 +869,93 @@ header.glass-bar,
   }
 
   .chapter:not([data-layout="rail"]),
-  main.mode-room > section:not(.chapter):not([data-layout="rail"]),
-  .forge-world.rail-home,
-  .forge-mast {
+  main.mode-room > section:not(.chapter),
+  .chapter[data-layout="sequence"],
+  .chapter[data-layout="flow"][data-accent="plum"],
+  .chapter[data-layout="split"][data-accent="teal"],
+  .chapter[data-layout="split"][data-accent="ochre"],
+  .chapter[data-layout="split"][data-accent="ink"],
+  .chapter[data-layout="toolkit"] {
     width: min(100% - 1rem, 88rem);
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1rem;
+  }
+
+  .chapter[data-layout="split"][data-accent="ink"] {
+    border-radius: 1rem;
+  }
+
+  [data-tone="editorial"] .poster-feature {
+    min-height: auto;
+    margin-inline: 0.45rem;
+    box-shadow: 0.45rem 0.45rem 0 #c4843c;
+  }
+
+  [data-tone="engineering"] .poster-index > header {
+    margin-inline: 0.45rem;
+    box-shadow: 0.4rem 0.4rem 0 #1d6a62;
+  }
+
+  .system-nav {
+    left: 0.55rem;
+    right: 0.55rem;
+    bottom: 0.45rem;
+    width: auto;
+    border: 1px solid var(--glass-edge);
+    border-radius: 999px;
+    background-color: rgba(246, 241, 231, 0.96);
+    box-shadow: var(--glass-shadow);
   }
 }
 
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass-sheet,
-  .glass-bar,
+@supports not (backdrop-filter: blur(1px)) {
   .command-bar,
-  .command-layer,
+  header.glass-bar,
+  main.focus-bay header.sticky,
+  footer.glass-bar,
   .system-nav,
   .chapter:not([data-layout="rail"]),
-  main.mode-room > section:not([data-layout="rail"]),
-  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
-  .poster-feature,
-  .poster-index > header,
   .poster-list a,
-  article.artefact-index,
-  article.read-room,
-  .plan-tools,
-  .plan-gates,
-  .plan-map,
   .plan-card,
-  .panel,
-  main.focus-bay #main-content,
-  nav[aria-label="Published days"] > div {
+  .plan-tools,
+  .plan-map,
+  .plan-gates,
+  .glass-sheet,
+  .command-panel,
+  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child) {
     background-color: var(--glass-solid);
-    background-image: none;
     backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html,
-  body.site-ground {
-    background-attachment: scroll;
+  :root {
+    --glass-filter: none;
   }
 
-  .glass-sheet,
-  .glass-bar,
   .command-bar,
+  header.sticky,
+  .chapter,
+  .forge-world,
+  .forge-mast,
   .command-layer,
-  .system-nav,
-  .chapter:not([data-layout="rail"]),
-  main.mode-room > section:not([data-layout="rail"]),
-  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
   .poster-feature,
-  .poster-index > header,
-  .poster-list a,
-  article.artefact-index,
-  article.read-room,
-  .plan-tools,
-  .plan-gates,
-  .plan-map,
-  .plan-card,
-  .panel,
-  main.focus-bay #main-content,
-  nav[aria-label="Published days"] > div,
-  .glass-scrim {
+  .plan-card {
     animation: none;
     transition: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  .glass-sheet,
-  .glass-bar,
-  .command-bar,
-  .command-layer,
-  .system-nav,
-  .chapter:not([data-layout="rail"]),
-  main.mode-room > section:not([data-layout="rail"]),
-  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
-  .poster-feature,
-  .poster-index > header,
-  .poster-list a,
-  article.artefact-index,
-  article.read-room,
-  .plan-tools,
-  .plan-gates,
-  .plan-map,
-  .plan-card,
-  .panel,
-  main.focus-bay #main-content,
-  nav[aria-label="Published days"] > div {
-    background-color: var(--glass-solid);
-    background-image: none;
-  }
-
-  .glass-scrim {
-    background-color: rgba(36, 28, 22, 0.5);
   }
 }
 
 @media (forced-colors: active) {
-  .glass-sheet,
-  .glass-bar,
   .command-bar,
   .chapter:not([data-layout="rail"]),
-  .poster-feature,
-  .plan-card,
-  article.read-room,
-  .system-nav {
+  footer.glass-bar,
+  .command-panel,
+  article.read-room {
     background: Canvas;
     color: CanvasText;
-    backdrop-filter: none;
     box-shadow: none;
     border: 1px solid CanvasText;
   }
 }
-

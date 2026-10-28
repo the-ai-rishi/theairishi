@@ -114,6 +114,8 @@ test.describe("FORGE-120 smoke", () => {
     expect(surface.chapterBg).not.toBe("rgb(229, 220, 207)");
     expect(surface.chapterBg).not.toBe("rgb(239, 232, 220)");
     expect(surface.atlas).toBe(0);
+    const blur = await page.evaluate(() => getComputedStyle(document.querySelector(".command-bar") as Element).backdropFilter);
+    expect(blur).toContain("blur");
 
     await page.goto("/learn/day-01");
     const lesson = await page.evaluate(() => {

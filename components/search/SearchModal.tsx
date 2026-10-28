@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
@@ -191,15 +192,17 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
         )}
       </button>
 
-      {isOpen && (
-        <div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
-          aria-describedby={hintId}
-          className="command-layer"
-        >
+      {isOpen && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              aria-describedby={hintId}
+              className="command-layer"
+            >
+          <div className="command-panel">
           <button type="button" className="command-close" onClick={closeSearch}>
             Close
           </button>
@@ -287,8 +290,11 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
               </p>
             ) : null}
           </div>
-        </div>
-      )}
+          </div>
+        </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
