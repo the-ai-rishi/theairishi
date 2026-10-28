@@ -7,6 +7,7 @@ import { queryDays, type JourneyModel } from "@/lib/journey";
 import { resolveContinue, type LearnerCatalog } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import RegistryIcon from "@/components/icons/RegistryIcon";
+import ForgeSchematic from "@/components/field/ForgeSchematic";
 
 function dayState(published: boolean, done: boolean, current: boolean) {
   if (done) return "Completed on this device";
@@ -135,6 +136,17 @@ export default function ForgePlan({ catalog, journey }: { catalog: LearnerCatalo
             <span>{publishedTotal} published</span>
             {hasHydrated ? <span>{target.completedCount} completed on this device</span> : null}
           </p>
+        </div>
+        <div className="mast-instrument" aria-hidden="true">
+          <ForgeSchematic
+            phases={catalog.phases.map((item) => ({
+              number: item.number,
+              totalDays: item.totalDays,
+              daysLabel: item.daysLabel,
+            }))}
+            activeIndex={phaseIndex < 0 ? 0 : phaseIndex}
+            publishedDays={catalog.days.filter((day) => day.published).map((day) => day.day)}
+          />
         </div>
         <div className="plan-bar-actions">
           {target.href ? (

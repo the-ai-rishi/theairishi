@@ -149,15 +149,34 @@ export default function ForgeRail({
         </p>
       </header>
       <div className="forge-object" aria-hidden="true">
-        <ForgeSchematic
-          phases={phases.map((item) => ({
-            number: item.number,
-            totalDays: item.totalDays,
-            daysLabel: item.daysLabel,
-          }))}
-          activeIndex={index}
-          publishedDays={catalog.days.filter((day) => day.published).map((day) => day.day)}
-        />
+        <div className="forge-stage">
+          <div className="forge-constellation">
+            <p className="orbit-card">
+              <span>Phase {String(phase.number).padStart(2, "0")}</span>
+              <strong>{phase.name}</strong>
+              <span>Days {phase.daysLabel}</span>
+            </p>
+            <p className="orbit-card">
+              <span>Sequence</span>
+              <strong>{phases.length} phases</strong>
+              <span>{catalog.totalDays} days</span>
+            </p>
+            <p className="orbit-card">
+              <span>Published</span>
+              <strong>{publishedTotal}</strong>
+              <span>open lessons</span>
+            </p>
+          </div>
+          <ForgeSchematic
+            phases={phases.map((item) => ({
+              number: item.number,
+              totalDays: item.totalDays,
+              daysLabel: item.daysLabel,
+            }))}
+            activeIndex={index}
+            publishedDays={catalog.days.filter((day) => day.published).map((day) => day.day)}
+          />
+        </div>
       </div>
 
       <ol
