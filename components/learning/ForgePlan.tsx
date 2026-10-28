@@ -125,7 +125,7 @@ export default function ForgePlan({ catalog, journey }: { catalog: LearnerCatalo
 
   return (
     <div className="plan">
-      <header className="plan-bar">
+      <header className="plan-bar forge-mast">
         <div>
           <p className="rail-brand">{brandLanguage.displayName}</p>
           <h1>{catalog.title}</h1>

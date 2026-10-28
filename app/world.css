@@ -1,0 +1,403 @@
+/* Cutaway world. Mineral ground for the path, warm paper for reading.
+   Loaded after field.css so this is the spatial system, not a third theme. */
+
+.chapter[data-layout="rail"] {
+  background: #241c16;
+  color: #f4efe6;
+  border-top: 0;
+}
+
+.chapter[data-layout="rail"] .chapter-wrap {
+  max-width: none;
+  padding: 0 0 0.4rem;
+}
+
+.chapter[data-layout="rail"] .chapter-head {
+  max-width: 88rem;
+  margin: 0 auto;
+  padding: 1.15rem 1.25rem 0;
+}
+
+.chapter[data-layout="rail"] .chapter-index,
+.chapter[data-layout="rail"] .chapter-kicker {
+  color: #e2b57a;
+}
+
+.chapter[data-layout="rail"] .chapter-index::after {
+  background: #e2b57a;
+}
+
+.forge-world.rail-home {
+  width: min(100% - 1.25rem, 88rem);
+  margin: 0.35rem auto 1.15rem;
+  padding: 1.15rem 1rem 1.25rem;
+  background: #2b231c;
+  color: #f4efe6;
+  box-shadow:
+    0.7rem 0.7rem 0 #1a1511,
+    0.85rem 0.85rem 0 #c4843c;
+}
+
+.forge-world .rail-brand {
+  margin: 0;
+  color: #e2b57a;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.forge-world h1 {
+  margin: 0.2rem 0 0;
+  color: #f4efe6;
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 14vw, 7.6rem);
+  font-weight: 400;
+  line-height: 0.84;
+  letter-spacing: -0.045em;
+}
+
+.forge-world .rail-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin-top: 0.85rem;
+  color: #d9cbb8;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.forge-world .rail-lead,
+.forge-world .rail-detail-copy,
+.forge-world .rail-because {
+  max-width: 38rem;
+  color: #f4efe6;
+}
+
+.forge-world .rail-lead {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.forge-world .rail-detail-copy {
+  margin-top: 0.45rem;
+  color: #d9cbb8;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.forge-world .rail-because {
+  margin-top: 0.7rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid #e0b7d4;
+  color: #f4efe6;
+}
+
+.forge-world .rail-plan {
+  color: #f4efe6;
+  text-decoration-color: #e2b57a;
+}
+
+.forge-world .rail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  list-style: none;
+  border: 0;
+}
+
+.forge-world .rail-list > li {
+  --mark: #f4efe6;
+  position: relative;
+  min-width: 0;
+  border: 0;
+  background: #241c16;
+  box-shadow: inset 0.45rem 0 0 var(--mark);
+}
+
+.forge-world .rail-list > li[data-accent="ochre"] { --mark: #e2b57a; }
+.forge-world .rail-list > li[data-accent="cobalt"] { --mark: #9ec4de; }
+.forge-world .rail-list > li[data-accent="teal"] { --mark: #8fd0c8; }
+.forge-world .rail-list > li[data-accent="plum"] { --mark: #e0b7d4; }
+.forge-world .rail-list > li[data-accent="ink"] { --mark: #f4efe6; }
+
+.forge-world .rail-list > li::before {
+  content: none;
+}
+
+.forge-world .rail-station {
+  display: block;
+  width: 100%;
+  min-height: calc(2.6rem + var(--days, 8) * 0.07rem);
+  padding: 0.55rem 0.75rem 0.55rem 1rem;
+  border: 0;
+  background: transparent;
+  color: #f4efe6;
+  text-align: left;
+}
+
+.forge-world .rail-copy {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.15rem 0.75rem;
+  align-items: baseline;
+  width: 100%;
+  min-width: 0;
+}
+
+.forge-world .rail-icon {
+  display: none;
+}
+
+.forge-world .rail-num,
+.forge-world .rail-range,
+.forge-world .rail-plain,
+.forge-world .rail-state,
+.forge-world .rail-name {
+  color: #f4efe6;
+}
+
+.forge-world .rail-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--mark);
+}
+
+.forge-world .rail-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.4vw, 1.7rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.forge-world .rail-range,
+.forge-world .rail-plain,
+.forge-world .rail-state {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: #d9cbb8;
+}
+
+.forge-world .rail-range {
+  justify-self: end;
+}
+
+.forge-world .rail-plain,
+.forge-world .rail-state {
+  grid-column: 1 / -1;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.forge-world .rail-list > li.is-on .rail-plain,
+.forge-world .rail-list > li.is-on .rail-state {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+.forge-world .rail-panel {
+  padding: 0.2rem 0.85rem 0.9rem 1rem;
+  color: #f4efe6;
+}
+
+.forge-world .rail-panel p,
+.forge-world .rail-note,
+.forge-world .rail-note strong {
+  color: #f4efe6;
+}
+
+.forge-world .rail-day {
+  color: #f4efe6;
+  border-color: rgba(244, 239, 230, 0.4);
+  background: transparent;
+}
+
+.forge-world .rail-day.is-open {
+  color: #f4efe6;
+  border-color: #f4efe6;
+}
+
+.forge-world .rail-day.is-focus,
+.forge-world .rail-day.is-lit {
+  background: #e2b57a;
+  color: #241c16;
+  border-color: #e2b57a;
+}
+
+.forge-world .rail-concepts button {
+  color: #f4efe6;
+  border-color: rgba(244, 239, 230, 0.4);
+}
+
+.forge-world .rail-concepts button.is-on {
+  background: #e2b57a;
+  color: #241c16;
+}
+
+@media (min-width: 980px) {
+  .forge-world.rail-home {
+    display: grid;
+    grid-template-columns: minmax(16rem, 32rem) minmax(0, 1fr);
+    gap: 1rem 2.25rem;
+    align-items: start;
+    padding: 1.4rem 1.35rem 1.5rem;
+  }
+
+  .forge-world .rail-identity {
+    position: sticky;
+    top: 5.1rem;
+  }
+
+  .forge-world .rail-list {
+    margin-top: 0.2rem;
+  }
+}
+
+.chapter-index {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.chapter[data-surface="raised"],
+.chapter[data-surface="inset"],
+.chapter[data-surface="tinted"] {
+  box-shadow: inset 0 1px 0 rgba(26, 23, 20, 0.06);
+}
+
+.forge-mast {
+  background: #241c16;
+  color: #f4efe6;
+  margin: 0.75rem auto 0;
+  width: min(100% - 1.25rem, 88rem);
+  padding: 1.15rem 1rem 1.2rem;
+  box-shadow: 0.55rem 0.55rem 0 #c4843c;
+}
+
+.forge-mast h1,
+.forge-mast p,
+.forge-mast span,
+.forge-mast label {
+  color: #f4efe6;
+}
+
+.forge-mast .rail-brand {
+  color: #e2b57a;
+}
+
+.forge-mast .plan-jump input {
+  color: #241c16;
+  background: #f4efe6;
+  border-color: #f4efe6;
+}
+
+.forge-mast .plan-jump button {
+  color: #241c16;
+  background: #e2b57a;
+  min-height: 2.75rem;
+  padding: 0 0.85rem;
+}
+
+[data-tone="brand"] .story-reel > .story-chapter:first-child {
+  background: #241c16;
+  color: #f4efe6;
+  margin: 0.75rem auto;
+  width: min(100% - 1.25rem, 72rem);
+  padding: 1.4rem 1.15rem 1.5rem;
+  box-shadow: 0.55rem 0.55rem 0 #c4843c;
+}
+
+[data-tone="brand"] .story-reel > .story-chapter:first-child h1,
+[data-tone="brand"] .story-reel > .story-chapter:first-child p,
+[data-tone="brand"] .story-reel > .story-chapter:first-child .story-num {
+  color: #f4efe6;
+}
+
+[data-tone="editorial"] .poster-feature,
+[data-tone="engineering"] .poster-index > header {
+  box-shadow: 0.45rem 0.45rem 0 rgba(36, 28, 22, 0.12);
+  border-top: 6px solid #241c16;
+}
+
+.room-404 {
+  background:
+    linear-gradient(180deg, rgba(226, 181, 122, 0.08), transparent 32%),
+    #241c16;
+  color: #f4efe6;
+}
+
+.room-404 .text-cream,
+.room-404 .text-cream\/45,
+.room-404 .kicker,
+.room-404 h1,
+.room-404 p {
+  color: #f4efe6;
+}
+
+.room-404 .text-gold,
+.room-404 .text-gold\/70,
+.room-404 a.text-gold {
+  color: #e2b57a;
+}
+
+.room-404 a.bg-cream {
+  background: #e2b57a;
+  color: #241c16;
+}
+
+@media (max-width: 860px) {
+  .forge-world.rail-home,
+  .forge-mast,
+  [data-tone="brand"] .story-reel > .story-chapter:first-child {
+    width: min(100% - 1rem, 88rem);
+    box-shadow: 0.4rem 0.4rem 0 #c4843c;
+  }
+
+  .forge-world h1 {
+    font-size: clamp(3.05rem, 17vw, 4.2rem);
+  }
+
+  .forge-world .rail-lead {
+    margin-top: 0.7rem;
+    font-size: 1.05rem;
+  }
+
+  .forge-world .rail-detail-copy,
+  .forge-world .rail-because {
+    font-size: 0.98rem;
+  }
+
+  .forge-world .rail-identity {
+    position: static;
+  }
+
+  .forge-world .rail-range {
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forge-world.rail-home,
+  .forge-mast,
+  .chapter {
+    animation: none;
+    transition: none;
+  }
+}

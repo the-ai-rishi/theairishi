@@ -124,7 +124,7 @@ export default function ForgeRail({
         : "Start at Day 1";
 
   return (
-    <section className="rail-home" aria-label={`${brandLanguage.displayName}. ${brandLanguage.programmeName}`}>
+    <section className="rail-home forge-world" aria-label={`${brandLanguage.displayName}. ${brandLanguage.programmeName}`}>
       <header className="rail-identity">
         <p className="rail-brand">{brandLanguage.displayName}</p>
         <h1>{brandLanguage.programmeName}</h1>
@@ -167,7 +167,14 @@ export default function ForgeRail({
           const done = hasHydrated ? phaseDays.filter((day) => state.completed.includes(day.slug)).length : 0;
           const on = itemIndex === index;
           return (
-            <li key={item.id} id={item.id} className={on ? "is-on" : ""} data-accent={itemNote?.accent || "ink"} data-phase={item.id}>
+            <li
+              key={item.id}
+              id={item.id}
+              className={on ? "is-on" : ""}
+              data-accent={itemNote?.accent || "ink"}
+              data-phase={item.id}
+              style={{ ["--days" as string]: String(phaseDays.length) }}
+            >
               <button
                 type="button"
                 className="rail-station"

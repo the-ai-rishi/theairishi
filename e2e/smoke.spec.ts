@@ -81,6 +81,15 @@ test.describe("FORGE-120 smoke", () => {
     expect(errors, errors.join("\n")).toEqual([]);
   });
 
+  test("reduced motion still shows the path", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await expect(page.getByRole("heading", { level: 1, name: "FORGE-120" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /01\s*Foundations/ })).toBeVisible();
+    await expect(page.getByText("ANCIENT WISDOM")).toHaveCount(0);
+    expect(await noHorizontalScroll(page)).toBe(true);
+  });
+
   test("major routes, search, and 404", async ({ page }) => {
     const errors = await quietPage(page);
     for (const path of ["/", "/learn", "/learn/day-01", "/learn/day-03", "/guides", "/guides/first-principles-ai-learning", "/projects", "/projects/forge-api", "/about"]) {
