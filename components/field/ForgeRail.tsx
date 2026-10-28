@@ -7,6 +7,7 @@ import type { LearnerCatalog } from "@/lib/continue-learning";
 import { resolveContinue } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import RegistryIcon from "@/components/icons/RegistryIcon";
+import ForgeSchematic from "@/components/field/ForgeSchematic";
 
 export type DayFact = {
   day: number;
@@ -125,6 +126,7 @@ export default function ForgeRail({
 
   return (
     <section className="rail-home forge-world" aria-label={`${brandLanguage.displayName}. ${brandLanguage.programmeName}`}>
+      <div className="forge-bay">
       <header className="rail-identity">
         <p className="rail-brand">{brandLanguage.displayName}</p>
         <h1>{brandLanguage.programmeName}</h1>
@@ -146,6 +148,17 @@ export default function ForgeRail({
           </Link>
         </p>
       </header>
+      <div className="forge-object" aria-hidden="true">
+        <ForgeSchematic
+          phases={phases.map((item) => ({
+            number: item.number,
+            totalDays: item.totalDays,
+            daysLabel: item.daysLabel,
+          }))}
+          activeIndex={index}
+          publishedDays={catalog.days.filter((day) => day.published).map((day) => day.day)}
+        />
+      </div>
 
       <ol
         className="rail-list"
@@ -277,6 +290,7 @@ export default function ForgeRail({
           );
         })}
       </ol>
+      </div>
     </section>
   );
 }

@@ -4,25 +4,31 @@
    property, and production Chrome then paints no frost. */
 
 .chapter[data-layout="rail"] {
-  background: #241c16;
-  color: #f4efe6;
+  background: transparent;
+  color: #1a1714;
   border-top: 0;
 }
 
 .chapter[data-layout="rail"] .chapter-wrap {
   max-width: none;
-  padding: 0 0 0.4rem;
+  padding: 0 0 0.2rem;
 }
 
 .chapter[data-layout="rail"] .chapter-head {
-  max-width: 88rem;
+  max-width: 92rem;
   margin: 0 auto;
-  padding: 1.15rem 1.25rem 0;
+  padding: 0.85rem 1.25rem 0;
 }
 
-.chapter[data-layout="rail"] .chapter-index,
-.chapter[data-layout="rail"] .chapter-kicker {
+.chapter[data-layout="rail"] .chapter-index {
   color: #e2b57a;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+}
+
+.chapter[data-layout="rail"] .chapter-kicker {
+  color: #d9cbb8;
 }
 
 .chapter[data-layout="rail"] .chapter-index::after {
@@ -30,19 +36,54 @@
 }
 
 .forge-world.rail-home {
-  width: min(100% - 1.25rem, 88rem);
-  margin: 0.35rem auto 1.15rem;
-  padding: 1.15rem 1rem 1.25rem;
-  background: #2b231c;
-  color: #f4efe6;
+  width: min(100% - 1.25rem, 92rem);
+  margin: 0.2rem auto 1.25rem;
+  padding: 0;
+  background: transparent;
+  color: #1a1714;
+  box-shadow: none;
+}
+
+.forge-bay {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(16rem, 0.9fr);
+  grid-template-areas:
+    "copy object"
+    "phases phases";
+  gap: 0.4rem 1.25rem;
+  align-items: center;
+  padding: 1.35rem 1.25rem 1.05rem;
+  border-radius: 1.75rem;
+  background-color: rgba(247, 243, 234, 0.9);
+  border: 1px solid rgba(255, 252, 246, 0.78);
   box-shadow:
-    0.7rem 0.7rem 0 #1a1511,
-    0.85rem 0.85rem 0 #c4843c;
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 28px 70px rgba(16, 12, 28, 0.38);
+  backdrop-filter: var(--glass-filter);
+  color: #1a1714;
+}
+
+.forge-world .rail-identity {
+  grid-area: copy;
+  position: relative;
+  min-width: 0;
+}
+
+.forge-object {
+  grid-area: object;
+  min-width: 0;
+}
+
+.forge-object svg,
+.forge-schematic {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .forge-world .rail-brand {
   margin: 0;
-  color: #e2b57a;
+  color: #6d4520;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.16em;
@@ -50,10 +91,10 @@
 }
 
 .forge-world h1 {
-  margin: 0.2rem 0 0;
-  color: #f4efe6;
+  margin: 0.15rem 0 0;
+  color: #1a1714;
   font-family: var(--font-serif);
-  font-size: clamp(4rem, 14vw, 7.6rem);
+  font-size: clamp(3.4rem, 7vw, 6.4rem);
   font-weight: 400;
   line-height: 0.84;
   letter-spacing: -0.045em;
@@ -64,7 +105,7 @@
   flex-wrap: wrap;
   gap: 0.35rem 0.9rem;
   margin-top: 0.85rem;
-  color: #d9cbb8;
+  color: #3f3a34;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.06em;
@@ -73,8 +114,8 @@
 .forge-world .rail-lead,
 .forge-world .rail-detail-copy,
 .forge-world .rail-because {
-  max-width: 38rem;
-  color: #f4efe6;
+  max-width: 36rem;
+  color: #1a1714;
 }
 
 .forge-world .rail-lead {
@@ -85,7 +126,7 @@
 
 .forge-world .rail-detail-copy {
   margin-top: 0.45rem;
-  color: #d9cbb8;
+  color: #3f3a34;
   font-size: 1.02rem;
   line-height: 1.45;
 }
@@ -93,65 +134,82 @@
 .forge-world .rail-because {
   margin-top: 0.7rem;
   padding-left: 0.75rem;
-  border-left: 2px solid #e0b7d4;
-  color: #f4efe6;
+  border-left: 2px solid #6b4578;
+  color: #1a1714;
 }
 
 .forge-world .rail-plan {
-  color: #f4efe6;
-  text-decoration-color: #e2b57a;
+  color: #1a1714;
+  text-decoration-color: #6d4520;
+}
+
+.forge-world .rail-start {
+  border-radius: 999px;
+  background: #6d4520;
+  color: #efe8dc;
 }
 
 .forge-world .rail-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 1.15rem 0 0;
+  grid-area: phases;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0.35rem 0 0;
   padding: 0;
   list-style: none;
   border: 0;
 }
 
 .forge-world .rail-list > li {
-  --mark: #f4efe6;
+  --mark: #1a1714;
   position: relative;
   min-width: 0;
-  border: 0;
-  background: #241c16;
-  box-shadow: inset 0.45rem 0 0 var(--mark);
+  border: 1px solid rgba(26, 23, 20, 0.1);
+  border-radius: 0.9rem;
+  background: rgba(255, 252, 246, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-.forge-world .rail-list > li[data-accent="ochre"] { --mark: #e2b57a; }
-.forge-world .rail-list > li[data-accent="cobalt"] { --mark: #9ec4de; }
-.forge-world .rail-list > li[data-accent="teal"] { --mark: #8fd0c8; }
-.forge-world .rail-list > li[data-accent="plum"] { --mark: #e0b7d4; }
-.forge-world .rail-list > li[data-accent="ink"] { --mark: #f4efe6; }
+.forge-world .rail-list > li[data-accent="ochre"] { --mark: #8a5a2b; }
+.forge-world .rail-list > li[data-accent="cobalt"] { --mark: #2c5d8a; }
+.forge-world .rail-list > li[data-accent="teal"] { --mark: #0e5c62; }
+.forge-world .rail-list > li[data-accent="plum"] { --mark: #6b4578; }
+.forge-world .rail-list > li[data-accent="ink"] { --mark: #322e3c; }
 
 .forge-world .rail-list > li::before {
   content: none;
 }
 
+.forge-world .rail-list > li.is-on {
+  grid-column: 1 / -1;
+  order: 12;
+  background: #fffaf3;
+  border-color: rgba(26, 23, 20, 0.16);
+  box-shadow: 0 14px 30px rgba(20, 16, 32, 0.12);
+}
+
 .forge-world .rail-station {
   display: block;
   width: 100%;
-  min-height: calc(2.6rem + var(--days, 8) * 0.07rem);
-  padding: 0.55rem 0.75rem 0.55rem 1rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.65rem;
   border: 0;
   background: transparent;
-  color: #f4efe6;
+  color: #1a1714;
   text-align: left;
 }
 
 .forge-world .rail-copy {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 0.15rem 0.75rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.05rem 0.45rem;
   align-items: baseline;
   width: 100%;
   min-width: 0;
 }
 
-.forge-world .rail-icon {
+.forge-world .rail-icon,
+.forge-world .rail-ticks {
   display: none;
 }
 
@@ -160,20 +218,20 @@
 .forge-world .rail-plain,
 .forge-world .rail-state,
 .forge-world .rail-name {
-  color: #f4efe6;
+  color: #1a1714;
 }
 
 .forge-world .rail-num {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--mark);
 }
 
 .forge-world .rail-name {
   font-family: var(--font-serif);
-  font-size: clamp(1.15rem, 2.4vw, 1.7rem);
-  line-height: 1.1;
+  font-size: 0.98rem;
+  line-height: 1.15;
   overflow-wrap: anywhere;
 }
 
@@ -181,18 +239,18 @@
 .forge-world .rail-plain,
 .forge-world .rail-state {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.03em;
-  color: #d9cbb8;
+  color: #4a453f;
 }
 
 .forge-world .rail-range {
-  justify-self: end;
+  grid-column: 1 / -1;
+  justify-self: start;
 }
 
 .forge-world .rail-plain,
 .forge-world .rail-state {
-  grid-column: 1 / -1;
   position: absolute;
   width: 1px;
   height: 1px;
@@ -202,72 +260,79 @@
   white-space: nowrap;
 }
 
-.forge-world .rail-list > li.is-on .rail-plain,
-.forge-world .rail-list > li.is-on .rail-state {
-  position: static;
-  width: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
-}
-
 .forge-world .rail-panel {
-  padding: 0.2rem 0.85rem 0.9rem 1rem;
-  color: #f4efe6;
+  padding: 0.15rem 0.7rem 0.85rem;
+  color: #1a1714;
 }
 
 .forge-world .rail-panel p,
 .forge-world .rail-note,
 .forge-world .rail-note strong {
-  color: #f4efe6;
+  color: #3f3a34;
+}
+
+.forge-world .rail-note strong {
+  color: #1a1714;
 }
 
 .forge-world .rail-day {
-  color: #f4efe6;
-  border-color: rgba(244, 239, 230, 0.4);
-  background: transparent;
+  color: #1a1714;
+  border-color: rgba(26, 23, 20, 0.28);
+  background: #fffaf4;
 }
 
 .forge-world .rail-day.is-open {
-  color: #f4efe6;
-  border-color: #f4efe6;
+  color: #1a1714;
+  border-color: #6d4520;
 }
 
 .forge-world .rail-day.is-focus,
 .forge-world .rail-day.is-lit {
-  background: #e2b57a;
-  color: #241c16;
-  border-color: #e2b57a;
+  background: #6d4520;
+  color: #efe8dc;
+  border-color: #6d4520;
 }
 
 .forge-world .rail-concepts button {
-  color: #f4efe6;
-  border-color: rgba(244, 239, 230, 0.4);
+  color: #1a1714;
+  border-color: rgba(26, 23, 20, 0.28);
+  background: #fffaf4;
 }
 
 .forge-world .rail-concepts button.is-on {
-  background: #e2b57a;
-  color: #241c16;
+  background: #6d4520;
+  color: #efe8dc;
 }
 
 @media (min-width: 980px) {
   .forge-world.rail-home {
-    display: grid;
-    grid-template-columns: minmax(16rem, 32rem) minmax(0, 1fr);
-    gap: 1rem 2.25rem;
-    align-items: start;
-    padding: 1.4rem 1.35rem 1.5rem;
+    display: block;
+    grid-template-columns: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .forge-bay {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "object"
+      "copy"
+      "phases";
   }
 
-  .forge-world .rail-identity {
-    position: sticky;
-    top: 5.1rem;
+  .forge-object {
+    width: min(100%, 20rem);
+    margin-inline: auto;
   }
 
   .forge-world .rail-list {
-    margin-top: 0.2rem;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .forge-world .rail-list {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -361,11 +426,15 @@
 }
 
 @media (max-width: 860px) {
-  .forge-world.rail-home,
   .forge-mast,
   [data-tone="brand"] .story-reel > .story-chapter:first-child {
     width: min(100% - 1rem, 88rem);
     box-shadow: 0.4rem 0.4rem 0 #c4843c;
+  }
+
+  .forge-world.rail-home {
+    width: min(100% - 0.75rem, 92rem);
+    box-shadow: none;
   }
 
   .forge-world h1 {
@@ -422,7 +491,7 @@ body.site-ground {
     radial-gradient(ellipse 34% 30% at 8% 96%, rgba(224, 183, 212, 0.4), transparent 52%),
     linear-gradient(rgba(244, 239, 230, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(244, 239, 230, 0.07) 1px, transparent 1px),
-    linear-gradient(180deg, #211912 0%, #14110e 40%, #18141a 100%);
+    linear-gradient(165deg, #2a2148 0%, #172033 46%, #1a1418 100%);
   background-size: auto, auto, auto, auto, auto, 72px 72px, 72px 72px, auto;
   background-attachment: fixed;
   color: #1a1714;
@@ -959,3 +1028,71 @@ nav[aria-label="Published days"] > div {
     border: 1px solid CanvasText;
   }
 }
+
+/* Learn leads with the selected phase, then a coloured day board. */
+.plan-focus {
+  width: min(100% - 1.25rem, 88rem);
+  margin: 0.85rem auto 0;
+}
+
+.plan-map .map > li {
+  border-radius: 0.95rem;
+  background-color: rgba(255, 252, 246, 0.72);
+  box-shadow: inset 4px 0 0 var(--mark, #1a1714);
+}
+
+.plan-map .map > li.is-on {
+  background-color: #fffaf3;
+  box-shadow:
+    inset 4px 0 0 var(--mark, #6d4520),
+    0 12px 28px rgba(16, 12, 28, 0.12);
+}
+
+.poster-mark,
+.lab-mark {
+  display: block;
+  width: 6.5rem;
+  height: auto;
+  margin: 0 0 0.75rem;
+}
+
+.poster-mark .forge-schematic {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 860px) {
+  [data-tone="editorial"] .poster-feature {
+    position: relative;
+    padding-right: 15rem;
+  }
+
+  .poster-mark {
+    position: absolute;
+    top: 1.2rem;
+    right: 1rem;
+    width: 13rem;
+    margin: 0;
+  }
+
+  [data-tone="engineering"] .poster-index > header {
+    position: relative;
+    padding-right: 11rem;
+  }
+
+  .lab-mark {
+    position: absolute;
+    top: 1.1rem;
+    right: 1rem;
+    width: 8.5rem;
+    margin: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .plan-focus,
+  .plan-map .map > li {
+    grid-template-columns: 1fr;
+  }
+}
+

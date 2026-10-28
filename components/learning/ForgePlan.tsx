@@ -163,110 +163,6 @@ export default function ForgePlan({ catalog, journey }: { catalog: LearnerCatalo
         </div>
       </header>
 
-      <section className="plan-tools" aria-label="Skills and tools">
-        <div className="tool-strip">
-          <span>Skill</span>
-          {journey.skills.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={item.id === skillId ? "is-on" : ""}
-              aria-pressed={item.id === skillId}
-              onClick={() => selectSkill(item.id)}
-            >
-              <RegistryIcon name={item.icon} className="skill-icon" />
-              {item.name}
-            </button>
-          ))}
-          {skillId ? (
-            <button type="button" onClick={() => setSkillId(null)}>
-              Clear skill
-            </button>
-          ) : null}
-        </div>
-        <p>{skill ? skill.plain : "Choose a skill to mark the days that use it."}</p>
-      </section>
-
-      <ol className="span-key" aria-label="Journey boundaries">
-        {journey.spans.map((span) => (
-          <li key={span.id} data-span={span.id}>
-            <span>
-              D{span.from}–{span.to}
-            </span>
-            {span.name}
-          </li>
-        ))}
-      </ol>
-
-      <section className="plan-map" aria-label="All 120 days">
-        <ol
-          className="map"
-          onKeyDown={(event) => {
-            if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-            if (!(event.target as HTMLElement).classList.contains("map-phase")) return;
-            const currentId = (event.target as HTMLElement).closest("li[data-phase]")?.getAttribute("data-phase");
-            const index = journey.phases.findIndex((item) => item.id === currentId);
-            if (index < 0) return;
-            event.preventDefault();
-            const nextPhase = journey.phases[index + (event.key === "ArrowDown" ? 1 : -1)];
-            if (!nextPhase) return;
-            selectPhase(nextPhase.id);
-            window.requestAnimationFrame(() => {
-              document.getElementById(`phase-btn-${nextPhase.id}`)?.focus();
-            });
-          }}
-        >
-          {journey.phases.map((item) => {
-            const span = journey.spans.find((entry) => item.startDay >= entry.from && item.endDay <= entry.to);
-            const bandDays = journey.days.filter((day) => day.phaseId === item.id);
-            return (
-              <li
-                key={item.id}
-                data-phase={item.id}
-                data-accent={item.accent}
-                data-span={span?.id || "system"}
-                className={item.id === phase.id ? "is-on" : ""}
-              >
-                <button
-                  id={`phase-btn-${item.id}`}
-                  type="button"
-                  className="map-phase"
-                  aria-current={item.id === phase.id ? "true" : undefined}
-                  onClick={() => selectPhase(item.id)}
-                >
-                  <span>{String(item.number).padStart(2, "0")}</span>
-                  <strong>{item.name}</strong>
-                  <span>Days {item.daysLabel}</span>
-                </button>
-                <ol className="map-days">
-                  {bandDays.map((day) => {
-                    const itemDay = catalogDay(day.day);
-                    const isDone = Boolean(hasHydrated && itemDay && state.completed.includes(itemDay.slug));
-                    const isNow = itemDay?.slug === target.slug;
-                    const on = day.day === shown.day;
-                    const dim = matched ? !matched.has(day.day) : false;
-                    const label = `Day ${day.day}, ${day.title}. ${itemDay?.published ? "Published" : "Planned"}${isDone ? ". Completed on this device" : ""}`;
-                    return (
-                      <li key={day.id}>
-                        <button
-                          type="button"
-                          className={`plan-day${itemDay?.published ? " is-open" : ""}${isDone ? " is-done" : ""}${isNow ? " is-now" : ""}${on ? " is-on" : ""}${day.gateId ? " is-gate" : ""}${dim ? " is-dim" : ""}`}
-                          aria-label={label}
-                          aria-pressed={on}
-                          onClick={() => selectDay(day.day)}
-                        >
-                          {String(day.day).padStart(2, "0")}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </li>
-            );
-          })}
-        </ol>
-      </section>
-
       <div className="plan-focus">
         <article key={phase.id} className="plan-card" data-accent={phase.accent} aria-label="This phase">
           <p className="phase-mark">
@@ -405,6 +301,110 @@ export default function ForgePlan({ catalog, journey }: { catalog: LearnerCatalo
           </p>
         </article>
       </div>
+
+      <section className="plan-tools" aria-label="Skills and tools">
+        <div className="tool-strip">
+          <span>Skill</span>
+          {journey.skills.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={item.id === skillId ? "is-on" : ""}
+              aria-pressed={item.id === skillId}
+              onClick={() => selectSkill(item.id)}
+            >
+              <RegistryIcon name={item.icon} className="skill-icon" />
+              {item.name}
+            </button>
+          ))}
+          {skillId ? (
+            <button type="button" onClick={() => setSkillId(null)}>
+              Clear skill
+            </button>
+          ) : null}
+        </div>
+        <p>{skill ? skill.plain : "Choose a skill to mark the days that use it."}</p>
+      </section>
+
+      <ol className="span-key" aria-label="Journey boundaries">
+        {journey.spans.map((span) => (
+          <li key={span.id} data-span={span.id}>
+            <span>
+              D{span.from}–{span.to}
+            </span>
+            {span.name}
+          </li>
+        ))}
+      </ol>
+
+      <section className="plan-map" aria-label="All 120 days">
+        <ol
+          className="map"
+          onKeyDown={(event) => {
+            if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+            if (!(event.target as HTMLElement).classList.contains("map-phase")) return;
+            const currentId = (event.target as HTMLElement).closest("li[data-phase]")?.getAttribute("data-phase");
+            const index = journey.phases.findIndex((item) => item.id === currentId);
+            if (index < 0) return;
+            event.preventDefault();
+            const nextPhase = journey.phases[index + (event.key === "ArrowDown" ? 1 : -1)];
+            if (!nextPhase) return;
+            selectPhase(nextPhase.id);
+            window.requestAnimationFrame(() => {
+              document.getElementById(`phase-btn-${nextPhase.id}`)?.focus();
+            });
+          }}
+        >
+          {journey.phases.map((item) => {
+            const span = journey.spans.find((entry) => item.startDay >= entry.from && item.endDay <= entry.to);
+            const bandDays = journey.days.filter((day) => day.phaseId === item.id);
+            return (
+              <li
+                key={item.id}
+                data-phase={item.id}
+                data-accent={item.accent}
+                data-span={span?.id || "system"}
+                className={item.id === phase.id ? "is-on" : ""}
+              >
+                <button
+                  id={`phase-btn-${item.id}`}
+                  type="button"
+                  className="map-phase"
+                  aria-current={item.id === phase.id ? "true" : undefined}
+                  onClick={() => selectPhase(item.id)}
+                >
+                  <span>{String(item.number).padStart(2, "0")}</span>
+                  <strong>{item.name}</strong>
+                  <span>Days {item.daysLabel}</span>
+                </button>
+                <ol className="map-days">
+                  {bandDays.map((day) => {
+                    const itemDay = catalogDay(day.day);
+                    const isDone = Boolean(hasHydrated && itemDay && state.completed.includes(itemDay.slug));
+                    const isNow = itemDay?.slug === target.slug;
+                    const on = day.day === shown.day;
+                    const dim = matched ? !matched.has(day.day) : false;
+                    const label = `Day ${day.day}, ${day.title}. ${itemDay?.published ? "Published" : "Planned"}${isDone ? ". Completed on this device" : ""}`;
+                    return (
+                      <li key={day.id}>
+                        <button
+                          type="button"
+                          className={`plan-day${itemDay?.published ? " is-open" : ""}${isDone ? " is-done" : ""}${isNow ? " is-now" : ""}${on ? " is-on" : ""}${day.gateId ? " is-gate" : ""}${dim ? " is-dim" : ""}`}
+                          aria-label={label}
+                          aria-pressed={on}
+                          onClick={() => selectDay(day.day)}
+                        >
+                          {String(day.day).padStart(2, "0")}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
 
       <section className="plan-gates" aria-label="Gates">
         <h2>Gates</h2>
