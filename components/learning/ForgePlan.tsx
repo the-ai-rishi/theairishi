@@ -198,7 +198,7 @@ export default function ForgePlan({ catalog, journey }: { catalog: LearnerCatalo
         ))}
       </ol>
 
-      <section aria-label="All 120 days">
+      <section className="plan-map" aria-label="All 120 days">
         <ol
           className="map"
           onKeyDown={(event) => {

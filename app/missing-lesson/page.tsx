@@ -13,9 +13,9 @@ export default function MissingLessonPage() {
   return (
     <main
       id="main-content"
-      className="flex min-h-screen items-center justify-center bg-ink px-6 text-cream selection:bg-gold/25 selection:text-ink"
+      className="glass-stage flex min-h-screen items-center justify-center px-6 text-cream selection:bg-gold/25 selection:text-ink"
     >
-      <div className="flex flex-col items-center text-center">
+      <div className="glass-sheet flex flex-col items-center px-6 py-10 text-center">
         <Logo brand={brand} variant="horizontal" />
         <p className="mt-8 kicker text-gold/70">404</p>
         <h1 className="mt-4 font-serif text-4xl tracking-[0.01em] text-cream sm:text-5xl">

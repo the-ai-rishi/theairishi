@@ -87,7 +87,56 @@ test.describe("FORGE-120 smoke", () => {
     await expect(page.getByRole("heading", { level: 1, name: "FORGE-120" })).toBeVisible();
     await expect(page.getByRole("button", { name: /01\s*Foundations/ })).toBeVisible();
     await expect(page.getByText("ANCIENT WISDOM")).toHaveCount(0);
+    const blur = await page.evaluate(() => getComputedStyle(document.querySelector(".command-bar") as Element).backdropFilter);
+    expect(blur === "none" || blur === "").toBe(true);
     expect(await noHorizontalScroll(page)).toBe(true);
+  });
+
+  test("glass material is the shared surface", async ({ page }) => {
+    await page.goto("/");
+    const surface = await page.evaluate(() => {
+      const root = getComputedStyle(document.documentElement);
+      const bar = document.querySelector(".command-bar");
+      const chapter = document.querySelector('.chapter:not([data-layout="rail"])');
+      return {
+        token: root.getPropertyValue("--glass-fill").trim(),
+        ground: getComputedStyle(document.body).backgroundImage,
+        shell: document.querySelector(".site-shell")?.getAttribute("data-tone") || "",
+        barBg: bar ? getComputedStyle(bar).backgroundColor : "",
+        chapterBg: chapter ? getComputedStyle(chapter).backgroundColor : "",
+        atlas: document.querySelectorAll(".atlas").length,
+      };
+    });
+    expect(surface.token.length).toBeGreaterThan(0);
+    expect(surface.ground).toContain("gradient");
+    expect(surface.shell).toBe("home");
+    expect(surface.barBg).not.toBe("rgb(239, 232, 220)");
+    expect(surface.chapterBg).not.toBe("rgb(229, 220, 207)");
+    expect(surface.chapterBg).not.toBe("rgb(239, 232, 220)");
+    expect(surface.atlas).toBe(0);
+
+    await page.goto("/learn/day-01");
+    const lesson = await page.evaluate(() => {
+      const main = document.querySelector("main.focus-bay");
+      const column = document.querySelector("main.focus-bay #main-content");
+      return {
+        mainBg: main ? getComputedStyle(main).backgroundColor : "",
+        columnBg: column ? getComputedStyle(column).backgroundColor : "",
+      };
+    });
+    expect(lesson.mainBg).toBe("rgba(0, 0, 0, 0)");
+    expect(lesson.columnBg).not.toBe("rgba(0, 0, 0, 0)");
+    expect(lesson.columnBg).not.toBe("rgb(239, 232, 220)");
+
+    await page.goto("/about");
+    const about = await page.evaluate(() =>
+      [...document.querySelectorAll(".story-chapter")].map((node) => getComputedStyle(node).backgroundColor),
+    );
+    expect(about[0]).toBe("rgb(36, 28, 22)");
+    if (about.length > 1) {
+      expect(about[1]).not.toBe("rgb(239, 232, 220)");
+      expect(about[1]).not.toBe("rgba(0, 0, 0, 0)");
+    }
   });
 
   test("major routes, search, and 404", async ({ page }) => {

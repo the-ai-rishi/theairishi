@@ -108,7 +108,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased dark`}
     >
-      <body className="flex min-h-full flex-col bg-ink font-sans text-cream/90">
+      <body className="site-ground flex min-h-full flex-col font-sans text-cream/90">
         <GoogleAnalytics />
         <script
           type="application/ld+json"

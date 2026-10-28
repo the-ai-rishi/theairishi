@@ -66,7 +66,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
-      <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
+      <section className="glass-sheet mx-auto mt-6 max-w-4xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <p className="kicker" style={{ color: tone.accent }}>
           {config.category}
         </p>
@@ -82,7 +82,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
+      <section className="glass-sheet mx-auto mt-4 max-w-5xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
         {isEmpty ? (
           <div className="border-t border-hairline py-16">
             <p className="kicker text-cream/40">Coming soon</p>

@@ -1,5 +1,6 @@
-/* Cutaway world. Mineral ground for the path, warm paper for reading.
-   Loaded after field.css so this is the spatial system, not a third theme. */
+/* Cutaway world plus one glass material.
+   Loaded last so shared shells cannot paint an opaque sheet over the ground.
+   Mineral objects stay solid. Reading type stays solid. */
 
 .chapter[data-layout="rail"] {
   background: #241c16;
@@ -401,3 +402,394 @@
     transition: none;
   }
 }
+
+/* Glass is the default surface. Tokens live here so every route shares one material.
+   Do not paint an opaque page colour on a shell — that is what hid the last pass. */
+
+:root {
+  --ground: #e4d8c6;
+  --glass-solid: #f6f1e7;
+  --glass-fill: rgba(246, 241, 231, 0.86);
+  --glass-fill-strong: rgba(246, 241, 231, 0.92);
+  --glass-edge: rgba(255, 252, 246, 0.78);
+  --glass-line: rgba(26, 23, 20, 0.14);
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), 0 18px 40px rgba(36, 28, 22, 0.08), 0.4rem 0.4rem 0 rgba(36, 28, 22, 0.06);
+  --glass-blur: 18px;
+  --glass-focus: #6d4520;
+}
+
+html,
+body.site-ground {
+  background-color: var(--ground);
+  background-image:
+    linear-gradient(rgba(26, 23, 20, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 23, 20, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse 58% 42% at 4% -6%, rgba(226, 181, 122, 0.42), transparent 58%),
+    radial-gradient(ellipse 46% 36% at 104% 0%, rgba(158, 196, 222, 0.38), transparent 52%),
+    radial-gradient(ellipse 40% 34% at 92% 108%, rgba(224, 183, 212, 0.28), transparent 50%),
+    radial-gradient(ellipse 34% 30% at -8% 72%, rgba(143, 208, 200, 0.24), transparent 48%),
+    linear-gradient(165deg, #efe4d4 0%, var(--ground) 46%, #ddd0bc 100%);
+  background-size: 72px 72px, 72px 72px, auto, auto, auto, auto, auto;
+  background-attachment: fixed;
+  color: #1a1714;
+}
+
+.site-shell,
+[data-tone],
+main.focus-bay,
+main.focus-bay.read-room,
+.plan,
+[data-tone="editorial"] .poster-index,
+[data-tone="editorial"] .story-reel,
+[data-tone="engineering"] .poster-index,
+[data-tone="engineering"] .artefact-page,
+[data-tone="brand"] .story-reel,
+[data-tone="learn"] .path-chapter,
+.glass-stage {
+  background-color: transparent;
+  background-image: none;
+}
+
+.glass-sheet,
+.glass-bar,
+.command-bar,
+.command-layer,
+.chapter:not([data-layout="rail"]),
+main.mode-room > section:not([data-layout="rail"]),
+[data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
+.poster-feature,
+.poster-index > header,
+.poster-list a,
+article.artefact-index,
+article.read-room,
+.plan-tools,
+.plan-gates,
+.plan-map,
+.plan-card,
+.plan-focus .plan-card:first-child,
+.panel,
+main.focus-bay #main-content,
+nav[aria-label="Published days"] > div,
+header[class~="bg-ink"],
+a.group[class~="bg-ink"] {
+  background-color: var(--glass-fill);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 42%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.15);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.15);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow);
+  color: #1a1714;
+}
+
+footer.glass-bar,
+header.glass-bar,
+.command-bar {
+  background-color: var(--glass-fill-strong);
+}
+
+footer.glass-bar,
+header.glass-bar {
+  width: auto;
+  margin: 0;
+  border-right: 0;
+  border-left: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.text-cream\/70,
+.text-cream\/75,
+.text-cream\/80,
+.text-cream\/90 {
+  color: #4a453f;
+}
+
+.command-bar {
+  width: min(100%, 88rem);
+  margin-inline: auto;
+  border-radius: 0;
+}
+
+header.sticky > div:first-child {
+  padding: 0.55rem 0.7rem 0.4rem;
+}
+
+.command-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0.75rem;
+  right: 38%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), transparent);
+  pointer-events: none;
+}
+
+.glass-scrim {
+  background-color: rgba(36, 28, 22, 0.36);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.chapter:not([data-layout="rail"]),
+main.mode-room > section:not(.chapter):not([data-layout="rail"]) {
+  width: min(100% - 1.25rem, 88rem);
+  margin: 0.8rem auto;
+}
+
+[data-tone="brand"] .story-reel > .story-chapter:not(:first-child) {
+  min-height: 0;
+  margin: 0.75rem 0;
+  padding: 1.6rem 1.2rem;
+}
+
+[data-tone="brand"] .story-reel > .story-chapter:not(:first-child) h2,
+[data-tone="brand"] .story-reel > .story-chapter:not(:first-child) .story-num {
+  color: #1a1714;
+}
+
+[data-tone="brand"] .story-reel > .story-chapter:not(:first-child) p {
+  color: #3f3a34;
+}
+
+.poster-feature {
+  min-height: min(58vh, 32rem);
+  align-content: end;
+  margin-bottom: 0.8rem;
+  padding: 1.4rem 1.15rem 1.5rem;
+}
+
+.poster-index > header {
+  margin-bottom: 0.8rem;
+  padding: 1.2rem 1.1rem 1.3rem;
+}
+
+.poster-list a {
+  margin-top: 0.55rem;
+  padding: 1.05rem 0.95rem;
+}
+
+article.read-room,
+article.artefact-index {
+  margin-top: 0.8rem;
+  padding: 1.5rem 1.15rem 2.5rem;
+}
+
+.plan-tools,
+.plan-gates,
+.plan-map {
+  margin-top: 0.8rem;
+  padding: 0.9rem 0.85rem 1rem;
+}
+
+.plan-card,
+.flow-plain,
+.rail-panel,
+.plan-detail {
+  animation: none;
+}
+
+main.focus-bay #main-content {
+  padding: 1.15rem 1rem 1.6rem;
+}
+
+nav[aria-label="Published days"] > div {
+  padding: 0.55rem 0.35rem;
+}
+
+.chapter:not([data-layout="rail"]) .toolkit .skill-group a,
+.chapter:not([data-layout="rail"]) .toolkit .skill-group li > div {
+  background-color: rgba(255, 252, 246, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  padding: 0.65rem 0.7rem;
+}
+
+textarea[class~="bg-ink"],
+input[class~="bg-ink"] {
+  background-color: #fbf7f0;
+  color: #1a1714;
+}
+
+header.sticky,
+header.glass-bar {
+  background-color: #f3eee4;
+  background-image: none;
+}
+
+.command-bar,
+footer.glass-bar,
+header.glass-bar,
+.system-nav,
+.command-layer {
+  /* Nearly solid. This Chromium build drops backdrop-filter, and a sticky
+     bar must not let scrolling type show through. */
+  background-color: rgba(247, 243, 234, 0.98);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 46%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.command-layer {
+  background-color: #f7f3ea;
+  background-image: none;
+}
+
+.command-groups a span {
+  opacity: 1;
+  color: #4a453f;
+}
+
+.command-groups a strong {
+  opacity: 1;
+  color: #1a1714;
+}
+
+.system-nav {
+  background-color: var(--glass-fill-strong);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
+  border-top: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .poster-list a,
+  .poster-feature,
+  .chapter:not([data-layout="rail"]) .toolkit a,
+  .plan-card {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .poster-list a:hover,
+  .chapter:not([data-layout="rail"]) .toolkit a:hover {
+    transform: translateY(-2px);
+  }
+
+  .poster-list a:active,
+  .chapter:not([data-layout="rail"]) .toolkit a:active,
+  .command-bar a:active {
+    transform: translateY(1px);
+  }
+}
+
+@media (max-width: 860px) {
+  html,
+  body.site-ground {
+    background-attachment: scroll;
+  }
+
+  .chapter:not([data-layout="rail"]),
+  main.mode-room > section:not(.chapter):not([data-layout="rail"]),
+  .forge-world.rail-home,
+  .forge-mast {
+    width: min(100% - 1rem, 88rem);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-sheet,
+  .glass-bar,
+  .command-bar,
+  .command-layer,
+  .system-nav,
+  .chapter:not([data-layout="rail"]),
+  main.mode-room > section:not([data-layout="rail"]),
+  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
+  .poster-feature,
+  .poster-index > header,
+  .poster-list a,
+  article.artefact-index,
+  article.read-room,
+  .plan-tools,
+  .plan-gates,
+  .plan-map,
+  .plan-card,
+  .panel,
+  main.focus-bay #main-content,
+  nav[aria-label="Published days"] > div {
+    background-color: var(--glass-solid);
+    background-image: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body.site-ground {
+    background-attachment: scroll;
+  }
+
+  .glass-sheet,
+  .glass-bar,
+  .command-bar,
+  .command-layer,
+  .system-nav,
+  .chapter:not([data-layout="rail"]),
+  main.mode-room > section:not([data-layout="rail"]),
+  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
+  .poster-feature,
+  .poster-index > header,
+  .poster-list a,
+  article.artefact-index,
+  article.read-room,
+  .plan-tools,
+  .plan-gates,
+  .plan-map,
+  .plan-card,
+  .panel,
+  main.focus-bay #main-content,
+  nav[aria-label="Published days"] > div,
+  .glass-scrim {
+    animation: none;
+    transition: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .glass-sheet,
+  .glass-bar,
+  .command-bar,
+  .command-layer,
+  .system-nav,
+  .chapter:not([data-layout="rail"]),
+  main.mode-room > section:not([data-layout="rail"]),
+  [data-tone="brand"] .story-reel > .story-chapter:not(:first-child),
+  .poster-feature,
+  .poster-index > header,
+  .poster-list a,
+  article.artefact-index,
+  article.read-room,
+  .plan-tools,
+  .plan-gates,
+  .plan-map,
+  .plan-card,
+  .panel,
+  main.focus-bay #main-content,
+  nav[aria-label="Published days"] > div {
+    background-color: var(--glass-solid);
+    background-image: none;
+  }
+
+  .glass-scrim {
+    background-color: rgba(36, 28, 22, 0.5);
+  }
+}
+
+@media (forced-colors: active) {
+  .glass-sheet,
+  .glass-bar,
+  .command-bar,
+  .chapter:not([data-layout="rail"]),
+  .poster-feature,
+  .plan-card,
+  article.read-room,
+  .system-nav {
+    background: Canvas;
+    color: CanvasText;
+    backdrop-filter: none;
+    box-shadow: none;
+    border: 1px solid CanvasText;
+  }
+}
+
