@@ -63,6 +63,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [cursor, setCursor] = useState(0);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -150,14 +151,21 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       fetch(`/api/search?q=${encodeURIComponent(trimmed)}`, {
         signal: controller.signal,
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) throw new Error("search failed");
+          return res.json();
+        })
         .then((data) => {
           if (cancelled) return;
           if (Array.isArray(data)) setResults(data);
+          setFailed(false);
           setIsLoading(false);
         })
         .catch((err) => {
-          if (!cancelled && err.name !== "AbortError") setIsLoading(false);
+          if (cancelled || err.name === "AbortError") return;
+          setResults([]);
+          setFailed(true);
+          setIsLoading(false);
         });
     }, 160);
 
@@ -201,6 +209,9 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
               aria-labelledby={titleId}
               aria-describedby={hintId}
               className="command-layer"
+              onClick={(event) => {
+                if (event.target === event.currentTarget) closeSearch();
+              }}
             >
           <div className="command-panel">
           <button type="button" className="command-close" onClick={closeSearch}>
@@ -217,6 +228,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
               const value = e.target.value;
               setQuery(value);
               setCursor(0);
+              setFailed(false);
               setIsLoading(Boolean(value.trim()));
               if (!value.trim()) setResults([]);
             }}
@@ -244,6 +256,8 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
               <p id={hintId}>Go somewhere, or type a day, phase, concept, guide, or lab. Not the full lesson text. / opens this. Esc closes it.</p>
             ) : isLoading && results.length === 0 ? (
               <p>Searching titles, concepts, and summaries…</p>
+            ) : failed ? (
+              <p>Search could not be loaded. Try again.</p>
             ) : results.length === 0 ? (
               <p>No title, concept, or summary matches “{query}”.</p>
             ) : null}

@@ -456,9 +456,25 @@
 }
 
 @media (max-width: 560px) {
-  .forge-world .rail-list,
-  .forge-constellation {
+  .forge-world .rail-list {
     grid-template-columns: 1fr;
+  }
+
+  /* Cards leave the desktop overlay and stack. Absolute offsets would collide. */
+  .forge-constellation {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    inset: auto;
+  }
+
+  .forge-constellation .orbit-card {
+    position: static;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: auto;
   }
 }
 
