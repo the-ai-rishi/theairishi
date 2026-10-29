@@ -14,7 +14,6 @@ import {
 } from "@/lib/config";
 import { getLiveCatalog } from "@/lib/catalog";
 import { getRouteTopics, topicRouteState } from "@/lib/visibility-core";
-import { topicTone } from "@/lib/palette";
 import { canonicalAlternates } from "@/lib/urls";
 import { indexRobots, isTopicIndexable } from "@/lib/indexing";
 
@@ -62,12 +61,11 @@ export default async function TopicPage({ params }: TopicPageProps) {
   const brand = getBrandConfig();
   const copy = getPlatformCopy();
   const isEmpty = items.length === 0;
-  const tone = topicTone(config.color, 0, 1);
 
   return (
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy}>
-      <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 sm:px-6 sm:pt-24 lg:px-8">
-        <p className="kicker" style={{ color: tone.accent }}>
+      <section className="route-mast">
+        <p className="kicker">
           {config.category}
         </p>
         <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[0.01em] text-cream sm:text-7xl">
@@ -82,7 +80,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
+      <section className="glass-sheet mx-auto mt-4 max-w-5xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
         {isEmpty ? (
           <div className="border-t border-hairline py-16">
             <p className="kicker text-cream/40">Coming soon</p>

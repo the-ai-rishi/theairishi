@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import "./field.css";
+import "./world.css";
 import { siteConfig } from "@/lib/site";
 import { getBrandConfig, getSearchTopics } from "@/lib/config";
 import { creatorJsonLd, shareImages, shareTwitterImages, websiteJsonLd } from "@/lib/seo";
@@ -107,7 +108,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased dark`}
     >
-      <body className="flex min-h-full flex-col bg-ink font-sans text-cream/90">
+      <body className="site-ground flex min-h-full flex-col font-sans text-cream/90">
         <GoogleAnalytics />
         <script
           type="application/ld+json"

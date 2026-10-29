@@ -7,6 +7,7 @@ import type { LearnerCatalog } from "@/lib/continue-learning";
 import { resolveContinue } from "@/lib/continue-learning";
 import { useLessonProgress } from "@/components/learning/useLessonProgress";
 import RegistryIcon from "@/components/icons/RegistryIcon";
+import ForgeSchematic from "@/components/field/ForgeSchematic";
 
 export type DayFact = {
   day: number;
@@ -124,7 +125,8 @@ export default function ForgeRail({
         : "Start at Day 1";
 
   return (
-    <section className="rail-home" aria-label={`${brandLanguage.displayName}. ${brandLanguage.programmeName}`}>
+    <section className="rail-home forge-world" aria-label={`${brandLanguage.displayName}. ${brandLanguage.programmeName}`}>
+      <div className="forge-bay">
       <header className="rail-identity">
         <p className="rail-brand">{brandLanguage.displayName}</p>
         <h1>{brandLanguage.programmeName}</h1>
@@ -146,6 +148,36 @@ export default function ForgeRail({
           </Link>
         </p>
       </header>
+      <div className="forge-object" aria-hidden="true">
+        <div className="forge-stage">
+          <div className="forge-constellation">
+            <p className="orbit-card">
+              <span>Phase {String(phase.number).padStart(2, "0")}</span>
+              <strong>{phase.name}</strong>
+              <span>Days {phase.daysLabel}</span>
+            </p>
+            <p className="orbit-card">
+              <span>Sequence</span>
+              <strong>{phases.length} phases</strong>
+              <span>{catalog.totalDays} days</span>
+            </p>
+            <p className="orbit-card">
+              <span>Published</span>
+              <strong>{publishedTotal}</strong>
+              <span>open lessons</span>
+            </p>
+          </div>
+          <ForgeSchematic
+            phases={phases.map((item) => ({
+              number: item.number,
+              totalDays: item.totalDays,
+              daysLabel: item.daysLabel,
+            }))}
+            activeIndex={index}
+            publishedDays={catalog.days.filter((day) => day.published).map((day) => day.day)}
+          />
+        </div>
+      </div>
 
       <ol
         className="rail-list"
@@ -167,7 +199,14 @@ export default function ForgeRail({
           const done = hasHydrated ? phaseDays.filter((day) => state.completed.includes(day.slug)).length : 0;
           const on = itemIndex === index;
           return (
-            <li key={item.id} id={item.id} className={on ? "is-on" : ""} data-accent={itemNote?.accent || "ink"} data-phase={item.id}>
+            <li
+              key={item.id}
+              id={item.id}
+              className={on ? "is-on" : ""}
+              data-accent={itemNote?.accent || "ink"}
+              data-phase={item.id}
+              style={{ ["--days" as string]: String(phaseDays.length) }}
+            >
               <button
                 type="button"
                 className="rail-station"
@@ -270,6 +309,7 @@ export default function ForgeRail({
           );
         })}
       </ol>
+      </div>
     </section>
   );
 }

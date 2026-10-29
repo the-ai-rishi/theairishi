@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/brand/PageShell";
+import ForgeSchematic from "@/components/field/ForgeSchematic";
 import { getAllGuideSummaries } from "@/lib/guides";
+import { getLearnerCatalog } from "@/lib/programs";
 import { getMainNavigation, getFooterNavigation, getBrandConfig, getPlatformCopy, isContentTypeRoutable } from "@/lib/config";
 import { notFound } from "next/navigation";
 import { canonicalAlternates } from "@/lib/urls";
@@ -18,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function GuidesPage() {
   if (!isContentTypeRoutable("guides")) notFound();
   const guides = getAllGuideSummaries();
+  const catalog = getLearnerCatalog();
   const mainNav = getMainNavigation();
   const footerNav = getFooterNavigation();
   const brand = getBrandConfig();
@@ -31,6 +34,17 @@ export default function GuidesPage() {
         ) : (
           <>
             <Link href={`/guides/${guides[0].slug}`} className="poster-feature">
+              <div className="poster-mark" aria-hidden="true">
+                <ForgeSchematic
+                  phases={catalog.phases.map((phase) => ({
+                    number: phase.number,
+                    totalDays: phase.totalDays,
+                    daysLabel: phase.daysLabel,
+                  }))}
+                  activeIndex={0}
+                  publishedDays={catalog.days.filter((day) => day.published).map((day) => day.day)}
+                />
+              </div>
               <p className="field-kicker">
                 Essay 01 <span>{guides[0].metadata.category}</span>
               </p>

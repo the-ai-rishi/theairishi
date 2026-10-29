@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   const brand = getBrandConfig();
   return (
-    <main id="main-content" className="flex min-h-screen items-center justify-center bg-ink px-6 text-cream selection:bg-gold/25 selection:text-ink">
+    <main id="main-content" className="room-404 flex min-h-screen items-center justify-center px-6">
       <div className="flex flex-col items-center text-center">
         <Logo brand={brand} variant="horizontal" />
         <p className="mt-8 kicker text-gold/70">404</p>
