@@ -712,6 +712,35 @@ body.site-ground::before {
   z-index: 1;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  body.site-ground::after {
+    content: "";
+    position: fixed;
+    width: 140%;
+    height: 140%;
+    left: -20%;
+    top: -20%;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 28% 18%, rgba(226, 160, 70, 0.2), transparent 42%);
+    animation: field-drift 22s ease-in-out infinite alternate;
+  }
+
+  .forge-object .forge-schematic {
+    animation: orbit-breathe 16s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes field-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(6%, 4%, 0); }
+}
+
+@keyframes orbit-breathe {
+  from { transform: perspective(1100px) rotateY(-8deg) rotateX(5deg); }
+  to { transform: perspective(1100px) rotateY(-3deg) rotateX(2deg); }
+}
+
 .site-shell,
 [data-tone],
 main.focus-bay,
@@ -1156,6 +1185,183 @@ main.focus-bay #main-content {
   border-top: 7px solid var(--phase-pigment, #c4843c);
 }
 
+/* Lesson is a chapter on paper, with the same night chrome as the rest of the site. */
+.lesson-mast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.35rem 1.25rem;
+  align-items: end;
+  margin: 0 0 1.4rem;
+  padding: 0.15rem 0 1.15rem;
+  border-bottom: 1px solid rgba(26, 23, 20, 0.12);
+  color: #1a1714;
+}
+
+.lesson-day {
+  margin: 0;
+  color: #6d4520;
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 10vw, 6.6rem);
+  font-weight: 400;
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+}
+
+.lesson-mast .kicker,
+.lesson-mast .stat-line {
+  color: #6d4520;
+}
+
+.lesson-mast h1 {
+  margin: 0.15rem 0 0;
+  color: #1a1714;
+  font-family: var(--font-serif);
+  font-size: clamp(2.3rem, 4.6vw, 3.8rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.lesson-mast .stat-line {
+  margin-top: 0.55rem;
+}
+
+.lesson-mast ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lesson-mast li,
+.lesson-lead {
+  max-width: 38rem;
+  margin: 0.7rem 0 0;
+  color: #1a1714;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.lesson-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.workspace-chips a {
+  min-height: 2.75rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.lesson-block {
+  scroll-margin-top: 9rem;
+}
+
+main.focus-bay header.glass-bar {
+  background-color: rgba(16, 14, 28, 0.72);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 42%);
+  color: #f4efe6;
+  border-color: rgba(220, 230, 255, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  backdrop-filter: var(--glass-filter);
+}
+
+main.focus-bay header.glass-bar :is(a, p, span, button, .text-cream, .text-cream\/35, .text-cream\/38, .text-cream\/40, .text-cream\/50, .text-cream\/55) {
+  color: #f4efe6;
+}
+
+main.focus-bay header.glass-bar :is(.text-gold, .text-gold\/70, .text-gold\/80) {
+  color: #e2b57a;
+}
+
+main.focus-bay header.glass-bar .workspace-chips a[aria-current="location"] {
+  color: #e2b57a;
+  box-shadow: inset 0 -2px 0 #e2b57a;
+}
+
+main.focus-bay header.glass-bar .lesson-meter {
+  background: rgba(244, 239, 230, 0.16);
+}
+
+main.focus-bay header.glass-bar .lesson-meter > span {
+  background: #e2b57a;
+}
+
+.baseline-board {
+  margin-top: 1.25rem;
+  padding: 1.25rem 1.1rem 1.35rem;
+  border-radius: 1.15rem;
+  background-color: #161222;
+  background-image: radial-gradient(ellipse at 0% 0%, rgba(226, 170, 80, 0.22), transparent 48%);
+  color: #f4efe6;
+  border: 1px solid rgba(226, 200, 160, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 18px 40px rgba(8, 6, 16, 0.28);
+}
+
+.baseline-board :is(h2, p, label, span) {
+  color: #f4efe6;
+}
+
+.baseline-board .kicker,
+.baseline-board :is(.text-gold, .text-gold\/80) {
+  color: #e2b57a;
+}
+
+.baseline-board :is(.text-cream\/40, .text-cream\/45, .text-cream\/55) {
+  color: #d9cbb8;
+}
+
+.baseline-board h2 {
+  margin-top: 0.35rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.baseline-board button[aria-pressed="true"] {
+  background: #e2b57a;
+  color: #1a1714;
+  border-color: #e2b57a;
+}
+
+.baseline-board button[aria-pressed="false"] {
+  background: transparent;
+  color: #f4efe6;
+  border: 1px solid rgba(244, 239, 230, 0.35);
+}
+
+.baseline-board .btn-primary {
+  background-color: #e2b57a;
+  background-image: none;
+  color: #1a1714;
+}
+
+.baseline-board textarea {
+  background-color: #f7f3ea;
+  color: #1a1714;
+  border-color: rgba(247, 243, 234, 0.5);
+}
+
+@media (max-width: 720px) {
+  .lesson-mast {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
 .plan-tools,
 .plan-gates,
 .plan-map,
@@ -1413,6 +1619,8 @@ nav[aria-label="Published days"] > div {
   .chapter,
   .forge-world,
   .forge-mast,
+  .forge-object .forge-schematic,
+  body.site-ground::after,
   .command-layer,
   .poster-feature,
   .plan-card {
