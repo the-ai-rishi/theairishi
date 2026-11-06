@@ -26,6 +26,12 @@ export default function ProjectsPage() {
     <PageShell navItems={mainNav} footerNav={footerNav} brand={brand} copy={copy} tone="engineering">
       <div className="poster-index">
         <header className="mb-8 max-w-xl">
+          <svg className="lab-mark" viewBox="0 0 160 120" aria-hidden="true">
+            <rect x="18" y="34" width="92" height="54" rx="8" fill="#134e49" />
+            <rect x="34" y="22" width="92" height="54" rx="8" fill="#1d6a62" />
+            <rect x="50" y="10" width="92" height="54" rx="8" fill="#f4efe6" />
+            <path d="M66 30h48M66 42h28" stroke="#1c2422" strokeWidth="3" fill="none" />
+          </svg>
           <p className="kicker text-gold/80">Build</p>
           <h1 className="mt-4 font-serif text-5xl leading-[0.92] tracking-[0.01em] text-cream sm:text-7xl">Labs</h1>
           <p className="mt-5 text-[16px] leading-relaxed text-cream/55">

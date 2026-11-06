@@ -145,7 +145,7 @@ export default function StartingAssessment() {
   }
 
   return (
-    <section className="border border-hairline bg-field/30 p-6 sm:p-8">
+    <section className="baseline-board">
       <p className="kicker text-gold/80">Step 1</p>
       <h2 className="mt-3 font-serif text-3xl text-cream sm:text-4xl">Know your starting point</h2>
       <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/55">

@@ -24,9 +24,8 @@ export default function PageShell({
   tone = "home",
 }: PageShellProps) {
   const catalog = getLearnerCatalog();
-  // bg-ink / text-cream are the paper surface and graphite type. See globals.css @theme.
   return (
-    <div className="relative flex min-h-screen flex-col bg-ink text-cream/90" data-tone={tone}>
+    <div className="site-shell relative flex min-h-screen flex-col text-cream/90" data-tone={tone}>
       <div className="relative z-[1] flex min-h-screen flex-col">
         <Header navItems={navItems} brand={brand} copy={copy} showSearch={showSearch} catalog={catalog} />
         <main id="main-content" className="mode-room flex-1" tabIndex={-1}>

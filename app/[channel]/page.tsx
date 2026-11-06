@@ -62,10 +62,10 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
   const outboundUrl = platform.status === "active" ? getDestinationUrl(platform) : "";
 
   return (
-    <main id="main-content" className="min-h-screen bg-ink pb-24 text-cream selection:bg-gold/25 selection:text-ink">
+    <main id="main-content" className="glass-stage min-h-screen pb-24 text-cream selection:bg-gold/25 selection:text-ink">
       <Header navItems={mainNav} brand={brand} copy={copy} />
 
-      <section className="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24 lg:px-8">
+      <section className="glass-sheet mx-auto mt-6 max-w-4xl px-4 py-12 text-center sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto inline-flex items-center gap-2 font-mono text-xs tracking-[0.16em] uppercase text-circuit-bright">
           <Radio className="h-3.5 w-3.5" />
           {platform.badge || platform.label}
@@ -78,7 +78,7 @@ export default async function ChannelPage({ params }: ChannelPageProps) {
         </p>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <section className="glass-sheet mx-auto mt-4 max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         {items.length === 0 ? (
           <div className="border-t border-hairline py-16 text-center">
             <h2 className="font-serif text-3xl text-cream">Coming soon</h2>
