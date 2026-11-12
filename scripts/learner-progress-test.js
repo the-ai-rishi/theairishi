@@ -126,6 +126,42 @@ function runLearnerProgressTests() {
   check(progress.countCompleted(done, ["day-01", "day-02"]) === 1, "count intersects catalog");
   check(progress.countCompleted(done, ["ai-fundamentals-01"]) === 0, "archive slugs do not count against program");
 
+  // A second tab must change the cached snapshot, not just notify a subscriber.
+  const previousWindow = global.window;
+  const storageData = new Map();
+  const storageListeners = new Map();
+  global.window = {
+    localStorage: {
+      getItem: (key) => storageData.get(key) || null,
+      setItem: (key, value) => storageData.set(key, value),
+      removeItem: (key) => storageData.delete(key),
+    },
+    addEventListener: (name, listener) => storageListeners.set(name, listener),
+    removeEventListener: (name, listener) => {
+      if (storageListeners.get(name) === listener) storageListeners.delete(name);
+    },
+    dispatchEvent: () => true,
+  };
+  try {
+    progress.resetStoreForTests();
+    progress.getState();
+    let changed = 0;
+    const unsubscribe = progress.subscribe(() => { changed += 1; });
+    const incoming = JSON.stringify({ v: 1, completed: ["day-02"], saved: ["day-03"] });
+    storageData.set(progress.STORAGE_KEY, incoming);
+    storageListeners.get("storage")({ key: progress.STORAGE_KEY, newValue: incoming });
+    check(changed === 1, "storage event notifies progress subscribers");
+    check(progress.getState().completed.includes("day-02"), "cross-tab completion refreshes cached progress");
+    check(progress.getState().saved.includes("day-03"), "cross-tab bookmark refreshes cached progress");
+    storageListeners.get("storage")({ key: "unrelated_key", newValue: null });
+    check(changed === 1, "unrelated storage events are ignored");
+    unsubscribe();
+    check(!storageListeners.has("storage"), "storage listener is cleaned up");
+  } finally {
+    progress.resetStoreForTests();
+    global.window = previousWindow;
+  }
+
   // continue-learning
   const cat = catalogFixture();
 

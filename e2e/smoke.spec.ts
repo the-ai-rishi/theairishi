@@ -198,6 +198,74 @@ test.describe("FORGE-120 smoke", () => {
     await page.keyboard.press("Escape");
   });
 
+  test("search shortcut closes and restores keyboard focus", async ({ page }) => {
+    await page.goto("/");
+    const trigger = page.getByRole("button", { name: "Search published titles and summaries" });
+    await trigger.focus();
+    await page.keyboard.press("Control+k");
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press("Control+k");
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("");
+  });
+
+  test("baseline assessment distinguishes saved from memory-only edits", async ({ page }) => {
+    await page.goto("/learn/day-01");
+    const board = page.locator(".baseline-board");
+    const rating = board.getByRole("button", { name: "4", exact: true }).first();
+    await rating.click();
+    await expect(rating).toHaveAttribute("aria-pressed", "true");
+    await expect(board.getByRole("status")).toContainText("Saved on this device");
+    await page.reload();
+    await expect(board.getByRole("button", { name: "4", exact: true }).first()).toHaveAttribute("aria-pressed", "true");
+    await page.evaluate(() => {
+      Object.defineProperty(Storage.prototype, "setItem", {
+        configurable: true,
+        value: () => { throw new DOMException("Storage blocked", "QuotaExceededError"); },
+      });
+    });
+    await board.getByRole("button", { name: "3", exact: true }).first().click();
+    await expect(board.getByRole("status")).toContainText("Browser storage is unavailable");
+  });
+
+  test("interior routes fit narrow phone widths without horizontal scrolling", async ({ page }) => {
+    for (const width of [320, 390, 430]) {
+      await page.setViewportSize({ width, height: 844 });
+      for (const route of ["/learn", "/learn/day-01", "/guides", "/projects", "/about"]) {
+        await page.goto(route);
+        expect(await noHorizontalScroll(page), `${route} overflows at ${width}px`).toBe(true);
+      }
+    }
+  });
+
+  test("capture route evidence from the production build", async ({ page }, testInfo) => {
+    test.skip(!process.env.CI, "Capture visual evidence on CI");
+    test.setTimeout(120_000);
+    for (const route of [
+      { name: "home", path: "/" },
+      { name: "learn", path: "/learn" },
+      { name: "lesson-day-01", path: "/learn/day-01" },
+      { name: "guides", path: "/guides" },
+      { name: "projects", path: "/projects" },
+      { name: "about", path: "/about" },
+    ]) {
+      await page.goto(route.path);
+      await page.evaluate(() => document.fonts.ready);
+      await testInfo.attach(`${route.name}-full-page.png`, {
+        body: await page.screenshot({ fullPage: true, animations: "disabled" }),
+        contentType: "image/png",
+      });
+    }
+    await page.goto("/");
+    await page.getByRole("button", { name: "Search published titles and summaries" }).click();
+    await testInfo.attach("search-open.png", {
+      body: await page.screenshot({ animations: "disabled" }),
+      contentType: "image/png",
+    });
+  });
+
   test("phone widths keep phase names and do not scroll sideways", async ({ page }) => {
     for (const width of [320, 360, 390, 430]) {
       await page.setViewportSize({ width, height: 800 });

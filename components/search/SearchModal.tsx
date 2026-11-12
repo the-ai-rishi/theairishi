@@ -71,13 +71,16 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const hintId = useId();
-  const isMac =
-    typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
   const commands = useMemo(() => PLACES, []);
   const shown = query.trim() ? results : commands;
 
   function closeSearch() {
     setIsOpen(false);
+    setQuery("");
+    setResults([]);
+    setCursor(0);
+    setFailed(false);
+    setIsLoading(false);
     window.setTimeout(() => triggerRef.current?.focus(), 0);
   }
 
@@ -90,7 +93,8 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
         Boolean(target?.isContentEditable);
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setIsOpen((prev) => !prev);
+        if (isOpen) closeSearch();
+        else setIsOpen(true);
       } else if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey && !typing && !isOpen) {
         e.preventDefault();
         setIsOpen(true);
@@ -105,16 +109,14 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
   }, [isOpen]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      const t = window.setTimeout(() => inputRef.current?.focus(), 20);
-      return () => {
-        window.clearTimeout(t);
-        document.body.style.overflow = "";
-      };
-    }
-    document.body.style.overflow = "";
-    return undefined;
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const t = window.setTimeout(() => inputRef.current?.focus(), 20);
+    return () => {
+      window.clearTimeout(t);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -129,7 +131,10 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       if (!nodes.length) return;
       const first = nodes[0];
       const last = nodes[nodes.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
+      if (!root.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
       } else if (!event.shiftKey && document.activeElement === last) {
@@ -143,7 +148,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
 
   useEffect(() => {
     const trimmed = query.trim();
-    if (!trimmed) return;
+    if (!isOpen || !trimmed) return;
 
     let cancelled = false;
     const controller = new AbortController();
@@ -157,7 +162,8 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
         })
         .then((data) => {
           if (cancelled) return;
-          if (Array.isArray(data)) setResults(data);
+          if (!Array.isArray(data)) throw new Error("Invalid search response");
+          setResults(data);
           setFailed(false);
           setIsLoading(false);
         })
@@ -174,7 +180,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, isOpen]);
 
   return (
     <>
@@ -195,7 +201,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
         {compact ? null : <span className="hidden sm:inline">Search</span>}
         {compact ? null : (
           <kbd className="hidden border border-hairline px-1.5 py-0.5 font-mono text-[10px] text-cream/35 sm:inline-block">
-            {isMac ? "⌘K" : "Ctrl K"}
+            ⌘ / Ctrl K
           </kbd>
         )}
       </button>
@@ -239,7 +245,7 @@ export default function SearchModal({ compact = false }: { compact?: boolean }) 
               } else if (event.key === "ArrowUp") {
                 event.preventDefault();
                 setCursor((current) => Math.max(0, current - 1));
-              } else if (event.key === "Enter" && shown[cursor]) {
+              } else if (event.key === "Enter" && !isLoading && !failed && shown[cursor]) {
                 event.preventDefault();
                 const url = shown[cursor].url;
                 closeSearch();

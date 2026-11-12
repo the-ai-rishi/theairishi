@@ -1327,6 +1327,43 @@ main.focus-bay header.glass-bar .lesson-meter > span {
   letter-spacing: -0.03em;
 }
 
+.assessment-wrap {
+  scroll-margin-top: 9rem;
+}
+
+.baseline-board .baseline-progress {
+  color: #e2b57a;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.baseline-skill-row {
+  padding: 0.85rem 0.2rem;
+  border-top: 1px solid rgba(244, 239, 230, 0.2);
+}
+
+.baseline-board .baseline-score-button {
+  border-radius: 0.7rem;
+  font-weight: 600;
+  transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.baseline-board .baseline-score-button:focus-visible,
+.baseline-board .baseline-input:focus-visible {
+  outline: 2px solid #e2b57a;
+  outline-offset: 3px;
+}
+
+.baseline-board .baseline-score-button[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px #161222, 0 0 0 3px rgba(226, 181, 122, 0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baseline-board .baseline-score-button {
+    transition: none;
+  }
+}
+
 .baseline-board button[aria-pressed="true"] {
   background: #e2b57a;
   color: #1a1714;
@@ -1349,6 +1386,13 @@ main.focus-bay header.glass-bar .lesson-meter > span {
   background-color: #f7f3ea;
   color: #1a1714;
   border-color: rgba(247, 243, 234, 0.5);
+  border-radius: 0.7rem;
+  box-shadow: inset 0 2px 5px rgba(20, 17, 14, 0.08);
+  resize: vertical;
+}
+
+.baseline-board textarea::placeholder {
+  color: #5c564e;
 }
 
 @media (max-width: 720px) {

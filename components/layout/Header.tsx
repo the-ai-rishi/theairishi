@@ -21,7 +21,7 @@ interface HeaderProps {
 
 function isCurrentHref(href: string, pathname: string) {
   if (href === pathname) return true;
-  if (href === "/" || href === "/learn") return false;
+  if (href === "/") return false;
   return pathname.startsWith(`${href}/`);
 }
 
