@@ -258,6 +258,9 @@ test.describe("FORGE-120 smoke", () => {
       { name: "about", path: "/about" },
     ]) {
       await page.goto(route.path);
+      // Next may stream a loading fallback before the actual route content.
+      // A screenshot of the fallback is not evidence of the designed page.
+      await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible({ timeout: 20_000 });
       await page.evaluate(() => document.fonts.ready);
       const screenshot = await page.screenshot({
         path: `${outputDir}/${testInfo.project.name}-${route.name}.png`,
