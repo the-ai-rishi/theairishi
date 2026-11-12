@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { mkdir } from "node:fs/promises";
 
 async function quietPage(page: Page) {
   const errors: string[] = [];
@@ -64,7 +65,10 @@ test.describe("FORGE-120 smoke", () => {
       "true",
     );
 
+    // A fresh deep link must restore the selected phase/day even when this
+    // test previously changed the hash with the phase keyboard controls.
     await page.goto("/#day-3");
+    await page.reload();
     await expect(page.getByText("Merge vs rebase")).toBeVisible();
     await page.getByRole("link", { name: /Day 1, Contract, repo, honesty/ }).click();
     await expect(page).toHaveURL(/\/learn\/day-01/);
@@ -243,6 +247,8 @@ test.describe("FORGE-120 smoke", () => {
   test("capture route evidence from the production build", async ({ page }, testInfo) => {
     test.skip(!process.env.CI, "Capture visual evidence on CI");
     test.setTimeout(120_000);
+    const outputDir = "test-results/visual-review";
+    await mkdir(outputDir, { recursive: true });
     for (const route of [
       { name: "home", path: "/" },
       { name: "learn", path: "/learn" },
@@ -253,15 +259,24 @@ test.describe("FORGE-120 smoke", () => {
     ]) {
       await page.goto(route.path);
       await page.evaluate(() => document.fonts.ready);
+      const screenshot = await page.screenshot({
+        path: `${outputDir}/${testInfo.project.name}-${route.name}.png`,
+        fullPage: true,
+        animations: "disabled",
+      });
       await testInfo.attach(`${route.name}-full-page.png`, {
-        body: await page.screenshot({ fullPage: true, animations: "disabled" }),
+        body: screenshot,
         contentType: "image/png",
       });
     }
     await page.goto("/");
     await page.getByRole("button", { name: "Search published titles and summaries" }).click();
+    const searchScreenshot = await page.screenshot({
+      path: `${outputDir}/${testInfo.project.name}-search-open.png`,
+      animations: "disabled",
+    });
     await testInfo.attach("search-open.png", {
-      body: await page.screenshot({ animations: "disabled" }),
+      body: searchScreenshot,
       contentType: "image/png",
     });
   });
