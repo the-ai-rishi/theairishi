@@ -17,9 +17,9 @@ export default function ErrorPage({
   return (
     <main
       id="main-content"
-      className="flex min-h-screen items-center justify-center bg-ink px-6 text-cream"
+      className="glass-stage flex min-h-screen items-center justify-center px-6 text-cream"
     >
-      <div className="flex max-w-lg flex-col items-center text-center">
+      <div className="glass-sheet flex max-w-lg flex-col items-center px-6 py-10 text-center">
         <p className="kicker text-gold/70">Something went wrong</p>
         <h1 className="mt-4 font-serif text-4xl tracking-[0.01em] text-cream sm:text-5xl">
           The page could not be rendered

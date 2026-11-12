@@ -27,3 +27,11 @@ jobs:
       - run: npx playwright test
         env:
           CI: true
+      - name: Upload production visual-review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-review
+          path: test-results/
+          retention-days: 7
+          if-no-files-found: ignore

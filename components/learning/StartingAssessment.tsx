@@ -54,21 +54,35 @@ const listeners = new Set<() => void>();
 
 function subscribe(callback: () => void) {
   listeners.add(callback);
-  return () => listeners.delete(callback);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== STORAGE_KEY && event.key !== null) return;
+    cached = readStored();
+    emit();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    listeners.delete(callback);
+    window.removeEventListener("storage", onStorage);
+  };
 }
 
 function emit() {
   listeners.forEach((fn) => fn());
 }
 
-function writeStored(next: Assessment) {
+function writeStored(next: Assessment): boolean {
+  const stamped = { ...next, savedAt: new Date().toISOString() };
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(stamped));
+    cached = stamped;
+    emit();
+    return true;
   } catch {
-    // Private mode / quota - keep in-memory via the snapshot below.
+    // Keep edits in memory but never claim they persisted to the device.
+    cached = { ...next, savedAt: null };
+    emit();
+    return false;
   }
-  cached = next;
-  emit();
 }
 
 let cached: Assessment | null = null;
@@ -108,9 +122,11 @@ function asMarkdown(data: Assessment): string {
 export default function StartingAssessment() {
   const data = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
+  const [saveUnavailable, setSaveUnavailable] = useState(false);
 
   const persist = useCallback((next: Assessment) => {
-    writeStored({ ...next, savedAt: new Date().toISOString() });
+    setSaveUnavailable(!writeStored(next));
   }, []);
 
   const template = useMemo(() => asMarkdown(data), [data]);
@@ -123,12 +139,14 @@ export default function StartingAssessment() {
   }
 
   async function copyTemplate() {
+    setCopyFailed(false);
     try {
       await navigator.clipboard.writeText(template);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
+      setCopyFailed(true);
     }
   }
 
@@ -141,11 +159,13 @@ export default function StartingAssessment() {
     document.body.appendChild(link);
     link.click();
     link.remove();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
+  const ratedCount = SKILLS.filter((skill) => data.scores[skill.id] != null).length;
+
   return (
-    <section className="border border-hairline bg-field/30 p-6 sm:p-8">
+    <section className="baseline-board">
       <p className="kicker text-gold/80">Step 1</p>
       <h2 className="mt-3 font-serif text-3xl text-cream sm:text-4xl">Know your starting point</h2>
       <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-cream/55">
@@ -157,9 +177,12 @@ export default function StartingAssessment() {
         Chat is not a 5.
       </p>
 
-      <div className="mt-8 space-y-5">
+      <div className="baseline-progress mt-5 font-mono text-[12px]" aria-live="polite">
+        {ratedCount} of {SKILLS.length} skills rated
+      </div>
+      <div className="mt-6 space-y-1">
         {SKILLS.map((skill) => (
-          <div key={skill.id} className="sm:flex sm:items-center sm:justify-between sm:gap-6">
+          <div key={skill.id} className="baseline-skill-row sm:flex sm:items-center sm:justify-between sm:gap-6">
             <p className="font-mono text-[13px] tracking-[0.08em] text-cream/80">{skill.label}</p>
             <div className="mt-2 flex flex-wrap gap-1.5 sm:mt-0" role="group" aria-label={`${skill.label} score`}>
               {[0, 1, 2, 3, 4, 5].map((n) => {
@@ -169,7 +192,7 @@ export default function StartingAssessment() {
                     key={n}
                     type="button"
                     onClick={() => setScore(skill.id, n)}
-                    className={`inline-flex h-11 w-11 items-center justify-center font-mono text-[13px] ${
+                    className={`baseline-score-button inline-flex h-11 w-11 items-center justify-center font-mono text-[13px] ${
                       selected
                         ? "bg-gold text-ink"
                         : "border border-hairline text-cream/70 hover:border-gold/50 hover:text-cream"
@@ -194,7 +217,7 @@ export default function StartingAssessment() {
           value={data.noAiRule}
           onChange={(event) => persist({ ...data, noAiRule: event.target.value })}
           rows={4}
-          className="mt-2 w-full border border-hairline bg-ink px-3 py-3 text-[15px] leading-relaxed text-cream placeholder:text-cream/25 focus:border-gold/50 focus:outline-none"
+          className="baseline-input mt-2 w-full border border-hairline bg-ink px-3 py-3 text-[15px] leading-relaxed text-cream placeholder:text-cream/25 focus:border-gold/50 focus:outline-none"
           placeholder="On write days, my first version is mine. AI may review later. AI does not author the first file."
         />
       </label>
@@ -207,7 +230,7 @@ export default function StartingAssessment() {
           value={data.operatedVsAuthored}
           onChange={(event) => persist({ ...data, operatedVsAuthored: event.target.value })}
           rows={3}
-          className="mt-2 w-full border border-hairline bg-ink px-3 py-3 text-[15px] leading-relaxed text-cream placeholder:text-cream/25 focus:border-gold/50 focus:outline-none"
+          className="baseline-input mt-2 w-full border border-hairline bg-ink px-3 py-3 text-[15px] leading-relaxed text-cream placeholder:text-cream/25 focus:border-gold/50 focus:outline-none"
           placeholder="What have you run or approved, versus a file you wrote from a blank buffer?"
         />
       </label>
@@ -221,7 +244,7 @@ export default function StartingAssessment() {
           onClick={copyTemplate}
           className="inline-flex min-h-11 items-center border border-hairline px-4 font-mono text-[12px] tracking-[0.12em] text-cream/70 hover:text-gold"
         >
-          {copied ? "Copied" : "Copy baseline template"}
+          {copied ? "Copied" : copyFailed ? "Copy unavailable" : "Copy baseline template"}
         </button>
         <button
           type="button"
@@ -231,15 +254,14 @@ export default function StartingAssessment() {
           Download baseline template
         </button>
       </div>
-      {data.savedAt ? (
-        <p className="mt-3 font-mono text-[11px] text-cream/30">
-          Saved on this device. You do not need GitHub to finish Day 1.
-        </p>
-      ) : (
-        <p className="mt-3 font-mono text-[11px] text-cream/30">
-          You do not need GitHub to finish Day 1.
-        </p>
-      )}
+      <p role="status" aria-live="polite" className="mt-4 font-mono text-[12px] leading-relaxed text-cream/55">
+        {saveUnavailable
+          ? "Browser storage is unavailable. Your edits are only in this tab; copy or download your baseline before leaving."
+          : data.savedAt
+            ? "Saved on this device. Your baseline stays in this browser; GitHub is not required."
+            : "Nothing saved yet. Your baseline stays on this device, not on a server."}
+        {copyFailed ? " Clipboard access was denied; use Download baseline template." : ""}
+      </p>
     </section>
   );
 }

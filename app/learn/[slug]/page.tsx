@@ -190,7 +190,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
           {lesson.metadata.topic ? <ExistingNotesNote topicKey={lesson.metadata.topic} /> : null}
 
           {showStartingAssessment ? (
-            <div id="starting-assessment" className="panel p-5 sm:p-6">
+            <div id="starting-assessment" className="assessment-wrap">
               <StartingAssessment />
             </div>
           ) : null}

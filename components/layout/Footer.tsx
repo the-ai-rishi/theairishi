@@ -14,7 +14,7 @@ export default function Footer({ navItems, brand, copy }: FooterProps) {
   const copyright = copy?.footerCopyright || brand?.name || "";
 
   return (
-    <footer className="relative overflow-hidden border-t border-hairline bg-ink">
+    <footer className="glass-bar relative overflow-hidden border-t border-hairline">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-12">
         <div className="footer-mark flex items-start gap-4 lg:col-span-5">
